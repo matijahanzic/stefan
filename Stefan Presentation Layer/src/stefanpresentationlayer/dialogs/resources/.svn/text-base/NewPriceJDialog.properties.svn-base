@@ -1,0 +1,12 @@
+jLabel1.text=Naziv:
+jLabel2.text=Cijena[\u20ac/kg]:
+jLabel3.text=Odaberite materijal:
+jLabel4.text=Odaberite oblik:
+jButton1.text=Spremi
+comboBoxCalculationRenderer1.text=comboBoxCalculationRenderer1
+comboBoxMaterialDetailsRenderer1.text=comboBoxMaterialDetailsRenderer1
+saveNewPrice.Action.text=
+saveNewPrice.Action.shortDescription=
+newPriceNameInput.text=
+newPricePriceInput.text=
+btnCancel.text=Odustani

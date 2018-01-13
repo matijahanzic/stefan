@@ -1,0 +1,13 @@
+jLabel1.text=Naziv materijala:
+jLabel2.text=Gusto\u0107a:
+jLabel3.text=Niklanje:
+saveMaterialBtnClick.Action.text=
+saveMaterialBtnClick.Action.shortDescription=
+editMaterialNameInput.text=
+editMaterialDensityInput.text=
+editMaterijalNiklanjeDaRadio.text=Da
+editMaterialNiklanjeNeRadio.text=Ne
+editMaterialBtn.text=Spremi
+editBtnClicked.Action.text=
+editBtnClicked.Action.shortDescription=
+btnCancel.text=Odustani

@@ -1,0 +1,68 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package stefan.business;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import stefan.business.objects.CalculationForm;
+import stefan.business.objects.Design;
+import stefan.business.objects.Material;
+import stefan.business.objects.MaterialDetails;
+
+/**
+ *
+ * @author Robert
+ */
+public class DatabaseTester {
+    
+    private String userName = "root", password = "BKKv8PuN";
+    private String jdbcUrl = "jdbc:mysql://localhost:3306/stefan";
+    
+    private static DatabaseTester instance = null;
+    
+    protected DatabaseTester(){
+        
+    }
+    
+    public static DatabaseTester getInstance(){
+        if(instance == null){
+            instance = new DatabaseTester();
+        }
+        return instance;
+    }
+   
+    public void TestDatabase() throws Exception {
+        try {
+            TestJDBCConnection();
+            TestDataFetch();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void TestJDBCConnection() throws ClassNotFoundException, SQLException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (java.lang.ClassNotFoundException e) {
+            throw e;
+        }
+        try {
+          Connection con = DriverManager.getConnection(jdbcUrl, userName, password);
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+
+    private void TestDataFetch() {
+        MaterialManager manager = new MaterialManager();
+        java.util.List<Material> GetAll = manager.GetAll();
+        java.util.List<MaterialDetails> GetAllMaterialDetails = manager.GetAllMaterialDetails();
+        java.util.List<CalculationForm> GetAllCalculationForms = manager.GetAllCalculationForms();
+        DesignManager manager1 = new DesignManager();
+        java.util.List<Design> GetAll1 = manager1.GetAll();
+        return;
+    }
+}

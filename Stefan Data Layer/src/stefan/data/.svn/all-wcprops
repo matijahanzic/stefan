@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Stefan/!svn/ver/179/trunk/Stefan%20Data%20Layer/src/stefan/data
+END
+Design.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Stefan/!svn/ver/179/trunk/Stefan%20Data%20Layer/src/stefan/data/Design.java
+END
+Calculationform.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/Stefan/!svn/ver/101/trunk/Stefan%20Data%20Layer/src/stefan/data/Calculationform.java
+END
+Bills.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/Stefan/!svn/ver/126/trunk/Stefan%20Data%20Layer/src/stefan/data/Bills.java
+END
+Materialdetails.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/Stefan/!svn/ver/121/trunk/Stefan%20Data%20Layer/src/stefan/data/Materialdetails.java
+END
+Billitems.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/Stefan/!svn/ver/124/trunk/Stefan%20Data%20Layer/src/stefan/data/Billitems.java
+END
+Material.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Stefan/!svn/ver/137/trunk/Stefan%20Data%20Layer/src/stefan/data/Material.java
+END
+Orders.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Stefan/!svn/ver/143/trunk/Stefan%20Data%20Layer/src/stefan/data/Orders.java
+END
+Orderitems.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Stefan/!svn/ver/124/trunk/Stefan%20Data%20Layer/src/stefan/data/Orderitems.java
+END

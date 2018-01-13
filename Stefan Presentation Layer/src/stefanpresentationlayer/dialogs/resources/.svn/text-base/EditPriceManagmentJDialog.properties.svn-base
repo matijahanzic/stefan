@@ -1,0 +1,11 @@
+jTable1.columnModel.title1=Cijena[\u20ac/kg]
+jTable1.columnModel.title0=Naziv
+removePriceBtn.text=
+#NOI18N
+removePriceBtn.icon=/stefanpresentationlayer/resources/cross_48.png
+editPriceBtn.text=
+#NOI18N
+editPriceBtn.icon=/stefanpresentationlayer/resources/Brush.png
+addPriceBtn.text=
+#NOI18N
+addPriceBtn.icon=/stefanpresentationlayer/resources/add_48.png

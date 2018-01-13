@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Stefan/!svn/ver/185/trunk/Stefan%20Business%20Layer/src/stefan/business
+END
+DesignManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/Stefan/!svn/ver/192/trunk/Stefan%20Business%20Layer/src/stefan/business/DesignManager.java
+END
+OrderManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Stefan/!svn/ver/196/trunk/Stefan%20Business%20Layer/src/stefan/business/OrderManager.java
+END
+DatabaseTester.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/Stefan/!svn/ver/128/trunk/Stefan%20Business%20Layer/src/stefan/business/DatabaseTester.java
+END
+PresentationHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/Stefan/!svn/ver/178/trunk/Stefan%20Business%20Layer/src/stefan/business/PresentationHelper.java
+END
+MaterialManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/Stefan/!svn/ver/142/trunk/Stefan%20Business%20Layer/src/stefan/business/MaterialManager.java
+END
+ExcelManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/Stefan/!svn/ver/192/trunk/Stefan%20Business%20Layer/src/stefan/business/ExcelManager.java
+END
+BillManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/Stefan/!svn/ver/151/trunk/Stefan%20Business%20Layer/src/stefan/business/BillManager.java
+END
+QueryManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/Stefan/!svn/ver/40/trunk/Stefan%20Business%20Layer/src/stefan/business/QueryManager.java
+END
