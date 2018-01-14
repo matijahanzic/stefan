@@ -4,13 +4,13 @@
  */
 package stefan.business;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import stefan.business.objects.Bill;
 import stefan.business.objects.BillItem;
+import stefan.business.objects.BusinessPartner;
 import stefan.data.Billitems;
 import stefan.data.Bills;
 
@@ -37,6 +37,7 @@ public class BillManager {
             stefan.data.Bills newBill = new Bills();
             newBill.setBillNumber(bill.getBillNumber());           
             newBill.setDate(bill.getDate());
+            newBill.setBusinessPartnerId(getBp(bill.getBusinessPartnerId()));
 
             List<stefan.data.Billitems> billItems = new ArrayList<Billitems>();
           
@@ -75,6 +76,7 @@ public class BillManager {
             b.setIdBill(billDB.getIdBill());
             b.setDate(billDB.getDate());
             b.setBillNumber(billDB.getBillNumber());
+            b.setBusinessPartnerId(billDB.getBusinessPartnerId().getId());
             
             List<BillItem> billItems=new ArrayList<BillItem>();
             for (Billitems bi : billDB.getBillitemsList()) 
@@ -104,6 +106,37 @@ public class BillManager {
        return items.get(0);   
     }
     
+    private stefan.data.Businesspartner getBp(Integer id){
+        Query q = entityManager.createNamedQuery("Businesspartner.findById");
+        q.setParameter("id", id);
+        List<stefan.data.Businesspartner> bps = q.getResultList();
+        return bps.get(0);
+    }
+    
+     public List<BusinessPartner> getBusinessPartners()
+    {
+       List<BusinessPartner> bpList = new ArrayList<BusinessPartner>();
+       
+        Query q = entityManager.createNamedQuery("Businesspartner.findAll");
+        List<stefan.data.Businesspartner> bps = q.getResultList();
+        for (stefan.data.Businesspartner item : bps) 
+        {
+            stefan.business.objects.BusinessPartner bp =new BusinessPartner();
+            bp.setDisplayName(item.getDisplayName());
+            bp.setId(item.getId());
+            bp.setName(item.getName());
+            bp.setPrintInd(item.getPrintInd());
+            bp.setPrintRow1(item.getPrintRow1());
+            bp.setPrintRow2(item.getPrintRow2());
+            bp.setPrintRow3(item.getPrintRow3());
+            
+            bpList.add(bp);
+        }
+        
+        return bpList;        
+    }
+    
+     
     public void deleteBill(Integer id)
     {
         try

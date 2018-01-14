@@ -18,10 +18,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.PrintSetup;
-import stefan.business.objects.Material;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import stefan.business.objects.BusinessPartner;
 
 /**
  *
@@ -148,7 +148,7 @@ public class ExcelManager {
         return new FileOutputStream(file);
     }
 
-    public Sheet CreateNewBillSheet(Workbook workbook, int i, String date, String number, boolean isEmpty) {
+    public Sheet CreateNewBillSheet(Workbook workbook, int i, String date, String number, boolean isEmpty, BusinessPartner bp) {
         Sheet sheet = workbook.createSheet();
         sheet.setFitToPage(true);
         sheet.setDisplayGridlines(false);
@@ -170,14 +170,14 @@ public class ExcelManager {
 
         ps.setPaperSize(PrintSetup.A4_PAPERSIZE);
         workbook.setPrintArea(i, 1, 10, 2, 64);
-        WriteHeader(sheet, date);
+        WriteHeader(sheet, date,bp);
         if (!isEmpty) {
-            WriteBillHeader(sheet, i, number);
+            WriteBillHeader(sheet, i, number,bp);
         }
         return sheet;
     }
 
-    public Sheet CreateNewOtpremnicaSheet(Workbook workbook, int i, String date, String number) {
+    public Sheet CreateNewOtpremnicaSheet(Workbook workbook, int i, String date, String number, BusinessPartner bp) {
         Sheet sheet = workbook.createSheet();
         sheet.setFitToPage(true);
         sheet.setDisplayGridlines(false);
@@ -199,7 +199,7 @@ public class ExcelManager {
 
         ps.setPaperSize(PrintSetup.A4_PAPERSIZE);
         workbook.setPrintArea(i, 1, 10, 2, 64);
-        WriteHeader(sheet, date);
+        WriteHeader(sheet, date, bp);
         WriteOtpremnicaHeader(sheet, i, number);
         return sheet;
     }
@@ -330,11 +330,11 @@ public class ExcelManager {
         }
     }
 
-    public void WriteBillHeader(Sheet sheet, int page, String number) {
+    public void WriteBillHeader(Sheet sheet, int page, String number, BusinessPartner bp) {
         if (page == 0) {
             Row row15 = sheet.createRow(15);
             Cell cell15_1 = row15.createCell(1);
-            cell15_1.setCellValue("EORI-Nr. : DE3456110");
+            cell15_1.setCellValue(bp.getPrintRow3());
             cell15_1.setCellStyle(styleArialCE10);
 
             Row row17 = sheet.createRow(17);
@@ -503,7 +503,7 @@ public class ExcelManager {
         }
     }
 
-    private void WriteHeader(Sheet sheet, String date) {
+    private void WriteHeader(Sheet sheet, String date,BusinessPartner bp) {
 
         Row row2 = sheet.createRow(2);
         Cell cell2_1 = row2.createCell(1);
@@ -580,7 +580,8 @@ public class ExcelManager {
 
         Row row12 = sheet.createRow(12);
         Cell cell12_1 = row12.createCell(1);
-        cell12_1.setCellValue("FOPAC Maschinenbau GmbH");
+        
+        cell12_1.setCellValue(bp.getName());
         cell12_1.setCellStyle(styleArialCE10Bold);
         Cell cell12_8 = row12.createCell(8);
         cell12_8.setCellValue("Naš znak :");
@@ -588,12 +589,14 @@ public class ExcelManager {
 
         Row row13 = sheet.createRow(13);
         Cell cell13_1 = row13.createCell(1);
-        cell13_1.setCellValue("Industriestr. 1");
+        
+        cell13_1.setCellValue(bp.getPrintRow1());
         cell13_1.setCellStyle(styleArialCE10);
 
         Row row14 = sheet.createRow(14);
         Cell cell14_1 = row14.createCell(1);
-        cell14_1.setCellValue("D-26671 Barßel");
+        
+        cell14_1.setCellValue(bp.getPrintRow2());
         cell14_1.setCellStyle(styleArialCE10);
         Cell cell14_8 = row14.createCell(8);
         cell14_8.setCellValue("Datum     :");
@@ -604,7 +607,7 @@ public class ExcelManager {
 
     }
 
-    public int AddOtpremnicaBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem) {
+    public int AddOtpremnicaBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem, boolean shouldPrint) {
         int rowNum = 0, columnNum = 1;
         String upisNiklanje = "";
         if (pageNum == 1) {
@@ -634,17 +637,23 @@ public class ExcelManager {
         Cell celltest2 = row1.createCell(9);
         celltest2.setCellStyle(stylearial36Bold);
        
-        if (billItem.getNiklanje() == true) {
+        String additionalText = "";
+        if(shouldPrint){
+       
+            if (billItem.getNiklanje() == true) {
             upisNiklanje = "X02";
-        } 
-        else {
-            upisNiklanje = "F";
+            } 
+            else {
+                upisNiklanje = "F";
+            }
+        
+            additionalText = ", " + upisNiklanje;
         }
-      
+        
         Cell cell2 = row1.createCell(columnNum + 1);
-        cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + ", " + upisNiklanje);
+        cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + additionalText);
         cell2.setCellStyle(styleArial);
-
+            
         Cell cell3 = row1.createCell(columnNum + 3);
         cell3.setCellValue(billItem.getParts());
         cell3.setCellStyle(styleArial);
@@ -684,7 +693,7 @@ public class ExcelManager {
         return (rowNum + 3 + (billItemsAdded * 3));
     }
 
-    public List<Double> AddBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem, BigDecimal exchangeRate) {
+    public List<Double> AddBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem, BigDecimal exchangeRate,boolean shouldPrint) {
         //current row, Bolzen komada, Bolzen ukCijena, Welle komada, Welle ukCijena
         List<Double> data = new ArrayList<Double>();
         String upisNiklanje = "";
@@ -727,18 +736,22 @@ public class ExcelManager {
         cell1.setCellValue(billItem.getDesignNumber() + ", ");
         cell1.setCellStyle(styleArial);
 
-       
-        if (billItem.getNiklanje() == true) {
+        String additionalText = "";
+        if(shouldPrint){
+            if (billItem.getNiklanje() == true) {
             upisNiklanje = "X02";
-        } else 
-        {
-            upisNiklanje = "F";
+            } else 
+            {
+                upisNiklanje = "F";
+            }
+            
+            additionalText = ", " + upisNiklanje;
         }
       
         Cell cell2 = row1.createCell(columnNum + 1);
-
-        cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + ", " + upisNiklanje);
+        cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + additionalText);
         cell2.setCellStyle(styleArial);
+        
         Cell cell3 = row1.createCell(columnNum + 3);
 
         cell3.setCellValue(billItem.getParts());

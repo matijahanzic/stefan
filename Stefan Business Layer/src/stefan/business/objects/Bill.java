@@ -16,6 +16,7 @@ public class Bill {
     private Integer idBill;    
     private Date date;   
     private String billNumber;    
+    private Integer businessPartnerId;
     private List<BillItem> billitemsList;
 
     /**
@@ -32,6 +33,13 @@ public class Bill {
         this.idBill = idBill;
     }
 
+    public Integer getBusinessPartnerId(){
+        return businessPartnerId;
+    }
+    
+    public void setBusinessPartnerId(Integer businessPartnerId){
+        this.businessPartnerId = businessPartnerId;
+    }
     /**
      * @return the date
      */
