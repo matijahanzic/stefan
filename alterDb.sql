@@ -1,4 +1,4 @@
-CREATE TABLE `businesspartner` (
+﻿CREATE TABLE `businesspartner` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(1024) NOT NULL,
   `displayName` varchar(1024) NOT NULL,
@@ -34,6 +34,9 @@ values ('Focke & Co. (GmbH & Co. KG)','Focke & Co. (GmbH & Co. KG)',0,
 update bills 
 set businessPartnerId = (select id from businesspartner where printind = 1)
 where idbill > 0
+
+
+
 
 
 
