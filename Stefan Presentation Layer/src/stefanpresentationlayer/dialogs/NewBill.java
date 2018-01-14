@@ -21,7 +21,6 @@ import java.io.IOException;
 
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import stefan.business.DesignManager;
 import stefan.business.ExcelManager;
 import stefan.business.OrderManager;
 import stefan.business.objects.Bill;
+import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.PackageNumberComparator;
 import stefan.business.objects.OrderNumberComparator;
 import stefan.business.objects.DesignNumberComparator;
@@ -59,6 +59,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private List<BillItem> items = ObservableCollections.observableList(new ArrayList<BillItem>());
     private List<Bill> bills = ObservableCollections.observableList(new ArrayList<Bill>());
     private List<BillItem> itemsBackup = ObservableCollections.observableList(new ArrayList<BillItem>());
+    private List<BusinessPartner> bpItems = ObservableCollections.observableList(new ArrayList<BusinessPartner>());
     private boolean billChanged = false;
     private boolean pageNumChanged = false;
     private int indexOfData = 0;
@@ -103,6 +104,8 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         b.setBillNumber("Novi Račun");
         bills.add(0, b);
         this.firePropertyChange("bills", null, null);
+        bpItems = manager.getBusinessPartners();
+        this.firePropertyChange("bpItems", null, null);
     }
 
     /** This method is called from within the constructor to
@@ -134,6 +137,8 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        cbxZaFirmu = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -143,7 +148,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jLabel1.setName("jLabel1"); // NOI18N
 
         billNumberTextField.setName("billNumberTextField"); // NOI18N
-        
         billNumberTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 billNumberTextFieldKeyTyped(evt);
@@ -230,7 +234,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         addBillItemBtn.setIcon(resourceMap.getIcon("addBillItemBtn.icon")); // NOI18N
         addBillItemBtn.setName("addBillItemBtn"); // NOI18N
-        
         addBillItemBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBillItemBtnActionPerformed(evt);
@@ -239,7 +242,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         deleteBtn.setIcon(resourceMap.getIcon("deleteBtn.icon")); // NOI18N
         deleteBtn.setName("deleteBtn"); // NOI18N
-       
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
@@ -315,6 +317,22 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
 
+        cbxZaFirmu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxZaFirmu.setName("cbxZaFirmu"); // NOI18N
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${bpItems}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, cbxZaFirmu);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        cbxZaFirmu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxZaFirmuActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
+        jLabel5.setName("jLabel5"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -322,7 +340,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -339,7 +357,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(addBillItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -349,7 +371,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                         .addComponent(_btnSaveBill, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(97, 97, 97)
                         .addComponent(_btnDeleteBill, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,13 +393,15 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(billNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sortByCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(addBillItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -429,6 +453,17 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 return;            
             }
                   
+            int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
+            if(selectedFirmaIndex < 0){
+                JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            BusinessPartner bp = bpItems.get(selectedFirmaIndex);
+            if(bp == null){
+                 JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             try {                
                 int pageNum = 1;
@@ -451,7 +486,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     FileOutputStream file = manager.CreateNewFile(fileName, filePath);
                     indexOfData = 0;
                     for (int i = 1; i <= pageNum; i++) {
-                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false), pageNum, manager, workbook);
+                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false,bp), pageNum, manager, workbook,bp);
                     }
                     if (pageNumChanged) {
                         pageNum++;
@@ -460,7 +495,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     workbook.write(file);
                     file.close();
 
-                    CreateOtpremnica();
+                    CreateOtpremnica(bp);
 
                     //update delvered quantity in DB
                     OrderManager orderManager = new OrderManager();
@@ -530,18 +565,18 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         }
 	}//GEN-LAST:event_saveBillActionPerformed
 
-    private void AddItemsToOtpremnicaSheet(int i, Sheet sheet, int pageNum, ExcelManager manager) {
+    private void AddItemsToOtpremnicaSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, boolean shouldPrint) {
         int dodano = 0;
         if (i == 1) {
             while ((dodano <= 12) && (!itemsBackup.isEmpty())) {
                 BillItem b = itemsBackup.remove(0);
-                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b);
+                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b,shouldPrint);
                 dodano++;
             }
         } else {
             while ((dodano <= 13) && (!itemsBackup.isEmpty())) {
                 BillItem b = itemsBackup.remove(0);
-                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b);
+                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b,shouldPrint);
                 dodano++;
             }
         }
@@ -549,7 +584,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         // manager.AddPageNumber(sheet, i, pageNum);
     }
 
-    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb) {
+    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
         int currentRow = 0, dodano = 0;
 
         List<Double> data = new ArrayList<Double>();
@@ -563,7 +598,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BigDecimal totalPriceKN = b.getTotalPrice().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
                 totalSumKn = totalSumKn.add(totalPriceKN).setScale(2, RoundingMode.HALF_UP);                
 
-                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate);
+                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate,bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
                 bolzenKom += (int) ((double) data.get(1));
                 bolzenCijena += (double) data.get(2);
@@ -572,7 +607,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 totalKom += b.getParts();
                 dodano++;
             }
-            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb);
+            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb,bp);
 
         } else {
             manager.AddMissingData(sheet, totalSum, totalSumKn);
@@ -584,7 +619,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BigDecimal totalPriceKN = b.getTotalPrice().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
                 totalSumKn = totalSumKn.add(totalPriceKN).setScale(2, RoundingMode.HALF_UP);
 
-                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate);
+                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate,bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
                 bolzenKom += (int) ((double) data.get(1));
                 bolzenCijena += (double) data.get(2);
@@ -593,7 +628,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 totalKom += b.getParts();
                 dodano++;
             }
-            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb);
+            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb,bp);
         }
         dodano = 0;
         currentRow = 0;
@@ -668,13 +703,23 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             return;
         }
         
+        int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
+        if(selectedFirmaIndex < 0){
+            JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
-                
+        BusinessPartner bp = bpItems.get(selectedFirmaIndex);
+        if(bp == null){
+             JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         Bill bill = new Bill();
         bill.setBillNumber(billNumberTextField.getText());
         bill.setDate(jXDatePicker1.getDate());
         bill.setBillitemsList(items);
+        bill.setBusinessPartnerId(bp.getId());
 
         int index = cbxSavedBills.getSelectedIndex();
         if (index != -1 && index != 0) {
@@ -703,12 +748,27 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private void cbxSavedBillsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSavedBillsActionPerformed
 
         int index = cbxSavedBills.getSelectedIndex();
-        if (index != -1 && index != 0) {
+        if (index != -1 && index != 0) {       
+        
             _btnDeleteBill.setEnabled(true);
             items.clear();
             this.firePropertyChange("items", null, null);
             billNumberTextField.setText(bills.get(index).getBillNumber());
             jXDatePicker1.setDate(bills.get(index).getDate());
+            
+            Integer businessPartnerId = bills.get(index).getBusinessPartnerId();
+            BusinessPartner selectedPartner = null;
+            for(BusinessPartner p : bpItems){
+                if(p.getId() == businessPartnerId){
+                    selectedPartner = p;
+                    break;
+                }
+            }
+            if(selectedPartner != null){
+                cbxZaFirmu.setSelectedItem(selectedPartner);
+            }
+            
+            
             for (BillItem bi : bills.get(index).getBillitemsList()) {
                 BillItem p = new BillItem();
                 p.setDesignClass(bi.getDesignClass());
@@ -763,6 +823,10 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
         this.firePropertyChange("items", null, null);
 }//GEN-LAST:event_sortByComboActionPerformed
+
+private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZaFirmuActionPerformed
+billChanged = true;
+}//GEN-LAST:event_cbxZaFirmuActionPerformed
 
     private void clearAllFields() {
         items.clear();
@@ -824,12 +888,14 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTextField billNumberTextField;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JComboBox cbxSavedBills;
+    private javax.swing.JComboBox cbxZaFirmu;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
@@ -923,7 +989,7 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         return false;
     }
 
-    private void WriteCalculatedData(Sheet sheet, int currentRow, int i, int pageNum, ExcelManager manager, Workbook wb) {
+    private void WriteCalculatedData(Sheet sheet, int currentRow, int i, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
         //nije zadnja stranica
         if (i != pageNum) {
             manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
@@ -940,7 +1006,7 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
                 Sheet newSheet = manager.CreateNewBillSheet(wb, i,
                         jXDatePicker1.getDate().toLocaleString().substring(0, 11),
-                        billNumberTextField.getText().trim(), false);
+                        billNumberTextField.getText().trim(), false,bp);
 
                 manager.AddMissingData(newSheet, totalSum, totalSumKn);
                 manager.AddTopAndBottomBorder(newSheet);
@@ -959,14 +1025,27 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         return bills;
     }
 
+     /**
+     * @return the bpItems
+     */
+    public List<BusinessPartner> getBpItems() {
+        return bpItems;
+    }
     /**
      * @param bills the bills to set
      */
     public void setBills(List<Bill> bills) {
         this.bills = bills;
     }
+    
+    /**
+     * @param bpItems the bpItems to set
+     */
+    public void setBpItems(List<BusinessPartner> bpItems) {
+        this.bpItems = bpItems;
+    }
 
-    private void CreateOtpremnica() throws FileNotFoundException, IOException {
+    private void CreateOtpremnica(BusinessPartner bp) throws FileNotFoundException, IOException {
         int pageNum = 1;
         if (itemsBackup.size() > 13) {
             pageNum = (itemsBackup.size() / 14) + 1;
@@ -980,7 +1059,7 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         FileOutputStream file = manager.CreateNewFile("Otpremnica", filePath);
 
         for (int i = 1; i <= pageNum; i++) {
-            AddItemsToOtpremnicaSheet(i, manager.CreateNewOtpremnicaSheet(workbook, i - 1, billDate, billNumberTextField.getText().trim()), pageNum, manager);
+            AddItemsToOtpremnicaSheet(i, manager.CreateNewOtpremnicaSheet(workbook, i - 1, billDate, billNumberTextField.getText().trim(),bp), pageNum, manager,bp.getPrintInd());
         }
         //ima mjesta - dodaj na isti sheet
         if ((64 - otpremnicaCurrentRow) >= 6) {
@@ -988,7 +1067,7 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         } //nema mjesta - dodaj noci sheet
         else {
             pageNum++;
-            manager.AddTopAndBottomBorder(manager.CreateNewOtpremnicaSheet(workbook, pageNum - 1, billDate, billNumberTextField.getText().trim()));
+            manager.AddTopAndBottomBorder(manager.CreateNewOtpremnicaSheet(workbook, pageNum - 1, billDate, billNumberTextField.getText().trim(),bp));
             manager.WriteOtpremnicaFooter(25, workbook.getSheetAt(pageNum - 1));
         }
 

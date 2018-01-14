@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +41,9 @@ public class Bills implements Serializable {
     @Column(name =     "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+    @JoinColumn(name = "businessPartnerId", referencedColumnName = "id")
+    @ManyToOne
+    private Businesspartner businessPartnerId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -113,6 +118,14 @@ public class Bills implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Businesspartner getBusinessPartnerId() {
+        return businessPartnerId;
+    }
+
+    public void setBusinessPartnerId(Businesspartner businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
     }
     
 }
