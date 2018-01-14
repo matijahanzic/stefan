@@ -1045,23 +1045,18 @@ public class ExcelManager {
     public void WriteOtpremnicaFooter(int i, Sheet sheet) {
         Row row = sheet.createRow(i);
         Cell cell = row.createCell(1);
-        cell.setCellValue("Der Unterzeichner erklert, dass die in diesem Dokument aufgefuhrten Waren ");
+        cell.setCellValue("Der Unterzeichner erklert, dass die in diesem Dokument aufgefuhrten Waren Ursprungserzeugnisse des");
         cell.setCellStyle(styleArial);
 
         Row row1 = sheet.createRow(i + 1);
         Cell cell1 = row1.createCell(1);
-        cell1.setCellValue("Ursprungserzeugnisse des Landes HR entsprechen.Eine Kumulierung wurde nicht ");
+        cell1.setCellValue("Landes HR entsprechen. Eine Kumulierung wurde nicht angewendet. Der Unterzeichner verpflichtet sich,");
         cell1.setCellStyle(styleArial);
 
         Row row2 = sheet.createRow(i + 2);
         Cell cell2 = row2.createCell(1);
-        cell2.setCellValue("angewendet.Der Unterzeichner verpflichtet sich, den Zollbehorden alle von ihnen");
+        cell2.setCellValue("den Zollbehorden alle von ihnen zusatzlich verlangten Belege zur Verfugung zu stellen.");
         cell2.setCellStyle(styleArial);
-
-        Row row3 = sheet.createRow(i + 3);
-        Cell cell3 = row3.createCell(1);
-        cell3.setCellValue("zusatzlich verlangten Belege zur Verfugung zu stellen.");
-        cell3.setCellStyle(styleArial);
 
         Row row4 = sheet.createRow(i + 4);
         Cell cell4 = row4.createCell(5);
