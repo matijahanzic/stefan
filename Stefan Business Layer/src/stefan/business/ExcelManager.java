@@ -509,39 +509,39 @@ public class ExcelManager {
         Cell cell2_1 = row2.createCell(1);
         cell2_1.setCellValue("ŠTEFAN");
         cell2_1.setCellStyle(styleArialCE30Bold);
-        Cell cell2_6 = row2.createCell(6);
-        cell2_6.setCellValue("d.o.o. za preradu metala i trgovinu");
-        cell2_6.setCellStyle(styleArialCE10);
+        Cell cell2_4 = row2.createCell(4);
+        cell2_4.setCellValue("d.o.o. za preradu metala i trgovinu");
+        cell2_4.setCellStyle(styleArialCE10);
 
         Row row3 = sheet.createRow(3);
-        Cell cell3_6 = row3.createCell(6);
-        cell3_6.setCellValue("Razvor 24D, 49 295 KUMROVEC, CROATIA");
-        cell3_6.setCellStyle(styleArialCE10);
+        Cell cell3_4 = row3.createCell(4);
+        cell3_4.setCellValue("Razvor 24D, 49 295 KUMROVEC, CROATIA");
+        cell3_4.setCellStyle(styleArialCE10);
 
         Row row4 = sheet.createRow(4);
-        Cell cell4_6 = row4.createCell(6);
-        cell4_6.setCellValue("tel.: +385 49 500 197");
-        cell4_6.setCellStyle(styleArialCE10);
+        Cell cell4_4 = row4.createCell(4);
+        cell4_4.setCellValue("tel.: +385 49 500 197");
+        cell4_4.setCellStyle(styleArialCE10);
 
         Row row5 = sheet.createRow(5);
-        Cell cell5_6 = row5.createCell(6);
-        cell5_6.setCellValue("fax: +385 49 500 198");
-        cell5_6.setCellStyle(styleArialCE10);
+        Cell cell5_4 = row5.createCell(4);
+        cell5_4.setCellValue("fax: +385 49 500 198");
+        cell5_4.setCellStyle(styleArialCE10);
 
         Row row6 = sheet.createRow(6);
-        Cell cell6_6 = row6.createCell(6);
-        cell6_6.setCellValue("e-mail : stefan@kr.t-com.hr");
-        cell6_6.setCellStyle(styleArialCE10);
+        Cell cell6_4 = row6.createCell(4);
+        cell6_4.setCellValue("e-mail : stefan@kr.t-com.hr");
+        cell6_4.setCellStyle(styleArialCE10);
 
         Row row7 = sheet.createRow(7);
-        Cell cell7_6 = row7.createCell(6);
-        cell7_6.setCellValue("Zagrebačka Banka d.d., IBAN : HR6523600001101291901");
-        cell7_6.setCellStyle(styleArialCE10);
+        Cell cell7_4 = row7.createCell(4);
+        cell7_4.setCellValue("Zagrebačka Banka d.d., IBAN: HR6523600001101291901 BIC: ZABAHR2X");
+        cell7_4.setCellStyle(styleArialCE10);
 
         Row row8 = sheet.createRow(8);
-        Cell cell8_6 = row8.createCell(6);
-        cell8_6.setCellValue("                                   SWIFT Code : ZABA HR 2X");
-        cell8_6.setCellStyle(styleArialCE10BorderBottom);
+        Cell cell8_4 = row8.createCell(4);
+        cell8_4.setCellValue("Privredna Banka Zagreb d.d., IBAN: HR1023400091110904189 BIC: PBZGHR2X");
+        cell8_4.setCellStyle(styleArialCE10BorderBottom);
 
         //border
         Cell cell8_1 = row8.createCell(1);
@@ -549,11 +549,11 @@ public class ExcelManager {
         Cell cell8_2 = row8.createCell(2);
         cell8_2.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_3 = row8.createCell(3);
-        cell8_3.setCellStyle(styleArialCE10BorderBottom);
-        Cell cell8_4 = row8.createCell(4);
-        cell8_4.setCellStyle(styleArialCE10BorderBottom);
+        cell8_3.setCellStyle(styleArialCE10BorderBottom);        
         Cell cell8_5 = row8.createCell(5);
         cell8_5.setCellStyle(styleArialCE10BorderBottom);
+        Cell cell8_6 = row8.createCell(6);
+        cell8_6.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_7 = row8.createCell(7);
         cell8_7.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_8 = row8.createCell(8);
