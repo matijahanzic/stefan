@@ -36,8 +36,17 @@ set businessPartnerId = (select id from businesspartner where printind = 1)
 where idbill > 0
 
 
+alter TABLE `businesspartner`
+add `city` varchar(1024) null
 
+update stefan.businesspartner
+set city = 'Barssel'
+where id = 1
 
+update stefan.businesspartner
+set city = 'Berlin'
+where id = 2
 
-
-
+update stefan.businesspartner
+set city = 'Verden'
+where id = 3
