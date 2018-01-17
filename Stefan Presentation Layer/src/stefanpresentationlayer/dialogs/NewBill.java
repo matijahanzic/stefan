@@ -1001,7 +1001,7 @@ billChanged = true;
             if (HasPlace(currentRow)) {
                 manager.AddTotalSum(sheet, totalSum, totalSumKn, currentRow);
                 manager.AddAditionalData(sheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
-                manager.WriteFooter(currentRow + 1, sheet, totalSum);
+                manager.WriteFooter(currentRow + 1, sheet, totalSum, bp);
             } else {
                 manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
                 Sheet newSheet = manager.CreateNewBillSheet(wb, i,
@@ -1012,7 +1012,7 @@ billChanged = true;
                 manager.AddTopAndBottomBorder(newSheet);
                 manager.AddTotalSum(newSheet, totalSum, totalSumKn, 24);
                 manager.AddAditionalData(newSheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
-                manager.WriteFooter(26, newSheet, totalSum);
+                manager.WriteFooter(26, newSheet, totalSum, bp);
                 pageNumChanged = true;
             }
         }
