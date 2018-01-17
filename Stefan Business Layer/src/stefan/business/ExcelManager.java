@@ -7,7 +7,6 @@ package stefan.business;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -574,19 +573,12 @@ public class ExcelManager {
         Cell cell10_1 = row10.createCell(1);
         cell10_1.setCellValue("Firma");
         cell10_1.setCellStyle(styleArialCE10);
-        Cell cell10_8 = row10.createCell(8);
-        cell10_8.setCellValue("Vaš znak :");
-        cell10_8.setCellStyle(styleArialCE10);
 
         Row row12 = sheet.createRow(12);
         Cell cell12_1 = row12.createCell(1);
-        
         cell12_1.setCellValue(bp.getName());
         cell12_1.setCellStyle(styleArialCE10Bold);
-        Cell cell12_8 = row12.createCell(8);
-        cell12_8.setCellValue("Naš znak :");
-        cell12_8.setCellStyle(styleArialCE10);
-
+        
         Row row13 = sheet.createRow(13);
         Cell cell13_1 = row13.createCell(1);
         
@@ -939,7 +931,7 @@ public class ExcelManager {
         cell10.setCellStyle(styleArial);
     }
 
-    public void WriteFooter(int i, Sheet sheet, BigDecimal totalSum) {
+    public void WriteFooter(int i, Sheet sheet, BigDecimal totalSum, BusinessPartner bp) {
         
         Row row = sheet.getRow(i);        
        
@@ -954,7 +946,7 @@ public class ExcelManager {
 
         Row row1 = sheet.createRow(i + 2);
         Cell cell1 = row1.createCell(1);
-        cell1.setCellValue("Lieferung frei Barssel");
+        cell1.setCellValue("Lieferung frei " + bp.getCity());
         cell1.setCellStyle(styleArialBold);
 
         Row row2 = sheet.createRow(i + 4);
@@ -980,25 +972,7 @@ public class ExcelManager {
 
         Cell cell7 = row4.createCell(3);
         cell7.setCellValue(":");
-        cell7.setCellStyle(styleArial);
-
-        Row row5 = sheet.createRow(i + 8);
-        Cell cell8 = row5.createCell(1);
-        cell8.setCellValue("ZAKLJUČAK");
-        cell8.setCellStyle(styleArial);
-
-        Cell cell9 = row5.createCell(3);
-        cell9.setCellValue(":");
-        cell9.setCellStyle(styleArial);
-
-        Cell cell10 = row5.createCell(4);
-        cell10.setCellValue("911");
-        cell10.setCellStyle(styleArialCE10AlignRight);
-
-        Cell cell11 = row5.createCell(5);
-        cell11.setCellValue(" /  10.10.11.");
-        cell11.setCellStyle(styleArial);
-        
+        cell7.setCellStyle(styleArial);       
         
         Row rowN1 = sheet.createRow(i + 10);
         Cell cellN12 = rowN1.createCell(1);

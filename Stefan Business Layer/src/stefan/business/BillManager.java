@@ -129,6 +129,7 @@ public class BillManager {
             bp.setPrintRow1(item.getPrintRow1());
             bp.setPrintRow2(item.getPrintRow2());
             bp.setPrintRow3(item.getPrintRow3());
+            bp.setCity(item.getCity());
             
             bpList.add(bp);
         }
