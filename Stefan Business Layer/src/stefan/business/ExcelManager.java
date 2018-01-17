@@ -1001,25 +1001,19 @@ public class ExcelManager {
         Row row7 = sheet.createRow(i + 13);
         Cell cell13 = row7.createCell(1);
         cell13.setCellValue(totalSum.toString().replace(".", ","));
-        cell13.setCellStyle(styleArial);
-
+        cell13.setCellStyle(styleArial);        
 
         Cell cell14 = row7.createCell(2);
         cell14.setCellValue("EUR   an");
         cell14.setCellStyle(styleArial);
         Cell cell15 = row7.createCell(4);
-        cell15.setCellValue("ZAGREBAČKA BANKA DD, Zagreb");
+        cell15.setCellValue("Zagrebačka Banka d.d., IBAN: HR6523600001101291901 BIC: ZABAHR2X");
         cell15.setCellStyle(styleArial);
 
         Row row8 = sheet.createRow(i + 14);
         Cell cell16 = row8.createCell(4);
-        cell16.setCellValue("IBAN            : HR6523600001101291901");
-        cell16.setCellStyle(styleArial);
-
-        Row row9 = sheet.createRow(i + 15);
-        Cell cell17 = row9.createCell(4);
-        cell17.setCellValue("SWIFT Code : ZABA HR 2X");
-        cell17.setCellStyle(styleArial);
+        cell16.setCellValue("Privredna Banka Zagreb d.d., IBAN: HR1023400091110904189 BIC: PBZGHR2X");
+        cell16.setCellStyle(styleArial);       
     }
 
     public void AddTopAndBottomBorder(Sheet sheet) {
