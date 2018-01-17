@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Businesspartner.findByPrintRow2", query = "SELECT b FROM Businesspartner b WHERE b.printRow2 = :printRow2"),
     @NamedQuery(name = "Businesspartner.findByPrintRow3", query = "SELECT b FROM Businesspartner b WHERE b.printRow3 = :printRow3")})
 public class Businesspartner implements Serializable {
+    @Column(name = "city")
+    private String city;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -164,6 +166,14 @@ public class Businesspartner implements Serializable {
     @Override
     public String toString() {
         return "stefan.data.Businesspartner[ id=" + id + " ]";
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
     
 }

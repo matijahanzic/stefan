@@ -17,6 +17,7 @@ public class BusinessPartner {
      private String printRow1;
      private String printRow2;
      private String printRow3;
+     private String city;
 
     /**
      * @return the idBill
@@ -75,6 +76,15 @@ public class BusinessPartner {
    
     public void setPrintRow3(String printRow3) {
         this.printRow3 = printRow3;
+    }
+    
+     public String getCity() {
+        return city;
+    }
+
+   
+    public void setCity(String city) {
+        this.city = city;
     }
 
      public boolean getPrintInd() {
