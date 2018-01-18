@@ -45,6 +45,7 @@ import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.PackageNumberComparator;
 import stefan.business.objects.OrderNumberComparator;
 import stefan.business.objects.DesignNumberComparator;
+import stefan.business.objects.ItemOrderNumberComparator;
 import stefan.business.objects.Order;
 import stefan.business.objects.TotalPriceComparator;
 import stefan.data.Orderitems;
@@ -81,6 +82,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         sortByCombo.addItem("Broju narudžbe");
         sortByCombo.addItem("Broju kartona");
         sortByCombo.addItem("Ukupnoj cijeni");
+        sortByCombo.addItem("Rednom broju");
         sortByCombo.setSelectedIndex(0);
         deleteBtn.setEnabled(false);
         jXDatePicker1.setDate(new Date());
@@ -95,6 +97,28 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         refreshBillList();
         _btnDeleteBill.setEnabled(false);
+    }
+
+    private BillItem copyBillItem(BillItem bi) {
+        BillItem p = new BillItem();
+        p.setDesignClass(bi.getDesignClass());
+        p.setDesignId(bi.getDesignId());
+        p.setDesignIdentity(bi.getDesignIdentity());
+        p.setDesignName(bi.getDesignName());
+        p.setDesignNumber(bi.getDesignNumber());
+        p.setOrderId(bi.getOrderId());
+        p.setOrderItemId(bi.getOrderItemId());
+        p.setOrderNumber(bi.getOrderNumber());
+        p.setOrderDate(bi.getOrderDate());
+        p.setParts(bi.getParts());
+        p.setPricePerPart(bi.getPricePerPart());
+        p.setPosition(bi.getPosition());
+        p.setQuantityDelivered(bi.getQuantityDelivered());
+        p.setQuantityOrdered(bi.getQuantityOrdered());
+        p.setPackageNumber(bi.getPackageNumber());
+        p.setNiklanje(bi.getNiklanje());
+        p.setItemOrderNumber(bi.getItemOrderNumber());
+        return p;
     }
 
     private void refreshBillList() {
@@ -175,7 +199,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${items}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, ItemsTable, "");
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designNumber}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${itemOrderNumber}"));
+        columnBinding.setColumnName("Item Order Number");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designNumber}"));
         columnBinding.setColumnName("Design Number");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
@@ -231,6 +259,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         ItemsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title7")); // NOI18N
         ItemsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title8")); // NOI18N
         ItemsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title11")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title11")); // NOI18N
 
         addBillItemBtn.setIcon(resourceMap.getIcon("addBillItemBtn.icon")); // NOI18N
         addBillItemBtn.setName("addBillItemBtn"); // NOI18N
@@ -665,7 +694,9 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             BillItem bi = newDlg.getSelectedBillItem();
             DesignManager manager = new DesignManager();
             stefan.data.Design design = manager.GetDesignsByDBId(bi.getDesignId());
-            bi.CalculatePrice(manager.mapData(design));
+            bi.CalculatePrice(manager.mapData(design)); 
+            bi.setItemOrderNumber(items.size() + 1);
+                      
             items.add(bi);
            // Collections.sort(items, new OrderNumberComparator());
             sortByComboActionPerformed(null);
@@ -686,7 +717,24 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         int rowIndex = ItemsTable.getSelectedRow();
         if (rowIndex != -1) {
-            items.remove(rowIndex);
+                        
+            BillItem itemToRemove = items.get(rowIndex);            
+            List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
+            for (BillItem bi : items) {
+                BillItem p = copyBillItem(bi);    
+                if (p.getItemOrderNumber() > itemToRemove.getItemOrderNumber())
+                {
+                    p.setItemOrderNumber(p.getItemOrderNumber()-1);
+                    tempItems.add(p);
+                }  
+                else if (p.getItemOrderNumber() < itemToRemove.getItemOrderNumber())
+                {
+                    tempItems.add(p);
+                }         
+            }
+            items.clear();
+            items = tempItems;            
+            
             updateTotalPrice();
             this.firePropertyChange("items", null, null);
             if (items.isEmpty()) {
@@ -770,23 +818,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             
             
             for (BillItem bi : bills.get(index).getBillitemsList()) {
-                BillItem p = new BillItem();
-                p.setDesignClass(bi.getDesignClass());
-                p.setDesignId(bi.getDesignId());
-                p.setDesignIdentity(bi.getDesignIdentity());
-                p.setDesignName(bi.getDesignName());
-                p.setDesignNumber(bi.getDesignNumber());
-                p.setOrderId(bi.getOrderId());
-                p.setOrderItemId(bi.getOrderItemId());
-                p.setOrderNumber(bi.getOrderNumber());
-                p.setOrderDate(bi.getOrderDate());
-                p.setParts(bi.getParts());
-                p.setPricePerPart(bi.getPricePerPart());
-                p.setPosition(bi.getPosition());
-                p.setQuantityDelivered(bi.getQuantityDelivered());
-                p.setQuantityOrdered(bi.getQuantityOrdered());
-                p.setPackageNumber(bi.getPackageNumber());
-                p.setNiklanje(bi.getNiklanje());
+                BillItem p = copyBillItem(bi); 
                 items.add(p);
             }
 
@@ -820,6 +852,7 @@ private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             case 1: Collections.sort(items, new OrderNumberComparator()); break;  
             case 2: Collections.sort(items, new PackageNumberComparator()); break;
             case 3: Collections.sort(items, new TotalPriceComparator()); break;
+            case 4: Collections.sort(items, new ItemOrderNumberComparator()); break;
         }
         this.firePropertyChange("items", null, null);
 }//GEN-LAST:event_sortByComboActionPerformed
@@ -918,27 +951,10 @@ billChanged = true;
         //TableModel model = (TableModel)e.getSource();
         //String columnName = model.getColumnName(column);
         // Object data = model.getValueAt(row, column);    
-        if (row != -1 && column == 7 || column ==8) {
+        if (row != -1 && column == 8 || column ==9) {
             List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
             for (BillItem bi : items) {
-                BillItem p = new BillItem();
-                p.setDesignClass(bi.getDesignClass());
-                p.setDesignId(bi.getDesignId());
-                p.setDesignIdentity(bi.getDesignIdentity());
-                p.setDesignName(bi.getDesignName());
-                p.setDesignNumber(bi.getDesignNumber());
-                p.setOrderId(bi.getOrderId());
-                p.setOrderItemId(bi.getOrderItemId());
-                p.setOrderNumber(bi.getOrderNumber());
-                p.setOrderDate(bi.getOrderDate());
-                p.setParts(bi.getParts());
-                p.setPricePerPart(bi.getPricePerPart());
-                p.setPosition(bi.getPosition());
-                p.setQuantityDelivered(bi.getQuantityDelivered());
-                p.setQuantityOrdered(bi.getQuantityOrdered());
-                p.setPackageNumber(bi.getPackageNumber());
-                p.setNiklanje(bi.getNiklanje());
-
+                BillItem p = copyBillItem(bi);             
                 tempItems.add(p);
             }
             items.clear();

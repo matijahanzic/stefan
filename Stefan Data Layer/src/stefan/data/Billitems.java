@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Billitems.findByIdBillItem", query = "SELECT b FROM Billitems b WHERE b.idBillItem = :idBillItem"),
     @NamedQuery(name = "Billitems.findByParts", query = "SELECT b FROM Billitems b WHERE b.parts = :parts")})
 public class Billitems implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "itemOrderNumber")
+    private int itemOrderNumber;
     @JoinColumn(name = "idOrderItem", referencedColumnName = "idOrderItems")
     @ManyToOne
     private Orderitems idOrderItem;
@@ -139,6 +142,14 @@ public class Billitems implements Serializable {
 
     public void setIdOrderItem(Orderitems idOrderItem) {
         this.idOrderItem = idOrderItem;
+    }
+
+    public int getItemOrderNumber() {
+        return itemOrderNumber ;
+    }
+
+    public void setItemOrderNumber (int orderNumber) {
+        this.itemOrderNumber  = orderNumber;
     }
     
 }

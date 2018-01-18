@@ -50,3 +50,22 @@ where id = 2
 update stefan.businesspartner
 set city = 'Verden'
 where id = 3
+
+alter table stefan.billitems add column itemOrderNumber int not null DEFAULT '0'
+
+UPDATE stefan.billitems as b
+
+inner join (
+select idBillItem,
+ 
+		  (SELECT count(*)
+ 
+		   FROM stefan.billitems as i
+
+		   WHERE i.idBillItem <= p.idBillItem AND i.idBill = p.idBill) as itemNumber
+
+	   from stefan.billitems as p    
+
+) as A on b.idBillItem = A.idBillItem
+
+SET b.itemOrderNumber = A.itemNumber

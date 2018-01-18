@@ -51,6 +51,7 @@ public class BillManager {
                 newBillItem.setIdOrderItem(orderManager.getOrderItemById(item.getOrderItemId()));               
                 newBillItem.setNiklanje(item.getNiklanje());
                 newBillItem.setPricePerUnit(item.getPricePerPart());
+                newBillItem.setItemOrderNumber(item.getItemOrderNumber());
                 
                 billItems.add(newBillItem);
             }
@@ -85,6 +86,7 @@ public class BillManager {
                 item.setParts(bi.getParts());
                 item.setPackageNumber(bi.getPackageNumber());      
                 item.setNiklanje(bi.getNiklanje());
+                item.setItemOrderNumber(bi.getItemOrderNumber());
                 item.setPricePerPart(bi.getPricePerUnit());
                 
                

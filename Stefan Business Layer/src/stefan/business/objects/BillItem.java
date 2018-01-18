@@ -33,7 +33,8 @@ public class BillItem implements Comparable<BillItem> {
     private int parts;
     private BigDecimal pricePerPart;
     private Boolean niklanje; 
-
+    private Integer itemOrderNumber;
+    
     /**
      * @return the orderId
      */
@@ -200,6 +201,20 @@ public class BillItem implements Comparable<BillItem> {
      */
     public void setParts(int parts) {
         this.parts = parts;
+    }
+    
+    /**
+     * @return the itemOrderNumber
+     */
+    public Integer getItemOrderNumber() {
+        return itemOrderNumber;
+    }
+
+    /**
+     * @param itemOrderNumber the itemOrderNumber to set
+     */
+    public void setItemOrderNumber(Integer orderNumber) {
+        this.itemOrderNumber = orderNumber;
     }
 
     /**
