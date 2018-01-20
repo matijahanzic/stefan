@@ -974,7 +974,7 @@ public class ExcelManager {
         cell7.setCellValue(":");
         cell7.setCellStyle(styleArial);       
         
-        Row rowN1 = sheet.createRow(i + 10);
+        Row rowN1 = sheet.createRow(i + 8);
         Cell cellN12 = rowN1.createCell(1);
         cellN12.setCellValue("Oznaka operatera            :");
         cellN12.setCellStyle(styleArial);
@@ -983,7 +983,7 @@ public class ExcelManager {
         cellN14.setCellValue("1");
         cellN14.setCellStyle(styleArial);
         
-        Row rowN2 = sheet.createRow(i + 11);
+        Row rowN2 = sheet.createRow(i + 9);
         Cell cellN2 = rowN2.createCell(1);
         cellN2.setCellValue("Način plaćanja                :");
         cellN2.setCellStyle(styleArial);
@@ -992,13 +992,13 @@ public class ExcelManager {
         cellN4.setCellValue("transakcijski račun");
         cellN4.setCellStyle(styleArial);
         
-        Row row6 = sheet.createRow(i + 12);
+        Row row6 = sheet.createRow(i + 10);
         Cell cell12 = row6.createCell(1);
         cell12.setCellValue("BROJ TRANSAKCIJSKOG RAČUNA / BANKVERBINDUNG  :       ");
         cell12.setCellStyle(styleArial);
 
 
-        Row row7 = sheet.createRow(i + 13);
+        Row row7 = sheet.createRow(i + 11);
         Cell cell13 = row7.createCell(1);
         cell13.setCellValue(totalSum.toString().replace(".", ","));
         cell13.setCellStyle(styleArial);        
@@ -1010,7 +1010,7 @@ public class ExcelManager {
         cell15.setCellValue("Zagrebačka Banka d.d., IBAN: HR6523600001101291901 BIC: ZABAHR2X");
         cell15.setCellStyle(styleArial);
 
-        Row row8 = sheet.createRow(i + 14);
+        Row row8 = sheet.createRow(i + 12);
         Cell cell16 = row8.createCell(4);
         cell16.setCellValue("Privredna Banka Zagreb d.d., IBAN: HR1023400091110904189 BIC: PBZGHR2X");
         cell16.setCellStyle(styleArial);       

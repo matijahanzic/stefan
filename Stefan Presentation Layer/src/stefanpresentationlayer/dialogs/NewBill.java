@@ -83,7 +83,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         sortByCombo.addItem("Broju kartona");
         sortByCombo.addItem("Ukupnoj cijeni");
         sortByCombo.addItem("Rednom broju");
-        sortByCombo.setSelectedIndex(0);
+        sortByCombo.setSelectedIndex(4);
         deleteBtn.setEnabled(false);
         jXDatePicker1.setDate(new Date());
         saveBill.setEnabled(false);
@@ -696,11 +696,19 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             stefan.data.Design design = manager.GetDesignsByDBId(bi.getDesignId());
             bi.CalculatePrice(manager.mapData(design)); 
             bi.setItemOrderNumber(items.size() + 1);
-                      
             items.add(bi);
            // Collections.sort(items, new OrderNumberComparator());
             sortByComboActionPerformed(null);
             updateTotalPrice();
+            
+            List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
+            for (BillItem bItems : items) {
+                BillItem p = copyBillItem(bItems);    
+                tempItems.add(p);
+            }
+           
+            items.clear();
+            items = tempItems;            
             
             this.firePropertyChange("items", null, null);
             ItemsTable.getSelectionModel().setSelectionInterval(0, items.size()-1);
@@ -709,6 +717,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 deleteBtn.setEnabled(true);
                 saveBill.setEnabled(true);
             }
+            
             billChanged = true;
         }
     }//GEN-LAST:event_addBillItemBtnActionPerformed
@@ -830,6 +839,9 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 saveBill.setEnabled(false);
             }
             billChanged = false;
+            
+            Collections.sort(items, new ItemOrderNumberComparator());
+     
             this.firePropertyChange("items", null, null);
         } else {
             _btnDeleteBill.setEnabled(false);
