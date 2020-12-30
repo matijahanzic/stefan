@@ -86,6 +86,7 @@ public class OrderManager {
         item.setDesignIdentity(orderitem.getIdDesign().getDesignIdentity());
         item.setDesignName(orderitem.getIdDesign().getName());
         item.setDesignNumber(orderitem.getIdDesign().getDesignNumber());
+        item.setRevision(orderitem.getIdDesign().getRevision());
         item.setOrderId(orderitem.getIdOrder().getIdOrder());
         item.setOrderItemId(orderitem.getIdOrderItems());
         item.setOrderDate(orderitem.getIdOrder().getDate());
