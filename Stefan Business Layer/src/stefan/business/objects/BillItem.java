@@ -26,6 +26,7 @@ public class BillItem implements Comparable<BillItem> {
     private String designNumber;
     private String designIdentity;
     private String designClass;
+    private String revision;
     private Integer orderItemId;
     private Integer quantityOrdered;
     private Integer quantityDelivered;
@@ -145,6 +146,20 @@ public class BillItem implements Comparable<BillItem> {
      */
     public void setDesignClass(String designClass) {
         this.designClass = designClass;
+    }
+    
+    /**
+     * @return the revision
+     */
+    public String getRevision() {
+        return revision;
+    }
+
+    /**
+     * @param revision the revision to set
+     */
+    public void setRevision(String revision) {
+        this.revision = revision;
     }
 
     /**

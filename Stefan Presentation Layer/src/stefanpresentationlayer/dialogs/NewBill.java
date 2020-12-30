@@ -106,6 +106,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         p.setDesignIdentity(bi.getDesignIdentity());
         p.setDesignName(bi.getDesignName());
         p.setDesignNumber(bi.getDesignNumber());
+        p.setRevision(bi.getRevision());
         p.setOrderId(bi.getOrderId());
         p.setOrderItemId(bi.getOrderItemId());
         p.setOrderNumber(bi.getOrderNumber());
@@ -207,6 +208,10 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         columnBinding.setColumnName("Design Number");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${revision}"));
+        columnBinding.setColumnName("Revision");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designClass}"));
         columnBinding.setColumnName("Design Class");
         columnBinding.setColumnClass(String.class);
@@ -240,7 +245,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pricePerPart}"));
         columnBinding.setColumnName("Price Per Part");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPrice}"));
         columnBinding.setColumnName("Total Price");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
@@ -250,16 +254,18 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jScrollPane2.setViewportView(ItemsTable);
         ItemsTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title0")); // NOI18N
         ItemsTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title1")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title2")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title3")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title4")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title5")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title9")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title6")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title7")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title8")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title11")); // NOI18N
-        ItemsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title11")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+        ItemsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title12")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title2")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title3")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title4")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title5")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title9")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title6")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title7")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title8")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title10")); // NOI18N
+        ItemsTable.getColumnModel().getColumn(12).setHeaderValue(resourceMap.getString("ItemsTable.columnModel.title11")); // NOI18N
 
         addBillItemBtn.setIcon(resourceMap.getIcon("addBillItemBtn.icon")); // NOI18N
         addBillItemBtn.setName("addBillItemBtn"); // NOI18N

@@ -63,6 +63,14 @@ public class Design implements Serializable {
     @Column(name =     "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+    @Column(name =     "dateModified")
+    @Temporal(TemporalType.DATE)
+    private Date dateModified;
+    @Column(name = "revision")
+    private String revision;
+    @Basic(optional = false)
+    @Column(name = "isTokarenje")
+    private boolean isTokarenje;
 // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
         @Column(name = "1k")
     private BigDecimal k;
@@ -96,9 +104,6 @@ public class Design implements Serializable {
     private BigDecimal k14;
     @Column(name = "1000k")
     private BigDecimal k15;
-    @Column(name =     "dateModified")
-    @Temporal(TemporalType.DATE)
-    private Date dateModified;
     @Column(name = "isActive")
     private Boolean isActive;
     @Column(name = "niklanje")
@@ -262,14 +267,6 @@ public class Design implements Serializable {
         this.niklanje = niklanje;
     }   
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public BigDecimal getK() {
         return k;
     }
@@ -398,12 +395,36 @@ public class Design implements Serializable {
         this.k15 = k15;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Date getDateModified() {
         return dateModified;
     }
 
     public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
+    }
+
+    public String getRevision() {
+        return revision;
+    }
+
+    public void setRevision(String revision) {
+        this.revision = revision;
+    }
+
+    public boolean getIsTokarenje() {
+        return isTokarenje;
+    }
+
+    public void setIsTokarenje(boolean isTokarenje) {
+        this.isTokarenje = isTokarenje;
     }
     
 }

@@ -35,6 +35,7 @@ public class DesignManager {
             newDesign.setDesignNumber(design.getDesignNumber());
             newDesign.setDesignIdentity(design.getDesignIdentity());
             newDesign.setName(design.getName());
+            newDesign.setRevision(design.getRevision());
             MaterialManager m=new MaterialManager();
             if (design.getMaterialId()!=null)
             {
@@ -46,7 +47,7 @@ public class DesignManager {
                 newDesign.setNiklanje(design.isNiklanje());
             }
             newDesign.setNiklanje(design.isNiklanje());//uvijek postavi niklanje
-            
+            newDesign.setIsTokarenje(design.isTokarenje());       
             newDesign.setIsActive(true);
             newDesign.setDateModified(new Date());
             //1 kom
@@ -125,6 +126,8 @@ public class DesignManager {
             newDesign.setDesignNumber(design.getDesignNumber());
             newDesign.setDesignIdentity(design.getDesignIdentity());
             newDesign.setName(design.getName());
+            newDesign.setRevision(design.getRevision());
+            newDesign.setIsTokarenje(design.isTokarenje());
             MaterialManager m=new MaterialManager();
             if (design.getMaterialId()!=null)
             {
@@ -195,13 +198,19 @@ public class DesignManager {
        return mapData(designs);
     }
     
+    public List<Design> GetTop100()
+    {
+       List<stefan.data.Design> designs= entityManager.createNamedQuery("Design.findAll").setMaxResults(100).getResultList();
+       return mapData(designs);
+    }
+    
     public List<Design> GetDesignsById(String designNumber,String designIdentity, String classMark)
     {            
        Query q = entityManager.createNamedQuery("Design.findByFilters");
        q.setParameter("designNumber", designNumber + "%");
        q.setParameter("classMark", classMark + "%");
        q.setParameter("designIdentity", designIdentity + "%");       
-       List<stefan.data.Design> designs = q.getResultList();
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
        return mapData(designs);      
     }
     
@@ -209,7 +218,7 @@ public class DesignManager {
     {            
        Query q = entityManager.createNamedQuery("Design.findByNumber");
        q.setParameter("designNumber", designNumber + "%");        
-       List<stefan.data.Design> designs = q.getResultList();
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
        return mapData(designs);      
     }
     
@@ -239,7 +248,9 @@ public class DesignManager {
         result.setDate(design.getDate());
         result.setDesignIdentity(design.getDesignIdentity());
         result.setDesignNumber(design.getDesignNumber());
+        result.setRevision(design.getRevision());
         result.setNiklanje(design.getNiklanje());
+        result.setIsTokarenje(design.getIsTokarenje());
         result.setName(design.getName());        
         result.setPcs1(design.getK());
         result.setPcs2(design.getK1());

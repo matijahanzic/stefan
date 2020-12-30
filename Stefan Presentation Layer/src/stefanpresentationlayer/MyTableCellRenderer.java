@@ -26,6 +26,7 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
 
+         String columName = table.getColumnName(vColIndex);
          if( value instanceof Date) {
             value = f.format(value);
         }
@@ -35,7 +36,12 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
          }
          else if (value instanceof Boolean)
          {
-             value = ((Boolean)value) ? "X02" : "F";
+             if ("Tokarenje".equals(columName) || "Is Tokarenje".equals(columName)){
+                 value = ((Boolean)value) ? "T" : "G";
+             }
+             else {
+                 value = ((Boolean)value) ? "X02" : "F";
+             }
          }
         Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
 
