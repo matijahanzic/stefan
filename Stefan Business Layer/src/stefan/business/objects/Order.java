@@ -18,6 +18,7 @@ public class Order {
     private Date date;    
     private List<OrderItem> orderitemsList;
     private String orderNumber;
+    private Integer businessPartnerId;
     /**
      * @return the idOrder
      */
@@ -88,4 +89,17 @@ public class Order {
         this.orderNumber = orderNumber;
     }
     
+    /**
+     * @return the businessPartnerId
+     */   
+    public Integer getBusinessPartnerId(){
+        return businessPartnerId;
+    }
+ 
+    /**
+     * @param businessPartnerId the businessPartnerId to set
+     */
+    public void setBusinessPartnerId(Integer businessPartnerId){
+        this.businessPartnerId = businessPartnerId;
+    }
 }

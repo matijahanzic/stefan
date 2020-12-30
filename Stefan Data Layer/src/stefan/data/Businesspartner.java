@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Businesspartner.findByPrintRow2", query = "SELECT b FROM Businesspartner b WHERE b.printRow2 = :printRow2"),
     @NamedQuery(name = "Businesspartner.findByPrintRow3", query = "SELECT b FROM Businesspartner b WHERE b.printRow3 = :printRow3")})
 public class Businesspartner implements Serializable {
+    @OneToMany(mappedBy = "businessPartnerId")
+    private Collection<Orders> ordersCollection;
     @Column(name = "city")
     private String city;
     private static final long serialVersionUID = 1L;
@@ -174,6 +176,15 @@ public class Businesspartner implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @XmlTransient
+    public Collection<Orders> getOrdersCollection() {
+        return ordersCollection;
+    }
+
+    public void setOrdersCollection(Collection<Orders> ordersCollection) {
+        this.ordersCollection = ordersCollection;
     }
     
 }

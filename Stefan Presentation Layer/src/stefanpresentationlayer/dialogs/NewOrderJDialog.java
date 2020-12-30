@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.jdesktop.observablecollections.ObservableCollections;
+import stefan.business.BillManager;
 import stefan.business.OrderManager;
 import stefan.business.PresentationHelper;
 import stefan.business.objects.*;
@@ -36,7 +37,7 @@ import stefanpresentationlayer.MyTableCellRenderer;
 public class NewOrderJDialog extends javax.swing.JDialog implements TableModelListener {
 
     private List<stefan.business.PresentationHelper> items = ObservableCollections.observableList(new ArrayList<stefan.business.PresentationHelper>());    
-
+    private List<BusinessPartner> bpItems = ObservableCollections.observableList(new ArrayList<BusinessPartner>());
     private int position=10;
     
     private BigDecimal totalPrice;
@@ -55,9 +56,31 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         for (int i = 0; i < MaterialsTable.getModel().getColumnCount(); i++) {
              MaterialsTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);
         }
-       
+        
+        loadBusinessPartners();
+      
+    }
+    
+         /**
+     * @return the bpItems
+     */
+    public List<BusinessPartner> getBpItems() {
+        return bpItems;
     }
 
+    /**
+     * @param bpItems the bpItems to set
+     */
+    public void setBpItems(List<BusinessPartner> bpItems) {
+        this.bpItems = bpItems;
+    }
+
+    private void loadBusinessPartners() {
+        BillManager manager = new BillManager();
+        bpItems = manager.getBusinessPartners();
+        this.firePropertyChange("bpItems", null, null);
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -81,6 +104,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         jLabel11 = new javax.swing.JLabel();
         priceLbl = new javax.swing.JLabel();
         addToExistingOrderBtn = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cbxZaFirmu = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -238,6 +263,16 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             }
         });
 
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        cbxZaFirmu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxZaFirmu.setName("cbxZaFirmu"); // NOI18N
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${bpItems}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, cbxZaFirmu);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -254,7 +289,11 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 366, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                         .addComponent(Nacrti, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -280,11 +319,13 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(orderNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,10 +411,24 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             return;
         }
         
+        int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
+        if(selectedFirmaIndex < 0){
+            JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+               
+        BusinessPartner bp = bpItems.get(selectedFirmaIndex);
+        if(bp == null){
+            JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         Order order=new Order();
         order.setDate(jXDatePicker1.getDate());
         order.setIsDelivered(false);
         order.setOrderNumber(orderNumberTextField.getText());
+        order.setBusinessPartnerId(bp.getId());
+        
         List<OrderItem> orderItems=new ArrayList<OrderItem>();       
         for (PresentationHelper item : items) 
         {
@@ -544,11 +599,13 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
     private javax.swing.JButton Nacrti;
     private javax.swing.JButton addToExistingOrderBtn;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JComboBox cbxZaFirmu;
     private javax.swing.JButton createOrderBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JTextField orderNumberTextField;

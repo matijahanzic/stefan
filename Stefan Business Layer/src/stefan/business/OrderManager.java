@@ -209,12 +209,14 @@ public class OrderManager {
             throw e;
         }
     }
+     
     public boolean SaveOrder(stefan.business.objects.Order order) {
         try {
             stefan.data.Orders newOrder = new stefan.data.Orders();
             newOrder.setDate(order.getDate());
             newOrder.setIsDelivered(order.isIsDelivered());
             newOrder.setOrderNumber(order.getOrderNumber());
+            newOrder.setBusinessPartnerId(getBp(order.getBusinessPartnerId()));
             List<stefan.data.Orderitems> orderItems = new ArrayList<Orderitems>();
             DesignManager designManager = new DesignManager();
             for (stefan.business.objects.OrderItem oi : order.getOrderitemsList()) {
@@ -239,7 +241,12 @@ public class OrderManager {
         }
     }
     
-   
+    private stefan.data.Businesspartner getBp(Integer id){
+        Query q = entityManager.createNamedQuery("Businesspartner.findById");
+        q.setParameter("id", id);
+        List<stefan.data.Businesspartner> bps = q.getResultList();
+        return bps.get(0);
+    }
 
     private List<stefan.business.objects.Order> mapData(List<stefan.data.Orders> orders) {
         List<stefan.business.objects.Order> results = new ArrayList<stefan.business.objects.Order>();
@@ -255,7 +262,8 @@ public class OrderManager {
         o.setIdOrder(order.getIdOrder());
         o.setIsDelivered(order.getIsDelivered());
         o.setOrderNumber(order.getOrderNumber());
-
+        o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+        
         List<OrderItem> oi = new ArrayList<OrderItem>();
         for (stefan.data.Orderitems orderItem : order.getOrderitemsList()) {
             oi.add(mapOrderItemData(orderItem, o));
@@ -329,6 +337,7 @@ public class OrderManager {
         newOrder.setIdOrder(order.getIdOrder());
         newOrder.setIsDelivered(order.getIsDelivered());
         newOrder.setOrderNumber(order.getOrderNumber());
+        newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
         return newOrder;
     }
 
