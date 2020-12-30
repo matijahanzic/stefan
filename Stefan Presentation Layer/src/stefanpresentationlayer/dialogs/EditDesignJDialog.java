@@ -653,7 +653,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design = designs.get(0);
             designClassInput.setText(design.getClassMark());
             designIdInput.setText(design.getDesignIdentity());
-            revisionInput.setText(design.getName());
+            designNameInput.setText(design.getName());
             designNumberInput.setText(design.getDesignNumber());
             revisionInput.setText(design.getRevision());
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
@@ -767,6 +767,19 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     }
 
+    public void CreateNew() {
+        jPanel2.setVisible(true);
+        neNiklanjeButton.setSelected(true);
+        daTokarenjeButton.setSelected(true);
+        btnSaveChanges.setEnabled(true);
+        panel.setVisible(true);
+        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
+        desigDateInput.setText(f.format(new Date()));
+        designNumberInput.setEditable(true);
+        btnFindDesign.setEnabled(false);
+        isNew = true;
+    }
+    
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -1092,18 +1105,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         this.dispose();
 
     }//GEN-LAST:event_btnSaveChangesActionPerformed
-
+     
 private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewButtonActionPerformed
-    jPanel2.setVisible(true);
-    neNiklanjeButton.setSelected(true);
-    daTokarenjeButton.setSelected(true);
-    btnSaveChanges.setEnabled(true);
-    panel.setVisible(true);
-    SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
-    desigDateInput.setText(f.format(new Date()));
-    designNumberInput.setEditable(true);
-    btnFindDesign.setEnabled(false);
-    isNew = true;
+   CreateNew();
 }//GEN-LAST:event_createNewButtonActionPerformed
 
     /**

@@ -198,13 +198,19 @@ public class DesignManager {
        return mapData(designs);
     }
     
+    public List<Design> GetTop100()
+    {
+       List<stefan.data.Design> designs= entityManager.createNamedQuery("Design.findAll").setMaxResults(100).getResultList();
+       return mapData(designs);
+    }
+    
     public List<Design> GetDesignsById(String designNumber,String designIdentity, String classMark)
     {            
        Query q = entityManager.createNamedQuery("Design.findByFilters");
        q.setParameter("designNumber", designNumber + "%");
        q.setParameter("classMark", classMark + "%");
        q.setParameter("designIdentity", designIdentity + "%");       
-       List<stefan.data.Design> designs = q.getResultList();
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
        return mapData(designs);      
     }
     
@@ -212,7 +218,7 @@ public class DesignManager {
     {            
        Query q = entityManager.createNamedQuery("Design.findByNumber");
        q.setParameter("designNumber", designNumber + "%");        
-       List<stefan.data.Design> designs = q.getResultList();
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
        return mapData(designs);      
     }
     
