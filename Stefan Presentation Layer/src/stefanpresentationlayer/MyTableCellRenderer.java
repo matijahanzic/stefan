@@ -36,7 +36,7 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
          }
          else if (value instanceof Boolean)
          {
-             if ("Tokarenje".equals(columName)){
+             if ("Tokarenje".equals(columName) || "Is Tokarenje".equals(columName)){
                  value = ((Boolean)value) ? "T" : "G";
              }
              else {

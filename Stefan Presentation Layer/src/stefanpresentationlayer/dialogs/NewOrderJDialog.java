@@ -105,21 +105,29 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         columnBinding.setColumnName("Design Number");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designClass}"));
-        columnBinding.setColumnName("Design Class");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designIdentity}"));
-        columnBinding.setColumnName("Design Identity");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${revision}"));
+        columnBinding.setColumnName("Revision");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designName}"));
         columnBinding.setColumnName("Design Name");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designIdentity}"));
+        columnBinding.setColumnName("Design Identity");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designClass}"));
+        columnBinding.setColumnName("Design Class");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${niklanje}"));
         columnBinding.setColumnName("Niklanje");
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setColumnClass(Boolean.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenje}"));
+        columnBinding.setColumnName("Is Tokarenje");
+        columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designDate}"));
         columnBinding.setColumnName("Design Date");
@@ -130,26 +138,30 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pricePerPart}"));
         columnBinding.setColumnName("Price Per Part");
-        columnBinding.setColumnClass(Float.class);
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPrice}"));
         columnBinding.setColumnName("Total Price");
-        columnBinding.setColumnClass(Float.class);
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane2.setViewportView(MaterialsTable);
         MaterialsTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title4")); // NOI18N
         MaterialsTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title0")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title2")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title3")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title1")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(5).setPreferredWidth(30);
-        MaterialsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title9")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title5")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title6")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title7")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title8")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+        MaterialsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title10")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title1")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title3")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title2")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+        MaterialsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title9")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(7).setPreferredWidth(30);
+        MaterialsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title11")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title5")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title6")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title7")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title8")); // NOI18N
 
         Nacrti.setIcon(resourceMap.getIcon("Nacrti.icon")); // NOI18N
         Nacrti.setText(resourceMap.getString("Nacrti.text")); // NOI18N

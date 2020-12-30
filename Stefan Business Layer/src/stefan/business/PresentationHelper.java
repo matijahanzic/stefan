@@ -20,8 +20,10 @@ public class PresentationHelper {
     private String designIdentity;
     private String designClass;
     private String designName;
+    private String revision;
     private Date designDate;
     private boolean niklanje;
+    private boolean isTokarenje;
     private String position;
     private int parts;
     private int desingDBid;
@@ -35,8 +37,10 @@ public class PresentationHelper {
         this.designIdentity = design.getDesignIdentity();
         this.designClass = design.getClassMark();
         this.designName = design.getName();
+        this.revision = design.getRevision();
         this.designDate = design.getDate();
         this.niklanje = design.isNiklanje();
+        this.isTokarenje = design.isTokarenje();
         this.parts = parts;
         this.desingDBid = design.getIdDesign();
         this.pricePerPart = new BigDecimal("-1");        
@@ -74,6 +78,13 @@ public class PresentationHelper {
     }
 
     /**
+     * @return the revision
+     */
+    public String getRevision() {
+        return revision;
+    }    
+    
+    /**
      * @return the designDate
      */
     public Date getDesignDate() {
@@ -85,6 +96,13 @@ public class PresentationHelper {
      */
     public boolean getNiklanje() {
         return niklanje;
+    }
+    
+    /**
+     * @return the isTokarenje
+     */
+    public boolean getIsTokarenje() {
+        return isTokarenje;
     }
 
     /**
@@ -199,6 +217,13 @@ public class PresentationHelper {
     public void setDesignName(String designName) {
         this.designName = designName;
     }
+    
+     /**
+     * @param revision the revision to set
+     */
+    public void setRevision(String revision) {
+        this.revision = revision;
+    }
 
     /**
      * @param designDate the designDate to set
@@ -212,6 +237,13 @@ public class PresentationHelper {
      */
     public void setNiklanje(boolean niklanje) {
         this.niklanje = niklanje;
+    }
+    
+    /**
+     * @param isTokarenje the isTokarenje to set
+     */
+    public void setIsTokarenje(boolean isTokarenje) {
+        this.isTokarenje = isTokarenje;
     }
 
     /**
