@@ -38,6 +38,8 @@ public class Design {
     private BigDecimal pcs1000;  
     private Integer materialId;
     private boolean niklanje;
+    private String revision;
+    private boolean isTokarenje;
 
     public Design()
     {        
@@ -446,6 +448,34 @@ public class Design {
      */
     public void setNiklanje(boolean niklanje) {
         this.niklanje = niklanje;
+    }
+    
+    /**
+     * @return the revision
+     */
+    public String getRevision() {
+        return revision;
+    }
+
+    /**
+     * @param revision the revision to set
+     */
+    public void setRevision(String revision) {
+        this.revision = revision;
+    }
+    
+    /**
+     * @return the isTokarenje
+     */
+    public boolean isTokarenje() {
+        return isTokarenje;
+    }
+
+    /**
+     * @param isTokarenje the isTokarenje to set
+     */
+    public void setIsTokarenje(boolean isTokarenje) {
+        this.isTokarenje = isTokarenje;
     }
    
     
