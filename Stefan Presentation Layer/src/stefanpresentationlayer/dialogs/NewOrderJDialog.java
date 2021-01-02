@@ -23,6 +23,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.calendar.DateSelectionModel;
 import stefan.business.BillManager;
 import stefan.business.OrderManager;
 import stefan.business.PresentationHelper;
@@ -60,7 +61,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         
        
         jXOrderDatePicker.getMonthView().setFirstDayOfWeek(2);
-        jXOrderDatePicker.getMonthView().setShowingWeekNumber(true);
+        jXOrderDatePicker.getMonthView().setShowingWeekNumber(true);        
+        jXOrderDatePicker.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4); 
         jXOrderDatePicker.setFormats(new String[] {"d.M.yyyy."});
       
 
@@ -68,9 +70,10 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         monthView.setPreferredColumnCount(2);
         monthView.setPreferredRowCount(2);
         monthView.setFirstDayOfWeek(2);
+        monthView.getSelectionModel().setMinimalDaysInFirstWeek(4); 
         monthView.setShowingWeekNumber(true);
         jXShippingDatePicker.setMonthView(monthView);
-        jXShippingDatePicker.setFormats(new String[] {"d.M.yyyy."});
+        jXShippingDatePicker.setFormats(new String[] {"d.M.yyyy."});        
         
         loadBusinessPartners();
       

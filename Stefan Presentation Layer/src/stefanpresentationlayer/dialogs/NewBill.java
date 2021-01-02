@@ -94,7 +94,8 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         }
         
         jXDatePicker1.getMonthView().setFirstDayOfWeek(2);
-        jXDatePicker1.getMonthView().setShowingWeekNumber(true);   
+        jXDatePicker1.getMonthView().setShowingWeekNumber(true); 
+        jXDatePicker1.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4); 
         
         refreshBillList();
         _btnDeleteBill.setEnabled(false);

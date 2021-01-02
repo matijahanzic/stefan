@@ -4,6 +4,7 @@
  */
 package stefan.business.objects;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -118,5 +119,20 @@ public class Order {
      */
     public void setShippingDate(Date shippingDate) {
         this.shippingDate = shippingDate;
+    }
+    
+     /**
+     * @return the KW
+     */
+    public Integer getKW() {
+        if (shippingDate == null)
+        {
+            return null;
+        }
+        Calendar instance = Calendar.getInstance();
+        instance.setFirstDayOfWeek(2);
+        instance.setMinimalDaysInFirstWeek(4);
+        instance.setTime(shippingDate);
+        return instance.get(Calendar.WEEK_OF_YEAR);        
     }
 }
