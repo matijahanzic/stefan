@@ -157,6 +157,9 @@
     </Component>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePicker1">
       <Properties>
+        <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new String[] {&quot;d.M.yyyy.&quot;}" type="code"/>
+        </Property>
         <Property name="name" type="java.lang.String" value="jXDatePicker1" noResource="true"/>
       </Properties>
       <Events>

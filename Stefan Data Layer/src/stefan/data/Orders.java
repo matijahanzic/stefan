@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,7 +41,13 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Orders implements Serializable {
     @Column(name =     "date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date date;    @Column(name = "shippingDate")
+    @Temporal(TemporalType.DATE)
+    private Date shippingDate;
+
+    @JoinColumn(name = "businessPartnerId", referencedColumnName = "id")
+    @ManyToOne
+    private Businesspartner businessPartnerId;
     @Column(name = "orderNumber")
     private String orderNumber;
     private static final long serialVersionUID = 1L;
@@ -123,6 +131,14 @@ public class Orders implements Serializable {
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
+    public Businesspartner getBusinessPartnerId() {
+        return businessPartnerId;
+    }
+
+    public void setBusinessPartnerId(Businesspartner businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
+    }
+
 
     public Date getDate() {
         return date;
@@ -130,6 +146,14 @@ public class Orders implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
     
 }
