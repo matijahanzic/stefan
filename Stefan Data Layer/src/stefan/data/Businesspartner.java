@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Businesspartner.findByPrintRow2", query = "SELECT b FROM Businesspartner b WHERE b.printRow2 = :printRow2"),
     @NamedQuery(name = "Businesspartner.findByPrintRow3", query = "SELECT b FROM Businesspartner b WHERE b.printRow3 = :printRow3")})
 public class Businesspartner implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "requireShippingDate")
+    private boolean requireShippingDate;
     @OneToMany(mappedBy = "businessPartnerId")
     private Collection<Orders> ordersCollection;
     @Column(name = "city")
@@ -185,6 +188,14 @@ public class Businesspartner implements Serializable {
 
     public void setOrdersCollection(Collection<Orders> ordersCollection) {
         this.ordersCollection = ordersCollection;
+    }
+
+    public boolean getRequireShippingDate() {
+        return requireShippingDate;
+    }
+
+    public void setRequireShippingDate(boolean requireShippingDate) {
+        this.requireShippingDate = requireShippingDate;
     }
     
 }

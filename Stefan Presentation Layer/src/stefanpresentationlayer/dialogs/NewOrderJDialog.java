@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingx.JXMonthView;
 import stefan.business.BillManager;
 import stefan.business.OrderManager;
 import stefan.business.PresentationHelper;
@@ -49,13 +50,27 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         totalPrice=new BigDecimal("0.0000");
         deleteBtn.setEnabled(false);
         createOrderBtn.setEnabled(false);
-        jXDatePicker1.setDate(new Date());
+        jXOrderDatePicker.setDate(new Date());
         MaterialsTable.getModel().addTableModelListener(this);  
         
         MyTableCellRenderer rendrer=new MyTableCellRenderer();
         for (int i = 0; i < MaterialsTable.getModel().getColumnCount(); i++) {
              MaterialsTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);
         }
+        
+       
+        jXOrderDatePicker.getMonthView().setFirstDayOfWeek(2);
+        jXOrderDatePicker.getMonthView().setShowingWeekNumber(true);
+        jXOrderDatePicker.setFormats(new String[] {"d.M.yyyy."});
+      
+
+        JXMonthView monthView = new JXMonthView();         
+        monthView.setPreferredColumnCount(2);
+        monthView.setPreferredRowCount(2);
+        monthView.setFirstDayOfWeek(2);
+        monthView.setShowingWeekNumber(true);
+        jXShippingDatePicker.setMonthView(monthView);
+        jXShippingDatePicker.setFormats(new String[] {"d.M.yyyy."});
         
         loadBusinessPartners();
       
@@ -81,6 +96,20 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         this.firePropertyChange("bpItems", null, null);
     }
     
+    private boolean isShippingDateRequired()
+    {
+        int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
+        if(selectedFirmaIndex < 0){            
+            return false;
+        }
+               
+        BusinessPartner bp = bpItems.get(selectedFirmaIndex);
+        if(bp == null){            
+            return false;
+        }
+        return bp.getRequireShippingDate();
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -97,7 +126,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         orderNumberTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jXOrderDatePicker = new org.jdesktop.swingx.JXDatePicker();
         deleteBtn = new javax.swing.JButton();
         createOrderBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
@@ -106,6 +135,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         addToExistingOrderBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         cbxZaFirmu = new javax.swing.JComboBox();
+        jXShippingDatePicker = new org.jdesktop.swingx.JXDatePicker();
+        jLabelShippingDate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -221,7 +252,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
-        jXDatePicker1.setName("jXDatePicker1"); // NOI18N
+        jXOrderDatePicker.setName("jXOrderDatePicker"); // NOI18N
 
         deleteBtn.setIcon(resourceMap.getIcon("deleteBtn.icon")); // NOI18N
         deleteBtn.setName("deleteBtn"); // NOI18N
@@ -273,6 +304,17 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, cbxZaFirmu);
         bindingGroup.addBinding(jComboBoxBinding);
 
+        cbxZaFirmu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxZaFirmuActionPerformed(evt);
+            }
+        });
+
+        jXShippingDatePicker.setName("jXShippingDatePicker"); // NOI18N
+
+        jLabelShippingDate.setText(resourceMap.getString("jLabelShippingDate.text")); // NOI18N
+        jLabelShippingDate.setName("jLabelShippingDate"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,26 +322,30 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(orderNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXOrderDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jXShippingDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelShippingDate, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addComponent(Nacrti, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(addToExistingOrderBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 428, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 547, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -316,16 +362,18 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabelShippingDate))
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(orderNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jXOrderDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jXShippingDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,12 +470,20 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
+                
+        if(isShippingDateRequired() && jXShippingDatePicker.getDate() == null){
+            JOptionPane.showMessageDialog(null, "Odaberite datum isporuke", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
         Order order=new Order();
-        order.setDate(jXDatePicker1.getDate());
+        order.setDate(jXOrderDatePicker.getDate());
         order.setIsDelivered(false);
         order.setOrderNumber(orderNumberTextField.getText());
         order.setBusinessPartnerId(bp.getId());
+        if (isShippingDateRequired()) {
+            order.setShippingDate(jXShippingDatePicker.getDate());
+        }
         
         List<OrderItem> orderItems=new ArrayList<OrderItem>();       
         for (PresentationHelper item : items) 
@@ -462,6 +518,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             JOptionPane.showMessageDialog(null, "Unesite broj narudžbe.","Upozorenje",javax.swing.JOptionPane.WARNING_MESSAGE);      
             return;
         }
+        
         if(!OrderExists(orderNumberTextField.getText().trim())){
             JOptionPane.showMessageDialog(null, "Narudžba s ovim brojem ne postoji","Upozorenje",javax.swing.JOptionPane.WARNING_MESSAGE);   
         }
@@ -489,6 +546,13 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         }
         
     }//GEN-LAST:event_addToExistingOrderBtnActionPerformed
+
+private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZaFirmuActionPerformed
+
+    boolean isShippingDateRequired = isShippingDateRequired();
+    jXShippingDatePicker.setVisible(isShippingDateRequired);
+    jLabelShippingDate.setVisible(isShippingDateRequired);
+}//GEN-LAST:event_cbxZaFirmuActionPerformed
 
      public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
@@ -606,8 +670,10 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelShippingDate;
     private javax.swing.JScrollPane jScrollPane2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXOrderDatePicker;
+    private org.jdesktop.swingx.JXDatePicker jXShippingDatePicker;
     private javax.swing.JTextField orderNumberTextField;
     private javax.swing.JLabel priceLbl;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

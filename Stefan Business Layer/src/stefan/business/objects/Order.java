@@ -19,6 +19,9 @@ public class Order {
     private List<OrderItem> orderitemsList;
     private String orderNumber;
     private Integer businessPartnerId;
+    private Date shippingDate;  
+    
+    
     /**
      * @return the idOrder
      */
@@ -101,5 +104,19 @@ public class Order {
      */
     public void setBusinessPartnerId(Integer businessPartnerId){
         this.businessPartnerId = businessPartnerId;
+    }
+    
+    /**
+     * @return the shippingDate
+     */
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    /**
+     * @param shippingDate the shippingDate to set
+     */
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
 }

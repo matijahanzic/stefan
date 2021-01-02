@@ -18,11 +18,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -50,6 +47,7 @@ import stefan.business.objects.Order;
 import stefan.business.objects.TotalPriceComparator;
 import stefan.data.Orderitems;
 import stefanpresentationlayer.MyTableCellRenderer;
+
 
 /**
  *
@@ -94,7 +92,10 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         for (int i = 0; i < ItemsTable.getModel().getColumnCount(); i++) {
             ItemsTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);
         }
-
+        
+        jXDatePicker1.getMonthView().setFirstDayOfWeek(2);
+        jXDatePicker1.getMonthView().setShowingWeekNumber(true);   
+        
         refreshBillList();
         _btnDeleteBill.setEnabled(false);
     }
@@ -182,6 +183,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
 
+        jXDatePicker1.setFormats(new String[] {"d.M.yyyy."});
         jXDatePicker1.setName("jXDatePicker1"); // NOI18N
         jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

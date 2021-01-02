@@ -132,6 +132,7 @@ public class BillManager {
             bp.setPrintRow2(item.getPrintRow2());
             bp.setPrintRow3(item.getPrintRow3());
             bp.setCity(item.getCity());
+            bp.setRequireShippingDate(item.getRequireShippingDate());
             
             bpList.add(bp);
         }

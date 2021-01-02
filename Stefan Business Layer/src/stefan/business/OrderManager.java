@@ -216,6 +216,7 @@ public class OrderManager {
             newOrder.setDate(order.getDate());
             newOrder.setIsDelivered(order.isIsDelivered());
             newOrder.setOrderNumber(order.getOrderNumber());
+            newOrder.setShippingDate(order.getShippingDate());
             newOrder.setBusinessPartnerId(getBp(order.getBusinessPartnerId()));
             List<stefan.data.Orderitems> orderItems = new ArrayList<Orderitems>();
             DesignManager designManager = new DesignManager();
@@ -262,7 +263,10 @@ public class OrderManager {
         o.setIdOrder(order.getIdOrder());
         o.setIsDelivered(order.getIsDelivered());
         o.setOrderNumber(order.getOrderNumber());
-        o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+        o.setShippingDate(order.getShippingDate());
+        if (order.getBusinessPartnerId() != null){
+            o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+        }
         
         List<OrderItem> oi = new ArrayList<OrderItem>();
         for (stefan.data.Orderitems orderItem : order.getOrderitemsList()) {
@@ -337,7 +341,10 @@ public class OrderManager {
         newOrder.setIdOrder(order.getIdOrder());
         newOrder.setIsDelivered(order.getIsDelivered());
         newOrder.setOrderNumber(order.getOrderNumber());
-        newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+        newOrder.setShippingDate(order.getShippingDate());
+        if (order.getBusinessPartnerId() != null){
+            newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+        }
         return newOrder;
     }
 

@@ -41,7 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Orders implements Serializable {
     @Column(name =     "date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date date;    @Column(name = "shippingDate")
+    @Temporal(TemporalType.DATE)
+    private Date shippingDate;
+
     @JoinColumn(name = "businessPartnerId", referencedColumnName = "id")
     @ManyToOne
     private Businesspartner businessPartnerId;
@@ -128,6 +131,14 @@ public class Orders implements Serializable {
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
+    public Businesspartner getBusinessPartnerId() {
+        return businessPartnerId;
+    }
+
+    public void setBusinessPartnerId(Businesspartner businessPartnerId) {
+        this.businessPartnerId = businessPartnerId;
+    }
+
 
     public Date getDate() {
         return date;
@@ -137,12 +148,12 @@ public class Orders implements Serializable {
         this.date = date;
     }
 
-    public Businesspartner getBusinessPartnerId() {
-        return businessPartnerId;
+    public Date getShippingDate() {
+        return shippingDate;
     }
 
-    public void setBusinessPartnerId(Businesspartner businessPartnerId) {
-        this.businessPartnerId = businessPartnerId;
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
     
 }

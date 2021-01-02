@@ -14,10 +14,11 @@ public class BusinessPartner {
     private String name;
     private String displayName;
     private boolean  printInd;
-     private String printRow1;
-     private String printRow2;
-     private String printRow3;
-     private String city;
+    private String printRow1;
+    private String printRow2;
+    private String printRow3;
+    private String city;
+    private boolean requireShippingDate;
 
     /**
      * @return the idBill
@@ -87,7 +88,7 @@ public class BusinessPartner {
         this.city = city;
     }
 
-     public boolean getPrintInd() {
+    public boolean getPrintInd() {
         return printInd;
     }
 
@@ -96,6 +97,14 @@ public class BusinessPartner {
         this.printInd = printInd;
     }
 
+    public boolean getRequireShippingDate() {
+        return requireShippingDate;
+    }
+   
+    public void setRequireShippingDate(boolean requireShippingDate) {
+        this.requireShippingDate = requireShippingDate;
+    }       
+    
     
     @Override
     public String toString()
