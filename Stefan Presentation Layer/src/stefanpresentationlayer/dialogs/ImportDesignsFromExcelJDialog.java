@@ -307,8 +307,11 @@ private void jXDatePickerDesignDateActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_jXDatePickerDesignDateActionPerformed
 
 private void savejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savejButtonActionPerformed
-    
+       
     try {
+        
+         if (designsJTable.isEditing())             
+             designsJTable.getCellEditor().stopCellEditing(); // ovo je potrebno jer ne uhvati promjene ako je editor celije jos otvoren    
         
         DesignManager manager = new DesignManager();
         for (Design design : designs) {
