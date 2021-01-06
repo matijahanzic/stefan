@@ -1,20 +1,14 @@
 package stefanpresentationlayer.dialogs;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-
-import org.jdesktop.application.Action;
 import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JTableBinding;
 import stefan.business.*;
 import stefan.business.objects.*;
 import stefanpresentationlayer.MyTableCellRenderer;
@@ -313,6 +307,18 @@ private void jXDatePickerDesignDateActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_jXDatePickerDesignDateActionPerformed
 
 private void savejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savejButtonActionPerformed
+    
+    try {
+        
+        DesignManager manager = new DesignManager();
+        for (Design design : designs) {
+            manager.SaveDesign(design);   
+        }
+    }
+    catch (Exception e) {
+         JOptionPane.showMessageDialog(null, "Pogreška pri spremanju nacrta: " + e.toString(), "Greška", JOptionPane.ERROR_MESSAGE);   
+    }    
+    
     this.dispose();
 }//GEN-LAST:event_savejButtonActionPerformed
 
