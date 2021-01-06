@@ -21,11 +21,6 @@
                       <Component id="jLabel1" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                          <Component id="cijeneBtn" min="-2" pref="154" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="materijaliBtn" min="-2" pref="145" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnDesigns" min="-2" pref="145" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnChangeDesignPrice" min="-2" pref="229" max="-2" attributes="0"/>
@@ -66,9 +61,7 @@
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="materijaliBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cijeneBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnDesigns" min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="btnDesigns" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="btnChangeDesignPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnDesignsFromExcel" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                   </Group>
@@ -154,29 +147,6 @@
             <Property name="text" type="java.lang.String" resourceKey="jLabel3.text"/>
             <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="cijeneBtn">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" resourceKey="cijeneBtn.icon"/>
-            <Property name="text" type="java.lang.String" resourceKey="cijeneBtn.text"/>
-            <Property name="name" type="java.lang.String" value="cijeneBtn" noResource="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cijeneBtnActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="materijaliBtn">
-          <Properties>
-            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-              <action class="stefanpresentationlayer.StefanPresentationLayerView" id="materialBtnActionPerformed" methodName="materialBtnActionPerformed"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" resourceKey="materijaliBtn.icon"/>
-            <Property name="text" type="java.lang.String" resourceKey="materijaliBtn.text"/>
-            <Property name="name" type="java.lang.String" value="materijaliBtn" noResource="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="materijaliBtnActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="allOrdersBtn">
           <Properties>

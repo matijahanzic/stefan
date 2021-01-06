@@ -156,8 +156,8 @@ public class DesignJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Niklanje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tokarenje}"));
-        columnBinding.setColumnName("Tokarenje");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenje}"));
+        columnBinding.setColumnName("Is Tokarenje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));

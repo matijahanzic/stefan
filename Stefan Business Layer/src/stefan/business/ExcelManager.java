@@ -189,7 +189,18 @@ public class ExcelManager {
             
             
             HSSFCell cellDesignNumber = curentRow.getCell((short) DesignNumber_ColumnNumber);
-            String designNumber = cellDesignNumber.getStringCellValue();
+            String designNumber;
+            try{
+                //ponekad je design number u formatu stringa 
+                designNumber = cellDesignNumber.getStringCellValue();
+            }
+            catch (Exception e){
+                 //ponekad je design number u formatu broja 
+                Double numDouble = cellDesignNumber.getNumericCellValue();
+                Long numInt = Math.round(numDouble);
+                designNumber = numInt.toString();
+            }
+           
             if (designNumber == null || "".equals(designNumber.trim())) {
                 continue; //there is no data in this row
             }
@@ -243,11 +254,11 @@ public class ExcelManager {
             HSSFCell cellPcs100 = curentRow.getCell((short) pcs100_ColumnNumber);
             design.setPcs100(getNumericCellValue(cellPcs100));
             
-            HSSFCell cellPcs200 = curentRow.getCell((short) pcs200_ColumnNumber);
-            design.setPcs200(getNumericCellValue(cellPcs200));
+            //HSSFCell cellPcs200 = curentRow.getCell((short) pcs200_ColumnNumber);
+            //design.setPcs200(getNumericCellValue(cellPcs200));
             
-            HSSFCell cellPcs500 = curentRow.getCell((short) pcs500_ColumnNumber);
-            design.setPcs500(getNumericCellValue(cellPcs500));
+            //HSSFCell cellPcs500 = curentRow.getCell((short) pcs500_ColumnNumber);
+            //design.setPcs500(getNumericCellValue(cellPcs500));
             
             newDesigns.add(design);
         }
@@ -257,7 +268,10 @@ public class ExcelManager {
     
     private static BigDecimal getNumericCellValue(HSSFCell cell){
         try{
-            double dValue = cell.getNumericCellValue();          
+            double dValue = cell.getNumericCellValue();        
+            if (dValue == 0) {
+                return null;
+            }
             return new BigDecimal(dValue, MathContext.DECIMAL32).setScale(2, RoundingMode.HALF_UP);
         } catch (Exception e)
         {

@@ -141,8 +141,6 @@ public class StefanPresentationLayerView extends FrameView {
         jButton2 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        cijeneBtn = new javax.swing.JButton();
-        materijaliBtn = new javax.swing.JButton();
         allOrdersBtn = new javax.swing.JButton();
         btnDesigns = new javax.swing.JButton();
         btnChangeDesignPrice = new javax.swing.JButton();
@@ -213,26 +211,6 @@ public class StefanPresentationLayerView extends FrameView {
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
 
-        cijeneBtn.setIcon(resourceMap.getIcon("cijeneBtn.icon")); // NOI18N
-        cijeneBtn.setText(resourceMap.getString("cijeneBtn.text")); // NOI18N
-        cijeneBtn.setName("cijeneBtn"); // NOI18N
-        cijeneBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cijeneBtnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getActionMap(StefanPresentationLayerView.class, this);
-        materijaliBtn.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
-        materijaliBtn.setIcon(resourceMap.getIcon("materijaliBtn.icon")); // NOI18N
-        materijaliBtn.setText(resourceMap.getString("materijaliBtn.text")); // NOI18N
-        materijaliBtn.setName("materijaliBtn"); // NOI18N
-        materijaliBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                materijaliBtnActionPerformed(evt);
-            }
-        });
-
         allOrdersBtn.setIcon(resourceMap.getIcon("allOrdersBtn.icon")); // NOI18N
         allOrdersBtn.setText(resourceMap.getString("allOrdersBtn.text")); // NOI18N
         allOrdersBtn.setName("allOrdersBtn"); // NOI18N
@@ -242,6 +220,7 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getActionMap(StefanPresentationLayerView.class, this);
         btnDesigns.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
         btnDesigns.setIcon(resourceMap.getIcon("btnDesigns.icon")); // NOI18N
         btnDesigns.setText(resourceMap.getString("btnDesigns.text")); // NOI18N
@@ -265,7 +244,6 @@ public class StefanPresentationLayerView extends FrameView {
         btnDesignsFromExcel.setIcon(resourceMap.getIcon("btnDesignsFromExcel.icon")); // NOI18N
         btnDesignsFromExcel.setText(resourceMap.getString("btnDesignsFromExcel.text")); // NOI18N
         btnDesignsFromExcel.setName("btnDesignsFromExcel"); // NOI18N
-        btnDesignsFromExcel.setSelectedIcon(resourceMap.getIcon("btnDesignsFromExcel.selectedIcon")); // NOI18N
         btnDesignsFromExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDesignsFromExcelActionPerformed(evt);
@@ -284,11 +262,6 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(cijeneBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(materijaliBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,8 +296,6 @@ public class StefanPresentationLayerView extends FrameView {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(materijaliBtn)
-                    .addComponent(cijeneBtn)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChangeDesignPrice)
                     .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -394,11 +365,6 @@ public class StefanPresentationLayerView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cijeneBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cijeneBtnActionPerformed
-       PriceManagmentJDialog priceJDialog = new PriceManagmentJDialog(this.getFrame(), true);
-       priceJDialog.setVisible(true);
-    }//GEN-LAST:event_cijeneBtnActionPerformed
-
     private void newOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOrderBtnActionPerformed
             
         NewOrderJDialog orderDialog= new NewOrderJDialog(this.getFrame(), true); 
@@ -419,12 +385,6 @@ public class StefanPresentationLayerView extends FrameView {
          newDlg.setLocation(0, 50);     
          newDlg.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void materijaliBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_materijaliBtnActionPerformed
-              //upravljanje materijalima
-        MaterialManagmentJDialog materialMngmntJDialog = new MaterialManagmentJDialog(this.getFrame(), true);
-        materialMngmntJDialog.setVisible(true);
-    }//GEN-LAST:event_materijaliBtnActionPerformed
 
     private void allOrdersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allOrdersBtnActionPerformed
         AllOrdersDialog orderDialog= new AllOrdersDialog(this.getFrame(), true); 
@@ -487,7 +447,6 @@ private boolean ShowImportFileDialog() {
     private javax.swing.JButton btnChangeDesignPrice;
     private javax.swing.JButton btnDesigns;
     private javax.swing.JButton btnDesignsFromExcel;
-    private javax.swing.JButton cijeneBtn;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -497,7 +456,6 @@ private boolean ShowImportFileDialog() {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton materijaliBtn;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton newOrderBtn;
     private javax.swing.JProgressBar progressBar;
