@@ -31,9 +31,11 @@ import java.util.List;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import stefanpresentationlayer.dialogs.AllOrdersDialog;
 import stefanpresentationlayer.dialogs.EditDesignJDialog;
+import stefanpresentationlayer.dialogs.ImportDesignsFromExcelJDialog;
 import stefanpresentationlayer.dialogs.MaterialManagmentJDialog;
 import stefanpresentationlayer.dialogs.NewBill;
 import stefanpresentationlayer.dialogs.NewOrderJDialog;
@@ -144,6 +146,7 @@ public class StefanPresentationLayerView extends FrameView {
         allOrdersBtn = new javax.swing.JButton();
         btnDesigns = new javax.swing.JButton();
         btnChangeDesignPrice = new javax.swing.JButton();
+        btnDesignsFromExcel = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -259,6 +262,16 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        btnDesignsFromExcel.setIcon(resourceMap.getIcon("btnDesignsFromExcel.icon")); // NOI18N
+        btnDesignsFromExcel.setText(resourceMap.getString("btnDesignsFromExcel.text")); // NOI18N
+        btnDesignsFromExcel.setName("btnDesignsFromExcel"); // NOI18N
+        btnDesignsFromExcel.setSelectedIcon(resourceMap.getIcon("btnDesignsFromExcel.selectedIcon")); // NOI18N
+        btnDesignsFromExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesignsFromExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -278,7 +291,9 @@ public class StefanPresentationLayerView extends FrameView {
                         .addGap(18, 18, 18)
                         .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDesignsFromExcel))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(newOrderBtn)
                         .addGap(18, 18, 18)
@@ -311,7 +326,8 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(materijaliBtn)
                     .addComponent(cijeneBtn)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangeDesignPrice))
+                    .addComponent(btnChangeDesignPrice)
+                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(127, Short.MAX_VALUE))
         );
 
@@ -433,10 +449,44 @@ public class StefanPresentationLayerView extends FrameView {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnChangeDesignPriceActionPerformed
 
+private void btnDesignsFromExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesignsFromExcelActionPerformed
+
+    if (ShowImportFileDialog()) {
+        String filePath =  importFilePath + "\\" + importFileName;
+        ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
+        designDialog.setSize(dim.width, (dim.height - 100)); 
+        designDialog.setLocation(0, 50);  
+        designDialog.setVisible(true);
+    }
+    else
+    {
+        return;
+    }
+    
+}//GEN-LAST:event_btnDesignsFromExcelActionPerformed
+
+private String importFilePath;
+private String importFileName;
+private boolean ShowImportFileDialog() {
+
+        JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");  
+        int rVal = chooser.showOpenDialog(this.getFrame());
+
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            importFileName = chooser.getSelectedFile().getName();
+            importFilePath = chooser.getCurrentDirectory().toString();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allOrdersBtn;
     private javax.swing.JButton btnChangeDesignPrice;
     private javax.swing.JButton btnDesigns;
+    private javax.swing.JButton btnDesignsFromExcel;
     private javax.swing.JButton cijeneBtn;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
