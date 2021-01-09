@@ -189,6 +189,9 @@ public class ExcelManager {
             
             
             HSSFCell cellDesignNumber = curentRow.getCell((short) DesignNumber_ColumnNumber);
+            if (cellDesignNumber == null){
+                continue; //nekad je sam cell == null a nekad je value empty
+            }
             String designNumber;
             try{
                 //ponekad je design number u formatu stringa 
