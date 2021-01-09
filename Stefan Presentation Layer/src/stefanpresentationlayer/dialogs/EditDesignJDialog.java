@@ -668,7 +668,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 neNiklanjeButton.setSelected(true);
             }
             
-            if (design.isTokarenje())
+            if (design.getIsTokarenje())
             {
                 daTokarenjeButton.setSelected(true);
             }

@@ -25,44 +25,22 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="19" pref="19" max="19" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
-                                  <Component id="designNumTextField" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="designClassTextField" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="designIdentityTextField" min="-2" pref="186" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="1">
-                              <Component id="createDesignButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="editDesignButton" min="-2" pref="94" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnDeleteDesign" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="680" max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="1044" max="32767" attributes="0"/>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jXDatePickerDesignDate" min="-2" pref="153" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jButtonChangeTokarenje" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="1" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="937" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="savejButton" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -72,95 +50,41 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="designNumTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="designClassTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="designIdentityTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jXDatePickerDesignDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonChangeTokarenje" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="423" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="450" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="createDesignButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="editDesignButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnDeleteDesign" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="savejButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JButton" name="savejButton">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
-        <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="jLabel2.text"/>
-        <Property name="name" type="java.lang.String" value="jLabel2" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="jLabel3.text"/>
-        <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="designNumTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="designNumTextField.text"/>
-        <Property name="name" type="java.lang.String" value="designNumTextField" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="designNumTextFieldKeyReleased"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="designClassTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="designClassTextField.text"/>
-        <Property name="name" type="java.lang.String" value="designClassTextField" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="designClassTextFieldKeyReleased"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="designIdentityTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="designIdentityTextField.text"/>
-        <Property name="name" type="java.lang.String" value="designIdentityTextField" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="designIdentityTextFieldKeyReleased"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-          <action class="stefanpresentationlayer.dialogs.DesignJDialog" id="odaberiNacrtClick" methodName="odaberiNacrtClick"/>
-        </Property>
         <Property name="text" type="java.lang.String" resourceKey="odaberiNacrtButton.text"/>
         <Property name="name" type="java.lang.String" value="odaberiNacrtButton" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="savejButtonActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="createDesignButton">
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="jXDatePickerDesignDate">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="dodajNacrt.text"/>
-        <Property name="name" type="java.lang.String" value="dodajNacrt" noResource="true"/>
+        <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new String[] {&quot;d.M.yyyy.&quot;}" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="jXDatePickerDesignDate" noResource="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createDesignButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXDatePickerDesignDateActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -173,9 +97,9 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="designsJTable">
           <Properties>
-            <Property name="font" type="java.awt.Font" resourceKey="jTable1.font"/>
+            <Property name="font" type="java.awt.Font" resourceKey="designsJTable.font"/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
@@ -189,7 +113,7 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
-                  <Title resourceKey="jTable1.columnModel.title21"/>
+                  <Title resourceKey="designsJTable.columnModel.title21"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -199,7 +123,7 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="true">
-                  <Title resourceKey="jTable1.columnModel.title4"/>
+                  <Title resourceKey="designsJTable.columnModel.title4"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -259,7 +183,7 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="30" resizable="true">
-                  <Title resourceKey="jTable1.columnModel.title16"/>
+                  <Title resourceKey="designsJTable.columnModel.title16"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -289,18 +213,18 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
-                  <Title resourceKey="jTable1.columnModel.title22"/>
+                  <Title resourceKey="designsJTable.columnModel.title22"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
-                  <Title resourceKey="jTable1.columnModel.title23"/>
+                  <Title resourceKey="designsJTable.columnModel.title23"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
               </TableColumnModel>
             </Property>
-            <Property name="name" type="java.lang.String" value="jTable1" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="designsJTable" noResource="true"/>
             <Property name="rowHeight" type="int" value="18"/>
             <Property name="rowMargin" type="int" value="4"/>
             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
@@ -311,7 +235,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="Form" sourcePath="${designs}" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
+            <BindingProperty name="elements" source="Form" sourcePath="${designs}" target="designsJTable" targetPath="elements" updateStrategy="0" immediately="true">
               <Property name="name" type="java.lang.String" value=""/>
               <Subbinding sourcePath="${designNumber}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
@@ -319,19 +243,15 @@
               </Subbinding>
               <Subbinding sourcePath="${revision}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${name}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${designIdentity}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${classMark}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
               <Subbinding sourcePath="${niklanje}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Boolean.class"/>
@@ -412,8 +332,7 @@
             </BindingProperty>
           </BindingProperties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable1MouseClicked"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTable1KeyPressed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="designsJTableKeyPressed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -424,23 +343,20 @@
         <Property name="name" type="java.lang.String" value="jLabel4" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="editDesignButton">
+    <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-          <action class="stefanpresentationlayer.dialogs.DesignJDialog" id="EditExistingDesign" methodName="EditExistingDesign"/>
-        </Property>
-        <Property name="text" type="java.lang.String" resourceKey="editDesignButton.text"/>
-        <Property name="name" type="java.lang.String" value="editDesignButton" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
+        <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnDeleteDesign">
+    <Component class="javax.swing.JButton" name="jButtonChangeTokarenje">
       <Properties>
-        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-          <action class="stefanpresentationlayer.dialogs.DesignJDialog" id="btnDeleteDesignAction" methodName="btnDeleteDesignAction"/>
-        </Property>
-        <Property name="text" type="java.lang.String" resourceKey="btnDeleteDesign.text"/>
-        <Property name="name" type="java.lang.String" value="btnDeleteDesign" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="jButtonChangeTokarenje.text"/>
+        <Property name="name" type="java.lang.String" value="jButtonChangeTokarenje" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonChangeTokarenjeActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

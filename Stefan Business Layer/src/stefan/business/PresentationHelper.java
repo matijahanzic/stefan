@@ -40,7 +40,7 @@ public class PresentationHelper {
         this.revision = design.getRevision();
         this.designDate = design.getDate();
         this.niklanje = design.isNiklanje();
-        this.isTokarenje = design.isTokarenje();
+        this.isTokarenje = design.getIsTokarenje();
         this.parts = parts;
         this.desingDBid = design.getIdDesign();
         this.pricePerPart = new BigDecimal("-1");        

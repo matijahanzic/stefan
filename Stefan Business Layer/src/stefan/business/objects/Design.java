@@ -467,7 +467,7 @@ public class Design {
     /**
      * @return the isTokarenje
      */
-    public boolean isTokarenje() {
+    public boolean getIsTokarenje() {
         return isTokarenje;
     }
 
