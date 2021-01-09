@@ -6,6 +6,7 @@ package stefanpresentationlayer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import stefan.business.objects.Order;
 import stefan.business.objects.OrderItem;
@@ -16,6 +17,7 @@ public class MyTreeNode
     private Integer orderId;
     private String orderNumber;
     private String orderDate;
+    private String orderShippingDate;
     private String position;
     private Integer designId;
     private String designName;
@@ -46,6 +48,9 @@ public class MyTreeNode
                 quantityDelivered=item.getQuantityDelivered();
                 SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
                 orderDate=f.format(item.getOrder().getDate());
+                Date shippingDate = item.getOrder().getShippingDate();
+                if (shippingDate != null)
+                    orderShippingDate = f.format(shippingDate);
 	}
 	
         public MyTreeNode(Order item) 
@@ -53,7 +58,10 @@ public class MyTreeNode
             orderId=item.getIdOrder();
             orderNumber=item.getOrderNumber();
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
-            orderDate=f.format(item.getDate());
+            orderDate=f.format(item.getDate());          
+            Date shippingDate = item.getShippingDate();
+            if (shippingDate != null)
+                orderShippingDate = f.format(shippingDate);
         }
 	public List<MyTreeNode> getChildren() 
 	{
@@ -239,5 +247,19 @@ public class MyTreeNode
      */
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
+    }
+    
+    /**
+     * @return the orderShippingDate
+     */
+    public String getOrderShippingDate() {
+        return orderShippingDate;
+    }
+
+    /**
+     * @param orderShippingDate the orderShippingDate to set
+     */
+    public void setRrderShippingDate(String orderShippingDate) {
+        this.orderShippingDate = orderShippingDate;
     }
 }

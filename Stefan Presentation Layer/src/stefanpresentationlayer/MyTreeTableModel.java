@@ -41,13 +41,14 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		{
 		case 0: return "Broj Narudžbe";
                 case 1: return "Datum Narudžbe";
-		case 2: return "Pozicija";
-		case 3: return "Naziv Nacrta";
-                case 4: return "Broj Nacrta";
-                case 5: return "Identitet Nacrta";
-                case 6: return "Klasa Nacrta";
-                case 7: return "Naručeno";
-                case 8: return "Isporučeno";
+                case 2: return "Datum Isporuke";
+		case 3: return "Pozicija";
+		case 4: return "Naziv Nacrta";
+                case 5: return "Broj Nacrta";
+                case 6: return "Identitet Nacrta";
+                case 7: return "Klasa Nacrta";
+                case 8: return "Naručeno";
+                case 9: return "Isporučeno";
 		default: return "Unknown";
 		}
 	}
@@ -59,14 +60,15 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		switch( column )
 		{
 		case 0: return treenode.getOrderNumber();
-                case 1: return treenode.getOrderDate();     
-		case 2: return treenode.getPosition();
-		case 3: return treenode.getDesignName();
-                case 4: return treenode.getDesignNumber();
-                case 5: return treenode.getDesignIdentity();
-                case 6: return treenode.getDesignClass();
-                case 7: return treenode.getQuantityOrdered();
-                case 8: return treenode.getQuantityDelivered();                                
+                case 1: return treenode.getOrderDate();  
+                case 2: return treenode.getOrderShippingDate();
+		case 3: return treenode.getPosition();
+		case 4: return treenode.getDesignName();
+                case 5: return treenode.getDesignNumber();
+                case 6: return treenode.getDesignIdentity();
+                case 7: return treenode.getDesignClass();
+                case 8: return treenode.getQuantityOrdered();
+                case 9: return treenode.getQuantityDelivered();                                
                             
 		default: return "Unknown";
 		}
