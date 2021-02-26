@@ -3,12 +3,8 @@
  */
 package stefanpresentationlayer;
 
-import com.sun.pdfview.PDFFile;
-import com.sun.pdfview.PDFPrintPage;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.print.PrinterException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,15 +15,6 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.Book;
-import java.awt.print.PageFormat;
-import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
@@ -39,6 +26,9 @@ import stefanpresentationlayer.dialogs.NewBill;
 import stefanpresentationlayer.dialogs.NewOrderJDialog;
 import stefanpresentationlayer.dialogs.PriceChangeJDialog;
 import stefanpresentationlayer.dialogs.PriceManagmentJDialog;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import stefan.business.ExcelManager;
 
 /**
  * The application's main frame.
@@ -144,6 +134,7 @@ public class StefanPresentationLayerView extends FrameView {
         allOrdersBtn = new javax.swing.JButton();
         btnDesigns = new javax.swing.JButton();
         btnChangeDesignPrice = new javax.swing.JButton();
+        allOrdersBtn1 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -259,6 +250,16 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        allOrdersBtn1.setIcon(resourceMap.getIcon("openOrdersBtn.icon")); // NOI18N
+        allOrdersBtn1.setText(resourceMap.getString("openOrdersBtn.text")); // NOI18N
+        allOrdersBtn1.setToolTipText(resourceMap.getString("openOrdersBtn.toolTipText")); // NOI18N
+        allOrdersBtn1.setName("openOrdersBtn"); // NOI18N
+        allOrdersBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openOrdersBtnPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -282,7 +283,9 @@ public class StefanPresentationLayerView extends FrameView {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(newOrderBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(allOrdersBtn))
+                        .addComponent(allOrdersBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(allOrdersBtn1))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
                     .addComponent(jLabel2))
                 .addContainerGap())
@@ -295,7 +298,8 @@ public class StefanPresentationLayerView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newOrderBtn)
-                    .addComponent(allOrdersBtn))
+                    .addComponent(allOrdersBtn)
+                    .addComponent(allOrdersBtn1))
                 .addGap(27, 27, 27)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
@@ -312,7 +316,7 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(cijeneBtn)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChangeDesignPrice))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -433,8 +437,21 @@ public class StefanPresentationLayerView extends FrameView {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnChangeDesignPriceActionPerformed
 
+    private void openOrdersBtnPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openOrdersBtnPerformed
+        // TODO add your handling code here:
+        Workbook workbook = new HSSFWorkbook();
+        ExcelManager excelManager = new ExcelManager(workbook);
+        try {
+            excelManager.CreateNewOpenOrders();
+        } catch (IOException ex) {
+            Logger.getLogger(StefanPresentationLayerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_openOrdersBtnPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allOrdersBtn;
+    private javax.swing.JButton allOrdersBtn1;
     private javax.swing.JButton btnChangeDesignPrice;
     private javax.swing.JButton btnDesigns;
     private javax.swing.JButton cijeneBtn;

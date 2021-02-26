@@ -4,6 +4,8 @@
  */
 package stefan.business;
 
+import java.io.File;
+import java.io.IOException;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,12 +22,63 @@ import org.apache.poi.ss.usermodel.PrintSetup;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
+import javax.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.swing.JFileChooser;
+import org.apache.poi.hssf.util.HSSFColor;
 import stefan.business.objects.BusinessPartner;
+import stefan.business.objects.KWDetailsDto;
+import stefan.business.objects.OpenOrderDto;
 
 /**
  *
  * @author Robert
  */
+class OpenOrderKWData {
+
+    public OpenOrderKWData(KWDetailsDto kwDetails) {
+        this.kwDetails = kwDetails;
+        this.Tokarenje = new ArrayList<OpenOrderDto>();
+        this.Glodanje = new ArrayList<OpenOrderDto>();
+    }
+    private KWDetailsDto kwDetails;
+    private ArrayList<OpenOrderDto> Tokarenje;
+    private ArrayList<OpenOrderDto> Glodanje;
+
+    public void AddTokarenje(OpenOrderDto dto) {
+        Tokarenje.add(dto);
+    }
+
+    public void AddGlodanje(OpenOrderDto dto) {
+        Glodanje.add(dto);
+    }
+
+    public KWDetailsDto GetKWDetails() {
+        return this.kwDetails;
+    }
+
+    public Integer GetListSize() {
+        if (this.Tokarenje.size() > this.Glodanje.size()) {
+            return this.Tokarenje.size();
+        } else {
+            return this.Glodanje.size();
+        }
+    }
+
+    public ArrayList<OpenOrderDto> GetTokarenjeData() {
+        return this.Tokarenje;
+    }
+
+    public ArrayList<OpenOrderDto> GetGlodanjeData() {
+        return this.Glodanje;
+    }
+}
+
 public class ExcelManager {
 
     private Font arialCE30Bold;
@@ -40,7 +93,10 @@ public class ExcelManager {
     private CellStyle stylearial36Bold;
     private CellStyle styleArialCE10;
     private CellStyle styleArial;
+    private CellStyle styleArialAlignRight;
     private CellStyle styleArialBold;
+    private CellStyle styleArialBoldAlignRight;
+    private CellStyle styleArialBoldBorderTop;
     private CellStyle styleArialBorderBottom;
     private CellStyle styleArialCE10BorderBottom;
     private CellStyle styleArialCE10AlignRight;
@@ -49,8 +105,27 @@ public class ExcelManager {
     private CellStyle styleTopAndBottomBorder;
     private Font arialCE10Bold;
     private CellStyle styleArialCE10Bold;
+    private Font arial20Bold;
+    private CellStyle styleArial20Bold;
+    private CellStyle styleArialYellowBackground;
+    private CellStyle styleArialCenter;
+    private CellStyle styleArialYellowCenter;
+    private Workbook _workbook;
 
     public ExcelManager(Workbook workbook) {
+        _workbook = workbook;
+        entityManager = QueryManager.getEntityManagerInstance();
+
+
+
+        /*   short[] triplet = null;
+        
+        HSSFPalette palette = ((HSSFWorkbook)_workbook).getCustomPalette();
+        
+        HSSFColor color = palette.getColor(HSSFColor.YELLOW.index);
+        triplet = color.getTriplet();       
+        System.out.println("color : " + triplet[0] +"," + triplet[1] + "," +     triplet[2]);*/
+
 
         arialCE30Bold = workbook.createFont();
         arialCE30Bold.setFontHeightInPoints((short) 30);
@@ -66,6 +141,15 @@ public class ExcelManager {
         stylearial36Bold.setFont(arial36Bold);
         stylearial36Bold.setAlignment(CellStyle.ALIGN_CENTER);
         stylearial36Bold.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+        arial20Bold = workbook.createFont();
+        arial20Bold.setFontHeightInPoints((short) 20);
+        arial20Bold.setFontName("Arial");
+        arial20Bold.setBoldweight(Font.BOLDWEIGHT_BOLD);
+
+        styleArial20Bold = workbook.createCellStyle();
+        styleArial20Bold.setFont(arial20Bold);
+
 
         arialDoubleBorder12Bold = workbook.createFont();
         arialDoubleBorder12Bold.setFontHeightInPoints((short) 12);
@@ -103,6 +187,15 @@ public class ExcelManager {
         styleArial = workbook.createCellStyle();
         styleArial.setFont(arial);
 
+        styleArialAlignRight = workbook.createCellStyle();
+        styleArialAlignRight.setFont(arial);
+        styleArialAlignRight.setAlignment(CellStyle.ALIGN_RIGHT);
+
+        styleArialYellowBackground = workbook.createCellStyle();
+        styleArialYellowBackground.setFont(arial);
+        styleArialYellowBackground.setFillForegroundColor(HSSFColor.YELLOW.index);
+        styleArialYellowBackground.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
         arialBold = workbook.createFont();
         arialBold.setFontHeightInPoints((short) 10);
         arialBold.setFontName("Arial");
@@ -111,9 +204,20 @@ public class ExcelManager {
         styleArialBold = workbook.createCellStyle();
         styleArialBold.setFont(arialBold);
 
+
+        styleArialBoldAlignRight = workbook.createCellStyle();
+        styleArialBoldAlignRight.setFont(arialBold);
+        styleArialBoldAlignRight.setAlignment(CellStyle.ALIGN_RIGHT);
+
+
         styleArialBorderBottom = workbook.createCellStyle();
         styleArialBorderBottom.setFont(arial);
         styleArialBorderBottom.setBorderBottom(CellStyle.BORDER_THIN);
+
+
+        styleArialBoldBorderTop = workbook.createCellStyle();
+        styleArialBoldBorderTop.setFont(arial);
+        styleArialBoldBorderTop.setBorderTop(CellStyle.BORDER_THIN);
 
         styleArialCE10 = workbook.createCellStyle();
         styleArialCE10.setFont(arialCE10);
@@ -138,6 +242,16 @@ public class ExcelManager {
 
         styleArialCE10Bold = workbook.createCellStyle();
         styleArialCE10Bold.setFont(arialCE10Bold);
+
+        styleArialCenter = workbook.createCellStyle();
+        styleArialCenter.setFont(arial);
+        styleArialCenter.setAlignment(CellStyle.ALIGN_CENTER);
+
+        styleArialYellowCenter = workbook.createCellStyle();
+        styleArialYellowCenter.setFont(arial);
+        styleArialYellowCenter.setAlignment(CellStyle.ALIGN_CENTER);
+        styleArialYellowCenter.setFillForegroundColor(HSSFColor.YELLOW.index);
+        styleArialYellowCenter.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     }
 
     public FileOutputStream CreateNewFile(String fileName, String filePath) throws FileNotFoundException {
@@ -169,9 +283,9 @@ public class ExcelManager {
 
         ps.setPaperSize(PrintSetup.A4_PAPERSIZE);
         workbook.setPrintArea(i, 1, 10, 2, 64);
-        WriteHeader(sheet, date,bp);
+        WriteHeader(sheet, date, bp);
         if (!isEmpty) {
-            WriteBillHeader(sheet, i, number,bp);
+            WriteBillHeader(sheet, i, number, bp);
         }
         return sheet;
     }
@@ -201,6 +315,277 @@ public class ExcelManager {
         WriteHeader(sheet, date, bp);
         WriteOtpremnicaHeader(sheet, i, number);
         return sheet;
+    }
+
+    private boolean ShowSaveFileDialog() {
+
+        JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");
+        String fName = "Berlin+Verden";
+        chooser.setSelectedFile(new File(fName));
+        int rVal = chooser.showSaveDialog(null);
+
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            filename = chooser.getSelectedFile().getName();
+            filepath = chooser.getCurrentDirectory().toString();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private String filename;
+    private String filepath;
+    private EntityManager entityManager;
+
+    private void AddOpenOrder(Map<String, OpenOrderKWData> map, OpenOrderDto dto) {
+
+        KWDetailsDto key = dto.getKW();
+
+        if (!map.containsKey(key.GetKw())) {
+            map.put(key.GetKw(), new OpenOrderKWData(key));
+        }
+
+        OpenOrderKWData data = map.get(key.GetKw());
+
+        if (dto.isTokarenje()) {
+            data.AddTokarenje(dto);
+        } else {
+            data.AddGlodanje(dto);
+        }
+    }
+
+    public void CreateNewOpenOrders() throws IOException {
+
+        //prepare data
+        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, o.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, d.6k as pcs6, d.10k as pcs10,d.15k as pcs15,d.20k as pcs20,d.30k as pcs30, d.40k as pcs40,d.50k as pcs50, d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje FROM stefan.orderitems oi INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId INNER JOIN stefan.design d on d.idDesign = oi.idDesign WHERE oi.quantityOrdered > oi.quantityDelivered AND (bp.city = 'Berlin' OR bp.city = 'Verden')";
+        Query q = entityManager.createNativeQuery(query);
+        List<Object[]> rawListResult = q.getResultList();
+
+        Map<String, OpenOrderKWData> BerlinOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
+        Map<String, OpenOrderKWData> VerdenOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
+
+        for (Object[] resultElement : rawListResult) {
+
+            OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
+                    (Integer) resultElement[1], (Integer) resultElement[2], (String) resultElement[3], (Date) resultElement[4], (String) resultElement[5],
+                    (String) resultElement[6], (BigDecimal) resultElement[7], (BigDecimal) resultElement[8], (BigDecimal) resultElement[9], (BigDecimal) resultElement[10],
+                    (BigDecimal) resultElement[11], (BigDecimal) resultElement[12], (BigDecimal) resultElement[13], (BigDecimal) resultElement[14], (BigDecimal) resultElement[15],
+                    (BigDecimal) resultElement[16], (BigDecimal) resultElement[17], (BigDecimal) resultElement[18], (BigDecimal) resultElement[18], (BigDecimal) resultElement[20],
+                    (BigDecimal) resultElement[21], (BigDecimal) resultElement[22], (Boolean) resultElement[23], (Boolean) resultElement[24]);
+
+            if ("Berlin".equals(dto.getCity())) {
+                AddOpenOrder(BerlinOpenOrdersByKW, dto);
+            } else if ("Verden".equals(dto.getCity())) {
+                AddOpenOrder(VerdenOpenOrdersByKW, dto);
+            }
+        }
+
+        if (ShowSaveFileDialog()) {
+
+            Sheet berlinSheet = _workbook.createSheet();
+            _workbook.setSheetName(0, "Berlin");
+            SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
+            SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
+
+
+            Sheet verdenSheet = _workbook.createSheet();
+            _workbook.setSheetName(1, "Verden");
+            SetTokaranjeAndGlodanjeHeader(verdenSheet, "Verden");
+            SetOpenOrderData(verdenSheet, VerdenOpenOrdersByKW);
+
+
+            FileOutputStream fos = CreateNewFile(filename, filepath);
+            _workbook.write(fos);
+            fos.close();
+        }
+    }
+
+    private void SetTokaranjeAndGlodanjeHeader(Sheet sheet, String city) {
+        Row row3 = sheet.createRow(3);
+        Cell cell3_3 = row3.createCell(3);
+        cell3_3.setCellValue("TOKARANJE " + city);
+        cell3_3.setCellStyle(styleArial20Bold);
+
+
+        Cell cell3_17 = row3.createCell(17);
+        cell3_17.setCellValue("GLODANJE " + city);
+        cell3_17.setCellStyle(styleArial20Bold);
+    }
+
+    private BigDecimal AddOpenOrderRow(Row row, Row kwHeaderRow, String entryKW, Sheet sheet,
+            Date today, ArrayList<OpenOrderDto> openOrders, Integer index, Integer cellCounter, BigDecimal totalPrice) {
+
+        if (openOrders == null) {
+            return BigDecimal.ZERO;
+        }
+
+        if (openOrders.size() >= index + 1) {
+
+            OpenOrderDto openOrderItem = openOrders.get(index);
+
+
+            if (index == 0) {
+                Cell cellKWHeader = kwHeaderRow.createCell(cellCounter);
+                cellKWHeader.setCellValue("KW " + entryKW);
+                cellKWHeader.setCellStyle(styleArialBoldBorderTop);
+                SetTopBorder(kwHeaderRow, cellCounter + 1);
+            }
+
+
+
+            boolean hasDug = openOrderItem.getShippingDate().before(today);
+
+            //redni broj
+            Cell cell = row.createCell(cellCounter++);
+            cell.setCellValue(index + 1);
+
+            //design number
+            Cell cellDesignNumber = row.createCell(cellCounter++);
+
+            cellDesignNumber.setCellValue(openOrderItem.getDesignNumber());
+            if (hasDug) {
+                cellDesignNumber.setCellStyle(styleArialYellowBackground);
+            }
+
+            //width = 256 * x =>
+            sheet.setColumnWidth(cellCounter - 1, 3072);
+
+            //niklanje
+            Cell cellNiklanje = row.createCell(cellCounter++);
+            if (openOrderItem.isNiklanje()) {
+                cellNiklanje.setCellValue("N");
+            }
+            if (hasDug) {
+                cellNiklanje.setCellStyle(styleArialYellowBackground);
+            }
+            sheet.setColumnWidth(cellCounter - 1, 768);
+
+            //remaining pcs
+            Cell cellRemainingPcs = row.createCell(cellCounter++);
+            cellRemainingPcs.setCellValue(openOrderItem.getQuantityOrdered() - openOrderItem.getQuantityDelivered());
+            if (hasDug) {
+                cellRemainingPcs.setCellStyle(styleArialYellowCenter);
+            } else {
+                cellRemainingPcs.setCellStyle(styleArialCenter);
+            }
+            sheet.setColumnWidth(cellCounter - 1, 1536);
+
+            //order number
+            Cell cellOrderNumber = row.createCell(cellCounter++);
+            cellOrderNumber.setCellValue(openOrderItem.getOrderNumber());
+            if (hasDug) {
+                cellOrderNumber.setCellStyle(styleArialYellowBackground);
+            }
+            sheet.setColumnWidth(cellCounter - 1, 3072);
+
+            //remark 
+            Cell cellRemark = row.createCell(cellCounter++);
+            if (openOrderItem.getKW().GetKWNapomenaNiklanje() != null) {
+                cellRemark.setCellValue("ISPORUKA KW " + openOrderItem.getKW().GetKWNapomenaNiklanje());
+            } else {
+                cellRemark.setCellValue("");
+            }
+
+            sheet.setColumnWidth(cellCounter - 1, 4608);
+
+            //debt
+            Cell cellDebt = row.createCell(cellCounter++);
+            cellDebt.setCellValue(hasDug ? "DUG" : "");
+
+            //shiping date
+            Cell cellShippingDate = row.createCell(cellCounter++);
+            cellShippingDate.setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(openOrderItem.getShippingDate()));
+            sheet.setColumnWidth(cellCounter - 1, 2816);
+
+            //price
+            BigDecimal price = openOrderItem.GetPrice();
+            Cell cellPrice = row.createCell(cellCounter++);
+            cellPrice.setCellValue(price.toString());
+            cellPrice.setCellStyle(styleArialAlignRight);
+
+            totalPrice = totalPrice.add(price);
+
+
+            if (openOrders.size() == index + 1) {
+                Row sumRow = sheet.createRow(row.getRowNum() + 1);
+                Cell cellSum = sumRow.createCell(cellCounter - 1);
+                String v = totalPrice.toString();
+                cellSum.setCellValue(v);
+                cellSum.setCellStyle(styleArialBoldAlignRight);
+            }
+
+            return totalPrice;
+
+        } else {
+            return BigDecimal.ZERO;
+        }
+
+    }
+
+    private void SetOpenOrderData(Sheet sheet, Map<String, OpenOrderKWData> openOrdersByKw) {
+
+        Calendar c = Calendar.getInstance();
+
+        // set the calendar to start of today
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        // and get that as a Date
+        Date today = c.getTime();
+
+        Integer rowIndex = 6;
+
+        for (Map.Entry<String, OpenOrderKWData> entry : openOrdersByKw.entrySet()) {
+
+            String entryKWString = entry.getKey();
+
+            OpenOrderKWData openOrders = entry.getValue();
+
+            String entryKW = entryKWString.split("-", 2)[1];
+
+            Row kwHeaderRow = sheet.createRow(rowIndex++);
+
+            ArrayList<OpenOrderDto> tokarenje = openOrders.GetTokarenjeData();
+            ArrayList<OpenOrderDto> glodanje = openOrders.GetGlodanjeData();
+            BigDecimal TokarenjePriceSum = BigDecimal.ZERO;
+            BigDecimal GlodanjePriceSum = BigDecimal.ZERO;
+
+            for (int i = 0; i < openOrders.GetListSize(); i++) {
+
+                Row row = null;
+                if (i > 0) {
+                    row = sheet.getRow(rowIndex++);
+                    if(row == null)
+                        row = sheet.createRow(rowIndex - 1);
+                }
+
+                if (row == null) {
+                    row = sheet.createRow(rowIndex++);
+                }
+
+
+                TokarenjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, tokarenje, i, 2, TokarenjePriceSum);
+
+                GlodanjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, glodanje, i, 16, GlodanjePriceSum);
+
+
+                if (i + 1 == openOrders.GetListSize()) {
+                    rowIndex = rowIndex + 2;
+                }
+
+            }
+
+        }
+    }
+
+    private void SetTopBorder(Row row, Integer startIndex) {
+        Integer endIndex = startIndex + 7;
+        for (Integer i = startIndex; i <= endIndex; i++) {
+            Cell c = row.createCell(i);
+            c.setCellValue("");
+            c.setCellStyle(styleArialBoldBorderTop);
+        }
     }
 
     public void WriteOtpremnicaHeader(Sheet sheet, int page, String number) {
@@ -356,27 +741,27 @@ public class ExcelManager {
             Cell cell20_1 = row20.createCell(1);
             cell20_1.setCellValue("Vrsta robe");
             cell20_1.setCellStyle(styleArialCE10);
-            
+
             Cell cell20_4 = row20.createCell(4);
             cell20_4.setCellValue("Komada");
             cell20_4.setCellStyle(styleArialCE10AlignRight);
-            
+
             Cell cell20_6 = row20.createCell(6);
-            cell20_6 .setCellValue("Cij.kn/kom:");
-            cell20_6 .setCellStyle(styleArialCE10);
-            
+            cell20_6.setCellValue("Cij.kn/kom:");
+            cell20_6.setCellStyle(styleArialCE10);
+
             Cell cell20_8 = row20.createCell(8);
-            cell20_8 .setCellValue("Popust");
-            cell20_8 .setCellStyle(styleArialCE10);
-            
+            cell20_8.setCellValue("Popust");
+            cell20_8.setCellStyle(styleArialCE10);
+
             Cell cell20_9 = row20.createCell(9);
-            cell20_9 .setCellValue("Vrijednost ( kn )");
-            cell20_9 .setCellStyle(styleArialCE10);
+            cell20_9.setCellValue("Vrijednost ( kn )");
+            cell20_9.setCellStyle(styleArialCE10);
 
             Row row21 = sheet.createRow(20);
             Cell cell21_1 = row21.createCell(1);
             cell21_1.setCellValue("Leistung / Lieferung");
-            cell21_1.setCellStyle(styleArialCE10);           
+            cell21_1.setCellStyle(styleArialCE10);
 
             Row row22 = sheet.createRow(21);
             Cell cell22_1 = row22.createCell(1);
@@ -396,10 +781,10 @@ public class ExcelManager {
             Cell cell22_5 = row22.createCell(5);
             cell22_5.setCellStyle(styleArialCE10BorderBottom);
 
-            Cell cell22_6 = row22.createCell(6);       
+            Cell cell22_6 = row22.createCell(6);
             cell22_6.setCellValue("EUR / STCK");
             cell22_6.setCellStyle(styleArialCE10BorderBottom);
-            
+
             Cell cell22_7 = row22.createCell(7);
             cell22_7.setCellStyle(styleArialCE10BorderBottom);
 
@@ -414,12 +799,12 @@ public class ExcelManager {
             cell22_10.setCellStyle(styleArialCE10BorderBottom);
 
 
-        } else {   
-                   
-            
-            
-            Row row16 = sheet.createRow(16);           
-            
+        } else {
+
+
+
+            Row row16 = sheet.createRow(16);
+
             Cell cell16_6 = row16.createCell(6);
             cell16_6.setCellValue("Zbroj sa stranice " + page + " :");
             cell16_6.setCellStyle(styleArialCE10);
@@ -427,24 +812,24 @@ public class ExcelManager {
             Cell cell16_10 = row16.createCell(10);
             cell16_10.setCellValue("kn");
             cell16_10.setCellStyle(styleArial);
-             
+
 
             Row row17 = sheet.createRow(17);
-            
+
             Cell cell17_6 = row17.createCell(6);
             cell17_6.setCellValue("Zwischensumme von Seite " + page + " :");
             cell17_6.setCellStyle(styleArialCE10);
-            
+
             Cell cell17_10 = row17.createCell(10);
             cell17_10.setCellValue("EUR");
             cell17_10.setCellStyle(styleArial);
-            
-            Row row18 = sheet.createRow(18);            
+
+            Row row18 = sheet.createRow(18);
             Cell cell17_1 = row18.createCell(1);
             cell17_1.setCellValue("Vrsta robe");
-            cell17_1.setCellStyle(styleArialCE10);            
-           
-            Row row19 = sheet.createRow(19);  
+            cell17_1.setCellStyle(styleArialCE10);
+
+            Row row19 = sheet.createRow(19);
             Cell cell18_1 = row19.createCell(1);
             cell18_1.setCellValue("Leistung / Lieferung");
             cell18_1.setCellStyle(styleArialCE10);
@@ -456,10 +841,10 @@ public class ExcelManager {
             Cell cell18_6 = row19.createCell(6);
             cell18_6.setCellValue("Cij.kn/kom");
             cell18_6.setCellStyle(styleArialCE10);
-            
+
             Cell cell18_8 = row19.createCell(8);
-            cell18_8 .setCellValue("Popust");
-            cell18_8 .setCellStyle(styleArialCE10);
+            cell18_8.setCellValue("Popust");
+            cell18_8.setCellStyle(styleArialCE10);
 
             Cell cell18_9 = row19.createCell(9);
             cell18_9.setCellValue("Vrijednost ( kn )");
@@ -487,7 +872,7 @@ public class ExcelManager {
             cell19_6.setCellValue("EUR / STCK");
             cell19_6.setCellStyle(styleArialCE10BorderBottom);
 
-            Cell cell19_7 = row20.createCell(7);            
+            Cell cell19_7 = row20.createCell(7);
             cell19_7.setCellStyle(styleArialCE10BorderBottom);
 
             Cell cell19_8 = row20.createCell(8);
@@ -502,7 +887,7 @@ public class ExcelManager {
         }
     }
 
-    private void WriteHeader(Sheet sheet, String date,BusinessPartner bp) {
+    private void WriteHeader(Sheet sheet, String date, BusinessPartner bp) {
 
         Row row2 = sheet.createRow(2);
         Cell cell2_1 = row2.createCell(1);
@@ -548,7 +933,7 @@ public class ExcelManager {
         Cell cell8_2 = row8.createCell(2);
         cell8_2.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_3 = row8.createCell(3);
-        cell8_3.setCellStyle(styleArialCE10BorderBottom);        
+        cell8_3.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_5 = row8.createCell(5);
         cell8_5.setCellStyle(styleArialCE10BorderBottom);
         Cell cell8_6 = row8.createCell(6);
@@ -578,16 +963,16 @@ public class ExcelManager {
         Cell cell12_1 = row12.createCell(1);
         cell12_1.setCellValue(bp.getName());
         cell12_1.setCellStyle(styleArialCE10Bold);
-        
+
         Row row13 = sheet.createRow(13);
         Cell cell13_1 = row13.createCell(1);
-        
+
         cell13_1.setCellValue(bp.getPrintRow1());
         cell13_1.setCellStyle(styleArialCE10);
 
         Row row14 = sheet.createRow(14);
         Cell cell14_1 = row14.createCell(1);
-        
+
         cell14_1.setCellValue(bp.getPrintRow2());
         cell14_1.setCellStyle(styleArialCE10);
         Cell cell14_8 = row14.createCell(8);
@@ -628,24 +1013,23 @@ public class ExcelManager {
 
         Cell celltest2 = row1.createCell(9);
         celltest2.setCellStyle(stylearial36Bold);
-       
+
         String additionalText = "";
-        if(shouldPrint){
-       
+        if (shouldPrint) {
+
             if (billItem.getNiklanje() == true) {
-            upisNiklanje = "X02";
-            } 
-            else {
+                upisNiklanje = "X02";
+            } else {
                 upisNiklanje = "F";
             }
-        
+
             additionalText = ", " + upisNiklanje;
         }
-        
+
         Cell cell2 = row1.createCell(columnNum + 1);
         cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + additionalText);
         cell2.setCellStyle(styleArial);
-            
+
         Cell cell3 = row1.createCell(columnNum + 3);
         cell3.setCellValue(billItem.getParts());
         cell3.setCellStyle(styleArial);
@@ -685,7 +1069,7 @@ public class ExcelManager {
         return (rowNum + 3 + (billItemsAdded * 3));
     }
 
-    public List<Double> AddBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem, BigDecimal exchangeRate,boolean shouldPrint) {
+    public List<Double> AddBillItems(int pageNum, int billItemsAdded, Sheet sheet, BillItem billItem, BigDecimal exchangeRate, boolean shouldPrint) {
         //current row, Bolzen komada, Bolzen ukCijena, Welle komada, Welle ukCijena
         List<Double> data = new ArrayList<Double>();
         String upisNiklanje = "";
@@ -729,69 +1113,67 @@ public class ExcelManager {
         cell1.setCellStyle(styleArial);
 
         String additionalText = "";
-        if(shouldPrint){
+        if (shouldPrint) {
             if (billItem.getNiklanje() == true) {
-            upisNiklanje = "X02";
-            } else 
-            {
+                upisNiklanje = "X02";
+            } else {
                 upisNiklanje = "F";
             }
-            
+
             additionalText = ", " + upisNiklanje;
         }
-      
+
         Cell cell2 = row1.createCell(columnNum + 1);
         cell2.setCellValue(billItem.getDesignName().replace("*", "").replace("/", "") + additionalText);
         cell2.setCellStyle(styleArial);
-        
+
         Cell cell3 = row1.createCell(columnNum + 3);
 
         cell3.setCellValue(billItem.getParts());
-        cell3.setCellStyle(styleArial);       
-                 
+        cell3.setCellStyle(styleArial);
+
         BigDecimal pricePerPartKN = billItem.getPricePerPart().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
         BigDecimal totalPriceKN = billItem.getTotalPrice().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
         BigDecimal discount = pricePerPartKN.multiply(new BigDecimal(billItem.getParts())).setScale(2, RoundingMode.HALF_UP).subtract(totalPriceKN);
-        
-        Cell cel14 = row1.createCell(columnNum + 5);        
+
+        Cell cel14 = row1.createCell(columnNum + 5);
         cel14.setCellValue(pricePerPartKN.toString().replace(".", ","));
         cel14.setCellStyle(styleArial);
-        
-        
-        Cell cell66 = row1.createCell(columnNum + 7); 
-        if (discount.compareTo(new BigDecimal("0.00"))!=0)
-        {
+
+
+        Cell cell66 = row1.createCell(columnNum + 7);
+        if (discount.compareTo(new BigDecimal("0.00")) != 0) {
             cell66.setCellValue(discount.toString().replace(".", ","));
             cell66.setCellStyle(styleArial);
-        }        
-         
+        }
+
         Cell cell5 = row1.createCell(columnNum + 8);
-        
+
         cell5.setCellValue(totalPriceKN.toString().replace(".", ","));
         cell5.setCellStyle(styleArial);
-        
+
         Cell cell6 = row1.createCell(columnNum + 9);
         cell6.setCellValue("kn");
         cell.setCellStyle(styleArial);
-        
+
         Row row2 = sheet.createRow(rowNum + 2 + (billItemsAdded * 4));
         Cell cel24 = row2.createCell(columnNum + 5);
         cel24.setCellValue(billItem.getPricePerPart().toString().replace(".", ","));
         cel24.setCellStyle(styleArial);
-        
+
         Cell cel25 = row2.createCell(columnNum + 8);
         //totalString = String.format("%,2f", billItem.getTotalPrice());
         cel25.setCellValue(billItem.getTotalPrice().toString().replace(".", ","));
         cel25.setCellStyle(styleArial);
-        
+
         Cell cel26 = row2.createCell(columnNum + 9);
         cel26.setCellValue("EUR");
         cel26.setCellStyle(styleArial);
-        
-        
+
+
         Row row3 = sheet.createRow(rowNum + 3 + (billItemsAdded * 4));
         Cell cell7 = row3.createCell(columnNum);
-        
+
 
         cell7.setCellValue("Geliefert laut Pos. " + billItem.getPosition() + " Ihrer Bestellung");
         cell7.setCellStyle(styleArialBorderBottom);
@@ -834,7 +1216,7 @@ public class ExcelManager {
         Cell cell22 = row2.createCell(10);
         cell22.setCellValue("kn");
         cell22.setCellStyle(styleArial);
-        
+
         Row row = sheet.createRow(currentRow + 1);
         Cell cell = row.createCell(7);
         cell.setCellValue("Zwischensumme  :");
@@ -859,8 +1241,8 @@ public class ExcelManager {
         Cell cell14 = row2.createCell(10);
         cell14.setCellValue("kn");
         cell14.setCellStyle(styleArial);
-        
-        Row row = sheet.createRow(currentRow+1);
+
+        Row row = sheet.createRow(currentRow + 1);
         Cell cell = row.createCell(9);
         cell.setCellValue(totalSum.toString().replace(".", ","));
         cell.setCellStyle(styleArialDoubleBorder);
@@ -873,9 +1255,8 @@ public class ExcelManager {
     public void AddPageNumber(Sheet sheet, int i, int pageNum) {
 
         Row row = sheet.getRow(64);
-        if (row == null)
-        {           
-                row = sheet.createRow(64);
+        if (row == null) {
+            row = sheet.createRow(64);
         }
         Cell cell = row.createCell(10);
         cell.setCellValue(i + "/" + pageNum);
@@ -883,12 +1264,12 @@ public class ExcelManager {
     }
 
     public void AddMissingData(Sheet sheet, BigDecimal totalSum, BigDecimal totalSumKN) {
-        
+
         Row row = sheet.getRow(16);
         Cell cell = row.createCell(9);
         cell.setCellValue(totalSumKN.toString().replace(".", ","));
         cell.setCellStyle(styleArial);
-        
+
         row = sheet.getRow(17);
         cell = row.createCell(9);
         cell.setCellValue(totalSum.toString().replace(".", ","));
@@ -932,14 +1313,13 @@ public class ExcelManager {
     }
 
     public void WriteFooter(int i, Sheet sheet, BigDecimal totalSum, BusinessPartner bp) {
-        
-        Row row = sheet.getRow(i);        
-       
-        if (row==null)
-        {
+
+        Row row = sheet.getRow(i);
+
+        if (row == null) {
             row = sheet.createRow(i);
         }
-        
+
         Cell cell = row.createCell(1);
         cell.setCellValue("Oslobođeno PDV-a prema čl.41,st.1 Zakona");
         cell.setCellStyle(styleArial);
@@ -972,26 +1352,26 @@ public class ExcelManager {
 
         Cell cell7 = row4.createCell(3);
         cell7.setCellValue(":");
-        cell7.setCellStyle(styleArial);       
-        
+        cell7.setCellStyle(styleArial);
+
         Row rowN1 = sheet.createRow(i + 8);
         Cell cellN12 = rowN1.createCell(1);
         cellN12.setCellValue("Oznaka operatera            :");
         cellN12.setCellStyle(styleArial);
-        
+
         Cell cellN14 = rowN1.createCell(4);
         cellN14.setCellValue("1");
         cellN14.setCellStyle(styleArial);
-        
+
         Row rowN2 = sheet.createRow(i + 9);
         Cell cellN2 = rowN2.createCell(1);
         cellN2.setCellValue("Način plaćanja                :");
         cellN2.setCellStyle(styleArial);
 
-        Cell cellN4= rowN2.createCell(4);
+        Cell cellN4 = rowN2.createCell(4);
         cellN4.setCellValue("transakcijski račun");
         cellN4.setCellStyle(styleArial);
-        
+
         Row row6 = sheet.createRow(i + 10);
         Cell cell12 = row6.createCell(1);
         cell12.setCellValue("BROJ TRANSAKCIJSKOG RAČUNA / BANKVERBINDUNG  :       ");
@@ -1001,7 +1381,7 @@ public class ExcelManager {
         Row row7 = sheet.createRow(i + 11);
         Cell cell13 = row7.createCell(1);
         cell13.setCellValue(totalSum.toString().replace(".", ","));
-        cell13.setCellStyle(styleArial);        
+        cell13.setCellStyle(styleArial);
 
         Cell cell14 = row7.createCell(2);
         cell14.setCellValue("EUR   an");
@@ -1013,7 +1393,7 @@ public class ExcelManager {
         Row row8 = sheet.createRow(i + 12);
         Cell cell16 = row8.createCell(4);
         cell16.setCellValue("Privredna Banka Zagreb d.d., IBAN: HR1023400091110904189 BIC: PBZGHR2X");
-        cell16.setCellStyle(styleArial);       
+        cell16.setCellStyle(styleArial);
     }
 
     public void AddTopAndBottomBorder(Sheet sheet) {

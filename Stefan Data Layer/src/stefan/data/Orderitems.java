@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orderitems.findByPosition", query = "SELECT o FROM Orderitems o WHERE o.position = :position"),
     @NamedQuery(name = "Orderitems.findByQuantityOrdered", query = "SELECT o FROM Orderitems o WHERE o.quantityOrdered = :quantityOrdered"),
     @NamedQuery(name = "Orderitems.findUndelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityOrdered > o.quantityDelivered"),
-    @NamedQuery(name = "Orderitems.findByQuantityDelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityDelivered = :quantityDelivered")})
+    @NamedQuery(name = "Orderitems.findByQuantityDelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityDelivered = :quantityDelivered")
+})
 public class Orderitems implements Serializable {
     @OneToMany(mappedBy = "idOrderItem")
     private List<Billitems> billitemsList;
