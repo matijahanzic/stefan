@@ -6,9 +6,11 @@ package stefan.business;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileInputStream;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -21,7 +23,9 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.PrintSetup;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +38,14 @@ import org.apache.poi.hssf.util.HSSFColor;
 import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.KWDetailsDto;
 import stefan.business.objects.OpenOrderDto;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import stefan.business.objects.Design;
+
 
 /**
  *
@@ -260,6 +272,133 @@ public class ExcelManager {
         fileName = null;
         return new FileOutputStream(file);
     }
+    
+    private static short DesignNumber_ColumnNumber = 0;
+    private static short Niklanje_ColumnNumber = 1;
+    private static short Nein_ColumnNumber = 3;
+    private static short pcs1_ColumnNumber = 4;
+    private static short pcs2_ColumnNumber = 5;
+    private static short pcs3_ColumnNumber = 6;
+    private static short pcs5_ColumnNumber = 7;
+    private static short pcs10_ColumnNumber = 8;
+    private static short pcs15_ColumnNumber = 9;
+    private static short pcs20_ColumnNumber = 10;
+    private static short pcs50_ColumnNumber = 11;
+    private static short pcs100_ColumnNumber = 12;
+    private static short pcs200_ColumnNumber = 13;
+    private static short pcs500_ColumnNumber = 15;
+
+    
+    public static List<Design> ReadDesignFromExcelFile(String fullFilePath) throws FileNotFoundException, IOException {
+        
+        List<Design> newDesigns = new ArrayList<Design>();
+        
+        FileInputStream fileInputStream = new FileInputStream(fullFilePath);
+        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);        
+        HSSFSheet masterlisteSheet = workbook.getSheetAt(0);
+        
+        Integer firstRowWithDesignData = 14; //Redak 15 u excelu ima index 14
+        for (int rowIndex = firstRowWithDesignData; rowIndex < 1000; rowIndex++) {
+            HSSFRow curentRow = masterlisteSheet.getRow(rowIndex);
+            if (curentRow == null) {
+                break; // no more data in this sheet
+            }
+            
+            
+            HSSFCell cellDesignNumber = curentRow.getCell((short) DesignNumber_ColumnNumber);
+            if (cellDesignNumber == null){
+                continue; //nekad je sam cell == null a nekad je value empty
+            }
+            String designNumber;
+            try{
+                //ponekad je design number u formatu stringa 
+                designNumber = cellDesignNumber.getStringCellValue();
+            }
+            catch (Exception e){
+                 //ponekad je design number u formatu broja 
+                Double numDouble = cellDesignNumber.getNumericCellValue();
+                Long numInt = Math.round(numDouble);
+                designNumber = numInt.toString();
+            }
+           
+            if (designNumber == null || "".equals(designNumber.trim())) {
+                continue; //there is no data in this row
+            }
+            
+            HSSFCell cellNein = curentRow.getCell((short) Nein_ColumnNumber);
+            String neinValue = cellNein.getStringCellValue();
+            if (neinValue != null && "x".equals(neinValue.toLowerCase().trim())) {
+                continue; // row whis have X in Nein column should be ignored
+            }
+            
+            Design design = new Design();
+            design.setDesignNumber(designNumber);
+            design.setIsTokarenje(true); // default value is True
+            design.setDate(new Date()); // default is current time
+            
+            HSSFCell cellNiklanje = curentRow.getCell((short) Niklanje_ColumnNumber);
+            String niklanje = cellNiklanje.getStringCellValue();
+            if (niklanje != null && "n".equals(niklanje.toLowerCase().trim()))
+            {
+                design.setNiklanje(false);
+            }
+            else
+            {
+                design.setNiklanje(true);
+            }
+                        
+            HSSFCell cellPcs1 = curentRow.getCell((short) pcs1_ColumnNumber);
+            design.setPcs1(getNumericCellValue(cellPcs1));         
+            
+            HSSFCell cellPcs2 = curentRow.getCell((short) pcs2_ColumnNumber);
+            design.setPcs2(getNumericCellValue(cellPcs2));
+                     
+            HSSFCell cellPcs3 = curentRow.getCell((short) pcs3_ColumnNumber);
+            design.setPcs3(getNumericCellValue(cellPcs3));
+            
+            HSSFCell cellPcs5 = curentRow.getCell((short) pcs5_ColumnNumber);
+            design.setPcs5(getNumericCellValue(cellPcs5));
+            
+            HSSFCell cellPcs10 = curentRow.getCell((short) pcs10_ColumnNumber);
+            design.setPcs10(getNumericCellValue(cellPcs10));
+            
+            HSSFCell cellPcs15 = curentRow.getCell((short) pcs15_ColumnNumber);
+            design.setPcs15(getNumericCellValue(cellPcs15));
+    
+            HSSFCell cellPcs20 = curentRow.getCell((short) pcs20_ColumnNumber);
+            design.setPcs20(getNumericCellValue(cellPcs20));
+ 
+            HSSFCell cellPcs50 = curentRow.getCell((short) pcs50_ColumnNumber);
+            design.setPcs50(getNumericCellValue(cellPcs50));
+            
+            HSSFCell cellPcs100 = curentRow.getCell((short) pcs100_ColumnNumber);
+            design.setPcs100(getNumericCellValue(cellPcs100));
+            
+            //HSSFCell cellPcs200 = curentRow.getCell((short) pcs200_ColumnNumber);
+            //design.setPcs200(getNumericCellValue(cellPcs200));
+            
+            //HSSFCell cellPcs500 = curentRow.getCell((short) pcs500_ColumnNumber);
+            //design.setPcs500(getNumericCellValue(cellPcs500));
+            
+            newDesigns.add(design);
+        }
+        
+        return newDesigns;
+    }
+    
+    private static BigDecimal getNumericCellValue(HSSFCell cell){
+        try{
+            double dValue = cell.getNumericCellValue();        
+            if (dValue == 0) {
+                return null;
+            }
+            return new BigDecimal(dValue, MathContext.DECIMAL32).setScale(2, RoundingMode.HALF_UP);
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
+            
 
     public Sheet CreateNewBillSheet(Workbook workbook, int i, String date, String number, boolean isEmpty, BusinessPartner bp) {
         Sheet sheet = workbook.createSheet();

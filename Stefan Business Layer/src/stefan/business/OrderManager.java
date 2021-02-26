@@ -15,6 +15,7 @@ import stefan.business.objects.OrderItem;
 import stefan.data.Orderitems;
 import stefan.data.Orders;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -123,6 +124,19 @@ public class OrderManager {
 
 
     }
+    
+    public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity) {
+        try {
+            entityManager.getTransaction().begin();
+            Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
+            q.setParameter("idOrderItems", orderItemId);
+            stefan.data.Orderitems orderItem = (stefan.data.Orderitems) q.getResultList().get(0);
+            orderItem.setQuantityOrdered(quantity);
+            entityManager.getTransaction().commit();
+        } 
+        catch (Exception e) {
+        }
+    }
 
     public stefan.data.Orderitems getOrderItemById(Integer Id)
     {
@@ -131,6 +145,20 @@ public class OrderManager {
        List<stefan.data.Orderitems> items = q.getResultList();
        return items.get(0);   
     }
+    
+     public void UpdateOrderShippingDate(Integer OrderId, Date newShippingDate)
+    {
+        try
+        {       
+            entityManager.getTransaction().begin();
+            Orders order=getOrderById(OrderId);
+            order.setShippingDate(newShippingDate);
+            entityManager.getTransaction().commit();
+        } 
+        catch(Exception e)
+        {
+        }
+    }  
     
     public void deleteOrder(Integer Id)
     {

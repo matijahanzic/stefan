@@ -31,10 +31,7 @@ public class DesignJDialog extends javax.swing.JDialog {
         MyTableCellRenderer rendrer = new MyTableCellRenderer();
 
         for (int i = 0; i < jTable1.getModel().getColumnCount(); i++) {
-            //if (i != 6){
-                //promijeni sve kolumne osim Tokarenje
-                jTable1.getColumnModel().getColumn(i).setCellRenderer(rendrer);
-            //}
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(rendrer);       
         }
 
         DesignManager manager = new DesignManager();
@@ -159,8 +156,8 @@ public class DesignJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Niklanje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tokarenje}"));
-        columnBinding.setColumnName("Tokarenje");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenje}"));
+        columnBinding.setColumnName("Is Tokarenje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));

@@ -10,8 +10,11 @@
  */
 package stefanpresentationlayer.dialogs;
 
+import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.tree.TreePath;
+import org.jdesktop.swingx.JXDatePicker;
 import stefan.business.OrderManager;
 import stefan.business.objects.Order;
 import stefanpresentationlayer.MyTreeNode;
@@ -27,11 +30,9 @@ public class AllOrdersDialog extends javax.swing.JDialog {
     private MyTreeTableModel treeTableModel;
     /** Creates new form AllOrdersDialog */
     public AllOrdersDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        OrderManager manager = new OrderManager();
-        List<Order> items=manager.getOrders();
-        treeTableModel = new MyTreeTableModel(items);        
-        initComponents();    
+        super(parent, modal);              
+        initComponents(); 
+        refreshTreeData();
         setTitle("Pregled Narudžbi");            
     }
   
@@ -46,10 +47,12 @@ public class AllOrdersDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jXTreeTable1 = new org.jdesktop.swingx.JXTreeTable(treeTableModel);
+        jXTreeTable1 = new org.jdesktop.swingx.JXTreeTable();
         closeBtn = new javax.swing.JButton();
         _btnDeleteOrder = new javax.swing.JButton();
         _btnDeleteOrderItem = new javax.swing.JButton();
+        jButtonUpdateShippingDate = new javax.swing.JButton();
+        jButtonChaneQuantity = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -85,6 +88,22 @@ public class AllOrdersDialog extends javax.swing.JDialog {
             }
         });
 
+        jButtonUpdateShippingDate.setText(resourceMap.getString("jButtonUpdateShippingDate.text")); // NOI18N
+        jButtonUpdateShippingDate.setName("jButtonUpdateShippingDate"); // NOI18N
+        jButtonUpdateShippingDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateShippingDateActionPerformed(evt);
+            }
+        });
+
+        jButtonChaneQuantity.setText(resourceMap.getString("jButtonChaneQuantity.text")); // NOI18N
+        jButtonChaneQuantity.setName("jButtonChaneQuantity"); // NOI18N
+        jButtonChaneQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonChaneQuantityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,7 +115,11 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(_btnDeleteOrder)
                         .addGap(18, 18, 18)
-                        .addComponent(_btnDeleteOrderItem))
+                        .addComponent(_btnDeleteOrderItem)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonUpdateShippingDate)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonChaneQuantity))
                     .addComponent(closeBtn, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -106,7 +129,9 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnDeleteOrder)
-                    .addComponent(_btnDeleteOrderItem))
+                    .addComponent(_btnDeleteOrderItem)
+                    .addComponent(jButtonUpdateShippingDate)
+                    .addComponent(jButtonChaneQuantity))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -121,6 +146,14 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 
+    private void refreshTreeData(){
+        OrderManager manager = new OrderManager();
+        List<Order> items = manager.getOrders();
+        treeTableModel = new MyTreeTableModel(items);
+        jXTreeTable1.setTreeTableModel(treeTableModel);
+    }
+    
+    
     private void _btnDeleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnDeleteOrderActionPerformed
         int row = jXTreeTable1.getSelectedRow();
         if (row!=-1)
@@ -130,9 +163,11 @@ public class AllOrdersDialog extends javax.swing.JDialog {
             OrderManager manager=new OrderManager();
             manager.deleteOrder(node.getOrderId());   
             
-            List<Order> items=manager.getOrders();
-            treeTableModel = new MyTreeTableModel(items);
-            jXTreeTable1.setTreeTableModel(treeTableModel);
+            refreshTreeData();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Odaberite narudžbu.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
         }
     }//GEN-LAST:event__btnDeleteOrderActionPerformed
 
@@ -147,13 +182,95 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                 OrderManager manager=new OrderManager();
                 manager.deleteOrderItem(node.getOrderItemId());
                 
-                List<Order> items=manager.getOrders();
-                treeTableModel = new MyTreeTableModel(items);
-                jXTreeTable1.setTreeTableModel(treeTableModel);                
+                refreshTreeData();             
             }                    
-        }// TODO add your handling code here:
-        
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;        
+        }        
     }//GEN-LAST:event__btnDeleteOrderItemActionPerformed
+
+private void jButtonUpdateShippingDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateShippingDateActionPerformed
+
+    int row = jXTreeTable1.getSelectedRow();
+    if (row != -1)
+    {
+        TreePath tp = jXTreeTable1.getPathForRow(row);
+        MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
+        if (node.getOrderId() != null)
+        {            
+            JXDatePicker jd = new JXDatePicker();
+            jd.getMonthView().setFirstDayOfWeek(2);
+            jd.getMonthView().setShowingWeekNumber(true);  
+            jd.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4);
+            jd.setFormats(new String[] {"d.M.yyyy."});            
+            String message ="Odaberite novi datum isporuke:\n";
+            Object[] params = {message,jd};
+            JOptionPane.showConfirmDialog(null,params,"Datum Isporuke", JOptionPane.PLAIN_MESSAGE);
+            Date newShippingDate = jd.getDate();
+            if (newShippingDate == null)
+            {
+                return;
+            }            
+            
+            OrderManager manager = new OrderManager();
+            manager.UpdateOrderShippingDate(node.getOrderId(), newShippingDate);
+                      
+            refreshTreeData();    
+        }
+    }
+    else {
+        JOptionPane.showMessageDialog(null, "Odaberite narudžbu.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;        
+    }
+}//GEN-LAST:event_jButtonUpdateShippingDateActionPerformed
+
+private void jButtonChaneQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChaneQuantityActionPerformed
+    int row = jXTreeTable1.getSelectedRow();
+    if (row != -1)
+    {
+        TreePath tp = jXTreeTable1.getPathForRow(row);
+        MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
+        if (node.getOrderItemId() != null)
+        {
+            boolean isAnswerOk = false;
+            int parts = 0;
+            
+            while (!isAnswerOk) {
+                String partsString = JOptionPane.showInputDialog(null, "Koliko komada?", "Broj komada", JOptionPane.QUESTION_MESSAGE);
+                if (partsString == null) {                    
+                    break;
+                } else {
+                   try {
+                        parts = Integer.valueOf(partsString);
+                        if (parts <= 0) {
+                            JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
+                        }
+                        else {
+                            isAnswerOk = true;                            
+                        }                     
+                   }
+                   catch (NumberFormatException e) {
+                       JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
+                   }
+                }               
+            }
+            
+            if (isAnswerOk){
+                OrderManager manager = new OrderManager();
+                manager.UpdateOrderItemQuantityOrdered(node.getOrderItemId(), parts);
+            
+                refreshTreeData();  
+            }
+        }
+    }
+    else {
+        JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;        
+    }
+
+}//GEN-LAST:event_jButtonChaneQuantityActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,6 +319,8 @@ public class AllOrdersDialog extends javax.swing.JDialog {
     private javax.swing.JButton _btnDeleteOrder;
     private javax.swing.JButton _btnDeleteOrderItem;
     private javax.swing.JButton closeBtn;
+    private javax.swing.JButton jButtonChaneQuantity;
+    private javax.swing.JButton jButtonUpdateShippingDate;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jXTreeTable1;
     // End of variables declaration//GEN-END:variables

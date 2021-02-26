@@ -31,6 +31,10 @@
                       <Component id="_btnDeleteOrder" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="_btnDeleteOrderItem" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButtonUpdateShippingDate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButtonChaneQuantity" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="closeBtn" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -45,6 +49,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="_btnDeleteOrder" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_btnDeleteOrderItem" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonUpdateShippingDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonChaneQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="354" max="32767" attributes="0"/>
@@ -105,6 +111,24 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnDeleteOrderItemActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonUpdateShippingDate">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="jButtonUpdateShippingDate.text"/>
+        <Property name="name" type="java.lang.String" value="jButtonUpdateShippingDate" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonUpdateShippingDateActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonChaneQuantity">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="jButtonChaneQuantity.text"/>
+        <Property name="name" type="java.lang.String" value="jButtonChaneQuantity" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonChaneQuantityActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
