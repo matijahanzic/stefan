@@ -495,7 +495,7 @@ public class ExcelManager {
     public void CreateNewOpenOrders() throws IOException {
 
         //prepare data
-        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, o.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, d.6k as pcs6, d.10k as pcs10,d.15k as pcs15,d.20k as pcs20,d.30k as pcs30, d.40k as pcs40,d.50k as pcs50, d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje FROM stefan.orderitems oi INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId INNER JOIN stefan.design d on d.idDesign = oi.idDesign WHERE oi.quantityOrdered > oi.quantityDelivered AND (bp.city = 'Berlin' OR bp.city = 'Verden')";
+        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, o.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, d.6k as pcs6, d.10k as pcs10,d.15k as pcs15,d.20k as pcs20,d.30k as pcs30, d.40k as pcs40,d.50k as pcs50, d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje FROM stefan.orderitems oi INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId INNER JOIN stefan.design d on d.idDesign = oi.idDesign WHERE oi.quantityOrdered > oi.quantityDelivered AND o.ShippingDate IS NOT NULL AND (bp.city = 'Berlin' OR bp.city = 'Verden')";
         Query q = entityManager.createNativeQuery(query);
         List<Object[]> rawListResult = q.getResultList();
 
