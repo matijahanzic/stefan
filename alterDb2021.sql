@@ -13,3 +13,8 @@ ALTER TABLE stefan.businesspartner ADD COLUMN requireShippingDate tinyint(1) not
 ALTER TABLE stefan.orders ADD COLUMN shippingDate date null
 
 UPDATE stefan.businesspartner SET requireShippingDate = 0 WHERE id = 3
+
+
+CREATE INDEX Design_designNumber ON stefan.design (designNumber);
+CREATE INDEX Design_designIdentity ON stefan.design (designIdentity);
+CREATE INDEX Design_classMark ON stefan.design (classMark);
