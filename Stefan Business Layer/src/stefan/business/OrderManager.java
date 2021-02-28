@@ -294,6 +294,7 @@ public class OrderManager {
         o.setShippingDate(order.getShippingDate());
         if (order.getBusinessPartnerId() != null){
             o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+            o.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
         }
         
         List<OrderItem> oi = new ArrayList<OrderItem>();
@@ -372,6 +373,7 @@ public class OrderManager {
         newOrder.setShippingDate(order.getShippingDate());
         if (order.getBusinessPartnerId() != null){
             newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
+            newOrder.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
         }
         return newOrder;
     }

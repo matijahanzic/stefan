@@ -21,6 +21,7 @@ public class Order {
     private String orderNumber;
     private Integer businessPartnerId;
     private Date shippingDate;  
+    private String businessPartnerName;
     
     
     /**
@@ -119,6 +120,20 @@ public class Order {
      */
     public void setShippingDate(Date shippingDate) {
         this.shippingDate = shippingDate;
+    }
+    
+        /**
+     * @return the businessPartnerName
+     */
+    public String getBusinessPartnerName() {
+        return businessPartnerName;
+    }
+
+    /**
+     * @param businessPartner the businessPartnerName to set
+     */
+    public void setBusinessPartnerName(String businessPartner) {
+        this.businessPartnerName = businessPartner;
     }
     
      /**
