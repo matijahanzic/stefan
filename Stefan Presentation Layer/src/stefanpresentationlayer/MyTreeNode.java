@@ -27,6 +27,7 @@ public class MyTreeNode
     private Integer orderItemId;
     private Integer quantityOrdered;
     private Integer quantityDelivered;
+    private String businessPartnerName;
     private List<MyTreeNode> children = new ArrayList<MyTreeNode>();
 
 	public MyTreeNode() 
@@ -60,6 +61,7 @@ public class MyTreeNode
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             orderDate=f.format(item.getDate());          
             Date shippingDate = item.getShippingDate();
+            businessPartnerName = item.getBusinessPartnerName();
             if (shippingDate != null)
                 orderShippingDate = f.format(shippingDate);
         }
@@ -261,5 +263,19 @@ public class MyTreeNode
      */
     public void setRrderShippingDate(String orderShippingDate) {
         this.orderShippingDate = orderShippingDate;
+    }
+    
+     /**
+     * @return the businessPartnerName
+     */
+    public String getBusinessPartnerName() {
+        return businessPartnerName;
+    }
+
+    /**
+     * @param businessPartner the businessPartnerName to set
+     */
+    public void setBusinessPartnerName(String businessPartner) {
+        this.businessPartnerName = businessPartner;
     }
 }
