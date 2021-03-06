@@ -49,7 +49,7 @@ public class MyTreeNode
                 quantityDelivered=item.getQuantityDelivered();
                 SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
                 orderDate=f.format(item.getOrder().getDate());
-                Date shippingDate = item.getOrder().getShippingDate();
+                Date shippingDate = item.getShippingDate();
                 if (shippingDate != null)
                     orderShippingDate = f.format(shippingDate);
 	}
@@ -59,11 +59,9 @@ public class MyTreeNode
             orderId=item.getIdOrder();
             orderNumber=item.getOrderNumber();
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
-            orderDate=f.format(item.getDate());          
-            Date shippingDate = item.getShippingDate();
+            orderDate=f.format(item.getDate());        
             businessPartnerName = item.getBusinessPartnerName();
-            if (shippingDate != null)
-                orderShippingDate = f.format(shippingDate);
+          
         }
 	public List<MyTreeNode> getChildren() 
 	{

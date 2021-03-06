@@ -4,6 +4,8 @@
  */
 package stefan.business.objects;
 
+import java.util.Date;
+
 /**
  *
  * @author Matija
@@ -17,6 +19,7 @@ public class OrderItem {
     private Integer quantityDelivered;   
     private Order order;    
     private Design design;
+    private Date shippingDate;  
 
     /**
      * @return the idOrderItems
@@ -114,5 +117,19 @@ public class OrderItem {
      */
     public void setDesignId(int designId) {
         this.designId = designId;
+    }
+    
+    /**
+     * @return the shippingDate
+     */
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    /**
+     * @param shippingDate the shippingDate to set
+     */
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
 }

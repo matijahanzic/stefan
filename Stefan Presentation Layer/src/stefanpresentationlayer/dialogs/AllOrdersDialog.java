@@ -149,8 +149,9 @@ public class AllOrdersDialog extends javax.swing.JDialog {
     private void refreshTreeData(){
         OrderManager manager = new OrderManager();
         List<Order> items = manager.getOrders();
-        treeTableModel = new MyTreeTableModel(items);
+        treeTableModel = new MyTreeTableModel(items);   
         jXTreeTable1.setTreeTableModel(treeTableModel);
+        jXTreeTable1.expandAll();
     }
     
     
@@ -198,9 +199,11 @@ private void jButtonUpdateShippingDateActionPerformed(java.awt.event.ActionEvent
     {
         TreePath tp = jXTreeTable1.getPathForRow(row);
         MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
-        if (node.getOrderId() != null)
+        if (node.getOrderItemId() != null)
         {            
             JXDatePicker jd = new JXDatePicker();
+            jd.getMonthView().setPreferredColumnCount(2);
+            jd.getMonthView().setPreferredRowCount(2);
             jd.getMonthView().setFirstDayOfWeek(2);
             jd.getMonthView().setShowingWeekNumber(true);  
             jd.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4);
@@ -215,13 +218,17 @@ private void jButtonUpdateShippingDateActionPerformed(java.awt.event.ActionEvent
             }            
             
             OrderManager manager = new OrderManager();
-            manager.UpdateOrderShippingDate(node.getOrderId(), newShippingDate);
+            manager.UpdateOrderItemShippingDate(node.getOrderItemId(), newShippingDate);
                       
             refreshTreeData();    
         }
+        else {
+            JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
     }
     else {
-        JOptionPane.showMessageDialog(null, "Odaberite narudžbu.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
         return;        
     }
 }//GEN-LAST:event_jButtonUpdateShippingDateActionPerformed

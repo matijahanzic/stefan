@@ -57,23 +57,12 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         MyTableCellRenderer rendrer=new MyTableCellRenderer();
         for (int i = 0; i < MaterialsTable.getModel().getColumnCount(); i++) {
              MaterialsTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);
-        }
-        
+        }        
        
         jXOrderDatePicker.getMonthView().setFirstDayOfWeek(2);
         jXOrderDatePicker.getMonthView().setShowingWeekNumber(true);        
         jXOrderDatePicker.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4); 
-        jXOrderDatePicker.setFormats(new String[] {"d.M.yyyy."});
-      
-
-        JXMonthView monthView = new JXMonthView();         
-        monthView.setPreferredColumnCount(2);
-        monthView.setPreferredRowCount(2);
-        monthView.setFirstDayOfWeek(2);
-        monthView.getSelectionModel().setMinimalDaysInFirstWeek(4); 
-        monthView.setShowingWeekNumber(true);
-        jXShippingDatePicker.setMonthView(monthView);
-        jXShippingDatePicker.setFormats(new String[] {"d.M.yyyy."});        
+        jXOrderDatePicker.setFormats(new String[] {"d.M.yyyy."});     
         
         loadBusinessPartners();
       
@@ -138,8 +127,6 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         addToExistingOrderBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         cbxZaFirmu = new javax.swing.JComboBox();
-        jXShippingDatePicker = new org.jdesktop.swingx.JXDatePicker();
-        jLabelShippingDate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -172,6 +159,10 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         columnBinding.setColumnName("Design Name");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${shippingDate}"));
+        columnBinding.setColumnName("Shipping Date");
+        columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designIdentity}"));
         columnBinding.setColumnName("Design Identity");
         columnBinding.setColumnClass(String.class);
@@ -202,7 +193,6 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${totalPrice}"));
         columnBinding.setColumnName("Total Price");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane2.setViewportView(MaterialsTable);
@@ -211,16 +201,17 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         MaterialsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         MaterialsTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title10")); // NOI18N
         MaterialsTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title1")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title3")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title2")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(6).setPreferredWidth(30);
-        MaterialsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title9")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title12")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title3")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(6).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title2")); // NOI18N
         MaterialsTable.getColumnModel().getColumn(7).setPreferredWidth(30);
-        MaterialsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title11")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title5")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title6")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title7")); // NOI18N
-        MaterialsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title8")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(7).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title9")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(8).setPreferredWidth(30);
+        MaterialsTable.getColumnModel().getColumn(8).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title11")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(9).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title5")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title6")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title7")); // NOI18N
+        MaterialsTable.getColumnModel().getColumn(12).setHeaderValue(resourceMap.getString("MaterialsTable.columnModel.title8")); // NOI18N
 
         Nacrti.setIcon(resourceMap.getIcon("Nacrti.icon")); // NOI18N
         Nacrti.setText(resourceMap.getString("Nacrti.text")); // NOI18N
@@ -313,11 +304,6 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             }
         });
 
-        jXShippingDatePicker.setName("jXShippingDatePicker"); // NOI18N
-
-        jLabelShippingDate.setText(resourceMap.getString("jLabelShippingDate.text")); // NOI18N
-        jLabelShippingDate.setName("jLabelShippingDate"); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -338,11 +324,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jXShippingDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelShippingDate, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                         .addComponent(Nacrti, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -369,14 +351,12 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabelShippingDate))
+                            .addComponent(jLabel3))
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(orderNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXOrderDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jXShippingDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,13 +385,15 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
 
          
         DesignJDialog designDialog = new DesignJDialog(null, true);
+        designDialog.setIsShippingDateRequired(isShippingDateRequired());
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
-         designDialog.setSize(dim.width, (dim.height - 100)); 
-         designDialog.setLocation(0, 50);  
-         designDialog.setVisible(true);
+        designDialog.setSize(dim.width, (dim.height - 100)); 
+        designDialog.setLocation(0, 50);                      
+        designDialog.setVisible(true);
+     
          //dohvati vrijednosti koje su unesene u ovaj dialog  
          if (designDialog.getSelectedDesign() != null) {
-             stefan.business.PresentationHelper helper = new PresentationHelper(designDialog.getSelectedDesign(), designDialog.getParts()); 
+             stefan.business.PresentationHelper helper = new PresentationHelper(designDialog.getSelectedDesign(), designDialog.getParts(), designDialog.getShippingDate()); 
              helper.setPosition(String.format("%05d", position));
              position+=10;
              items.add(helper);    	
@@ -472,21 +454,14 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         if(bp == null){
             JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
-        }
-                
-        if(isShippingDateRequired() && jXShippingDatePicker.getDate() == null){
-            JOptionPane.showMessageDialog(null, "Odaberite datum isporuke", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        }              
+
         
         Order order=new Order();
         order.setDate(jXOrderDatePicker.getDate());
         order.setIsDelivered(false);
         order.setOrderNumber(orderNumberTextField.getText());
         order.setBusinessPartnerId(bp.getId());
-        if (isShippingDateRequired()) {
-            order.setShippingDate(jXShippingDatePicker.getDate());
-        }
         
         List<OrderItem> orderItems=new ArrayList<OrderItem>();       
         for (PresentationHelper item : items) 
@@ -497,6 +472,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             oi.setQuantityDelivered(0);
             oi.setQuantityOrdered(item.getParts());           
             oi.setDesignId(item.getDesingDBid());
+            oi.setShippingDate(item.getShippingDate());
             
             orderItems.add(oi);
         }
@@ -537,6 +513,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             oi.setQuantityDelivered(0);
             oi.setQuantityOrdered(item.getParts());           
             oi.setDesignId(item.getDesingDBid());
+            oi.setShippingDate(item.getShippingDate());
             
             orderItems.add(oi);
         }
@@ -553,8 +530,20 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
 private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZaFirmuActionPerformed
 
     boolean isShippingDateRequired = isShippingDateRequired();
-    jXShippingDatePicker.setVisible(isShippingDateRequired);
-    jLabelShippingDate.setVisible(isShippingDateRequired);
+    if (!isShippingDateRequired) {
+        // column is not visible       
+        MaterialsTable.getColumnModel().getColumn(4).setMinWidth(0);
+        MaterialsTable.getColumnModel().getColumn(4).setMaxWidth(0);
+        MaterialsTable.getColumnModel().getColumn(4).setWidth(0);
+    }
+    else {
+        // column should be visible        
+        MaterialsTable.getColumnModel().getColumn(4).setMaxWidth(MaterialsTable.getColumnModel().getColumn(3).getMaxWidth());
+        MaterialsTable.getColumnModel().getColumn(4).setMinWidth(MaterialsTable.getColumnModel().getColumn(3).getMinWidth());
+        MaterialsTable.getColumnModel().getColumn(4).setWidth(MaterialsTable.getColumnModel().getColumn(3).getWidth());
+        MaterialsTable.getColumnModel().getColumn(4).setPreferredWidth(MaterialsTable.getColumnModel().getColumn(3).getPreferredWidth());     
+    }
+     
 }//GEN-LAST:event_cbxZaFirmuActionPerformed
 
      public void tableChanged(TableModelEvent e) {
@@ -574,7 +563,8 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 p.setDesignName(presentationHelper.getDesignName());
                 p.setDesignNumber(presentationHelper.getDesignNumber());
                 p.setDesingDBid(presentationHelper.getDesingDBid());
-                p.setParts(presentationHelper.getParts());               
+                p.setParts(presentationHelper.getParts());        
+                p.setShippingDate(presentationHelper.getShippingDate());
                 p.setPosition((presentationHelper.getPosition()));
                 
                 tempItems.add(p);
@@ -673,10 +663,8 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabelShippingDate;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXDatePicker jXOrderDatePicker;
-    private org.jdesktop.swingx.JXDatePicker jXShippingDatePicker;
     private javax.swing.JTextField orderNumberTextField;
     private javax.swing.JLabel priceLbl;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

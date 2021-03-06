@@ -5,6 +5,7 @@
 package stefan.data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orderitems.findByQuantityDelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityDelivered = :quantityDelivered")
 })
 public class Orderitems implements Serializable {
+    @Column(name = "shippingDate")
+    @Temporal(TemporalType.DATE)
+    private Date shippingDate;
     @OneToMany(mappedBy = "idOrderItem")
     private List<Billitems> billitemsList;
     private static final long serialVersionUID = 1L;
@@ -145,7 +151,15 @@ public class Orderitems implements Serializable {
     }
 
     public void setBillitemsList(List<Billitems> billitemsList) {
-        this.billitemsList = billitemsList;
+        this.billitemsList = billitemsList;    }
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
+
     }
     
 }

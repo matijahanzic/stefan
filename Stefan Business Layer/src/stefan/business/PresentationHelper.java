@@ -27,12 +27,13 @@ public class PresentationHelper {
     private String position;
     private int parts;
     private int desingDBid;
-    private BigDecimal pricePerPart;     
+    private BigDecimal pricePerPart;    
+    private Date shippingDate; 
    
 
     public PresentationHelper() {
     }
-    public PresentationHelper(stefan.business.objects.Design design, int parts) {        
+    public PresentationHelper(stefan.business.objects.Design design, int parts, Date shippingDate) {        
         this.designNumber = design.getDesignNumber();
         this.designIdentity = design.getDesignIdentity();
         this.designClass = design.getClassMark();
@@ -42,6 +43,7 @@ public class PresentationHelper {
         this.niklanje = design.isNiklanje();
         this.isTokarenje = design.getIsTokarenje();
         this.parts = parts;
+        this.shippingDate = shippingDate;
         this.desingDBid = design.getIdDesign();
         this.pricePerPart = new BigDecimal("-1");        
         
@@ -110,6 +112,13 @@ public class PresentationHelper {
      */
     public int getParts() {
         return parts;
+    }
+    
+    /**
+     * @return the shippingDate
+     */
+    public Date getShippingDate() {
+        return shippingDate;
     }
 
     /**
@@ -252,6 +261,13 @@ public class PresentationHelper {
     public void setParts(int parts) {
         this.parts = parts;
         CalculatePrice(null);
+    }
+    
+    /**
+     * @param shippingDate the shippingDate to set
+     */
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
 
     /**

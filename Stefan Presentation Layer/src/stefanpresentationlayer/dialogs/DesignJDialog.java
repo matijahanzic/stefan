@@ -4,21 +4,27 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.application.Action;
 import org.jdesktop.observablecollections.ObservableCollections;
 import stefan.business.*;
 import stefan.business.objects.*;
 import stefanpresentationlayer.MyTableCellRenderer;
 
+
 public class DesignJDialog extends javax.swing.JDialog {
 
     private List<Design> designs = ObservableCollections.observableList(new ArrayList<stefan.business.objects.Design>());
     private int parts;
     private Design selectedDesign;
+    private boolean isShippingDateRequired; 
+    private Date shippingDate;
+    private static Date previousShippingDate;
 
     /** Creates new form DesignJDialog */
     public DesignJDialog(java.awt.Frame parent, boolean modal) {
@@ -506,6 +512,10 @@ public class DesignJDialog extends javax.swing.JDialog {
         return parts;
     }
 
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+    
     /**
      * @param designs the designs to set
      */
@@ -537,7 +547,7 @@ public class DesignJDialog extends javax.swing.JDialog {
                         if (parts <= 0) {
                             JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
                         } else {
-                            stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(selectedDesign, parts);
+                            stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(selectedDesign, parts, null);
                             if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
                                 JOptionPane.showMessageDialog(null, "Za odabrani nacrt i kolicinu: " + parts + " ne postoji definirana cijena. Uredite odabrani nacrta i ponovno ga dodajte!");
                                 EditDesignJDialog d = new EditDesignJDialog(null, true);
@@ -552,8 +562,17 @@ public class DesignJDialog extends javax.swing.JDialog {
                                 return;
 
                             }
-                            isAnswerOk = true;
-                            this.dispose();
+                            
+                            if (!this.isShippingDateRequired){
+                                isAnswerOk = true;
+                                this.dispose();
+                            }
+                            else {                               
+                                shippingDate = odaberiDatum();
+                                previousShippingDate = shippingDate;
+                                isAnswerOk = true;
+                                this.dispose();          
+                            }                                                 
                         }
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
@@ -562,6 +581,36 @@ public class DesignJDialog extends javax.swing.JDialog {
             }
         }
     }
+    
+    
+    private Date odaberiDatum(){
+        JXDatePicker jd = new JXDatePicker();
+        jd.getMonthView().setPreferredColumnCount(2);
+        jd.getMonthView().setPreferredRowCount(2);
+        jd.getMonthView().setFirstDayOfWeek(2);
+        jd.getMonthView().setShowingWeekNumber(true);
+        jd.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4);
+        jd.setFormats(new String[] {"d.M.yyyy."});        
+        if (previousShippingDate != null){
+            jd.setDate(previousShippingDate);
+        }
+        
+        String message ="Odaberite novi datum isporuke:\n";
+        Object[] params = {message,jd};       
+        
+        while (true) {
+            JOptionPane.showConfirmDialog(null,params,"Datum Isporuke", JOptionPane.PLAIN_MESSAGE);
+            Date newShippingDate = jd.getDate();
+            if (newShippingDate != null) {
+                return newShippingDate;
+            }
+            JOptionPane.showMessageDialog(null, "Unesite ispravan datum isporuke");
+        }
+    }
+    
+    public void setIsShippingDateRequired(boolean isShippingDateRequired){
+        this.isShippingDateRequired = isShippingDateRequired;
+    }            
 
     private void RefreshTableData() {
         designNumTextFieldKeyReleased(null);

@@ -42,12 +42,7 @@
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxZaFirmu" min="-2" pref="241" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jXShippingDatePicker" min="-2" pref="153" max="-2" attributes="0"/>
-                          <Component id="jLabelShippingDate" min="-2" pref="98" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="42" max="32767" attributes="0"/>
+                      <EmptySpace pref="213" max="32767" attributes="0"/>
                       <Component id="Nacrti" min="-2" pref="55" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="deleteBtn" min="-2" pref="55" max="-2" attributes="0"/>
@@ -83,14 +78,12 @@
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelShippingDate" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="orderNumberTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jXOrderDatePicker" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxZaFirmu" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXShippingDatePicker" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -153,6 +146,11 @@
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title resourceKey="MaterialsTable.columnModel.title1"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="MaterialsTable.columnModel.title12"/>
                   <Editor/>
                   <Renderer/>
                 </Column>
@@ -228,6 +226,10 @@
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
+              <Subbinding sourcePath="${shippingDate}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
+              </Subbinding>
               <Subbinding sourcePath="${designIdentity}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
@@ -257,7 +259,6 @@
               </Subbinding>
               <Subbinding sourcePath="${totalPrice}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.math.BigDecimal.class"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
@@ -376,17 +377,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxZaFirmuActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXDatePicker" name="jXShippingDatePicker">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="jXShippingDatePicker" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabelShippingDate">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="jLabelShippingDate.text"/>
-        <Property name="name" type="java.lang.String" value="jLabelShippingDate" noResource="true"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

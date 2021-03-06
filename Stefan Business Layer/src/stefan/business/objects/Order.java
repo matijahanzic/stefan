@@ -20,7 +20,6 @@ public class Order {
     private List<OrderItem> orderitemsList;
     private String orderNumber;
     private Integer businessPartnerId;
-    private Date shippingDate;  
     private String businessPartnerName;
     
     
@@ -106,23 +105,10 @@ public class Order {
      */
     public void setBusinessPartnerId(Integer businessPartnerId){
         this.businessPartnerId = businessPartnerId;
-    }
-    
-    /**
-     * @return the shippingDate
-     */
-    public Date getShippingDate() {
-        return shippingDate;
-    }
+    } 
 
-    /**
-     * @param shippingDate the shippingDate to set
-     */
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
-    }
     
-        /**
+     /**
      * @return the businessPartnerName
      */
     public String getBusinessPartnerName() {
@@ -134,20 +120,6 @@ public class Order {
      */
     public void setBusinessPartnerName(String businessPartner) {
         this.businessPartnerName = businessPartner;
-    }
-    
-     /**
-     * @return the KW
-     */
-    public Integer getKW() {
-        if (shippingDate == null)
-        {
-            return null;
-        }
-        Calendar instance = Calendar.getInstance();
-        instance.setFirstDayOfWeek(2);
-        instance.setMinimalDaysInFirstWeek(4);
-        instance.setTime(shippingDate);
-        return instance.get(Calendar.WEEK_OF_YEAR);        
-    }
+    }    
+
 }

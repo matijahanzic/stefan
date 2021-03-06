@@ -41,9 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Orders implements Serializable {
     @Column(name =     "date")
     @Temporal(TemporalType.DATE)
-    private Date date;    @Column(name = "shippingDate")
-    @Temporal(TemporalType.DATE)
-    private Date shippingDate;
+    private Date date;    
 
     @JoinColumn(name = "businessPartnerId", referencedColumnName = "id")
     @ManyToOne
@@ -146,14 +144,6 @@ public class Orders implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Date getShippingDate() {
-        return shippingDate;
-    }
-
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
     }
     
 }

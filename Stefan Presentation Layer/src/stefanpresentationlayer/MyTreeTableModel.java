@@ -31,7 +31,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 	@Override
 	public int getColumnCount() 
 	{
-		return 9;
+		return 11;
 	}
 	
 	@Override
