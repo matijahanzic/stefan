@@ -857,7 +857,7 @@ public class ExcelManager {
         if (page == 0) {
             Row row15 = sheet.createRow(15);
             Cell cell15_1 = row15.createCell(1);
-            cell15_1.setCellValue(bp.getPrintRow3());
+            cell15_1.setCellValue("Ust-IdNr.: " + bp.getPrintRow3());
             cell15_1.setCellStyle(styleArialCE10);
 
             Row row17 = sheet.createRow(17);
@@ -1120,6 +1120,12 @@ public class ExcelManager {
         Cell cell14_9 = row14.createCell(9);
         cell14_9.setCellValue(" " + date);
         cell14_9.setCellStyle(styleArialCE10);
+        
+        
+         Row row15 = sheet.createRow(15);
+         Cell cell15_1 = row15.createCell(1);
+         cell15_1.setCellValue("Ust-IdNr.: " + bp.getPrintRow3());
+         cell15_1.setCellStyle(styleArialCE10);
 
     }
 
