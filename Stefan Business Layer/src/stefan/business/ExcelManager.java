@@ -520,18 +520,16 @@ public class ExcelManager {
 
         if (ShowSaveFileDialog()) {
 
-            Sheet berlinSheet = _workbook.createSheet();
-            _workbook.setSheetName(0, "Berlin");
-            SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
-            SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
-
-
             Sheet verdenSheet = _workbook.createSheet();
-            _workbook.setSheetName(1, "Verden");
+            _workbook.setSheetName(0, "Verden");
             SetTokaranjeAndGlodanjeHeader(verdenSheet, "Verden");
             SetOpenOrderData(verdenSheet, VerdenOpenOrdersByKW);
-
-
+            
+            Sheet berlinSheet = _workbook.createSheet();
+            _workbook.setSheetName(1, "Berlin");
+            SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
+            SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
+            
             FileOutputStream fos = CreateNewFile(filename, filepath);
             _workbook.write(fos);
             fos.close();
