@@ -224,7 +224,8 @@ public class OrderManager {
                 add.setPosition(item.getPosition());
                 add.setQuantityDelivered(item.getQuantityDelivered());
                 add.setQuantityOrdered(item.getQuantityOrdered());
-                add.setIdDesign(designManager.GetDesignsByDBId(item.getDesignId()));         
+                add.setIdDesign(designManager.GetDesignsByDBId(item.getDesignId()));     
+                add.setShippingDate(item.getShippingDate());
                 allItems.add(add);
             }
             
