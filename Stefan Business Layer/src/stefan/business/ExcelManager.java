@@ -504,12 +504,32 @@ public class ExcelManager {
 
         for (Object[] resultElement : rawListResult) {
 
-            OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
-                    (Integer) resultElement[1], (Integer) resultElement[2], (String) resultElement[3], (Date) resultElement[4], (String) resultElement[5],
-                    (String) resultElement[6], (BigDecimal) resultElement[7], (BigDecimal) resultElement[8], (BigDecimal) resultElement[9], (BigDecimal) resultElement[10],
-                    (BigDecimal) resultElement[11], (BigDecimal) resultElement[12], (BigDecimal) resultElement[13], (BigDecimal) resultElement[14], (BigDecimal) resultElement[15],
-                    (BigDecimal) resultElement[16], (BigDecimal) resultElement[17], (BigDecimal) resultElement[18], (BigDecimal) resultElement[18], (BigDecimal) resultElement[20],
-                    (BigDecimal) resultElement[21], (BigDecimal) resultElement[22], (Boolean) resultElement[23], (Boolean) resultElement[24]);
+            OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((
+                    Integer) resultElement[0],
+                    (Integer) resultElement[1], 
+                    (Integer) resultElement[2], 
+                    (String) resultElement[3], 
+                    (Date) resultElement[4], 
+                    (String) resultElement[5],
+                    (String) resultElement[6], 
+                    (BigDecimal) resultElement[7], 
+                    (BigDecimal) resultElement[8], 
+                    (BigDecimal) resultElement[9], 
+                    (BigDecimal) resultElement[10],
+                    (BigDecimal) resultElement[11],
+                    (BigDecimal) resultElement[12],
+                    (BigDecimal) resultElement[13],
+                    (BigDecimal) resultElement[14], 
+                    (BigDecimal) resultElement[15],
+                    (BigDecimal) resultElement[16],
+                    (BigDecimal) resultElement[17],
+                    (BigDecimal) resultElement[18],
+                    (BigDecimal) resultElement[19],
+                    (BigDecimal) resultElement[20],
+                    (BigDecimal) resultElement[21], 
+                    (BigDecimal) resultElement[22],
+                    (Boolean) resultElement[23], 
+                    (Boolean) resultElement[24]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -636,7 +656,7 @@ public class ExcelManager {
             //price
             BigDecimal price = openOrderItem.GetPrice();
             Cell cellPrice = row.createCell(cellCounter++);
-            cellPrice.setCellValue(price.toString());
+            cellPrice.setCellValue(price.toString().replace(".", ","));
             cellPrice.setCellStyle(styleArialAlignRight);
 
             totalPrice = totalPrice.add(price);
@@ -645,7 +665,7 @@ public class ExcelManager {
             if (openOrders.size() == index + 1) {
                 Row sumRow = sheet.createRow(row.getRowNum() + 1);
                 Cell cellSum = sumRow.createCell(cellCounter - 1);
-                String v = totalPrice.toString();
+                String v = totalPrice.toString().replace(".", ",");
                 cellSum.setCellValue(v);
                 cellSum.setCellStyle(styleArialBoldAlignRight);
             }

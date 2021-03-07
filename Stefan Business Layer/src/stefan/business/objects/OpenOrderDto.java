@@ -7,6 +7,7 @@ package stefan.business.objects;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -598,7 +599,8 @@ public class OpenOrderDto implements Comparable  {
 
         BigDecimal pricePerPart = new BigDecimal(-1);
         
-        Integer partsCount = getQuantityOrdered() - getQuantityDelivered();
+        //cijena po komadu se odreduje na temelju toga koliko toga je naruceno
+        Integer partsCount = getQuantityOrdered();
         
         for (int i = 15; i >= 0; i--) {
             if (partsCount >= partsList.get(i)) {
@@ -611,7 +613,10 @@ public class OpenOrderDto implements Comparable  {
             }
         }
         
-        return pricePerPart;
+        //broj komada preostalih za isporuku
+        Integer partsLeftToDeliver = getQuantityOrdered() - getQuantityDelivered();
+        
+        return pricePerPart.multiply(new BigDecimal(partsLeftToDeliver)).setScale(2, RoundingMode.HALF_UP);
     }
          
 }
