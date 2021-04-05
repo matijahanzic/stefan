@@ -120,8 +120,10 @@ public class ExcelManager {
     private Font arial20Bold;
     private CellStyle styleArial20Bold;
     private CellStyle styleArialYellowBackground;
+    private CellStyle styleArialGreenBackground;
     private CellStyle styleArialCenter;
     private CellStyle styleArialYellowCenter;
+    private CellStyle styleArialGreenCenter;
     private Workbook _workbook;
 
     public ExcelManager(Workbook workbook) {
@@ -207,6 +209,11 @@ public class ExcelManager {
         styleArialYellowBackground.setFont(arial);
         styleArialYellowBackground.setFillForegroundColor(HSSFColor.YELLOW.index);
         styleArialYellowBackground.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        
+        styleArialGreenBackground = workbook.createCellStyle();
+        styleArialGreenBackground.setFont(arial);
+        styleArialGreenBackground.setFillForegroundColor(HSSFColor.GREEN.index);
+        styleArialGreenBackground.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
         arialBold = workbook.createFont();
         arialBold.setFontHeightInPoints((short) 10);
@@ -264,6 +271,12 @@ public class ExcelManager {
         styleArialYellowCenter.setAlignment(CellStyle.ALIGN_CENTER);
         styleArialYellowCenter.setFillForegroundColor(HSSFColor.YELLOW.index);
         styleArialYellowCenter.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        
+        styleArialGreenCenter = workbook.createCellStyle();
+        styleArialGreenCenter.setFont(arial);
+        styleArialGreenCenter.setAlignment(CellStyle.ALIGN_CENTER);
+        styleArialGreenCenter.setFillForegroundColor(HSSFColor.GREEN.index);
+        styleArialGreenCenter.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     }
 
     public FileOutputStream CreateNewFile(String fileName, String filePath) throws FileNotFoundException {
@@ -487,7 +500,16 @@ public class ExcelManager {
     public void CreateNewOpenOrders() throws IOException {
 
         //prepare data
-        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, d.6k as pcs6, d.10k as pcs10,d.15k as pcs15,d.20k as pcs20,d.30k as pcs30, d.40k as pcs40,d.50k as pcs50, d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje FROM stefan.orderitems oi INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId INNER JOIN stefan.design d on d.idDesign = oi.idDesign WHERE oi.quantityOrdered > oi.quantityDelivered AND oi.ShippingDate IS NOT NULL AND bp.requireShippingDate = 1";
+        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
+                + "d.6k as pcs6, d.10k as pcs10, d.15k as pcs15, d.20k as pcs20, d.30k as pcs30, d.40k as pcs40, d.50k as pcs50, "
+                + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, "
+                + "CASE WHEN billItem.idOrderItem IS NULL THEN 0 ELSE 1 end as isOnTemporaryBill "
+                + "FROM stefan.orderitems oi "
+                + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
+                + "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId "
+                + "INNER JOIN stefan.design d on d.idDesign = oi.idDesign "
+                + "LEFT JOIN (SELECT DISTINCT bi.idOrderItem FROM stefan.billitems bi) as billItem ON billItem.idOrderItem = oi.idOrderItems "
+                + "WHERE oi.quantityOrdered > oi.quantityDelivered AND oi.ShippingDate IS NOT NULL AND bp.requireShippingDate = 1";
         Query q = entityManager.createNativeQuery(query);
         List<Object[]> rawListResult = q.getResultList();
 
@@ -557,8 +579,9 @@ public class ExcelManager {
                     (BigDecimal) resultElement[20],
                     (BigDecimal) resultElement[21],
                     (BigDecimal) resultElement[22],
-                    (Boolean) resultElement[23],
-                    (Boolean) resultElement[24]);
+                    (Boolean) resultElement[23], 
+                    (Boolean) resultElement[24],
+                    (Long) resultElement[25]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -637,6 +660,9 @@ public class ExcelManager {
             if (hasDug) {
                 cellDesignNumber.setCellStyle(styleArialYellowBackground);
             }
+            if (openOrderItem.isOnTemporaryBill()) {
+                cellDesignNumber.setCellStyle(styleArialGreenBackground);
+            }                
 
             //width = 256 * x =>
             sheet.setColumnWidth(cellCounter - 1, 3072);
@@ -649,12 +675,18 @@ public class ExcelManager {
             if (hasDug) {
                 cellNiklanje.setCellStyle(styleArialYellowBackground);
             }
+            if (openOrderItem.isOnTemporaryBill()) {
+                cellNiklanje.setCellStyle(styleArialGreenBackground);
+            }
             sheet.setColumnWidth(cellCounter - 1, 768);
 
             //remaining pcs
             Cell cellRemainingPcs = row.createCell(cellCounter++);
             cellRemainingPcs.setCellValue(openOrderItem.getQuantityOrdered() - openOrderItem.getQuantityDelivered());
-            if (hasDug) {
+            if (openOrderItem.isOnTemporaryBill()) {
+                cellRemainingPcs.setCellStyle(styleArialGreenCenter);
+            }  
+            else if (hasDug) {
                 cellRemainingPcs.setCellStyle(styleArialYellowCenter);
             } else {
                 cellRemainingPcs.setCellStyle(styleArialCenter);
@@ -666,6 +698,9 @@ public class ExcelManager {
             cellOrderNumber.setCellValue(openOrderItem.getOrderNumber());
             if (hasDug) {
                 cellOrderNumber.setCellStyle(styleArialYellowBackground);
+            }
+            if (openOrderItem.isOnTemporaryBill()) {
+                cellOrderNumber.setCellStyle(styleArialGreenBackground);
             }
             sheet.setColumnWidth(cellCounter - 1, 3072);
 
