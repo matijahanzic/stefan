@@ -127,6 +127,10 @@ public class Design {
     public Integer getIdDesign() {
         return idDesign;
     }
+    
+    public void setIdDesign(Integer idDesign) {
+        this.idDesign = idDesign ;
+    }
 
     /**
      * @return the designNumber

@@ -315,8 +315,25 @@ private void savejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         
         DesignManager manager = new DesignManager();
         for (Design design : designs) {
-            manager.SaveDesign(design);   
-        }
+            List<Design> existingDesigns = manager.GetDesignsByNumber(design.getDesignNumber());        
+            if (existingDesigns == null || existingDesigns.isEmpty()) {
+                manager.SaveDesign(design);                
+            } else {
+                
+                //prilikom importa iz excel ako nacrt vec postoji polja Revizija, Naziv, Identitet, Klasa i T/G se ne mijenjaju
+                Design existingDesign = existingDesigns.get(0);
+                design.setIdDesign(existingDesign.getIdDesign());
+                design.setRevision(existingDesign.getRevision());
+                design.setName(existingDesign.getName());
+                design.setDesignIdentity(existingDesign.getDesignIdentity());
+                design.setClassMark(existingDesign.getClassMark());
+                design.setIsTokarenje(existingDesign.getIsTokarenje()); 
+                
+                manager.ChangeDesign(design);
+            }
+        } 
+        
+     
     }
     catch (Exception e) {
          JOptionPane.showMessageDialog(null, "Pogreška pri spremanju nacrta: " + e.toString(), "Greška", JOptionPane.ERROR_MESSAGE);   
