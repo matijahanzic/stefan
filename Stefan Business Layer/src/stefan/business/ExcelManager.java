@@ -45,7 +45,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import stefan.business.objects.Design;
-
+import stefan.business.objects.DuplicateOrderedDesignDto;
 
 /**
  *
@@ -285,7 +285,6 @@ public class ExcelManager {
         fileName = null;
         return new FileOutputStream(file);
     }
-    
     private static short DesignNumber_ColumnNumber = 0;
     private static short Niklanje_ColumnNumber = 1;
     private static short Nein_ColumnNumber = 3;
@@ -301,117 +300,110 @@ public class ExcelManager {
     private static short pcs200_ColumnNumber = 13;
     private static short pcs500_ColumnNumber = 15;
 
-    
     public static List<Design> ReadDesignFromExcelFile(String fullFilePath) throws FileNotFoundException, IOException {
-        
+
         List<Design> newDesigns = new ArrayList<Design>();
-        
+
         FileInputStream fileInputStream = new FileInputStream(fullFilePath);
-        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);        
+        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
         HSSFSheet masterlisteSheet = workbook.getSheetAt(0);
-        
+
         Integer firstRowWithDesignData = 14; //Redak 15 u excelu ima index 14
         for (int rowIndex = firstRowWithDesignData; rowIndex < 1000; rowIndex++) {
             HSSFRow curentRow = masterlisteSheet.getRow(rowIndex);
             if (curentRow == null) {
                 break; // no more data in this sheet
             }
-            
-            
+
+
             HSSFCell cellDesignNumber = curentRow.getCell((short) DesignNumber_ColumnNumber);
-            if (cellDesignNumber == null){
+            if (cellDesignNumber == null) {
                 continue; //nekad je sam cell == null a nekad je value empty
             }
             String designNumber;
-            try{
+            try {
                 //ponekad je design number u formatu stringa 
                 designNumber = cellDesignNumber.getStringCellValue();
-            }
-            catch (Exception e){
-                 //ponekad je design number u formatu broja 
+            } catch (Exception e) {
+                //ponekad je design number u formatu broja 
                 Double numDouble = cellDesignNumber.getNumericCellValue();
                 Long numInt = Math.round(numDouble);
                 designNumber = numInt.toString();
             }
-           
+
             if (designNumber == null || "".equals(designNumber.trim())) {
                 continue; //there is no data in this row
             }
-            
+
             HSSFCell cellNein = curentRow.getCell((short) Nein_ColumnNumber);
             String neinValue = cellNein.getStringCellValue();
             if (neinValue != null && "x".equals(neinValue.toLowerCase().trim())) {
                 continue; // row whis have X in Nein column should be ignored
             }
-            
+
             Design design = new Design();
             design.setDesignNumber(designNumber);
             design.setIsTokarenje(true); // default value is True
             design.setDate(new Date()); // default is current time
-            
+
             HSSFCell cellNiklanje = curentRow.getCell((short) Niklanje_ColumnNumber);
             String niklanje = cellNiklanje.getStringCellValue();
-            if (niklanje != null && "n".equals(niklanje.toLowerCase().trim()))
-            {
+            if (niklanje != null && "n".equals(niklanje.toLowerCase().trim())) {
                 design.setNiklanje(false);
-            }
-            else
-            {
+            } else {
                 design.setNiklanje(true);
             }
-                        
+
             HSSFCell cellPcs1 = curentRow.getCell((short) pcs1_ColumnNumber);
-            design.setPcs1(getNumericCellValue(cellPcs1));         
-            
+            design.setPcs1(getNumericCellValue(cellPcs1));
+
             HSSFCell cellPcs2 = curentRow.getCell((short) pcs2_ColumnNumber);
             design.setPcs2(getNumericCellValue(cellPcs2));
-                     
+
             HSSFCell cellPcs3 = curentRow.getCell((short) pcs3_ColumnNumber);
             design.setPcs3(getNumericCellValue(cellPcs3));
-            
+
             HSSFCell cellPcs5 = curentRow.getCell((short) pcs5_ColumnNumber);
             design.setPcs5(getNumericCellValue(cellPcs5));
-            
+
             HSSFCell cellPcs10 = curentRow.getCell((short) pcs10_ColumnNumber);
             design.setPcs10(getNumericCellValue(cellPcs10));
-            
+
             HSSFCell cellPcs15 = curentRow.getCell((short) pcs15_ColumnNumber);
             design.setPcs15(getNumericCellValue(cellPcs15));
-    
+
             HSSFCell cellPcs20 = curentRow.getCell((short) pcs20_ColumnNumber);
             design.setPcs20(getNumericCellValue(cellPcs20));
- 
+
             HSSFCell cellPcs50 = curentRow.getCell((short) pcs50_ColumnNumber);
             design.setPcs50(getNumericCellValue(cellPcs50));
-            
+
             HSSFCell cellPcs100 = curentRow.getCell((short) pcs100_ColumnNumber);
             design.setPcs100(getNumericCellValue(cellPcs100));
-            
+
             //HSSFCell cellPcs200 = curentRow.getCell((short) pcs200_ColumnNumber);
             //design.setPcs200(getNumericCellValue(cellPcs200));
-            
+
             //HSSFCell cellPcs500 = curentRow.getCell((short) pcs500_ColumnNumber);
             //design.setPcs500(getNumericCellValue(cellPcs500));
-            
+
             newDesigns.add(design);
         }
-        
+
         return newDesigns;
     }
-    
-    private static BigDecimal getNumericCellValue(HSSFCell cell){
-        try{
-            double dValue = cell.getNumericCellValue();        
+
+    private static BigDecimal getNumericCellValue(HSSFCell cell) {
+        try {
+            double dValue = cell.getNumericCellValue();
             if (dValue == 0) {
                 return null;
             }
             return new BigDecimal(dValue, MathContext.DECIMAL32).setScale(2, RoundingMode.HALF_UP);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             return null;
         }
     }
-            
 
     public Sheet CreateNewBillSheet(Workbook workbook, int i, String date, String number, boolean isEmpty, BusinessPartner bp) {
         Sheet sheet = workbook.createSheet();
@@ -521,34 +513,71 @@ public class ExcelManager {
         Query q = entityManager.createNativeQuery(query);
         List<Object[]> rawListResult = q.getResultList();
 
+        //duplicates
+        String duplicatesQueryString = "SELECT  d1.designNumber, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, bp.name, oi.shippingDate "
+                + "FROM stefan.design d1 "
+                + "INNER JOIN ( "
+                + "SELECT d.designNumber "
+                + "FROM stefan.orderitems oi "
+                + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
+                + "INNER JOIN stefan.design d ON d.idDesign = oi.idDesign "
+                + "WHERE oi.quantityOrdered > oi.quantityDelivered AND d.isActive = 1 "
+                + "GROUP BY d.designNumber "
+                + "HAVING COUNT(*) > 1) d2 "
+                + "ON d1.designNumber = d2.designNumber "
+                + "INNER JOIN stefan.orderitems oi ON oi.idDesign = d1.idDesign "
+                + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
+                + "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId "
+                + "WHERE d1.isActive = 1 "
+                + "ORDER BY d1.designNumber";
+        Query duplicatesQuery = entityManager.createNativeQuery(duplicatesQueryString);
+        List<Object[]> duplicatesRawListResult = duplicatesQuery.getResultList();
+
+        Map<String, ArrayList<DuplicateOrderedDesignDto>> FoundDuplicates = new TreeMap<String, ArrayList<DuplicateOrderedDesignDto>>();
+
+        for (Object[] duplicateResult : duplicatesRawListResult) {
+
+            DuplicateOrderedDesignDto dto = new stefan.business.objects.DuplicateOrderedDesignDto((String) duplicateResult[0],
+                    (Integer) duplicateResult[1], (Integer) duplicateResult[2], (String) duplicateResult[3],
+                    (String) duplicateResult[4], (Date) duplicateResult[5]);
+
+
+            if (!FoundDuplicates.containsKey(dto.getDesignNumber())) {
+                FoundDuplicates.put(dto.getDesignNumber(), new ArrayList<DuplicateOrderedDesignDto>());
+            }
+
+            FoundDuplicates.get(dto.getDesignNumber()).add(dto);
+        }
+        //end duplicates
+
+
         Map<String, OpenOrderKWData> BerlinOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> VerdenOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
 
         for (Object[] resultElement : rawListResult) {
 
-            OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((
-                    Integer) resultElement[0],
-                    (Integer) resultElement[1], 
-                    (Integer) resultElement[2], 
-                    (String) resultElement[3], 
-                    (Date) resultElement[4], 
+            OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
+                    (Integer) resultElement[1],
+                    (Integer) resultElement[2],
+                    (String) resultElement[3],
+                    (Date) resultElement[4],
                     (String) resultElement[5],
-                    (String) resultElement[6], 
-                    (BigDecimal) resultElement[7], 
-                    (BigDecimal) resultElement[8], 
-                    (BigDecimal) resultElement[9], 
+                    (String) resultElement[6],
+                    (BigDecimal) resultElement[7],
+                    (BigDecimal) resultElement[8],
+                    (BigDecimal) resultElement[9],
                     (BigDecimal) resultElement[10],
                     (BigDecimal) resultElement[11],
                     (BigDecimal) resultElement[12],
                     (BigDecimal) resultElement[13],
-                    (BigDecimal) resultElement[14], 
+                    (BigDecimal) resultElement[14],
                     (BigDecimal) resultElement[15],
                     (BigDecimal) resultElement[16],
                     (BigDecimal) resultElement[17],
                     (BigDecimal) resultElement[18],
                     (BigDecimal) resultElement[19],
                     (BigDecimal) resultElement[20],
-                    (BigDecimal) resultElement[21], 
+                    (BigDecimal) resultElement[21],
                     (BigDecimal) resultElement[22],
                     (Boolean) resultElement[23], 
                     (Boolean) resultElement[24],
@@ -567,12 +596,18 @@ public class ExcelManager {
             _workbook.setSheetName(0, "Verden");
             SetTokaranjeAndGlodanjeHeader(verdenSheet, "Verden");
             SetOpenOrderData(verdenSheet, VerdenOpenOrdersByKW);
-            
+
             Sheet berlinSheet = _workbook.createSheet();
             _workbook.setSheetName(1, "Berlin");
             SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
             SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
-            
+
+            if (FoundDuplicates != null && !FoundDuplicates.isEmpty()) {
+                Sheet duplicatesSheet = _workbook.createSheet();
+                _workbook.setSheetName(2, "Duplikati");
+                SetOpenOrderDuplicates(duplicatesSheet, FoundDuplicates);
+            }
+
             FileOutputStream fos = CreateNewFile(filename, filepath);
             _workbook.write(fos);
             fos.close();
@@ -713,6 +748,80 @@ public class ExcelManager {
 
     }
 
+    private void SetOpenOrderDuplicates(Sheet sheet, Map<String, ArrayList<DuplicateOrderedDesignDto>> foundDuplicates) {
+
+        Row row3 = sheet.createRow(3);
+        Cell cell3_3 = row3.createCell(3);
+        cell3_3.setCellValue("DUPLIKATI");
+        cell3_3.setCellStyle(styleArial20Bold);
+
+        Row row5 = sheet.createRow(6);
+        
+        Cell cell5_3 = row5.createCell(3);
+        cell5_3.setCellValue("Broj nacrta");
+        sheet.setColumnWidth(3, 3472);
+        
+        Cell cell5_4 = row5.createCell(4);
+        cell5_4.setCellValue("Kupac");
+        sheet.setColumnWidth(4, 10072);
+        
+        Cell cell5_5 = row5.createCell(5);
+        cell5_5.setCellValue("Komada");
+        sheet.setColumnWidth(5, 2300);
+        
+        Cell cell5_6 = row5.createCell(6);
+        cell5_6.setCellValue("Broj narudžbe");
+        sheet.setColumnWidth(6, 3500);
+        
+        Cell cell5_7 = row5.createCell(7);        
+        sheet.setColumnWidth(7, 4072);
+        cell5_7.setCellValue("Datum isporuke");
+
+        Integer rowIndex = 8;
+        Integer cellStart = 3;
+
+        for (Map.Entry<String, ArrayList<DuplicateOrderedDesignDto>> entry : foundDuplicates.entrySet()) {
+
+            ArrayList<DuplicateOrderedDesignDto> list = entry.getValue();
+            if (list == null || list.isEmpty()) {
+                continue;
+            }
+
+            sheet.createRow(rowIndex++);
+
+            Row designNumberRow = sheet.createRow(rowIndex++);
+
+
+            Cell cellKWHeader = designNumberRow.createCell(cellStart);
+            cellKWHeader.setCellValue(entry.getKey());
+            cellKWHeader.setCellStyle(styleArialBoldBorderTop);
+
+            for (int i = 0; i < list.size(); i++) {
+                Row duplicateRow = sheet.createRow(rowIndex++);
+
+                DuplicateOrderedDesignDto entity = list.get(i);
+
+                Cell businessPartnerCell = duplicateRow.createCell(cellStart + 1);
+                businessPartnerCell.setCellValue(entity.getBusinessPartnerName());
+
+
+                Cell remainingQuantityCell = duplicateRow.createCell(cellStart + 2);
+                remainingQuantityCell.setCellValue(entity.getQuantityOrdered() - entity.getQuantityDelivered());
+                remainingQuantityCell.setCellStyle(styleArialCenter);
+
+
+                Cell orderNumberCell = duplicateRow.createCell(cellStart + 3);
+                orderNumberCell.setCellValue(entity.getOrderNumber());
+
+
+                Cell shippingDateCell = duplicateRow.createCell(cellStart + 4);
+                if (entity.getShippingDate() != null) {
+                    shippingDateCell.setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(entity.getShippingDate()));
+                }
+            }
+        }
+    }
+
     private void SetOpenOrderData(Sheet sheet, Map<String, OpenOrderKWData> openOrdersByKw) {
 
         Calendar c = Calendar.getInstance();
@@ -748,8 +857,9 @@ public class ExcelManager {
                 Row row = null;
                 if (i > 0) {
                     row = sheet.getRow(rowIndex++);
-                    if(row == null)
+                    if (row == null) {
                         row = sheet.createRow(rowIndex - 1);
+                    }
                 }
 
                 if (row == null) {
@@ -1173,12 +1283,12 @@ public class ExcelManager {
         Cell cell14_9 = row14.createCell(9);
         cell14_9.setCellValue(" " + date);
         cell14_9.setCellStyle(styleArialCE10);
-        
-        
-         Row row15 = sheet.createRow(15);
-         Cell cell15_1 = row15.createCell(1);
-         cell15_1.setCellValue("Ust-IdNr.: " + bp.getPrintRow3());
-         cell15_1.setCellStyle(styleArialCE10);
+
+
+        Row row15 = sheet.createRow(15);
+        Cell cell15_1 = row15.createCell(1);
+        cell15_1.setCellValue("Ust-IdNr.: " + bp.getPrintRow3());
+        cell15_1.setCellStyle(styleArialCE10);
 
     }
 
