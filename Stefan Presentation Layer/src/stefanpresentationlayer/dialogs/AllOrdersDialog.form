@@ -35,6 +35,8 @@
                       <Component id="jButtonUpdateShippingDate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonChaneQuantity" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnChangePosition" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="closeBtn" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -51,6 +53,7 @@
                   <Component id="_btnDeleteOrderItem" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonUpdateShippingDate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonChaneQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnChangePosition" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="354" max="32767" attributes="0"/>
@@ -129,6 +132,16 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonChaneQuantityActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnChangePosition">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="btnChangePosition.text"/>
+        <Property name="actionCommand" type="java.lang.String" resourceKey="btnChangePosition.actionCommand"/>
+        <Property name="name" type="java.lang.String" value="btnChangePosition" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChangePositionActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

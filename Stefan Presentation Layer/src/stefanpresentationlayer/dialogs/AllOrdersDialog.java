@@ -53,6 +53,7 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         _btnDeleteOrderItem = new javax.swing.JButton();
         jButtonUpdateShippingDate = new javax.swing.JButton();
         jButtonChaneQuantity = new javax.swing.JButton();
+        btnChangePosition = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -104,6 +105,15 @@ public class AllOrdersDialog extends javax.swing.JDialog {
             }
         });
 
+        btnChangePosition.setText(resourceMap.getString("btnChangePosition.text")); // NOI18N
+        btnChangePosition.setActionCommand(resourceMap.getString("btnChangePosition.actionCommand")); // NOI18N
+        btnChangePosition.setName("btnChangePosition"); // NOI18N
+        btnChangePosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangePositionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,7 +129,9 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jButtonUpdateShippingDate)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonChaneQuantity))
+                        .addComponent(jButtonChaneQuantity)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChangePosition))
                     .addComponent(closeBtn, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -131,7 +143,8 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                     .addComponent(_btnDeleteOrder)
                     .addComponent(_btnDeleteOrderItem)
                     .addComponent(jButtonUpdateShippingDate)
-                    .addComponent(jButtonChaneQuantity))
+                    .addComponent(jButtonChaneQuantity)
+                    .addComponent(btnChangePosition))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -279,6 +292,52 @@ private void jButtonChaneQuantityActionPerformed(java.awt.event.ActionEvent evt)
 
 }//GEN-LAST:event_jButtonChaneQuantityActionPerformed
 
+private void btnChangePositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePositionActionPerformed
+     int row = jXTreeTable1.getSelectedRow();
+    if (row != -1)
+    {
+        TreePath tp = jXTreeTable1.getPathForRow(row);
+        MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
+        if (node.getOrderItemId() != null)
+        {
+            boolean isAnswerOk = false;            
+            String partAsStringFinal = null;
+             
+            while (!isAnswerOk) {
+                String  partsString = (String)JOptionPane.showInputDialog(null, "Unesite novu poziciju stavke?", "Pozicija stavke", JOptionPane.QUESTION_MESSAGE, null, null, node.getPosition());
+                if (partsString == null) {                    
+                    break;
+                } else {
+                   try {
+                        Integer newPosition = Integer.valueOf(partsString);
+                        if (newPosition <= 0) {
+                            JOptionPane.showMessageDialog(null, "Pozicija mora biti pozitivan broj veći od 0");
+                        }
+                        else {
+                            isAnswerOk = true;                           
+                            partAsStringFinal = String.format("%05d", newPosition);
+                        }                     
+                   }
+                   catch (NumberFormatException e) {
+                       JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
+                   }
+                }               
+            }
+            
+            if (isAnswerOk){
+                OrderManager manager = new OrderManager();
+                manager.UpdateOrderItemPosition(node.getOrderItemId(), partAsStringFinal);
+            
+                refreshTreeData();  
+            }
+        }
+    }
+    else {
+        JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;        
+    }
+}//GEN-LAST:event_btnChangePositionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -325,6 +384,7 @@ private void jButtonChaneQuantityActionPerformed(java.awt.event.ActionEvent evt)
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnDeleteOrder;
     private javax.swing.JButton _btnDeleteOrderItem;
+    private javax.swing.JButton btnChangePosition;
     private javax.swing.JButton closeBtn;
     private javax.swing.JButton jButtonChaneQuantity;
     private javax.swing.JButton jButtonUpdateShippingDate;

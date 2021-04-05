@@ -137,6 +137,19 @@ public class OrderManager {
         catch (Exception e) {
         }
     }
+    
+     public void UpdateOrderItemPosition(Integer orderItemId, String position) {
+        try {
+            entityManager.getTransaction().begin();
+            Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
+            q.setParameter("idOrderItems", orderItemId);
+            stefan.data.Orderitems orderItem = (stefan.data.Orderitems) q.getResultList().get(0);
+            orderItem.setPosition(position);
+            entityManager.getTransaction().commit();
+        } 
+        catch (Exception e) {
+        }
+    }
 
     public stefan.data.Orderitems getOrderItemById(Integer Id)
     {
