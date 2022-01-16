@@ -521,14 +521,13 @@ public class ExcelManager {
                 + "FROM stefan.orderitems oi "
                 + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
                 + "INNER JOIN stefan.design d ON d.idDesign = oi.idDesign "
-                + "WHERE oi.quantityOrdered > oi.quantityDelivered AND d.isActive = 1 "
+                + "WHERE oi.quantityOrdered > oi.quantityDelivered "
                 + "GROUP BY d.designNumber "
                 + "HAVING COUNT(*) > 1) d2 "
                 + "ON d1.designNumber = d2.designNumber "
                 + "INNER JOIN stefan.orderitems oi ON oi.idDesign = d1.idDesign "
                 + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
                 + "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId "
-                + "WHERE d1.isActive = 1 "
                 + "ORDER BY d1.designNumber";
         Query duplicatesQuery = entityManager.createNativeQuery(duplicatesQueryString);
         List<Object[]> duplicatesRawListResult = duplicatesQuery.getResultList();
