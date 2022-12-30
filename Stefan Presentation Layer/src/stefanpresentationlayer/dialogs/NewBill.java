@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -67,8 +68,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private String billDate;
     private double bolzenCijena = 0, welleCijena = 0;
     private BigDecimal totalSum = new BigDecimal("0.00");
-    private BigDecimal totalSumKn = new BigDecimal("0.00");
-    private BigDecimal exchangeRate = new BigDecimal("0.00");
     private int otpremnicaCurrentRow = 0;
 
     /** Creates new form NewBill */
@@ -162,8 +161,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         _btnDeleteBill = new javax.swing.JButton();
         sortByCombo = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         cbxZaFirmu = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
 
@@ -349,12 +346,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
 
-        jTextField1.setText(resourceMap.getString("_exchangeRate.text")); // NOI18N
-        jTextField1.setName("_exchangeRate"); // NOI18N
-
-        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
-
         cbxZaFirmu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxZaFirmu.setName("cbxZaFirmu"); // NOI18N
 
@@ -393,13 +384,9 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                             .addComponent(sortByCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                            .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                         .addComponent(addBillItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -431,14 +418,12 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(billNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sortByCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxZaFirmu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(addBillItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -472,25 +457,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         if (billNumberTextField.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Unesite broj računa!", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {
-            String billNumber = billNumberTextField.getText().trim();
-            billDate = jXDatePicker1.getDate().toLocaleString().substring(0, 11);
+            String billNumber = billNumberTextField.getText().trim();            
             
-            if (jTextField1.getText().trim().isEmpty()) 
-            {
-                JOptionPane.showMessageDialog(null, "Unesite trenutni tečaj za euro.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        
-            try
-            {
-                exchangeRate = new BigDecimal(jTextField1.getText().trim().replace(',', '.'));
-            }
-            catch(Exception e)
-            {         
-                JOptionPane.showMessageDialog(null, "Greška kod upisa tečaja! Provjeriti unesene podatke.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;            
-            }
-                  
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy"); 
+            billDate = formatter.format(jXDatePicker1.getDate());    
+            
             int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
             if(selectedFirmaIndex < 0){
                 JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -503,11 +474,12 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 return;
             }
 
+            int maxItemsPerPage = 13;
             try {                
                 int pageNum = 1;
-                if (items.size() > 10) {
-                    pageNum = (items.size() / 10);
-                    if (items.size() % 10 != 0)
+                if (items.size() > maxItemsPerPage) {
+                    pageNum = (items.size() / maxItemsPerPage);
+                    if (items.size() % maxItemsPerPage != 0)
                     {
                         pageNum = pageNum + 1;
                     }
@@ -593,7 +565,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 bolzenCijena = 0;
                 welleCijena = 0;
                 totalSum = new BigDecimal("0.00");
-                totalSumKn = new BigDecimal("0.00");
                 otpremnicaCurrentRow = 0;
                 bolzenKom = 0;
                 welleKom = 0;
@@ -627,16 +598,14 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         List<Double> data = new ArrayList<Double>();
         if (i == 1) {
-            while ((dodano <= 9) && (indexOfData < items.size())) {
+            while ((dodano <= 12) && (indexOfData < items.size())) {
 
                 BillItem b = items.get(indexOfData++);
                 itemsBackup.add(b);
 
-                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);
-                BigDecimal totalPriceKN = b.getTotalPrice().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
-                totalSumKn = totalSumKn.add(totalPriceKN).setScale(2, RoundingMode.HALF_UP);                
+                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);         
 
-                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate,bp.getPrintInd());
+                data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
                 bolzenKom += (int) ((double) data.get(1));
                 bolzenCijena += (double) data.get(2);
@@ -648,16 +617,14 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb,bp);
 
         } else {
-            manager.AddMissingData(sheet, totalSum, totalSumKn);
-            while ((dodano <= 9) && (indexOfData < items.size())) {
+            manager.AddMissingData(sheet, totalSum);
+            while ((dodano <= 12) && (indexOfData < items.size())) {
                 BillItem b = items.get(indexOfData++);
                 itemsBackup.add(b);
 
                 totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);
-                BigDecimal totalPriceKN = b.getTotalPrice().multiply(exchangeRate).setScale(2, RoundingMode.HALF_UP);
-                totalSumKn = totalSumKn.add(totalPriceKN).setScale(2, RoundingMode.HALF_UP);
 
-                data = manager.AddBillItems(i, dodano, sheet, b, exchangeRate,bp.getPrintInd());
+                data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
                 bolzenKom += (int) ((double) data.get(1));
                 bolzenCijena += (double) data.get(2);
@@ -948,10 +915,8 @@ billChanged = true;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JLabel priceLbl;
     private javax.swing.JButton saveBill;
@@ -1027,27 +992,30 @@ billChanged = true;
     }
 
     private void WriteCalculatedData(Sheet sheet, int currentRow, int i, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
-        //nije zadnja stranica
+        
+        
         if (i != pageNum) {
-            manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
+            //nije zadnja stranica
+            manager.AddSum(sheet, totalSum, currentRow);
         } else {
-            if (i != 1) {
-                manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
-            }
-
+            
+            //zadnja stranica  
             if (HasPlace(currentRow)) {
-                manager.AddTotalSum(sheet, totalSum, totalSumKn, currentRow);
+                manager.AddTotalSum(sheet, totalSum, currentRow);
                 manager.AddAditionalData(sheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
                 manager.WriteFooter(currentRow + 1, sheet, totalSum, bp);
             } else {
-                manager.AddSum(sheet, totalSum, totalSumKn, currentRow);
+                manager.AddSum(sheet, totalSum, currentRow);
+                
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");              
+                
                 Sheet newSheet = manager.CreateNewBillSheet(wb, i,
-                        jXDatePicker1.getDate().toLocaleString().substring(0, 11),
+                        formatter.format(jXDatePicker1.getDate()),
                         billNumberTextField.getText().trim(), false,bp);
 
-                manager.AddMissingData(newSheet, totalSum, totalSumKn);
+                manager.AddMissingData(newSheet, totalSum);
                 manager.AddTopAndBottomBorder(newSheet);
-                manager.AddTotalSum(newSheet, totalSum, totalSumKn, 24);
+                manager.AddTotalSum(newSheet, totalSum, 24);
                 manager.AddAditionalData(newSheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
                 manager.WriteFooter(26, newSheet, totalSum, bp);
                 pageNumChanged = true;
