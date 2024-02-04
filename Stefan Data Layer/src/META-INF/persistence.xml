@@ -14,8 +14,8 @@
     <class>stefan.data.Bills</class>
     <class>stefan.data.Businesspartner</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/stefan"/>
-      <property name="javax.persistence.jdbc.password" value="robert"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://server1:3306/stefan"/>
+      <property name="javax.persistence.jdbc.password" value="mh438615"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
     </properties>
