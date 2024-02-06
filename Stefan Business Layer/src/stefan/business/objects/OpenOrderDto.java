@@ -222,10 +222,10 @@ public class OpenOrderDto implements Comparable  {
         //izračunaj kw za datum isporuke
         String kw = CalculateKw(instance);
         
-        //ako je niklanje onda je kw tjedan dana ranije
+        //ako je niklanje onda je kw 2 tjedana ranije
         //a kw za datum isporuke se upisuje u napomenu za niklanje
         if(isNiklanje()){
-             instance.add(Calendar.DATE, -7);
+             instance.add(Calendar.DATE, -14);
              String kwNiklanje = CalculateKw(instance);
              return new KWDetailsDto(kwNiklanje, kw.split("-")[1]);
         }

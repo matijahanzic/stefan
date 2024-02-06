@@ -464,7 +464,7 @@ public class ExcelManager {
     private boolean ShowSaveFileDialog() {
 
         JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");
-        String fName = "Berlin+Verden";
+        String fName = "Otvorene narudzbe";
         chooser.setSelectedFile(new File(fName));
         int rVal = chooser.showSaveDialog(null);
 
@@ -552,7 +552,8 @@ public class ExcelManager {
 
         Map<String, OpenOrderKWData> BerlinOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> VerdenOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
-
+        Map<String, OpenOrderKWData> BarsselOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
+        Map<String, OpenOrderKWData> RadobojOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         for (Object[] resultElement : rawListResult) {
 
             OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
@@ -586,6 +587,10 @@ public class ExcelManager {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
             } else if (dto.getCity().contains("Verden")) {
                 AddOpenOrder(VerdenOpenOrdersByKW, dto);
+            } else if (dto.getCity().contains("Barssel")) {
+                AddOpenOrder(BarsselOpenOrdersByKW, dto);
+            } else if (dto.getCity().contains("Radoboj")) {
+                AddOpenOrder(RadobojOpenOrdersByKW, dto);
             }
         }
 
@@ -600,10 +605,20 @@ public class ExcelManager {
             _workbook.setSheetName(1, "Berlin");
             SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
             SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
+            
+            Sheet barsselSheet = _workbook.createSheet();
+            _workbook.setSheetName(2, "Barssel");
+            SetTokaranjeAndGlodanjeHeader(barsselSheet, "Barssel");
+            SetOpenOrderData(barsselSheet, BarsselOpenOrdersByKW);
+            
+            Sheet radobojSheet = _workbook.createSheet();
+            _workbook.setSheetName(3, "Radoboj");
+            SetTokaranjeAndGlodanjeHeader(radobojSheet, "Radoboj");
+            SetOpenOrderData(radobojSheet, RadobojOpenOrdersByKW);
 
             if (FoundDuplicates != null && !FoundDuplicates.isEmpty()) {
                 Sheet duplicatesSheet = _workbook.createSheet();
-                _workbook.setSheetName(2, "Duplikati");
+                _workbook.setSheetName(4, "Duplikati");
                 SetOpenOrderDuplicates(duplicatesSheet, FoundDuplicates);
             }
 
