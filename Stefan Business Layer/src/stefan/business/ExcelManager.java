@@ -554,6 +554,7 @@ public class ExcelManager {
         Map<String, OpenOrderKWData> VerdenOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> BarsselOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> RadobojOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
+        Map<String, OpenOrderKWData> LengerichOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         for (Object[] resultElement : rawListResult) {
 
             OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
@@ -591,6 +592,8 @@ public class ExcelManager {
                 AddOpenOrder(BarsselOpenOrdersByKW, dto);
             } else if (dto.getCity().contains("Radoboj")) {
                 AddOpenOrder(RadobojOpenOrdersByKW, dto);
+            } else if (dto.getCity().contains("Lengerich")) {
+                AddOpenOrder(LengerichOpenOrdersByKW, dto);
             }
         }
 
@@ -615,10 +618,15 @@ public class ExcelManager {
             _workbook.setSheetName(3, "Radoboj");
             SetTokaranjeAndGlodanjeHeader(radobojSheet, "Radoboj");
             SetOpenOrderData(radobojSheet, RadobojOpenOrdersByKW);
+            
+            Sheet lengerichSheet = _workbook.createSheet();
+            _workbook.setSheetName(4, "Lengerich");
+            SetTokaranjeAndGlodanjeHeader(lengerichSheet, "Lengerich");
+            SetOpenOrderData(lengerichSheet, LengerichOpenOrdersByKW);
 
             if (FoundDuplicates != null && !FoundDuplicates.isEmpty()) {
                 Sheet duplicatesSheet = _workbook.createSheet();
-                _workbook.setSheetName(4, "Duplikati");
+                _workbook.setSheetName(5, "Duplikati");
                 SetOpenOrderDuplicates(duplicatesSheet, FoundDuplicates);
             }
 

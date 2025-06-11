@@ -40,7 +40,8 @@ public class Design {
     private boolean niklanje;
     private String revision;
     private boolean isTokarenje;
-
+    private boolean isNlx;
+    
     public Design()
     {        
     }
@@ -480,6 +481,20 @@ public class Design {
      */
     public void setIsTokarenje(boolean isTokarenje) {
         this.isTokarenje = isTokarenje;
+    }
+    
+    /**
+     * @return the isNlx
+     */
+    public boolean getIsNlx() {
+        return isNlx;
+    }
+
+    /**
+     * @param isNlx the isNlx to set
+     */
+    public void setIsNlx(boolean isNlx) {
+        this.isNlx = isNlx;
     }
    
     

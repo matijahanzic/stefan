@@ -108,6 +108,8 @@ public class Design implements Serializable {
     private Boolean isActive;
     @Column(name = "niklanje")
     private Boolean niklanje;
+    @Column(name = "isNlx")
+    private Boolean isNlx;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDesign")
     private List<Orderitems> orderitemsList;
     private static final long serialVersionUID = 1L;
@@ -266,6 +268,14 @@ public class Design implements Serializable {
     public void setNiklanje(Boolean niklanje) {
         this.niklanje = niklanje;
     }   
+    
+    public Boolean getIsNlx() {
+        return isNlx;
+    }
+
+    public void setIsNlx(Boolean isNlx) {
+        this.isNlx = isNlx;
+    }
 
     public BigDecimal getK() {
         return k;

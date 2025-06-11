@@ -47,7 +47,8 @@ public class DesignManager {
                 newDesign.setNiklanje(design.isNiklanje());
             }
             newDesign.setNiklanje(design.isNiklanje());//uvijek postavi niklanje
-            newDesign.setIsTokarenje(design.getIsTokarenje());       
+            newDesign.setIsTokarenje(design.getIsTokarenje()); 
+            newDesign.setIsNlx(design.getIsNlx());
             newDesign.setIsActive(true);
             newDesign.setDateModified(new Date());
             //1 kom
@@ -128,6 +129,7 @@ public class DesignManager {
             newDesign.setName(design.getName());
             newDesign.setRevision(design.getRevision());
             newDesign.setIsTokarenje(design.getIsTokarenje());
+            newDesign.setIsNlx(design.getIsNlx());
             MaterialManager m=new MaterialManager();
             if (design.getMaterialId()!=null)
             {
@@ -251,6 +253,7 @@ public class DesignManager {
         result.setRevision(design.getRevision());
         result.setNiklanje(design.getNiklanje());
         result.setIsTokarenje(design.getIsTokarenje());
+        result.setIsNlx(design.getIsNlx());
         result.setName(design.getName());        
         result.setPcs1(design.getK());
         result.setPcs2(design.getK1());
