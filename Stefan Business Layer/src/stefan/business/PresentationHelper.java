@@ -24,12 +24,12 @@ public class PresentationHelper {
     private Date designDate;
     private boolean niklanje;
     private boolean isTokarenje;
+    private boolean isNlx;
     private String position;
     private int parts;
     private int desingDBid;
     private BigDecimal pricePerPart;    
     private Date shippingDate; 
-   
 
     public PresentationHelper() {
     }
@@ -42,6 +42,7 @@ public class PresentationHelper {
         this.designDate = design.getDate();
         this.niklanje = design.isNiklanje();
         this.isTokarenje = design.getIsTokarenje();
+        this.isNlx = design.getIsNlx();
         this.parts = parts;
         this.shippingDate = shippingDate;
         this.desingDBid = design.getIdDesign();
@@ -106,6 +107,20 @@ public class PresentationHelper {
     public boolean getIsTokarenje() {
         return isTokarenje;
     }
+    
+    /**
+     * @return the isTokarenjeDisplayName
+     */
+    public String getIsTokarenjeDisplayName() {
+        if (isNlx) {
+            return "N";
+        } else if (isTokarenje) {         
+            return "T";
+        }
+        else {
+            return "G";
+        }
+    }   
 
     /**
      * @return the parts

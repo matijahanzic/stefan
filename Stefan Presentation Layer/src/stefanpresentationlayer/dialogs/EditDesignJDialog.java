@@ -107,20 +107,16 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         price5 = new javax.swing.JTextField();
         desigDateInput = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        neTokarenjeButton = new javax.swing.JRadioButton();
+        daGlodanjeButton = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         daTokarenjeButton = new javax.swing.JRadioButton();
+        daNlxButton = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         neNiklanjeButton = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         daNiklanjeButton = new javax.swing.JRadioButton();
         designNameInput = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        daNlxButton = new javax.swing.JRadioButton();
-        neNlxButton = new javax.swing.JRadioButton();
         createNewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -306,10 +302,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         jPanel2.setName("jPanel2"); // NOI18N
 
-        buttonGroup2.add(neTokarenjeButton);
-        neTokarenjeButton.setText(resourceMap.getString("neTokarenjeButton.text")); // NOI18N
-        neTokarenjeButton.setName("neTokarenjeButton"); // NOI18N
-        neTokarenjeButton.setNextFocusableComponent(daNiklanjeButton);
+        buttonGroup2.add(daGlodanjeButton);
+        daGlodanjeButton.setText(resourceMap.getString("daGlodanjeButton.text")); // NOI18N
+        daGlodanjeButton.setName("daGlodanjeButton"); // NOI18N
+        daGlodanjeButton.setNextFocusableComponent(daNiklanjeButton);
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setToolTipText(resourceMap.getString("jLabel2.toolTipText")); // NOI18N
@@ -318,7 +314,16 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         buttonGroup2.add(daTokarenjeButton);
         daTokarenjeButton.setText(resourceMap.getString("daTokarenjeButton.text")); // NOI18N
         daTokarenjeButton.setName("daTokarenjeButton"); // NOI18N
-        daTokarenjeButton.setNextFocusableComponent(neTokarenjeButton);
+        daTokarenjeButton.setNextFocusableComponent(daGlodanjeButton);
+
+        buttonGroup2.add(daNlxButton);
+        daNlxButton.setText(resourceMap.getString("daNlxButton.text")); // NOI18N
+        daNlxButton.setName("daNlxButton"); // NOI18N
+        daNlxButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                daNlxButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -331,7 +336,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(daTokarenjeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(neTokarenjeButton)))
+                        .addComponent(daGlodanjeButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(daNlxButton)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -341,8 +348,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(neTokarenjeButton)
-                    .addComponent(daTokarenjeButton))
+                    .addComponent(daGlodanjeButton)
+                    .addComponent(daTokarenjeButton)
+                    .addComponent(daNlxButton))
                 .addContainerGap())
         );
 
@@ -394,58 +402,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         jLabel38.setText(resourceMap.getString("jLabel38.text")); // NOI18N
         jLabel38.setName("jLabel38"); // NOI18N
-
-        jPanel4.setName("jPanel4"); // NOI18N
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jPanel5.setName("jPanel5"); // NOI18N
-
-        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
-
-        buttonGroup3.add(daNlxButton);
-        daNlxButton.setText(resourceMap.getString("daNlxButton.text")); // NOI18N
-        daNlxButton.setName("daNlxButton"); // NOI18N
-
-        buttonGroup3.add(neNlxButton);
-        neNlxButton.setText(resourceMap.getString("neNlxButton.text")); // NOI18N
-        neNlxButton.setName("neNlxButton"); // NOI18N
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(daNlxButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(neNlxButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(daNlxButton)
-                    .addComponent(neNlxButton))
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -532,10 +488,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                             .addComponent(price200, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -637,11 +589,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel31)
                             .addComponent(price1000, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         jLabel38.getAccessibleContext().setAccessibleName(resourceMap.getString("jLabel38.AccessibleContext.accessibleName")); // NOI18N
@@ -734,23 +682,25 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 neNiklanjeButton.setSelected(true);
             }
             
-            if (design.getIsTokarenje())
-            {
-                daTokarenjeButton.setSelected(true);
-            }
-            else
-            {
-                neTokarenjeButton.setSelected(true);
-            }
-            
             if (design.getIsNlx())
             {
                 daNlxButton.setSelected(true);
+                daTokarenjeButton.setSelected(false);
+                daGlodanjeButton.setSelected(false);
+            }
+            else if (design.getIsTokarenje())
+            {
+                daNlxButton.setSelected(false);
+                daTokarenjeButton.setSelected(true);
+                daGlodanjeButton.setSelected(false);
             }
             else
             {
-                neNlxButton.setSelected(true);
-            }            
+                daNlxButton.setSelected(false);
+                daTokarenjeButton.setSelected(false);
+                daGlodanjeButton.setSelected(true);
+            }         
+          
             
             if (design.getPcs1() != null) {
                 price1.setText(design.getPcs1().toPlainString().replace('.', ','));
@@ -844,8 +794,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     public void CreateNew() {
         jPanel2.setVisible(true);
-        neNiklanjeButton.setSelected(true);
-        neNlxButton.setSelected(true);
+        neNiklanjeButton.setSelected(true);      
         daTokarenjeButton.setSelected(true);
         btnSaveChanges.setEnabled(true);
         panel.setVisible(true);
@@ -1193,6 +1142,10 @@ private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
    CreateNew();
 }//GEN-LAST:event_createNewButtonActionPerformed
 
+private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daNlxButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_daNlxButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1244,6 +1197,7 @@ private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton createNewButton;
+    private javax.swing.JRadioButton daGlodanjeButton;
     private javax.swing.JRadioButton daNiklanjeButton;
     private javax.swing.JRadioButton daNlxButton;
     private javax.swing.JRadioButton daTokarenjeButton;
@@ -1280,17 +1234,12 @@ private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JRadioButton neNiklanjeButton;
-    private javax.swing.JRadioButton neNlxButton;
-    private javax.swing.JRadioButton neTokarenjeButton;
     private javax.swing.JPanel panel;
     private javax.swing.JTextField percentTF;
     private javax.swing.JTextField price1;

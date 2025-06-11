@@ -57,10 +57,12 @@ class OpenOrderKWData {
         this.kwDetails = kwDetails;
         this.Tokarenje = new ArrayList<OpenOrderDto>();
         this.Glodanje = new ArrayList<OpenOrderDto>();
+        this.NLX = new ArrayList<OpenOrderDto>();
     }
     private KWDetailsDto kwDetails;
     private ArrayList<OpenOrderDto> Tokarenje;
     private ArrayList<OpenOrderDto> Glodanje;
+    private ArrayList<OpenOrderDto> NLX;
 
     public void AddTokarenje(OpenOrderDto dto) {
         Tokarenje.add(dto);
@@ -69,13 +71,21 @@ class OpenOrderKWData {
     public void AddGlodanje(OpenOrderDto dto) {
         Glodanje.add(dto);
     }
+    
+     public void AddNLX(OpenOrderDto dto) {
+        NLX.add(dto);
+    }
 
     public KWDetailsDto GetKWDetails() {
         return this.kwDetails;
     }
 
     public Integer GetListSize() {
-        if (this.Tokarenje.size() > this.Glodanje.size()) {
+        
+        if (this.NLX.size() > this.Tokarenje.size() && this.NLX.size() > this.Glodanje.size()) {
+            return this.NLX.size();
+        } 
+        else if (this.Tokarenje.size() > this.Glodanje.size()) {
             return this.Tokarenje.size();
         } else {
             return this.Glodanje.size();
@@ -88,6 +98,10 @@ class OpenOrderKWData {
 
     public ArrayList<OpenOrderDto> GetGlodanjeData() {
         return this.Glodanje;
+    }
+    
+     public ArrayList<OpenOrderDto> GetNLXData() {
+        return this.NLX;
     }
 }
 
@@ -490,7 +504,9 @@ public class ExcelManager {
 
         OpenOrderKWData data = map.get(key.GetKw());
 
-        if (dto.isTokarenje()) {
+        if (dto.isNlx()) {
+            data.AddNLX(dto);
+        } else if (dto.isTokarenje()) {
             data.AddTokarenje(dto);
         } else {
             data.AddGlodanje(dto);
@@ -502,7 +518,7 @@ public class ExcelManager {
         //prepare data
         String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
                 + "d.6k as pcs6, d.10k as pcs10, d.15k as pcs15, d.20k as pcs20, d.30k as pcs30, d.40k as pcs40, d.50k as pcs50, "
-                + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, "
+                + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, d.isNlx, "
                 + "CASE WHEN billItem.idOrderItem IS NULL THEN 0 ELSE 1 end as isOnTemporaryBill "
                 + "FROM stefan.orderitems oi "
                 + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
@@ -582,7 +598,8 @@ public class ExcelManager {
                     (BigDecimal) resultElement[22],
                     (Boolean) resultElement[23], 
                     (Boolean) resultElement[24],
-                    (Long) resultElement[25]);
+                    (Boolean) resultElement[25],
+                    (Long) resultElement[26]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -620,8 +637,8 @@ public class ExcelManager {
             SetOpenOrderData(radobojSheet, RadobojOpenOrdersByKW);
             
             Sheet lengerichSheet = _workbook.createSheet();
-            _workbook.setSheetName(4, "Lengerich");
-            SetTokaranjeAndGlodanjeHeader(lengerichSheet, "Lengerich");
+            _workbook.setSheetName(4, "WH");
+            SetTokaranjeAndGlodanjeHeader(lengerichSheet, "WH");
             SetOpenOrderData(lengerichSheet, LengerichOpenOrdersByKW);
 
             if (FoundDuplicates != null && !FoundDuplicates.isEmpty()) {
@@ -642,10 +659,13 @@ public class ExcelManager {
         cell3_3.setCellValue("TOKARANJE " + city);
         cell3_3.setCellStyle(styleArial20Bold);
 
-
         Cell cell3_17 = row3.createCell(17);
         cell3_17.setCellValue("GLODANJE " + city);
         cell3_17.setCellStyle(styleArial20Bold);
+                
+        Cell cell3_31 = row3.createCell(31);
+        cell3_31.setCellValue("NLX " + city);
+        cell3_31.setCellStyle(styleArial20Bold);
     }
 
     private BigDecimal AddOpenOrderRow(Row row, Row kwHeaderRow, String entryKW, Sheet sheet,
@@ -871,9 +891,12 @@ public class ExcelManager {
 
             ArrayList<OpenOrderDto> tokarenje = openOrders.GetTokarenjeData();
             ArrayList<OpenOrderDto> glodanje = openOrders.GetGlodanjeData();
+            ArrayList<OpenOrderDto> nlx = openOrders.GetNLXData();
+           
             BigDecimal TokarenjePriceSum = BigDecimal.ZERO;
             BigDecimal GlodanjePriceSum = BigDecimal.ZERO;
-
+            BigDecimal NlxPriceSum = BigDecimal.ZERO;
+            
             for (int i = 0; i < openOrders.GetListSize(); i++) {
 
                 Row row = null;
@@ -892,7 +915,8 @@ public class ExcelManager {
                 TokarenjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, tokarenje, i, 2, TokarenjePriceSum);
 
                 GlodanjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, glodanje, i, 16, GlodanjePriceSum);
-
+                
+                NlxPriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, nlx, i, 30, NlxPriceSum);
 
                 if (i + 1 == openOrders.GetListSize()) {
                     rowIndex = rowIndex + 2;

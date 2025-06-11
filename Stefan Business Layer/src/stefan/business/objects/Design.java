@@ -497,5 +497,17 @@ public class Design {
         this.isNlx = isNlx;
     }
    
-    
+    /**
+     * @return the isTokarenjeDisplayName
+     */
+    public String getIsTokarenjeDisplayName() {
+        if (isNlx) {
+            return "N";
+        } else if (isTokarenje) {         
+            return "T";
+        }
+        else {
+            return "G";
+        }
+    }    
 }

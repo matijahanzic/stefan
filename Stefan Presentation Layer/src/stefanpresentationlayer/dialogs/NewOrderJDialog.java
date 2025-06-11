@@ -175,9 +175,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         columnBinding.setColumnName("Niklanje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenje}"));
-        columnBinding.setColumnName("Is Tokarenje");
-        columnBinding.setColumnClass(Boolean.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenjeDisplayName}"));
+        columnBinding.setColumnName("Is Tokarenje Display Name");
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${designDate}"));
         columnBinding.setColumnName("Design Date");

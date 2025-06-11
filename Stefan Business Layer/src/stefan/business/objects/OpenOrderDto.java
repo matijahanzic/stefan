@@ -23,7 +23,7 @@ public class OpenOrderDto implements Comparable  {
 
    public OpenOrderDto(Integer idOrderItems,Integer quantityOrdered,Integer quantityDelivered,String orderNumber, Date shippingDate,
            String city,String designNumber,BigDecimal pcs1,BigDecimal pcs2,BigDecimal pcs3,BigDecimal pcs4,BigDecimal pcs5,BigDecimal pcs6,BigDecimal pcs10,
-           BigDecimal pcs15,BigDecimal pcs20,BigDecimal pcs30,BigDecimal pcs40,BigDecimal pcs50,BigDecimal pcs100,BigDecimal pcs200,BigDecimal pcs500,BigDecimal pcs1000,boolean niklanje,boolean isTokarenje, Long isOnTemporaryBill){
+           BigDecimal pcs15,BigDecimal pcs20,BigDecimal pcs30,BigDecimal pcs40,BigDecimal pcs50,BigDecimal pcs100,BigDecimal pcs200,BigDecimal pcs500,BigDecimal pcs1000,boolean niklanje,boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill){
        
        this.idOrderItems = idOrderItems;
        this.quantityOrdered = quantityOrdered;
@@ -63,6 +63,8 @@ public class OpenOrderDto implements Comparable  {
     this.niklanje=niklanje;
     
     this.isTokarenje=isTokarenje;
+    
+    this.isNlx=isNlx;
     
     this.isOnTemporaryBill = isOnTemporaryBill > 0;
    }
@@ -124,6 +126,8 @@ public class OpenOrderDto implements Comparable  {
     private boolean niklanje;
     
     private boolean isTokarenje;
+    
+    private boolean isNlx;
     
     private boolean isOnTemporaryBill;  
  
@@ -538,6 +542,20 @@ public class OpenOrderDto implements Comparable  {
      */
     public void setIsTokarenje(boolean isTokarenje) {
         this.isTokarenje = isTokarenje;
+    }
+    
+     /**
+     * @return the Nlx
+     */
+    public boolean isNlx() {
+        return isNlx;
+    }
+
+    /**
+     * @param isNlx the isNlx to set
+     */
+    public void setIsNlx(boolean isNlx) {
+        this.isNlx = isNlx;
     }
     
     /**
