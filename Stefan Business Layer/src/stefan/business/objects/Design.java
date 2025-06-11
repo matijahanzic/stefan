@@ -510,4 +510,21 @@ public class Design {
             return "G";
         }
     }    
+    
+    /**
+     * @param isTokarenjeDisplayName the isNlx to set
+     */
+    public void setIsTokarenjeDisplayName(String isTokarenjeDisplayName) {
+        if (isTokarenjeDisplayName == "N") {
+            isNlx = true;
+            isTokarenje = false;
+        } else if (isTokarenjeDisplayName == "T") {
+            isNlx = false;
+            isTokarenje = true;
+        }
+        else {
+           isNlx = false;
+           isTokarenje = false;
+        }
+    }    
 }

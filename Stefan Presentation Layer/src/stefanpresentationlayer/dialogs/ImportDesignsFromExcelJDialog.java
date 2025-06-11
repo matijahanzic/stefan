@@ -107,9 +107,9 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Niklanje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenje}"));
-        columnBinding.setColumnName("Is Tokarenje");
-        columnBinding.setColumnClass(Boolean.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isTokarenjeDisplayName}"));
+        columnBinding.setColumnName("Is Tokarenje Display Name");
+        columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
         columnBinding.setColumnName("Date");
@@ -320,7 +320,7 @@ private void savejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 manager.SaveDesign(design);                
             } else {
                 
-                //prilikom importa iz excel ako nacrt vec postoji polja Revizija, Naziv, Identitet, Klasa i T/G se ne mijenjaju
+                //prilikom importa iz excel ako nacrt vec postoji polja Revizija, Naziv, Identitet, Klasa i T/G/N se ne mijenjaju
                 Design existingDesign = existingDesigns.get(0);
                 design.setIdDesign(existingDesign.getIdDesign());
                 design.setRevision(existingDesign.getRevision());
@@ -328,6 +328,7 @@ private void savejButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 design.setDesignIdentity(existingDesign.getDesignIdentity());
                 design.setClassMark(existingDesign.getClassMark());
                 design.setIsTokarenje(existingDesign.getIsTokarenje()); 
+                design.setIsNlx(existingDesign.getIsNlx()); 
                 
                 manager.ChangeDesign(design);
             }
@@ -349,9 +350,34 @@ private void jButtonChangeTokarenjeActionPerformed(java.awt.event.ActionEvent ev
         return;
     }    
 
-    Boolean oldValue = (Boolean)designsJTable.getModel().getValueAt(rowIndex, 6);
-    Boolean newValue = !oldValue; //inverzija vrijednosti   
-    designsJTable.getModel().setValueAt(newValue, rowIndex, 6); 
+    
+    Design row = designs.get(rowIndex);
+    
+    if (row.getIsNlx()){
+        // ako je N idi na T
+        row.setIsNlx(false);
+        row.setIsTokarenje(true);
+    } else if (row.getIsTokarenje()){
+        // ako je T idi na G
+        row.setIsNlx(false);
+        row.setIsTokarenje(false);
+    } else {
+        // ako je G idi na N
+        row.setIsNlx(true);
+        row.setIsTokarenje(false);
+    } 
+    
+    designsJTable.getModel().setValueAt(row.getIsTokarenjeDisplayName(), rowIndex, 6); 
+    
+       // Force update
+    //// List<Design> newDesigns = ObservableCollections.observableList(new ArrayList<stefan.business.objects.Design>());
+    //// for (Design design : designs) {
+      //      newDesigns.add(design);
+     //  } 
+    
+    //designs = newDesigns;
+    //this.firePropertyChange("designs", null, null); 
+
 }//GEN-LAST:event_jButtonChangeTokarenjeActionPerformed
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
