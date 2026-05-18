@@ -29,6 +29,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     private Design design = new Design();
     private boolean isNew = false;
+    private boolean _isFopac = true;
 
     /** Creates new form EditDesignJDialog */
     public EditDesignJDialog(java.awt.Frame parent, boolean modal) {
@@ -38,6 +39,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         panel.setVisible(false);
         btnSaveChanges.setEnabled(false);
         jPanel2.setVisible(true);
+    }
+
+    public void SetIsWH() {
+        _isFopac = false;
     }
 
     /** This method is called from within the constructor to
@@ -61,38 +66,18 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         btnSaveChanges = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         panel = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        price10 = new javax.swing.JTextField();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        price100 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         revisionInput = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        price3 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        price500 = new javax.swing.JTextField();
-        price2 = new javax.swing.JTextField();
-        price1 = new javax.swing.JTextField();
         designIdInput = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         designNumberInput = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
         percentTF = new javax.swing.JTextField();
         designClassInput = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
-        price50 = new javax.swing.JTextField();
-        price20 = new javax.swing.JTextField();
-        price15 = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
-        price5 = new javax.swing.JTextField();
         desigDateInput = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         daGlodanjeButton = new javax.swing.JRadioButton();
@@ -105,6 +90,46 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         daNiklanjeButton = new javax.swing.JRadioButton();
         designNameInput = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
+        fopacPanel = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        price1 = new javax.swing.JTextField();
+        price2 = new javax.swing.JTextField();
+        price3 = new javax.swing.JTextField();
+        price5 = new javax.swing.JTextField();
+        price10 = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        price15 = new javax.swing.JTextField();
+        price20 = new javax.swing.JTextField();
+        price50 = new javax.swing.JTextField();
+        price100 = new javax.swing.JTextField();
+        price500 = new javax.swing.JTextField();
+        whPanel = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        price1_1 = new javax.swing.JTextField();
+        price2_2 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        price4 = new javax.swing.JTextField();
+        price8 = new javax.swing.JTextField();
+        price32 = new javax.swing.JTextField();
+        price16 = new javax.swing.JTextField();
+        price64 = new javax.swing.JTextField();
+        price128 = new javax.swing.JTextField();
+        price500_1 = new javax.swing.JTextField();
         createNewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -151,21 +176,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         panel.setName("panel"); // NOI18N
 
-        jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
-        jLabel21.setName("jLabel21"); // NOI18N
-
-        price10.setName("price10"); // NOI18N
-        price10.setNextFocusableComponent(price15);
-
-        jLabel32.setText(resourceMap.getString("jLabel32.text")); // NOI18N
-        jLabel32.setName("jLabel32"); // NOI18N
-
-        jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
-        jLabel22.setName("jLabel22"); // NOI18N
-
-        price100.setName("price100"); // NOI18N
-        price100.setNextFocusableComponent(price500);
-
         jLabel20.setText(resourceMap.getString("jLabel20.text")); // NOI18N
         jLabel20.setName("jLabel20"); // NOI18N
 
@@ -182,33 +192,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel16.setText(resourceMap.getString("jLabel16.text")); // NOI18N
         jLabel16.setName("jLabel16"); // NOI18N
 
-        price3.setName("price3"); // NOI18N
-        price3.setNextFocusableComponent(price5);
-
-        jLabel28.setText(resourceMap.getString("jLabel28.text")); // NOI18N
-        jLabel28.setName("jLabel28"); // NOI18N
-
         jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
         jLabel17.setName("jLabel17"); // NOI18N
 
         jLabel18.setText(resourceMap.getString("jLabel18.text")); // NOI18N
         jLabel18.setName("jLabel18"); // NOI18N
 
-        jLabel36.setText(resourceMap.getString("jLabel36.text")); // NOI18N
-        jLabel36.setName("jLabel36"); // NOI18N
-
-        price500.setName("price500"); // NOI18N
-
-        price2.setName("price2"); // NOI18N
-        price2.setNextFocusableComponent(price3);
-
-        price1.setName("price1"); // NOI18N
-        price1.setNextFocusableComponent(price2);
-
         designIdInput.setName("designIdInput"); // NOI18N
-
-        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
-        jLabel26.setName("jLabel26"); // NOI18N
 
         jLabel19.setText(resourceMap.getString("jLabel19.text")); // NOI18N
         jLabel19.setName("jLabel19"); // NOI18N
@@ -216,36 +206,12 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         designNumberInput.setEditable(false);
         designNumberInput.setName("designNumberInput"); // NOI18N
 
-        jLabel35.setText(resourceMap.getString("jLabel35.text")); // NOI18N
-        jLabel35.setName("jLabel35"); // NOI18N
-
-        jLabel33.setText(resourceMap.getString("jLabel33.text")); // NOI18N
-        jLabel33.setName("jLabel33"); // NOI18N
-
-        jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
-        jLabel24.setName("jLabel24"); // NOI18N
-
         percentTF.setName("percentTF"); // NOI18N
 
         designClassInput.setName("designClassInput"); // NOI18N
 
         jLabel37.setText(resourceMap.getString("jLabel37.text")); // NOI18N
         jLabel37.setName("jLabel37"); // NOI18N
-
-        price50.setName("price50"); // NOI18N
-        price50.setNextFocusableComponent(price100);
-
-        price20.setName("price20"); // NOI18N
-        price20.setNextFocusableComponent(price50);
-
-        price15.setName("price15"); // NOI18N
-        price15.setNextFocusableComponent(price20);
-
-        jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
-        jLabel27.setName("jLabel27"); // NOI18N
-
-        price5.setName("price5"); // NOI18N
-        price5.setNextFocusableComponent(price10);
 
         desigDateInput.setEditable(false);
         desigDateInput.setText(resourceMap.getString("desigDateInput.text")); // NOI18N
@@ -256,7 +222,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         buttonGroup2.add(daGlodanjeButton);
         daGlodanjeButton.setText(resourceMap.getString("daGlodanjeButton.text")); // NOI18N
         daGlodanjeButton.setName("daGlodanjeButton"); // NOI18N
-        daGlodanjeButton.setNextFocusableComponent(daNiklanjeButton);
+        daGlodanjeButton.setNextFocusableComponent(daNlxButton);
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setToolTipText(resourceMap.getString("jLabel2.toolTipText")); // NOI18N
@@ -270,6 +236,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         buttonGroup2.add(daNlxButton);
         daNlxButton.setText(resourceMap.getString("daNlxButton.text")); // NOI18N
         daNlxButton.setName("daNlxButton"); // NOI18N
+        daNlxButton.setNextFocusableComponent(daNiklanjeButton);
         daNlxButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 daNlxButtonActionPerformed(evt);
@@ -354,70 +321,315 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel38.setText(resourceMap.getString("jLabel38.text")); // NOI18N
         jLabel38.setName("jLabel38"); // NOI18N
 
+        fopacPanel.setName("fopacPanel"); // NOI18N
+
+        jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
+        jLabel21.setName("jLabel21"); // NOI18N
+
+        jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
+        jLabel22.setName("jLabel22"); // NOI18N
+
+        jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
+        jLabel24.setName("jLabel24"); // NOI18N
+
+        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
+        jLabel26.setName("jLabel26"); // NOI18N
+
+        jLabel28.setText(resourceMap.getString("jLabel28.text")); // NOI18N
+        jLabel28.setName("jLabel28"); // NOI18N
+
+        price1.setName("price1"); // NOI18N
+        price1.setNextFocusableComponent(price2);
+
+        price2.setName("price2"); // NOI18N
+        price2.setNextFocusableComponent(price3);
+
+        price3.setName("price3"); // NOI18N
+        price3.setNextFocusableComponent(price5);
+
+        price5.setName("price5"); // NOI18N
+        price5.setNextFocusableComponent(price10);
+
+        price10.setName("price10"); // NOI18N
+        price10.setNextFocusableComponent(price15);
+
+        jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
+        jLabel27.setName("jLabel27"); // NOI18N
+
+        jLabel35.setText(resourceMap.getString("jLabel35.text")); // NOI18N
+        jLabel35.setName("jLabel35"); // NOI18N
+
+        jLabel33.setText(resourceMap.getString("jLabel33.text")); // NOI18N
+        jLabel33.setName("jLabel33"); // NOI18N
+
+        jLabel32.setText(resourceMap.getString("jLabel32.text")); // NOI18N
+        jLabel32.setName("jLabel32"); // NOI18N
+
+        jLabel36.setText(resourceMap.getString("jLabel36.text")); // NOI18N
+        jLabel36.setName("jLabel36"); // NOI18N
+
+        price15.setName("price15"); // NOI18N
+        price15.setNextFocusableComponent(price20);
+
+        price20.setName("price20"); // NOI18N
+        price20.setNextFocusableComponent(price50);
+
+        price50.setName("price50"); // NOI18N
+        price50.setNextFocusableComponent(price100);
+
+        price100.setName("price100"); // NOI18N
+        price100.setNextFocusableComponent(price500);
+
+        price500.setName("price500"); // NOI18N
+        price500.setNextFocusableComponent(daTokarenjeButton);
+
+        javax.swing.GroupLayout fopacPanelLayout = new javax.swing.GroupLayout(fopacPanel);
+        fopacPanel.setLayout(fopacPanelLayout);
+        fopacPanelLayout.setHorizontalGroup(
+            fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fopacPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(price10, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(price3)
+                        .addComponent(price2)
+                        .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(price5, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(price20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(price100, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(price500, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(price50, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(price15, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        fopacPanelLayout.setVerticalGroup(
+            fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fopacPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(fopacPanelLayout.createSequentialGroup()
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel35))
+                        .addGap(11, 11, 11)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel33))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price100, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel32))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price500, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel36)))
+                    .addGroup(fopacPanelLayout.createSequentialGroup()
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22))
+                        .addGap(11, 11, 11)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(fopacPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(price10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel28))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        whPanel.setName("whPanel"); // NOI18N
+
+        jLabel23.setText(resourceMap.getString("jLabel23.text")); // NOI18N
+        jLabel23.setName("jLabel23"); // NOI18N
+
+        jLabel25.setText(resourceMap.getString("jLabel25.text")); // NOI18N
+        jLabel25.setName("jLabel25"); // NOI18N
+
+        jLabel29.setText(resourceMap.getString("jLabel29.text")); // NOI18N
+        jLabel29.setName("jLabel29"); // NOI18N
+
+        jLabel30.setText(resourceMap.getString("jLabel30.text")); // NOI18N
+        jLabel30.setName("jLabel30"); // NOI18N
+
+        jLabel31.setText(resourceMap.getString("jLabel31.text")); // NOI18N
+        jLabel31.setName("jLabel31"); // NOI18N
+
+        price1_1.setName("price1_1"); // NOI18N
+        price1_1.setNextFocusableComponent(price2_2);
+
+        price2_2.setName("price2_2"); // NOI18N
+        price2_2.setNextFocusableComponent(price4);
+
+        jLabel34.setText(resourceMap.getString("jLabel34.text")); // NOI18N
+        jLabel34.setName("jLabel34"); // NOI18N
+
+        jLabel39.setText(resourceMap.getString("jLabel39.text")); // NOI18N
+        jLabel39.setName("jLabel39"); // NOI18N
+
+        jLabel40.setText(resourceMap.getString("jLabel40.text")); // NOI18N
+        jLabel40.setName("jLabel40"); // NOI18N
+
+        jLabel41.setText(resourceMap.getString("jLabel41.text")); // NOI18N
+        jLabel41.setName("jLabel41"); // NOI18N
+
+        price4.setName("price4"); // NOI18N
+        price4.setNextFocusableComponent(price8);
+
+        price8.setName("price8"); // NOI18N
+        price8.setNextFocusableComponent(price16);
+
+        price32.setName("price32"); // NOI18N
+        price32.setNextFocusableComponent(price64);
+
+        price16.setName("price16"); // NOI18N
+        price16.setNextFocusableComponent(price32);
+
+        price64.setName("price64"); // NOI18N
+        price64.setNextFocusableComponent(price128);
+
+        price128.setName("price128"); // NOI18N
+        price128.setNextFocusableComponent(price500_1);
+
+        price500_1.setName("price500_1"); // NOI18N
+        price500_1.setNextFocusableComponent(daTokarenjeButton);
+
+        javax.swing.GroupLayout whPanelLayout = new javax.swing.GroupLayout(whPanel);
+        whPanel.setLayout(whPanelLayout);
+        whPanelLayout.setHorizontalGroup(
+            whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(whPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(whPanelLayout.createSequentialGroup()
+                        .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(price4)
+                                .addComponent(price2_2)
+                                .addComponent(price1_1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                            .addComponent(price8)))
+                    .addGroup(whPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(price16)))
+                .addGap(18, 18, 18)
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(whPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(price32, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                    .addGroup(whPanelLayout.createSequentialGroup()
+                        .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel41)
+                            .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel40, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(whPanelLayout.createSequentialGroup()
+                                .addComponent(price64, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, whPanelLayout.createSequentialGroup()
+                                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(price128, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(price500_1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
+                .addGap(16, 16, 16))
+        );
+        whPanelLayout.setVerticalGroup(
+            whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(whPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price1_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23)
+                    .addComponent(price32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(price2_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel39)
+                    .addComponent(price64, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(price4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40)
+                    .addComponent(price128, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(price8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel41)
+                    .addComponent(price500_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(whPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(price16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(designNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price10))
-                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(panelLayout.createSequentialGroup()
-                                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(price3))
-                                .addGroup(panelLayout.createSequentialGroup()
-                                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(price2))
-                                .addGroup(panelLayout.createSequentialGroup()
-                                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price5)))
-                        .addGap(80, 80, 80)))
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelLayout.createSequentialGroup()
+                            .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jLabel17)))
-                    .addGroup(panelLayout.createSequentialGroup()
+                            .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(price20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(price100)
-                            .addComponent(price500)
-                            .addComponent(price50)
-                            .addComponent(price15))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18)
-                    .addComponent(designIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel18)
+                            .addComponent(designIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(fopacPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(whPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -458,48 +670,22 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     .addComponent(designClassInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(desigDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel37)
-                        .addComponent(jLabel27)
-                        .addComponent(price15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(price2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(price20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel35))
-                .addGap(11, 11, 11)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel24)
-                            .addComponent(price3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel33))
+                        .addComponent(jLabel37)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel26)
-                            .addComponent(price5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32)
-                            .addComponent(price100, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel28)
-                            .addComponent(price10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36)
-                            .addComponent(price500, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26))
-                    .addGroup(panelLayout.createSequentialGroup()
+                            .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(21, 21, 21)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(fopacPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(whPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jLabel38.getAccessibleContext().setAccessibleName(resourceMap.getString("jLabel38.AccessibleContext.accessibleName")); // NOI18N
@@ -583,125 +769,172 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             desigDateInput.setText(f.format(design.getDate()));
 
-            if (design.isNiklanje())
-            {
+            if (design.isNiklanje()) {
                 daNiklanjeButton.setSelected(true);
-            }
-            else
-            {
+            } else {
                 neNiklanjeButton.setSelected(true);
             }
-            
-            if (design.getIsNlx())
-            {
+
+            if (design.getIsNlx()) {
                 daNlxButton.setSelected(true);
                 daTokarenjeButton.setSelected(false);
                 daGlodanjeButton.setSelected(false);
-            }
-            else if (design.getIsTokarenje())
-            {
+            } else if (design.getIsTokarenje()) {
                 daNlxButton.setSelected(false);
                 daTokarenjeButton.setSelected(true);
                 daGlodanjeButton.setSelected(false);
-            }
-            else
-            {
+            } else {
                 daNlxButton.setSelected(false);
                 daTokarenjeButton.setSelected(false);
                 daGlodanjeButton.setSelected(true);
-            }         
-          
-            
-            if (design.getPcs1() != null) {
-                price1.setText(design.getPcs1().toPlainString().replace('.', ','));
-            } else {
-                price1.setText("");
             }
-            if (design.getPcs2() != null) {
-                price2.setText(design.getPcs2().toPlainString().replace('.', ','));
+
+            if (_isFopac) {
+                if (design.getPcs1() != null) {
+                    price1.setText(design.getPcs1().toPlainString().replace('.', ','));
+                } else {
+                    price1.setText("");
+                }
+                if (design.getPcs2() != null) {
+                    price2.setText(design.getPcs2().toPlainString().replace('.', ','));
+                } else {
+                    price2.setText("");
+                }
+                if (design.getPcs3() != null) {
+                    price3.setText(design.getPcs3().toPlainString().replace('.', ','));
+                } else {
+                    price3.setText("");
+                }
+                if (design.getPcs5() != null) {
+                    price5.setText(design.getPcs5().toPlainString().replace('.', ','));
+                } else {
+                    price5.setText("");
+                }
+                if (design.getPcs10() != null) {
+                    price10.setText(design.getPcs10().toPlainString().replace('.', ','));
+                } else {
+                    price10.setText("");
+                }
+                if (design.getPcs15() != null) {
+                    price15.setText(design.getPcs15().toPlainString().replace('.', ','));
+                } else {
+                    price15.setText("");
+                }
+                if (design.getPcs20() != null) {
+                    price20.setText(design.getPcs20().toPlainString().replace('.', ','));
+                } else {
+                    price20.setText("");
+                }
+                if (design.getPcs50() != null) {
+                    price50.setText(design.getPcs50().toPlainString().replace('.', ','));
+                } else {
+                    price50.setText("");
+                }
+                if (design.getPcs100() != null) {
+                    price100.setText(design.getPcs100().toPlainString().replace('.', ','));
+                } else {
+                    price100.setText("");
+                }
+                if (design.getPcs500() != null) {
+                    price500.setText(design.getPcs500().toPlainString().replace('.', ','));
+                } else {
+                    price500.setText("");
+                }
             } else {
-                price2.setText("");
+                if (design.getPcs1() != null) {
+                    price1_1.setText(design.getPcs1().toPlainString().replace('.', ','));
+                } else {
+                    price1_1.setText("");
+                }
+                if (design.getPcs2() != null) {
+                    price2_2.setText(design.getPcs2().toPlainString().replace('.', ','));
+                } else {
+                    price2_2.setText("");
+                }
+                if (design.getPcs4() != null) {
+                    price4.setText(design.getPcs4().toPlainString().replace('.', ','));
+                } else {
+                    price4.setText("");
+                }
+                if (design.getPcs8() != null) {
+                    price8.setText(design.getPcs8().toPlainString().replace('.', ','));
+                } else {
+                    price8.setText("");
+                }
+                if (design.getPcs16() != null) {
+                    price16.setText(design.getPcs16().toPlainString().replace('.', ','));
+                } else {
+                    price16.setText("");
+                }
+                if (design.getPcs32() != null) {
+                    price32.setText(design.getPcs32().toPlainString().replace('.', ','));
+                } else {
+                    price32.setText("");
+                }
+                if (design.getPcs64() != null) {
+                    price64.setText(design.getPcs64().toPlainString().replace('.', ','));
+                } else {
+                    price64.setText("");
+                }
+                if (design.getPcs128() != null) {
+                    price128.setText(design.getPcs128().toPlainString().replace('.', ','));
+                } else {
+                    price128.setText("");
+                }
+                if (design.getPcs500() != null) {
+                    price500.setText(design.getPcs500().toPlainString().replace('.', ','));
+                } else {
+                    price500.setText("");
+                }
             }
-            if (design.getPcs3() != null) {
-                price3.setText(design.getPcs3().toPlainString().replace('.', ','));
-            } else {
-                price3.setText("");
-            }
+
+
+
+
             /*
             if (design.getPcs4() != null) {
-                price4.setText(design.getPcs4().toPlainString().replace('.', ','));
+            price4.setText(design.getPcs4().toPlainString().replace('.', ','));
             } else {
-                price4.setText("");
+            price4.setText("");
             }*/
-            if (design.getPcs5() != null) {
-                price5.setText(design.getPcs5().toPlainString().replace('.', ','));
-            } else {
-                price5.setText("");
-            }
+
             /*
             if (design.getPcs6() != null) {
-                price6.setText(design.getPcs6().toPlainString().replace('.', ','));
+            price6.setText(design.getPcs6().toPlainString().replace('.', ','));
             } else {
-                price6.setText("");
+            price6.setText("");
             }
              */
-            if (design.getPcs10() != null) {
-                price10.setText(design.getPcs10().toPlainString().replace('.', ','));
-            } else {
-                price10.setText("");
-            }
-            if (design.getPcs15() != null) {
-                price15.setText(design.getPcs15().toPlainString().replace('.', ','));
-            } else {
-                price15.setText("");
-            }
-            if (design.getPcs20() != null) {
-                price20.setText(design.getPcs20().toPlainString().replace('.', ','));
-            } else {
-                price20.setText("");
-            }
+
             /*
             if (design.getPcs30() != null) {
-                price30.setText(design.getPcs30().toPlainString().replace('.', ','));
+            price30.setText(design.getPcs30().toPlainString().replace('.', ','));
             } else {
-                price30.setText("");
+            price30.setText("");
             }
             if (design.getPcs40() != null) {
-                price40.setText(design.getPcs40().toPlainString().replace('.', ','));
+            price40.setText(design.getPcs40().toPlainString().replace('.', ','));
             } else {
-                price40.setText("");
+            price40.setText("");
             }
-*/
-            if (design.getPcs50() != null) {
-                price50.setText(design.getPcs50().toPlainString().replace('.', ','));
-            } else {
-                price50.setText("");
-            }
-            if (design.getPcs100() != null) {
-                price100.setText(design.getPcs100().toPlainString().replace('.', ','));
-            } else {
-                price100.setText("");
-            }
+             */
+
             /*
             if (design.getPcs200() != null) {
-                price200.setText(design.getPcs200().toPlainString().replace('.', ','));
+            price200.setText(design.getPcs200().toPlainString().replace('.', ','));
             } else {
-                price200.setText("");
+            price200.setText("");
             }
-             
+            
              */
-            if (design.getPcs500() != null) {
-                price500.setText(design.getPcs500().toPlainString().replace('.', ','));
-            } else {
-                price500.setText("");
-            }
+
             /*
             if (design.getPcs1000() != null) {
-                price1000.setText(design.getPcs1000().toPlainString().replace('.', ','));
+            price1000.setText(design.getPcs1000().toPlainString().replace('.', ','));
             } else {
-                price1000.setText("");
+            price1000.setText("");
             }
-*/
+             */
 
         } else {
             panel.setVisible(false);
@@ -712,7 +945,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     public void CreateNew() {
         jPanel2.setVisible(true);
-        neNiklanjeButton.setSelected(true);      
+        neNiklanjeButton.setSelected(true);
         daTokarenjeButton.setSelected(true);
         btnSaveChanges.setEnabled(true);
         panel.setVisible(true);
@@ -720,9 +953,11 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         desigDateInput.setText(f.format(new Date()));
         designNumberInput.setEditable(true);
         btnFindDesign.setEnabled(false);
+        fopacPanel.setVisible(_isFopac);
+        whPanel.setVisible(!_isFopac);
         isNew = true;
     }
-    
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -757,15 +992,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             price3.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-        /*
+        
         try {
-            BigDecimal price = new BigDecimal(price4.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price4.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price4.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price4.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-         * 
-         */
         try {
             BigDecimal price = new BigDecimal(price5.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -774,13 +1007,19 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
         /*
         try {
-            BigDecimal price = new BigDecimal(price6.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price6.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price6.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price6.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
          * 
          */
+        try {
+            BigDecimal price = new BigDecimal(price8.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price8.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
         try {
             BigDecimal price = new BigDecimal(price10.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -794,25 +1033,37 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price16.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price16.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        try {
             BigDecimal price = new BigDecimal(price20.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price20.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        try {
+            BigDecimal price = new BigDecimal(price32.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price32.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
         /*
         try {
-            BigDecimal price = new BigDecimal(price30.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price30.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price30.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price30.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
          * 
          */
         /*
         try {
-            BigDecimal price = new BigDecimal(price40.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price40.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price40.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price40.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
          * 
@@ -824,20 +1075,33 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price64.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price64.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        try {
             BigDecimal price = new BigDecimal(price100.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price100.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        try {
+            BigDecimal price = new BigDecimal(price128.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price128.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
         /*
         try {
-            BigDecimal price = new BigDecimal(price200.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price200.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price200.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price200.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
          * 
          */
+        
         try {
             BigDecimal price = new BigDecimal(price500.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -846,9 +1110,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
         /*
         try {
-            BigDecimal price = new BigDecimal(price1000.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price1000.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price1000.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price1000.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
          * 
@@ -866,10 +1130,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         }
         try {
-            if (!isNew && design.getPcs1()==null && (price1.getText()!= null || !"".equals(price1.getText()))) {
+            if (!isNew && design.getPcs1() == null && (price1.getText() != null || !"".equals(price1.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs1()!=null && design.getPcs1().compareTo(new BigDecimal(price1.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs1() != null && design.getPcs1().compareTo(new BigDecimal(price1.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
 
@@ -877,89 +1141,137 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs2()==null && (price2.getText()!= null || !"".equals(price2.getText()))) {
+            if (!isNew && design.getPcs1() == null && (price1_1.getText() != null || !"".equals(price1_1.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs2()!=null && design.getPcs2().compareTo(new BigDecimal(price2.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs1() != null && design.getPcs1().compareTo(new BigDecimal(price1_1.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+
+            design.setPcs1(new BigDecimal(price1_1.getText().replace(',', '.')));
+
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs2() == null && (price2.getText() != null || !"".equals(price2.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs2() != null && design.getPcs2().compareTo(new BigDecimal(price2.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs2(new BigDecimal(price2.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs3()==null && (price3.getText()!= null || !"".equals(price3.getText()))) {
+            if (!isNew && design.getPcs2() == null && (price2_2.getText() != null || !"".equals(price2_2.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs3()!=null && design.getPcs3().compareTo(new BigDecimal(price3.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs2() != null && design.getPcs2().compareTo(new BigDecimal(price2_2.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs2(new BigDecimal(price2_2.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs3() == null && (price3.getText() != null || !"".equals(price3.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs3() != null && design.getPcs3().compareTo(new BigDecimal(price3.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs3(new BigDecimal(price3.getText().replace(',', '.')));
 
         } catch (NumberFormatException e) {
         }
-        /*
+        
         try {
-            if (!isNew && design.getPcs4()==null && (price4.getText()!= null || !"".equals(price4.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs4()!=null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs4(new BigDecimal(price4.getText().replace(',', '.')));
-
+        if (!isNew && design.getPcs4()==null && (price4.getText()!= null || !"".equals(price4.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs4()!=null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs4(new BigDecimal(price4.getText().replace(',', '.')));
+        
         } catch (NumberFormatException e) {
         }
-         * 
-         */
+         
         try {
-            if (!isNew && design.getPcs5()==null && (price5.getText()!= null || !"".equals(price5.getText()))) {
+            if (!isNew && design.getPcs5() == null && (price5.getText() != null || !"".equals(price5.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs5()!=null && design.getPcs5().compareTo(new BigDecimal(price5.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs5() != null && design.getPcs5().compareTo(new BigDecimal(price5.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs5(new BigDecimal(price5.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        try {
+        if (!isNew && design.getPcs8()==null && (price8.getText()!= null || !"".equals(price8.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs8()!=null && design.getPcs8().compareTo(new BigDecimal(price8.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs8(new BigDecimal(price8.getText().replace(',', '.')));
+        
+        } catch (NumberFormatException e) {
+        }
         /*
         try { 
-            if (!isNew && design.getPcs6()==null && (price6.getText()!= null || !"".equals(price6.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew &&  design.getPcs6()!=null && design.getPcs6().compareTo(new BigDecimal(price6.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs6(new BigDecimal(price6.getText().replace(',', '.')));
+        if (!isNew && design.getPcs6()==null && (price6.getText()!= null || !"".equals(price6.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew &&  design.getPcs6()!=null && design.getPcs6().compareTo(new BigDecimal(price6.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs6(new BigDecimal(price6.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
          * 
          */
         try {
-            if (!isNew && design.getPcs10()==null && (price10.getText()!= null || !"".equals(price10.getText()))) {
+            if (!isNew && design.getPcs10() == null && (price10.getText() != null || !"".equals(price10.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs10()!=null && design.getPcs10().compareTo(new BigDecimal(price10.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs10() != null && design.getPcs10().compareTo(new BigDecimal(price10.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs10(new BigDecimal(price10.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs15()==null && (price15.getText()!= null || !"".equals(price15.getText()))) {
+            if (!isNew && design.getPcs15() == null && (price15.getText() != null || !"".equals(price15.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs15()!=null && design.getPcs15().compareTo(new BigDecimal(price15.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs15() != null && design.getPcs15().compareTo(new BigDecimal(price15.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs15(new BigDecimal(price15.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        
         try {
-            if (!isNew && design.getPcs20()==null && (price20.getText()!= null || !"".equals(price20.getText()))) {
+        if (!isNew && design.getPcs16()==null && (price16.getText()!= null || !"".equals(price16.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs16()!=null && design.getPcs16().compareTo(new BigDecimal(price16.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs16(new BigDecimal(price16.getText().replace(',', '.')));
+        
+        } catch (NumberFormatException e) {
+        }
+        
+        try {
+            if (!isNew && design.getPcs20() == null && (price20.getText() != null || !"".equals(price20.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs20()!=null && design.getPcs20().compareTo(new BigDecimal(price20.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs20() != null && design.getPcs20().compareTo(new BigDecimal(price20.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs20(new BigDecimal(price20.getText().replace(',', '.')));
@@ -967,65 +1279,99 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
         /*
         try {
-            if (!isNew && design.getPcs30()==null && (price30.getText()!= null || !"".equals(price30.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs30()!=null && design.getPcs30().compareTo(new BigDecimal(price30.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs30(new BigDecimal(price30.getText().replace(',', '.')));
+        if (!isNew && design.getPcs30()==null && (price30.getText()!= null || !"".equals(price30.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs30()!=null && design.getPcs30().compareTo(new BigDecimal(price30.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs30(new BigDecimal(price30.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs40()==null && (price40.getText()!= null || !"".equals(price40.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs40()!=null && design.getPcs40().compareTo(new BigDecimal(price40.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs40(new BigDecimal(price40.getText().replace(',', '.')));
+        if (!isNew && design.getPcs40()==null && (price40.getText()!= null || !"".equals(price40.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs40()!=null && design.getPcs40().compareTo(new BigDecimal(price40.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs40(new BigDecimal(price40.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
          * 
          */
-        try {
-            if (!isNew && design.getPcs50()==null && (price50.getText()!= null || !"".equals(price50.getText()))) {
+         try {
+            if (!isNew && design.getPcs32() == null && (price32.getText() != null || !"".equals(price32.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs50()!=null && design.getPcs50().compareTo(new BigDecimal(price50.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs32() != null && design.getPcs32().compareTo(new BigDecimal(price32.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs32(new BigDecimal(price32.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+         
+        try {
+            if (!isNew && design.getPcs50() == null && (price50.getText() != null || !"".equals(price50.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs50() != null && design.getPcs50().compareTo(new BigDecimal(price50.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs50(new BigDecimal(price50.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        
         try {
-            if (!isNew && design.getPcs100()==null && (price100.getText()!= null || !"".equals(price100.getText()))) {
+            if (!isNew && design.getPcs64() == null && (price64.getText() != null || !"".equals(price64.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs100()!=null && design.getPcs100().compareTo(new BigDecimal(price100.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs64() != null && design.getPcs64().compareTo(new BigDecimal(price64.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs64(new BigDecimal(price64.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+        
+        try {
+            if (!isNew && design.getPcs100() == null && (price100.getText() != null || !"".equals(price100.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs100() != null && design.getPcs100().compareTo(new BigDecimal(price100.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs100(new BigDecimal(price100.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        
+        try {
+            if (!isNew && design.getPcs128() == null && (price128.getText() != null || !"".equals(price128.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs128() != null && design.getPcs128().compareTo(new BigDecimal(price128.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs128(new BigDecimal(price128.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
         /*
         try {
-            if (!isNew && design.getPcs200()==null && (price200.getText()!= null || !"".equals(price200.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs200()!=null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
+        if (!isNew && design.getPcs200()==null && (price200.getText()!= null || !"".equals(price200.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs200()!=null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
          * 
          */
         try {
-            if (!isNew && design.getPcs500()==null && (price500.getText()!= null || !"".equals(price500.getText()))) {
+            if (!isNew && design.getPcs500() == null && (price500.getText() != null || !"".equals(price500.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs500()!=null && design.getPcs500().compareTo(new BigDecimal(price500.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs500() != null && design.getPcs500().compareTo(new BigDecimal(price500.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs500(new BigDecimal(price500.getText().replace(',', '.')));
@@ -1033,13 +1379,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
         /*
         try {
-            if (!isNew && design.getPcs1000()==null && (price1000.getText()!= null || !"".equals(price1000.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs1000()!=null && design.getPcs1000().compareTo(new BigDecimal(price1000.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs1000(new BigDecimal(price1000.getText().replace(',', '.')));
+        if (!isNew && design.getPcs1000()==null && (price1000.getText()!= null || !"".equals(price1000.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs1000()!=null && design.getPcs1000().compareTo(new BigDecimal(price1000.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs1000(new BigDecimal(price1000.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
          * 
@@ -1048,28 +1394,25 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         if (priceChanged) {
             design.setDate(new Date());
         }
-        
-        if(daNiklanjeButton.isSelected()) {
+
+        if (daNiklanjeButton.isSelected()) {
             design.setNiklanje(true);
-        }
-            else {
+        } else {
             design.setNiklanje(false);
         }
-        
-        if(daNlxButton.isSelected()) {
+
+        if (daNlxButton.isSelected()) {
             design.setIsNlx(true);
-        }
-            else {
+        } else {
             design.setIsNlx(false);
         }
-        
-        if(daTokarenjeButton.isSelected()) {
+
+        if (daTokarenjeButton.isSelected()) {
             design.setIsTokarenje(true);
-        }
-            else {
+        } else {
             design.setIsTokarenje(false);
         }
-        
+
         design.setName(designNameInput.getText());
         design.setClassMark(designClassInput.getText());
         design.setDesignIdentity(designIdInput.getText());
@@ -1088,9 +1431,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         this.dispose();
 
     }//GEN-LAST:event_btnSaveChangesActionPerformed
-     
+
 private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewButtonActionPerformed
-   CreateNew();
+    CreateNew();
 }//GEN-LAST:event_createNewButtonActionPerformed
 
 private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daNlxButtonActionPerformed
@@ -1158,6 +1501,7 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTextField designNameInput;
     private javax.swing.JTextField designNumberInput;
     private javax.swing.JTextField designNumberTF;
+    private javax.swing.JPanel fopacPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
@@ -1168,17 +1512,26 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1190,13 +1543,23 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTextField price1;
     private javax.swing.JTextField price10;
     private javax.swing.JTextField price100;
+    private javax.swing.JTextField price128;
     private javax.swing.JTextField price15;
+    private javax.swing.JTextField price16;
+    private javax.swing.JTextField price1_1;
     private javax.swing.JTextField price2;
     private javax.swing.JTextField price20;
+    private javax.swing.JTextField price2_2;
     private javax.swing.JTextField price3;
+    private javax.swing.JTextField price32;
+    private javax.swing.JTextField price4;
     private javax.swing.JTextField price5;
     private javax.swing.JTextField price50;
     private javax.swing.JTextField price500;
+    private javax.swing.JTextField price500_1;
+    private javax.swing.JTextField price64;
+    private javax.swing.JTextField price8;
     private javax.swing.JTextField revisionInput;
+    private javax.swing.JPanel whPanel;
     // End of variables declaration//GEN-END:variables
 }

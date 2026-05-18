@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Design.findByDesignIdentity", query = "SELECT d FROM Design d WHERE d.designIdentity = :designIdentity and d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByClassMark", query = "SELECT d FROM Design d WHERE d.classMark = :classMark and d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByName", query = "SELECT d FROM Design d WHERE d.name = :name"),
-    @NamedQuery(name = "Design.findByDate", query = "SELECT d FROM Design d WHERE d.date = :date"),   
+    @NamedQuery(name = "Design.findByDate", query = "SELECT d FROM Design d WHERE d.date = :date"),
     @NamedQuery(name = "Design.findByK", query = "SELECT d FROM Design d WHERE d.k = :k"),
     @NamedQuery(name = "Design.findByK1", query = "SELECT d FROM Design d WHERE d.k1 = :k1"),
     @NamedQuery(name = "Design.findByK2", query = "SELECT d FROM Design d WHERE d.k2 = :k2"),
@@ -57,13 +57,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Design.findByK13", query = "SELECT d FROM Design d WHERE d.k13 = :k13"),
     @NamedQuery(name = "Design.findByK14", query = "SELECT d FROM Design d WHERE d.k14 = :k14"),
     @NamedQuery(name = "Design.findByK15", query = "SELECT d FROM Design d WHERE d.k15 = :k15"),
-    @NamedQuery(name = "Design.findByNumber", query = "SELECT d FROM Design d WHERE d.isActive = 1 and  d.designNumber LIKE :designNumber ORDER BY d.designNumber" ),
-    @NamedQuery(name = "Design.findByFilters", query = "SELECT d FROM Design d WHERE d.isActive = 1 and d.designIdentity LIKE :designIdentity and d.classMark LIKE :classMark and d.designNumber LIKE :designNumber ORDER BY d.designNumber" )})
+    @NamedQuery(name = "Design.findByNumber", query = "SELECT d FROM Design d WHERE d.isActive = 1 and  d.designNumber LIKE :designNumber ORDER BY d.designNumber"),
+    @NamedQuery(name = "Design.findByFilters", query = "SELECT d FROM Design d WHERE d.isActive = 1 and d.designIdentity LIKE :designIdentity and d.classMark LIKE :classMark and d.designNumber LIKE :designNumber ORDER BY d.designNumber")})
 public class Design implements Serializable {
-    @Column(name =     "date")
+
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-    @Column(name =     "dateModified")
+    @Column(name = "dateModified")
     @Temporal(TemporalType.DATE)
     private Date dateModified;
     @Column(name = "revision")
@@ -72,7 +73,7 @@ public class Design implements Serializable {
     @Column(name = "isTokarenje")
     private boolean isTokarenje;
 // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-        @Column(name = "1k")
+    @Column(name = "1k")
     private BigDecimal k;
     @Column(name = "2k")
     private BigDecimal k1;
@@ -104,6 +105,16 @@ public class Design implements Serializable {
     private BigDecimal k14;
     @Column(name = "1000k")
     private BigDecimal k15;
+    @Column(name = "8k")
+    private BigDecimal k16;
+    @Column(name = "16k")
+    private BigDecimal k17;
+    @Column(name = "32k")
+    private BigDecimal k18;
+    @Column(name = "64k")
+    private BigDecimal k19;
+    @Column(name = "128k")
+    private BigDecimal k20;
     @Column(name = "isActive")
     private Boolean isActive;
     @Column(name = "niklanje")
@@ -128,7 +139,7 @@ public class Design implements Serializable {
     @Column(name = "name")
     private String name;
     @JoinColumn(name = "materialId", referencedColumnName = "idShape")
-    @ManyToOne    
+    @ManyToOne
     private Material materialId;
 
     public Design() {
@@ -181,17 +192,17 @@ public class Design implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }    
+    }
 
-    public Material getMaterialId(){
+    public Material getMaterialId() {
         return materialId;
     }
-    
-    public void setMaterialId(Material materialId){
+
+    public void setMaterialId(Material materialId) {
         this.materialId = materialId;
     }
 
-    public Design(Date date, List<Orderitems> orderitemsList, Integer idDesign, String designNumber, String designIdentity, String classMark, String name, BigDecimal k, BigDecimal k1, BigDecimal k2, BigDecimal k3, BigDecimal k4, BigDecimal k5, BigDecimal k6, BigDecimal k7, BigDecimal k8, BigDecimal k9, BigDecimal k10, BigDecimal k11, BigDecimal k12, BigDecimal k13, BigDecimal k14, BigDecimal k15, Material materialId) {
+    public Design(Date date, List<Orderitems> orderitemsList, Integer idDesign, String designNumber, String designIdentity, String classMark, String name, BigDecimal k, BigDecimal k1, BigDecimal k2, BigDecimal k3, BigDecimal k4, BigDecimal k5, BigDecimal k6, BigDecimal k7, BigDecimal k8, BigDecimal k9, BigDecimal k10, BigDecimal k11, BigDecimal k12, BigDecimal k13, BigDecimal k14, BigDecimal k15,BigDecimal k16,BigDecimal k17,BigDecimal k18,BigDecimal k19,BigDecimal k20, Material materialId) {
         this.date = date;
         this.orderitemsList = orderitemsList;
         this.idDesign = idDesign;
@@ -215,9 +226,14 @@ public class Design implements Serializable {
         this.k13 = k13;
         this.k14 = k14;
         this.k15 = k15;
+        this.k16 = k16;
+        this.k17 = k17;
+        this.k18 = k18;
+        this.k19 = k19;
+        this.k20 = k20;
+        
         this.materialId = materialId;
     }
-    
 
     @Override
     public int hashCode() {
@@ -267,8 +283,8 @@ public class Design implements Serializable {
 
     public void setNiklanje(Boolean niklanje) {
         this.niklanje = niklanje;
-    }   
-    
+    }
+
     public Boolean getIsNlx() {
         return isNlx;
     }
@@ -404,6 +420,46 @@ public class Design implements Serializable {
     public void setK15(BigDecimal k15) {
         this.k15 = k15;
     }
+    
+    public BigDecimal getK16() {
+        return k16;
+    }
+
+    public void setK16(BigDecimal k16) {
+        this.k16 = k16;
+    }
+    
+    public BigDecimal getK17() {
+        return k17;
+    }
+
+    public void setK17(BigDecimal k17) {
+        this.k17 = k17;
+    }
+    
+    public BigDecimal getK18() {
+        return k18;
+    }
+
+    public void setK18(BigDecimal k18) {
+        this.k18 = k18;
+    }
+    
+    public BigDecimal getK19() {
+        return k19;
+    }
+
+    public void setK19(BigDecimal k19) {
+        this.k19 = k19;
+    }
+    
+    public BigDecimal getK20() {
+        return k20;
+    }
+
+    public void setK20(BigDecimal k20) {
+        this.k20 = k20;
+    }
 
     public Date getDate() {
         return date;
@@ -436,5 +492,4 @@ public class Design implements Serializable {
     public void setIsTokarenje(boolean isTokarenje) {
         this.isTokarenje = isTokarenje;
     }
-    
 }

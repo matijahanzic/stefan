@@ -83,6 +83,16 @@ public class DesignManager {
             newDesign.setK14(design.getPcs500());
             //1k kom
             newDesign.setK15(design.getPcs1000());
+            
+            newDesign.setK16(design.getPcs8());
+            
+            newDesign.setK17(design.getPcs16());
+            
+            newDesign.setK18(design.getPcs32());
+            
+            newDesign.setK19(design.getPcs64());
+            
+            newDesign.setK20(design.getPcs128());
       
             entityManager.getTransaction().begin();
             
@@ -173,7 +183,18 @@ public class DesignManager {
             //500 kom
             newDesign.setK14(design.getPcs500());
             //1k kom
-            newDesign.setK15(design.getPcs1000());        
+            newDesign.setK15(design.getPcs1000());     
+            
+            newDesign.setK16(design.getPcs8());
+            
+            newDesign.setK17(design.getPcs16());
+            
+            newDesign.setK18(design.getPcs32());
+            
+            newDesign.setK19(design.getPcs64());
+            
+            newDesign.setK20(design.getPcs128());
+      
             
             entityManager.persist(newDesign);
             
@@ -270,7 +291,12 @@ public class DesignManager {
         result.setPcs100(design.getK12());
         result.setPcs200(design.getK13());
         result.setPcs500(design.getK14());
-        result.setPcs1000(design.getK15());  
+        result.setPcs1000(design.getK15());
+        result.setPcs8(design.getK16());
+        result.setPcs16(design.getK17());
+        result.setPcs32(design.getK18());
+        result.setPcs64(design.getK19());
+        result.setPcs128(design.getK20());
         return result;            
     }
 

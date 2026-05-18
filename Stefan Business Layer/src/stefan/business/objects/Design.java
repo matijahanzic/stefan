@@ -26,13 +26,18 @@ public class Design {
     private BigDecimal pcs4;
     private BigDecimal pcs5;
     private BigDecimal pcs6;
+    private BigDecimal pcs8;
     private BigDecimal pcs10;
     private BigDecimal pcs15;
+    private BigDecimal pcs16;
     private BigDecimal pcs20;
     private BigDecimal pcs30;
+    private BigDecimal pcs32;
     private BigDecimal pcs40;
     private BigDecimal pcs50;
+    private BigDecimal pcs64;
     private BigDecimal pcs100;
+    private BigDecimal pcs128;
     private BigDecimal pcs200;
     private BigDecimal pcs500;
     private BigDecimal pcs1000;  
@@ -75,6 +80,10 @@ public class Design {
         {
             pcs6=pcs6.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
+        if (pcs8!=null)
+        {
+            pcs8=pcs8.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        }
         if (pcs10!=null)
         {
             pcs10=pcs10.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -82,6 +91,10 @@ public class Design {
         if (pcs15!=null)
         {
             pcs15=pcs15.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        }
+        if (pcs16!=null)
+        {
+            pcs16=pcs16.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
         if (pcs20!=null)
         {
@@ -91,6 +104,10 @@ public class Design {
         {
             pcs30=pcs30.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
+        if (pcs32!=null)
+        {
+            pcs32=pcs32.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        }
         if (pcs40!=null)
         {
             pcs40=pcs40.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -99,14 +116,23 @@ public class Design {
         {
             pcs50=pcs50.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
+        if (pcs64!=null)
+        {
+            pcs64=pcs64.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        }
         if (pcs100!=null)
         {
             pcs100=pcs100.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        }
+        if (pcs128!=null)
+        {
+            pcs128=pcs128.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
         if (pcs200!=null)
         {
             pcs200=pcs200.multiply(percent).setScale(2, RoundingMode.HALF_UP);
         }
+     
         if (pcs500!=null)
         {
             pcs500=pcs500.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -209,6 +235,7 @@ public class Design {
     public BigDecimal getPcs1() {
         return pcs1;
     }
+    
 
     /**
      * @param pcs1 the pcs1 to set
@@ -216,6 +243,7 @@ public class Design {
     public void setPcs1(BigDecimal pcs1) {
         this.pcs1 = pcs1;
     }
+    
 
     /**
      * @return the pcs2
@@ -287,6 +315,13 @@ public class Design {
         this.pcs6 = pcs6;
     }
 
+      public BigDecimal getPcs8() {
+        return pcs8;
+    }
+      
+        public void setPcs8(BigDecimal pcs8) {
+        this.pcs8 = pcs8;
+    }
     /**
      * @return the pcs10
      */
@@ -315,6 +350,14 @@ public class Design {
         this.pcs15 = pcs15;
     }
 
+     public BigDecimal getPcs16() {
+        return pcs16;
+    }
+      
+        public void setPcs16(BigDecimal pcs16) {
+        this.pcs16 = pcs16;
+    }
+        
     /**
      * @return the pcs20
      */
@@ -341,6 +384,14 @@ public class Design {
      */
     public void setPcs30(BigDecimal pcs30) {
         this.pcs30 = pcs30;
+    }
+    
+     public BigDecimal getPcs32() {
+        return pcs32;
+    }
+      
+        public void setPcs32(BigDecimal pcs32) {
+        this.pcs32 = pcs32;
     }
 
     /**
@@ -371,6 +422,13 @@ public class Design {
         this.pcs50 = pcs50;
     }
 
+     public BigDecimal getPcs64() {
+        return pcs64;
+    }
+      
+        public void setPcs64(BigDecimal pcs64) {
+        this.pcs64 = pcs64;
+    }
     /**
      * @return the pcs100
      */
@@ -385,6 +443,14 @@ public class Design {
         this.pcs100 = pcs100;
     }
 
+    
+     public BigDecimal getPcs128() {
+        return pcs128;
+    }
+      
+        public void setPcs128(BigDecimal pcs128) {
+        this.pcs128 = pcs128;
+    }
     /**
      * @return the pcs200
      */
@@ -399,6 +465,7 @@ public class Design {
         this.pcs200 = pcs200;
     }
 
+ 
     /**
      * @return the pcs500
      */
@@ -526,5 +593,9 @@ public class Design {
            isNlx = false;
            isTokarenje = false;
         }
-    }    
+    }
+
+  
+
+  
 }

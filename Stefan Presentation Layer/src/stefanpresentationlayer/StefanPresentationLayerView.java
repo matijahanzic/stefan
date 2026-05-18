@@ -146,10 +146,10 @@ public class StefanPresentationLayerView extends FrameView {
         jLabel3 = new javax.swing.JLabel();
         allOrdersBtn = new javax.swing.JButton();
         btnDesigns = new javax.swing.JButton();
-        btnChangeDesignPrice = new javax.swing.JButton();
         btnDesignsFromExcel = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         btnDesigns1 = new javax.swing.JButton();
+        btnChangeDesignPrice = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -237,16 +237,6 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
-        btnChangeDesignPrice.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
-        btnChangeDesignPrice.setIcon(resourceMap.getIcon("btnChangeDesignPrice.icon")); // NOI18N
-        btnChangeDesignPrice.setText(resourceMap.getString("btnChangeDesignPrice.text")); // NOI18N
-        btnChangeDesignPrice.setName("btnChangeDesignPrice"); // NOI18N
-        btnChangeDesignPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangeDesignPriceActionPerformed(evt);
-            }
-        });
-
         btnDesignsFromExcel.setIcon(resourceMap.getIcon("btnDesignsFromExcel.icon")); // NOI18N
         btnDesignsFromExcel.setText(resourceMap.getString("btnDesignsFromExcel.text")); // NOI18N
         btnDesignsFromExcel.setName("btnDesignsFromExcel"); // NOI18N
@@ -277,6 +267,16 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        btnChangeDesignPrice.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
+        btnChangeDesignPrice.setIcon(resourceMap.getIcon("btnChangeDesignPrice.icon")); // NOI18N
+        btnChangeDesignPrice.setText(resourceMap.getString("btnChangeDesignPrice.text")); // NOI18N
+        btnChangeDesignPrice.setName("btnChangeDesignPrice"); // NOI18N
+        btnChangeDesignPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeDesignPriceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -290,11 +290,7 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(jLabel3)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDesignsFromExcel))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(newOrderBtn)
@@ -303,7 +299,9 @@ public class StefanPresentationLayerView extends FrameView {
                         .addGap(18, 18, 18)
                         .addComponent(jButton3))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -329,10 +327,12 @@ public class StefanPresentationLayerView extends FrameView {
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangeDesignPrice)
                     .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnChangeDesignPrice)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         btnDesigns1.getAccessibleContext().setAccessibleName(resourceMap.getString("btnDesigns1.AccessibleContext.accessibleName")); // NOI18N
@@ -387,7 +387,7 @@ public class StefanPresentationLayerView extends FrameView {
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusMessageLabel)
                     .addComponent(statusAnimationLabel)
@@ -474,6 +474,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void btnDesigns1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesigns1ActionPerformed
         EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);    
+        dialog.SetIsWH();
         dialog.setResizable(false);
         dialog.setLocation(0, 150);       
         dialog.setVisible(true);
