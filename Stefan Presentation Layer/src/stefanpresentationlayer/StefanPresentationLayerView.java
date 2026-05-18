@@ -228,6 +228,7 @@ public class StefanPresentationLayerView extends FrameView {
         btnDesigns.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
         btnDesigns.setIcon(resourceMap.getIcon("btnDesigns.icon")); // NOI18N
         btnDesigns.setText(resourceMap.getString("btnDesigns.text")); // NOI18N
+        btnDesigns.setToolTipText(resourceMap.getString("btnDesigns.toolTipText")); // NOI18N
         btnDesigns.setName("btnDesigns"); // NOI18N
         btnDesigns.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,8 +276,8 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(167, 167, 167)
                         .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDesignsFromExcel))
@@ -313,8 +314,8 @@ public class StefanPresentationLayerView extends FrameView {
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangeDesignPrice)
-                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChangeDesignPrice))
                 .addContainerGap(127, Short.MAX_VALUE))
         );
 

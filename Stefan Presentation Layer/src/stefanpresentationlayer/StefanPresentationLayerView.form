@@ -21,8 +21,8 @@
                       <Component id="jLabel1" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnDesigns" min="-2" pref="145" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnDesigns" min="-2" pref="157" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
                           <Component id="btnChangeDesignPrice" min="-2" pref="229" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnDesignsFromExcel" min="-2" max="-2" attributes="0"/>
@@ -65,8 +65,8 @@
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnDesigns" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="btnChangeDesignPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnDesignsFromExcel" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="btnChangeDesignPrice" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="127" max="32767" attributes="0"/>
               </Group>
@@ -168,6 +168,7 @@
             </Property>
             <Property name="icon" type="javax.swing.Icon" resourceKey="btnDesigns.icon"/>
             <Property name="text" type="java.lang.String" resourceKey="btnDesigns.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="btnDesigns.toolTipText"/>
             <Property name="name" type="java.lang.String" value="btnDesigns" noResource="true"/>
           </Properties>
           <Events>
