@@ -22,9 +22,11 @@
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnDesigns" min="-2" pref="157" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="btnDesigns1" min="-2" pref="157" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnChangeDesignPrice" min="-2" pref="229" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnDesignsFromExcel" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -65,8 +67,9 @@
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnDesigns" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="btnDesignsFromExcel" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
+                      <Component id="btnDesigns1" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="btnChangeDesignPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnDesignsFromExcel" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="127" max="32767" attributes="0"/>
               </Group>
@@ -206,6 +209,24 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDesigns1">
+          <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="stefanpresentationlayer.StefanPresentationLayerView" id="materialBtnActionPerformed" methodName="materialBtnActionPerformed"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" resourceKey="btnDesignsWH.icon"/>
+            <Property name="text" type="java.lang.String" resourceKey="btnDesignsWH.text"/>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="btnDesignsWH.toolTipText"/>
+            <Property name="actionCommand" type="java.lang.String" resourceKey="btnDesignsWH.actionCommand"/>
+            <Property name="name" type="java.lang.String" value="btnDesignsWH" noResource="true"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="btnDesigns1.AccessibleContext.accessibleName"/>
+          </AccessibilityProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDesigns1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
