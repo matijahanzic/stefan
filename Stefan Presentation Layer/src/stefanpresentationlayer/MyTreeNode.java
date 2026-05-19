@@ -28,6 +28,7 @@ public class MyTreeNode
     private Integer quantityOrdered;
     private Integer quantityDelivered;
     private String businessPartnerName;
+    private boolean isBusinessPartnerExternal;
     private List<MyTreeNode> children = new ArrayList<MyTreeNode>();
 
 	public MyTreeNode() 
@@ -61,6 +62,7 @@ public class MyTreeNode
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             orderDate=f.format(item.getDate());        
             businessPartnerName = item.getBusinessPartnerName();
+            isBusinessPartnerExternal = item.getIsBusinessPartnerExternal();
           
         }
 	public List<MyTreeNode> getChildren() 
@@ -275,5 +277,13 @@ public class MyTreeNode
      */
     public void setBusinessPartnerName(String businessPartner) {
         this.businessPartnerName = businessPartner;
+    }
+
+    public boolean getIsBusinessPartnerExternal() {
+        return isBusinessPartnerExternal;
+    }
+
+    public void setIsBusinessPartnerExternal(boolean businessPartnerExternal) {
+        isBusinessPartnerExternal = businessPartnerExternal;
     }
 }

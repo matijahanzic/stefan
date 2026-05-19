@@ -21,7 +21,8 @@ public class Order {
     private String orderNumber;
     private Integer businessPartnerId;
     private String businessPartnerName;
-    
+    private boolean isBusinessPartnerExternal;
+
     
     /**
      * @return the idOrder
@@ -120,6 +121,13 @@ public class Order {
      */
     public void setBusinessPartnerName(String businessPartner) {
         this.businessPartnerName = businessPartner;
-    }    
+    }
 
+    public boolean getIsBusinessPartnerExternal() {
+        return isBusinessPartnerExternal;
+    }
+
+    public void setIsBusinessPartnerExternal(boolean businessPartnerExternal) {
+        isBusinessPartnerExternal = businessPartnerExternal;
+    }
 }
