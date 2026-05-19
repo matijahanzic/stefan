@@ -19,7 +19,7 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
 
 
     /** Creates new form DesignJDialog */
-    public ImportDesignsFromExcelJDialog(java.awt.Frame parent, boolean modal, String filePath) {
+    public ImportDesignsFromExcelJDialog(java.awt.Frame parent, boolean modal, String filePath, String code) {
         super(parent, modal);
 
         initComponents();
@@ -36,7 +36,7 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
             designsJTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);            
         }
 
-       loadDesignsFromExcel(filePath);
+       loadDesignsFromExcel(filePath, code);
     }
 
     /** This method is called from within the constructor to
@@ -127,16 +127,8 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs3");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs4}"));
-        columnBinding.setColumnName("Pcs4");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs5}"));
         columnBinding.setColumnName("Pcs5");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs6}"));
-        columnBinding.setColumnName("Pcs6");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs10}"));
@@ -151,14 +143,6 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs20");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs30}"));
-        columnBinding.setColumnName("Pcs30");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs40}"));
-        columnBinding.setColumnName("Pcs40");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs50}"));
         columnBinding.setColumnName("Pcs50");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
@@ -167,16 +151,8 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs100");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs200}"));
-        columnBinding.setColumnName("Pcs200");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs500}"));
         columnBinding.setColumnName("Pcs500");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs1000}"));
-        columnBinding.setColumnName("Pcs1000");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
@@ -210,31 +186,19 @@ public class ImportDesignsFromExcelJDialog extends javax.swing.JDialog {
         designsJTable.getColumnModel().getColumn(10).setPreferredWidth(30);
         designsJTable.getColumnModel().getColumn(10).setHeaderValue(resourceMap.getString("jTable1.columnModel.title17")); // NOI18N
         designsJTable.getColumnModel().getColumn(11).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("jTable1.columnModel.title20")); // NOI18N
+        designsJTable.getColumnModel().getColumn(11).setHeaderValue(resourceMap.getString("jTable1.columnModel.title6")); // NOI18N
         designsJTable.getColumnModel().getColumn(12).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(12).setHeaderValue(resourceMap.getString("jTable1.columnModel.title6")); // NOI18N
+        designsJTable.getColumnModel().getColumn(12).setHeaderValue(resourceMap.getString("jTable1.columnModel.title11")); // NOI18N
         designsJTable.getColumnModel().getColumn(13).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(13).setHeaderValue(resourceMap.getString("jTable1.columnModel.title9")); // NOI18N
+        designsJTable.getColumnModel().getColumn(13).setHeaderValue(resourceMap.getString("jTable1.columnModel.title14")); // NOI18N
         designsJTable.getColumnModel().getColumn(14).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(14).setHeaderValue(resourceMap.getString("jTable1.columnModel.title11")); // NOI18N
-        designsJTable.getColumnModel().getColumn(15).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title14")); // NOI18N
-        designsJTable.getColumnModel().getColumn(16).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(16).setHeaderValue(resourceMap.getString("designsJTable.columnModel.title16")); // NOI18N
-        designsJTable.getColumnModel().getColumn(17).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(17).setHeaderValue(resourceMap.getString("jTable1.columnModel.title18")); // NOI18N
-        designsJTable.getColumnModel().getColumn(18).setPreferredWidth(30);
-        designsJTable.getColumnModel().getColumn(18).setHeaderValue(resourceMap.getString("jTable1.columnModel.title7")); // NOI18N
-        designsJTable.getColumnModel().getColumn(19).setPreferredWidth(20);
-        designsJTable.getColumnModel().getColumn(19).setHeaderValue(resourceMap.getString("jTable1.columnModel.title12")); // NOI18N
-        designsJTable.getColumnModel().getColumn(20).setPreferredWidth(20);
-        designsJTable.getColumnModel().getColumn(20).setHeaderValue(resourceMap.getString("jTable1.columnModel.title19")); // NOI18N
-        designsJTable.getColumnModel().getColumn(21).setPreferredWidth(20);
-        designsJTable.getColumnModel().getColumn(21).setHeaderValue(resourceMap.getString("jTable1.columnModel.title8")); // NOI18N
-        designsJTable.getColumnModel().getColumn(22).setPreferredWidth(20);
-        designsJTable.getColumnModel().getColumn(22).setHeaderValue(resourceMap.getString("designsJTable.columnModel.title22")); // NOI18N
-        designsJTable.getColumnModel().getColumn(23).setPreferredWidth(20);
-        designsJTable.getColumnModel().getColumn(23).setHeaderValue(resourceMap.getString("designsJTable.columnModel.title23")); // NOI18N
+        designsJTable.getColumnModel().getColumn(14).setHeaderValue(resourceMap.getString("designsJTable.columnModel.title16")); // NOI18N
+        designsJTable.getColumnModel().getColumn(15).setPreferredWidth(20);
+        designsJTable.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title12")); // NOI18N
+        designsJTable.getColumnModel().getColumn(16).setPreferredWidth(20);
+        designsJTable.getColumnModel().getColumn(16).setHeaderValue(resourceMap.getString("jTable1.columnModel.title19")); // NOI18N
+        designsJTable.getColumnModel().getColumn(17).setPreferredWidth(20);
+        designsJTable.getColumnModel().getColumn(17).setHeaderValue(resourceMap.getString("designsJTable.columnModel.title22")); // NOI18N
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
@@ -407,10 +371,10 @@ private void jButtonChangeTokarenjeActionPerformed(java.awt.event.ActionEvent ev
         this.designs = designs;
     }
     
-    private void loadDesignsFromExcel(String filePath)
+    private void loadDesignsFromExcel(String filePath, String code)
     {
         try{
-            designs = ExcelManager.ReadDesignFromExcelFile(filePath);
+            designs = ExcelManager.ReadDesignFromExcelFile(filePath, code);
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Datoteka nije pronađena: " + e.toString(), "Greška", JOptionPane.ERROR_MESSAGE);       
         } catch (IOException e) {

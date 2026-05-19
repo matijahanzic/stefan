@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Design.findAll", query = "SELECT d FROM Design d WHERE d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByIdDesign", query = "SELECT d FROM Design d WHERE d.idDesign = :idDesign"),
-    @NamedQuery(name = "Design.findByDesignNumber", query = "SELECT d FROM Design d WHERE d.designNumber = :designNumber and d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByDesignIdentity", query = "SELECT d FROM Design d WHERE d.designIdentity = :designIdentity and d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByClassMark", query = "SELECT d FROM Design d WHERE d.classMark = :classMark and d.isActive = 1 ORDER BY d.designNumber"),
     @NamedQuery(name = "Design.findByName", query = "SELECT d FROM Design d WHERE d.name = :name"),
@@ -58,7 +57,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Design.findByK14", query = "SELECT d FROM Design d WHERE d.k14 = :k14"),
     @NamedQuery(name = "Design.findByK15", query = "SELECT d FROM Design d WHERE d.k15 = :k15"),
     @NamedQuery(name = "Design.findByNumber", query = "SELECT d FROM Design d WHERE d.isActive = 1 and  d.designNumber LIKE :designNumber ORDER BY d.designNumber"),
-    @NamedQuery(name = "Design.findByFilters", query = "SELECT d FROM Design d WHERE d.isActive = 1 and d.designIdentity LIKE :designIdentity and d.classMark LIKE :classMark and d.designNumber LIKE :designNumber ORDER BY d.designNumber")})
+    @NamedQuery(name = "Design.findByNumberFopac", query = "SELECT d FROM Design d WHERE d.isActive = 1 and  d.code = 'FOPAC' and  d.designNumber LIKE :designNumber ORDER BY d.designNumber"),
+    @NamedQuery(name = "Design.findByNumberWH", query = "SELECT d FROM Design d WHERE d.isActive = 1 and  d.code = 'WH' and  d.designNumber LIKE :designNumber ORDER BY d.designNumber"),
+    @NamedQuery(name = "Design.findByFilters", query = "SELECT d FROM Design d WHERE d.isActive = 1  and d.designIdentity LIKE :designIdentity and d.classMark LIKE :classMark and d.designNumber LIKE :designNumber ORDER BY d.designNumber")})
 public class Design implements Serializable {
 
     @Column(name = "date")
@@ -138,6 +139,8 @@ public class Design implements Serializable {
     private String classMark;
     @Column(name = "name")
     private String name;
+    @Column(name = "code")
+    private String code;
     @JoinColumn(name = "materialId", referencedColumnName = "idShape")
     @ManyToOne
     private Material materialId;
@@ -491,5 +494,13 @@ public class Design implements Serializable {
 
     public void setIsTokarenje(boolean isTokarenje) {
         this.isTokarenje = isTokarenje;
+    }
+
+    public String getCode(){
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
     }
 }

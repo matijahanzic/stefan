@@ -46,6 +46,7 @@ public class Design {
     private String revision;
     private boolean isTokarenje;
     private boolean isNlx;
+    private String code;
     
     public Design()
     {        
@@ -507,6 +508,14 @@ public class Design {
     public void setMaterialId(Integer materialId) {
         this.materialId = materialId;
     }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code){
+        this.code = code;
+    }
 
     /**
      * @return the niklanje
@@ -594,6 +603,8 @@ public class Design {
            isTokarenje = false;
         }
     }
+
+
 
   
 

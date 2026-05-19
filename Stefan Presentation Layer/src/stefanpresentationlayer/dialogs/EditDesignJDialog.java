@@ -751,7 +751,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     private void btnFindDesignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindDesignActionPerformed
         DesignManager manager = new DesignManager();
-        List<Design> designs = manager.GetDesignsByNumber(designNumberTF.getText());
+        List<Design> designs = manager.GetDesignsByNumberAndCode(designNumberTF.getText(), GetDesignCode());
         LoadData(designs);
 
     }//GEN-LAST:event_btnFindDesignActionPerformed
@@ -760,6 +760,8 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         if (designs.size() == 1) {
             btnSaveChanges.setEnabled(true);
             panel.setVisible(true);
+            TogglePanelVisibility();
+            
             design = designs.get(0);
             designClassInput.setText(design.getClassMark());
             designIdInput.setText(design.getDesignIdentity());
@@ -882,9 +884,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     price128.setText("");
                 }
                 if (design.getPcs500() != null) {
-                    price500.setText(design.getPcs500().toPlainString().replace('.', ','));
+                    price500_1.setText(design.getPcs500().toPlainString().replace('.', ','));
                 } else {
-                    price500.setText("");
+                    price500_1.setText("");
                 }
             }
 
@@ -953,9 +955,17 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         desigDateInput.setText(f.format(new Date()));
         designNumberInput.setEditable(true);
         btnFindDesign.setEnabled(false);
+        TogglePanelVisibility();
+        isNew = true;
+    }
+    
+    private void TogglePanelVisibility(){
         fopacPanel.setVisible(_isFopac);
         whPanel.setVisible(!_isFopac);
-        isNew = true;
+    }
+    
+    private String GetDesignCode(){
+        return _isFopac ? "FOPAC" : "WH";
     }
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -981,11 +991,26 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price1_1.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price1_1.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        
+        try {
             BigDecimal price = new BigDecimal(price2.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price2.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        
+        try {
+            BigDecimal price = new BigDecimal(price2_2.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price2_2.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        
         try {
             BigDecimal price = new BigDecimal(price3.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -1108,6 +1133,12 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             price500.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+         try {
+            BigDecimal price = new BigDecimal(price500_1.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price500_1.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
         /*
         try {
         BigDecimal price = new BigDecimal(price1000.getText().replace(',', '.'));
@@ -1127,7 +1158,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design = new stefan.business.objects.Design();
             design.setDesignNumber(designNumberInput.getText());
             design.setDate(new Date());
-
+            design.setCode(GetDesignCode());
         }
         try {
             if (!isNew && design.getPcs1() == null && (price1.getText() != null || !"".equals(price1.getText()))) {
@@ -1375,6 +1406,16 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 priceChanged = true;
             }
             design.setPcs500(new BigDecimal(price500.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+        try {
+            if (!isNew && design.getPcs500() == null && (price500_1.getText() != null || !"".equals(price500_1.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs500() != null && design.getPcs500().compareTo(new BigDecimal(price500_1.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs500(new BigDecimal(price500_1.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         /*

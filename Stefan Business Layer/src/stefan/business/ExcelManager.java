@@ -314,7 +314,7 @@ public class ExcelManager {
     private static short pcs200_ColumnNumber = 13;
     private static short pcs500_ColumnNumber = 15;
 
-    public static List<Design> ReadDesignFromExcelFile(String fullFilePath) throws FileNotFoundException, IOException {
+    public static List<Design> ReadDesignFromExcelFile(String fullFilePath, String code) throws FileNotFoundException, IOException {
 
         List<Design> newDesigns = new ArrayList<Design>();
 
@@ -359,6 +359,7 @@ public class ExcelManager {
             design.setDesignNumber(designNumber);
             design.setIsTokarenje(true); // default value is True
             design.setDate(new Date()); // default is current time
+            design.setCode(code);
 
             HSSFCell cellNiklanje = curentRow.getCell((short) Niklanje_ColumnNumber);
             String niklanje = cellNiklanje.getStringCellValue();

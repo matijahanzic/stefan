@@ -93,6 +93,8 @@ public class DesignManager {
             newDesign.setK19(design.getPcs64());
             
             newDesign.setK20(design.getPcs128());
+            
+            newDesign.setCode(design.getCode());
       
             entityManager.getTransaction().begin();
             
@@ -245,6 +247,20 @@ public class DesignManager {
        return mapData(designs);      
     }
     
+    public List<Design> GetDesignsByNumberAndCode(String designNumber, String code)
+    {    
+       Query q;
+       if("FOPAC".equals(code)){
+           q = entityManager.createNamedQuery("Design.findByNumberFopac");
+       }else{
+           q = entityManager.createNamedQuery("Design.findByNumberWH");
+       }
+       
+       q.setParameter("designNumber", designNumber + "%");        
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
+       return mapData(designs);      
+    }
+    
     public stefan.data.Design GetDesignsByDBId(int id)
     {            
        Query q = entityManager.createNamedQuery("Design.findByIdDesign");
@@ -297,6 +313,7 @@ public class DesignManager {
         result.setPcs32(design.getK18());
         result.setPcs64(design.getK19());
         result.setPcs128(design.getK20());
+        result.setCode(design.getCode());
         return result;            
     }
 

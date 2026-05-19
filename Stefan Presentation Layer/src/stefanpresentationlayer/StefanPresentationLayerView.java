@@ -448,7 +448,7 @@ private void btnDesignsFromExcelActionPerformed(java.awt.event.ActionEvent evt) 
 
     if (ShowImportFileDialog()) {
         String filePath =  importFilePath + "\\" + importFileName;
-        ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath);
+        ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath, "FOPAC");
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
         designDialog.setSize(dim.width, (dim.height - 100)); 
         designDialog.setLocation(0, 50);  
