@@ -37,7 +37,7 @@ import stefanpresentationlayer.MyTableCellRenderer;
  *
  * @author Matija
  */
-public class NewOrderJDialog extends javax.swing.JDialog implements TableModelListener {
+public class NewExternalOrderJDialog extends javax.swing.JDialog implements TableModelListener {
 
     private List<stefan.business.PresentationHelper> items = ObservableCollections.observableList(new ArrayList<stefan.business.PresentationHelper>());    
     private List<BusinessPartner> bpItems = ObservableCollections.observableList(new ArrayList<BusinessPartner>());
@@ -45,10 +45,10 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
     
     private BigDecimal totalPrice;
     /** Creates new form NewOrderJDialog */
-    public NewOrderJDialog(java.awt.Frame parent, boolean modal) {
+    public NewExternalOrderJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();   
-        setTitle("Nova narudžba - Interna");
+        setTitle("Nova narudžba - Vanjska");
         totalPrice=new BigDecimal("0.0000");
         deleteBtn.setEnabled(false);
         createOrderBtn.setEnabled(false);
@@ -85,7 +85,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
 
     private void loadBusinessPartners() {
         BusinessPartnerManager bpManager = new BusinessPartnerManager();
-        bpItems = bpManager.getInternalBusinessPartners();
+        bpItems = bpManager.getExternalBusinessPartners();
         this.firePropertyChange("bpItems", null, null);
     }
     
@@ -130,7 +130,7 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
         cbxZaFirmu = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewOrderJDialog.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderJDialog.class);
         setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
@@ -606,13 +606,13 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewExternalOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewExternalOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewExternalOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewExternalOrderJDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -620,7 +620,7 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                NewOrderJDialog dialog = new NewOrderJDialog(new javax.swing.JFrame(), true);
+                NewExternalOrderJDialog dialog = new NewExternalOrderJDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

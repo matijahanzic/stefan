@@ -41,6 +41,8 @@ import stefanpresentationlayer.dialogs.EditDesignJDialog;
 import stefanpresentationlayer.dialogs.ImportDesignsFromExcelJDialog;
 import stefanpresentationlayer.dialogs.MaterialManagmentJDialog;
 import stefanpresentationlayer.dialogs.NewBill;
+import stefanpresentationlayer.dialogs.NewExternalBusinessPartnerJDialog;
+import stefanpresentationlayer.dialogs.NewExternalOrderJDialog;
 import stefanpresentationlayer.dialogs.NewOrderJDialog;
 import stefanpresentationlayer.dialogs.PriceChangeJDialog;
 import stefanpresentationlayer.dialogs.PriceManagmentJDialog;
@@ -149,6 +151,8 @@ public class StefanPresentationLayerView extends FrameView {
         btnChangeDesignPrice = new javax.swing.JButton();
         btnDesignsFromExcel = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        upisVanjskeFirmeButton = new javax.swing.JButton();
+        newExternalOrderBtn = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -263,6 +267,25 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        upisVanjskeFirmeButton.setText(resourceMap.getString("upisVanjskeFirmeButton.text")); // NOI18N
+        upisVanjskeFirmeButton.setToolTipText(resourceMap.getString("upisVanjskeFirmeButton.toolTipText")); // NOI18N
+        upisVanjskeFirmeButton.setName("upisVanjskeFirmeButton"); // NOI18N
+        upisVanjskeFirmeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upisVanjskeFirmeButtonActionPerformed(evt);
+            }
+        });
+
+        newExternalOrderBtn.setIcon(resourceMap.getIcon("newExternalOrderBtn.icon")); // NOI18N
+        newExternalOrderBtn.setText(resourceMap.getString("newExternalOrderBtn.text")); // NOI18N
+        newExternalOrderBtn.setName("newExternalOrderBtn"); // NOI18N
+        newExternalOrderBtn.setSelectedIcon(null);
+        newExternalOrderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newExternalOrderBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -279,9 +302,13 @@ public class StefanPresentationLayerView extends FrameView {
                         .addGap(18, 18, 18)
                         .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDesignsFromExcel))
+                        .addComponent(btnDesignsFromExcel)
+                        .addGap(18, 18, 18)
+                        .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(newOrderBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(newExternalOrderBtn)
                         .addGap(18, 18, 18)
                         .addComponent(allOrdersBtn)
                         .addGap(18, 18, 18)
@@ -298,6 +325,7 @@ public class StefanPresentationLayerView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newOrderBtn)
+                    .addComponent(newExternalOrderBtn)
                     .addComponent(allOrdersBtn)
                     .addComponent(jButton3))
                 .addGap(27, 27, 27)
@@ -314,7 +342,8 @@ public class StefanPresentationLayerView extends FrameView {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChangeDesignPrice)
-                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(127, Short.MAX_VALUE))
         );
 
@@ -453,6 +482,23 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 }//GEN-LAST:event_jButton3ActionPerformed
 
+private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upisVanjskeFirmeButtonActionPerformed
+    NewExternalBusinessPartnerJDialog dialog = new NewExternalBusinessPartnerJDialog(this.getFrame(), true);
+    dialog.setLocation(0, 50);
+    dialog.setVisible(true);
+}//GEN-LAST:event_upisVanjskeFirmeButtonActionPerformed
+
+private void newExternalOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newExternalOrderBtnActionPerformed
+    NewExternalOrderJDialog orderDialog= new NewExternalOrderJDialog(this.getFrame(), true); 
+
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            orderDialog.setSize(dim.width, (dim.height - 100));
+            orderDialog.setLocation(0, 50);
+            orderDialog.setVisible(true);
+            //dohvati vrijednosti koje su unesene u ovaj dialog      
+            //this.firePropertyChange("items", null, null);
+}//GEN-LAST:event_newExternalOrderBtnActionPerformed
+
 private String importFilePath;
 private String importFileName;
 private boolean ShowImportFileDialog() {
@@ -485,11 +531,13 @@ private boolean ShowImportFileDialog() {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JButton newExternalOrderBtn;
     private javax.swing.JButton newOrderBtn;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JButton upisVanjskeFirmeButton;
     // End of variables declaration//GEN-END:variables
     private final Timer messageTimer;
     private final Timer busyIconTimer;
