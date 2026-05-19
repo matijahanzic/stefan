@@ -14,12 +14,9 @@ import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreePath;
 
-import javafx.scene.control.TreeTableCell;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
 import stefan.business.OrderManager;
@@ -38,7 +35,7 @@ public class AllOrdersDialog extends javax.swing.JDialog {
    
     private MyTreeTableModel treeTableModel;
 
-    private List<OrderType> bpTypes = ObservableCollections.observableList(new ArrayList<>());
+    private List<OrderType> bpTypes = ObservableCollections.observableList(new ArrayList<OrderType>());
     private OrderType selectedBpType = OrderType.All;
 
     /** Creates new form AllOrdersDialog */
@@ -203,14 +200,14 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 
-    private List<Order> allItems = new ArrayList<>();
-    private List<Order> filteredItems = ObservableCollections.observableList(new ArrayList<>());
+    private List<Order> allItems = new ArrayList<Order>();
+    private List<Order> filteredItems = new ArrayList<Order>();
     private void refreshTreeData(){
         OrderManager manager = new OrderManager();
         allItems = manager.getOrders();
 
         treeTableModel = new MyTreeTableModel(allItems);
-        jXTreeTable1.setDefaultRenderer(TreeTableCell.class, new OrdersTableCellRenderer());
+        jXTreeTable1.setDefaultRenderer(Object.class, new OrdersTableCellRenderer());
         jXTreeTable1.setTreeTableModel(treeTableModel);
         jXTreeTable1.expandAll();
     }
@@ -220,12 +217,18 @@ public class AllOrdersDialog extends javax.swing.JDialog {
 
         switch (this.selectedBpType) {
             case Internal: {
-                filteredItems.addAll(this.allItems.stream().filter(it -> !it.getIsBusinessPartnerExternal()).collect(Collectors.toList()));
+                for (Order o : this.allItems) {
+                    if (!o.getIsBusinessPartnerExternal())
+                        filteredItems.add(o);
+                }
                 break;
             }
 
             case External: {
-                filteredItems.addAll(this.allItems.stream().filter(Order::getIsBusinessPartnerExternal).collect(Collectors.toList()));
+                for (Order o : this.allItems) {
+                    if (o.getIsBusinessPartnerExternal())
+                        filteredItems.add(o);
+                }
                 break;
             }
 

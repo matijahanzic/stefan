@@ -16,7 +16,7 @@ public class BusinessPartnerManager {
     }
 
     public List<BusinessPartner> getExternalBusinessPartners() {
-        List<BusinessPartner> externalBps = new ArrayList<>();
+        List<BusinessPartner> externalBps = new ArrayList<BusinessPartner>();
 
         try {
             Query q = entityManager.createNamedQuery("Businesspartner.findAllExternal");
@@ -32,7 +32,7 @@ public class BusinessPartnerManager {
     }
 
     public List<BusinessPartner> getInternalBusinessPartners() {
-        List<BusinessPartner> externalBps = new ArrayList<>();
+        List<BusinessPartner> externalBps = new ArrayList<BusinessPartner>();
 
         try {
             Query q = entityManager.createNamedQuery("Businesspartner.findAllInternal");
