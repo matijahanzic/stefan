@@ -433,14 +433,16 @@ public class StefanPresentationLayerView extends FrameView {
     private void btnDesignsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesignsActionPerformed
         EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);    
         dialog.setResizable(false);
-        dialog.setLocation(0, 50);       
+        //dialog.setLocation(0, 50);       
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);   
     }//GEN-LAST:event_btnDesignsActionPerformed
 
     private void btnChangeDesignPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeDesignPriceActionPerformed
         PriceChangeJDialog dialog=new PriceChangeJDialog(null, true);
         dialog.setResizable(false);
-        dialog.setLocation(0, 50);       
+        //dialog.setLocation(0, 50);       
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnChangeDesignPriceActionPerformed
 
@@ -451,7 +453,8 @@ private void btnDesignsFromExcelActionPerformed(java.awt.event.ActionEvent evt) 
         ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath, "FOPAC");
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
         designDialog.setSize(dim.width, (dim.height - 100)); 
-        designDialog.setLocation(0, 50);  
+        //designDialog.setLocation(0, 50);  
+        designDialog.setLocationRelativeTo(null);
         designDialog.setVisible(true);
     }
     else
@@ -476,7 +479,8 @@ private void btnDesigns1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);    
         dialog.SetIsWH();
         dialog.setResizable(false);
-        dialog.setLocation(0, 150);       
+        //dialog.setLocation(0, 150);       
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
 }//GEN-LAST:event_btnDesigns1ActionPerformed
 

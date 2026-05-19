@@ -435,7 +435,8 @@ public class DesignJDialog extends javax.swing.JDialog {
 
         EditDesignJDialog dodajNacrtDialog = new EditDesignJDialog(null, true);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        //dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        dodajNacrtDialog.setLocationRelativeTo(null);
         dodajNacrtDialog.CreateNew();
         dodajNacrtDialog.setVisible(true);
         this.setVisible(true);
@@ -461,7 +462,8 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
         EditDesignJDialog dodajNacrtDialog = new EditDesignJDialog(null, true);
         dodajNacrtDialog.SetIsWH();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        //dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        dodajNacrtDialog.setLocationRelativeTo(null);
         dodajNacrtDialog.CreateNew();
         dodajNacrtDialog.setVisible(true);
         this.setVisible(true);
