@@ -34,7 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Businesspartner.findByPrintInd", query = "SELECT b FROM Businesspartner b WHERE b.printInd = :printInd"),
     @NamedQuery(name = "Businesspartner.findByPrintRow1", query = "SELECT b FROM Businesspartner b WHERE b.printRow1 = :printRow1"),
     @NamedQuery(name = "Businesspartner.findByPrintRow2", query = "SELECT b FROM Businesspartner b WHERE b.printRow2 = :printRow2"),
-    @NamedQuery(name = "Businesspartner.findByPrintRow3", query = "SELECT b FROM Businesspartner b WHERE b.printRow3 = :printRow3")})
+    @NamedQuery(name = "Businesspartner.findByPrintRow3", query = "SELECT b FROM Businesspartner b WHERE b.printRow3 = :printRow3"),
+    @NamedQuery(name = "Businesspartner.findAllExternal", query = "SELECT b FROM Businesspartner b WHERE b.isExternalSource = true"),
+    @NamedQuery(name = "Businesspartner.findAllInternal", query = "SELECT b FROM Businesspartner b WHERE b.isExternalSource = false")
+})
 public class Businesspartner implements Serializable {
     @Basic(optional = false)
     @Column(name = "requireShippingDate")
@@ -67,6 +70,10 @@ public class Businesspartner implements Serializable {
     private String printRow3;
     @OneToMany(mappedBy = "businessPartnerId")
     private Collection<Bills> billsCollection;
+
+    @Basic(optional = false)
+    @Column(name = "isExternalSource")
+    private boolean isExternalSource;
 
     public Businesspartner() {
     }
@@ -197,5 +204,8 @@ public class Businesspartner implements Serializable {
     public void setRequireShippingDate(boolean requireShippingDate) {
         this.requireShippingDate = requireShippingDate;
     }
-    
+
+    public boolean getIsExternalSource() { return this.isExternalSource; }
+    public void setIsExternalSource(boolean isExternalSource) { this.isExternalSource = isExternalSource; }
+
 }
