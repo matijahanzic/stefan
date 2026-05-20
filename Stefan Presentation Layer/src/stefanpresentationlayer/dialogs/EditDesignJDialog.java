@@ -11,6 +11,7 @@
 package stefanpresentationlayer.dialogs;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import stefan.business.DesignManager;
 import stefan.business.objects.Design;
 
@@ -148,6 +150,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel46 = new javax.swing.JLabel();
         satnica = new javax.swing.JTextField();
         eurKomMaterijal = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         createNewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -822,6 +825,15 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         eurKomMaterijal.setName("eurKomMaterijal"); // NOI18N
         eurKomMaterijal.setNextFocusableComponent(jPanel4);
 
+        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
+        jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
+        jButton2.setName("jButton2"); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -835,11 +847,11 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                             .addComponent(stezanjeTok, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel45))
+                        .addContainerGap()
+                        .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel45)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -847,8 +859,9 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel44)
                     .addComponent(jLabel46)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(eurKomMaterijal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                        .addComponent(stezanjeGlod, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                        .addComponent(eurKomMaterijal, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(stezanjeGlod, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
         jPanel5Layout.setVerticalGroup(
@@ -871,14 +884,20 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stezanjeGlod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(stezanjeTok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel45)
-                    .addComponent(jLabel46))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eurKomMaterijal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel46)
+                    .addComponent(jLabel45))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eurKomMaterijal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -898,7 +917,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                            .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -907,7 +926,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
@@ -956,7 +975,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelLayout.createSequentialGroup()
                             .addComponent(jLabel37)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1043,7 +1062,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             btnSaveChanges.setEnabled(true);
             panel.setVisible(true);
             TogglePanelVisibility();
-            
+
             design = designs.get(0);
             designClassInput.setText(design.getClassMark());
             designIdInput.setText(design.getDesignIdentity());
@@ -1052,6 +1071,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             revisionInput.setText(design.getRevision());
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             desigDateInput.setText(f.format(design.getDate()));
+
 
             if (design.isNiklanje()) {
                 daNiklanjeButton.setSelected(true);
@@ -1241,13 +1261,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         TogglePanelVisibility();
         isNew = true;
     }
-    
-    private void TogglePanelVisibility(){
+
+    private void TogglePanelVisibility() {
         fopacPanel.setVisible(_isFopac);
         whPanel.setVisible(!_isFopac);
     }
-    
-    private String GetDesignCode(){
+
+    private String GetDesignCode() {
         return _isFopac ? "FOPAC" : "WH";
     }
 
@@ -1279,32 +1299,32 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             price1_1.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             BigDecimal price = new BigDecimal(price2.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price2.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             BigDecimal price = new BigDecimal(price2_2.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price2_2.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             BigDecimal price = new BigDecimal(price3.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price3.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
-        BigDecimal price = new BigDecimal(price4.getText().replace(',', '.'));
-        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-        price4.setText(price.toPlainString().replace('.', ','));
+            BigDecimal price = new BigDecimal(price4.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price4.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
         try {
@@ -1409,14 +1429,14 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
          * 
          */
-        
+
         try {
             BigDecimal price = new BigDecimal(price500.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price500.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
-         try {
+        try {
             BigDecimal price = new BigDecimal(price500_1.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price500_1.setText(price.toPlainString().replace('.', ','));
@@ -1501,19 +1521,19 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         } catch (NumberFormatException e) {
         }
-        
+
         try {
-        if (!isNew && design.getPcs4()==null && (price4.getText()!= null || !"".equals(price4.getText()))) {
-        priceChanged = true;
-        }
-        if (!isNew && design.getPcs4()!=null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
-        priceChanged = true;
-        }
-        design.setPcs4(new BigDecimal(price4.getText().replace(',', '.')));
-        
+            if (!isNew && design.getPcs4() == null && (price4.getText() != null || !"".equals(price4.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs4() != null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs4(new BigDecimal(price4.getText().replace(',', '.')));
+
         } catch (NumberFormatException e) {
         }
-         
+
         try {
             if (!isNew && design.getPcs5() == null && (price5.getText() != null || !"".equals(price5.getText()))) {
                 priceChanged = true;
@@ -1525,14 +1545,14 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
-        if (!isNew && design.getPcs8()==null && (price8.getText()!= null || !"".equals(price8.getText()))) {
-        priceChanged = true;
-        }
-        if (!isNew && design.getPcs8()!=null && design.getPcs8().compareTo(new BigDecimal(price8.getText().replace(',', '.'))) != 0) {
-        priceChanged = true;
-        }
-        design.setPcs8(new BigDecimal(price8.getText().replace(',', '.')));
-        
+            if (!isNew && design.getPcs8() == null && (price8.getText() != null || !"".equals(price8.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs8() != null && design.getPcs8().compareTo(new BigDecimal(price8.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs8(new BigDecimal(price8.getText().replace(',', '.')));
+
         } catch (NumberFormatException e) {
         }
         /*
@@ -1568,19 +1588,19 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs15(new BigDecimal(price15.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
-        if (!isNew && design.getPcs16()==null && (price16.getText()!= null || !"".equals(price16.getText()))) {
-        priceChanged = true;
-        }
-        if (!isNew && design.getPcs16()!=null && design.getPcs16().compareTo(new BigDecimal(price16.getText().replace(',', '.'))) != 0) {
-        priceChanged = true;
-        }
-        design.setPcs16(new BigDecimal(price16.getText().replace(',', '.')));
-        
+            if (!isNew && design.getPcs16() == null && (price16.getText() != null || !"".equals(price16.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs16() != null && design.getPcs16().compareTo(new BigDecimal(price16.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs16(new BigDecimal(price16.getText().replace(',', '.')));
+
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             if (!isNew && design.getPcs20() == null && (price20.getText() != null || !"".equals(price20.getText()))) {
                 priceChanged = true;
@@ -1614,7 +1634,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         }
          * 
          */
-         try {
+        try {
             if (!isNew && design.getPcs32() == null && (price32.getText() != null || !"".equals(price32.getText()))) {
                 priceChanged = true;
             }
@@ -1624,7 +1644,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs32(new BigDecimal(price32.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-         
+
         try {
             if (!isNew && design.getPcs50() == null && (price50.getText() != null || !"".equals(price50.getText()))) {
                 priceChanged = true;
@@ -1635,7 +1655,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs50(new BigDecimal(price50.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             if (!isNew && design.getPcs64() == null && (price64.getText() != null || !"".equals(price64.getText()))) {
                 priceChanged = true;
@@ -1646,7 +1666,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs64(new BigDecimal(price64.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             if (!isNew && design.getPcs100() == null && (price100.getText() != null || !"".equals(price100.getText()))) {
                 priceChanged = true;
@@ -1657,7 +1677,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs100(new BigDecimal(price100.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        
+
         try {
             if (!isNew && design.getPcs128() == null && (price128.getText() != null || !"".equals(price128.getText()))) {
                 priceChanged = true;
@@ -1764,6 +1784,107 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 // TODO add your handling code here:
 }//GEN-LAST:event_daNlxButtonActionPerformed
 
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    if ((!daFertigButton.isSelected() && !neFertigButton.isSelected())
+            || (minPoKom.getText() == null || "".equals(minPoKom.getText().trim()))
+            || (stezanjeTok.getText() == null || "".equals(stezanjeTok.getText().trim()))
+            || (stezanjeGlod.getText() == null || "".equals(stezanjeGlod.getText().trim()))
+            || (satnica.getText() == null || "".equals(satnica.getText().trim()))
+            || (eurKomMaterijal.getText() == null || "".equals(eurKomMaterijal.getText().trim()))) {
+        JOptionPane.showMessageDialog(null, "Unesite sve vrijednosti", "Greška", JOptionPane.ERROR_MESSAGE);
+    }
+
+    BigDecimal[] komValues;
+    JTextField[] textBoxes;
+    
+    if (_isFopac) {
+        komValues = new BigDecimal[]{
+            new BigDecimal("1"),
+            new BigDecimal("2"),
+            new BigDecimal("3.5"),
+            new BigDecimal("7.5"),
+            new BigDecimal("10"),
+            new BigDecimal("15"),
+            new BigDecimal("20"),
+            new BigDecimal("50"),
+            new BigDecimal("100"),
+            new BigDecimal("500")};
+
+        textBoxes = new JTextField[]{
+            price1,
+            price2,
+            price3,
+            price5,
+            price10,
+            price15,
+            price20,
+            price50,
+            price100,
+            price500
+        };
+
+        
+
+    } else {
+        komValues = new BigDecimal[]{
+            new BigDecimal("1"),
+            new BigDecimal("2"),
+            new BigDecimal("4"),
+            new BigDecimal("8"),
+            new BigDecimal("16"),
+            new BigDecimal("32"),
+            new BigDecimal("64"),
+            new BigDecimal("128"),
+            new BigDecimal("500"),
+            };
+
+        textBoxes = new JTextField[]{
+            price1_1,
+            price2_2,
+            price4,
+            price8,
+            price16,
+            price32,
+            price64,
+            price128,
+            price500_1
+        };
+
+
+    }
+    
+    for (int i = 0; i < komValues.length; i++) {
+            BigDecimal total = CalculatePriceRow(komValues[i]);
+            textBoxes[i].setText(total.toPlainString().replace('.', ','));
+        }
+    
+}//GEN-LAST:event_jButton2ActionPerformed
+
+    private BigDecimal CalculatePriceRow(BigDecimal kom) {
+        boolean indFerting = daFertigButton.isSelected();
+        BigDecimal mpk = new BigDecimal(minPoKom.getText().replace(',', '.'));
+        BigDecimal stt = new BigDecimal(stezanjeTok.getText().replace(',', '.'));
+        BigDecimal stg = new BigDecimal(stezanjeGlod.getText().replace(',', '.'));
+        BigDecimal s = new BigDecimal(satnica.getText().replace(',', '.'));
+        BigDecimal ekom = new BigDecimal(eurKomMaterijal.getText().replace(',', '.'));
+
+        BigDecimal multiplier = new BigDecimal("1.05").multiply(new BigDecimal("1.05")).multiply(new BigDecimal("1.07")).multiply(new BigDecimal("1.035")).multiply(new BigDecimal("1.02"));
+
+
+        BigDecimal term1 = stt.multiply(new BigDecimal("20")).add(stg.multiply(new BigDecimal("30")));
+        BigDecimal term2 = term1.divide(kom, MathContext.DECIMAL128);
+
+        BigDecimal workPrice = mpk.add(term2).divide(new BigDecimal("60"), MathContext.DECIMAL128).multiply(s);
+        BigDecimal workMaterialTransport = workPrice.add(ekom).multiply(new BigDecimal("1.08"));
+        BigDecimal workMaterialTransportGalvanization = indFerting ? BigDecimal.ZERO : workMaterialTransport.multiply(new BigDecimal("1.2"));
+        BigDecimal total = indFerting ? workMaterialTransport.multiply(multiplier) : workMaterialTransportGalvanization.multiply(multiplier);
+
+        total = total.setScale(2, RoundingMode.HALF_UP);
+
+        return total;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -1830,6 +1951,7 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTextField eurKomMaterijal;
     private javax.swing.JPanel fopacPanel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
