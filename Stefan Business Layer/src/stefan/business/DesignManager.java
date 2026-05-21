@@ -83,6 +83,18 @@ public class DesignManager {
             newDesign.setK14(design.getPcs500());
             //1k kom
             newDesign.setK15(design.getPcs1000());
+            
+            newDesign.setK16(design.getPcs8());
+            
+            newDesign.setK17(design.getPcs16());
+            
+            newDesign.setK18(design.getPcs32());
+            
+            newDesign.setK19(design.getPcs64());
+            
+            newDesign.setK20(design.getPcs128());
+            
+            newDesign.setCode(design.getCode());
       
             entityManager.getTransaction().begin();
             
@@ -173,7 +185,18 @@ public class DesignManager {
             //500 kom
             newDesign.setK14(design.getPcs500());
             //1k kom
-            newDesign.setK15(design.getPcs1000());        
+            newDesign.setK15(design.getPcs1000());     
+            
+            newDesign.setK16(design.getPcs8());
+            
+            newDesign.setK17(design.getPcs16());
+            
+            newDesign.setK18(design.getPcs32());
+            
+            newDesign.setK19(design.getPcs64());
+            
+            newDesign.setK20(design.getPcs128());
+      
             
             entityManager.persist(newDesign);
             
@@ -219,6 +242,20 @@ public class DesignManager {
     public List<Design> GetDesignsByNumber(String designNumber)
     {            
        Query q = entityManager.createNamedQuery("Design.findByNumber");
+       q.setParameter("designNumber", designNumber + "%");        
+       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
+       return mapData(designs);      
+    }
+    
+    public List<Design> GetDesignsByNumberAndCode(String designNumber, String code)
+    {    
+       Query q;
+       if("FOPAC".equals(code)){
+           q = entityManager.createNamedQuery("Design.findByNumberFopac");
+       }else{
+           q = entityManager.createNamedQuery("Design.findByNumberWH");
+       }
+       
        q.setParameter("designNumber", designNumber + "%");        
        List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
        return mapData(designs);      
@@ -270,7 +307,13 @@ public class DesignManager {
         result.setPcs100(design.getK12());
         result.setPcs200(design.getK13());
         result.setPcs500(design.getK14());
-        result.setPcs1000(design.getK15());  
+        result.setPcs1000(design.getK15());
+        result.setPcs8(design.getK16());
+        result.setPcs16(design.getK17());
+        result.setPcs32(design.getK18());
+        result.setPcs64(design.getK19());
+        result.setPcs128(design.getK20());
+        result.setCode(design.getCode());
         return result;            
     }
 
