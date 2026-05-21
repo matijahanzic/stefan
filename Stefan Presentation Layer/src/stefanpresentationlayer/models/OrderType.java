@@ -10,7 +10,7 @@ public enum OrderType {
             case Internal:
                 return "Interne";
             case External:
-                return "Eksterne";
+                return "Vanjske";
             case All:
             default:
                 return "Sve";

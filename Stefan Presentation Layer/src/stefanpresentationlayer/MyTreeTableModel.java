@@ -43,7 +43,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		{
 		case 0: return "Broj Narudžbe";
                 case 1: return "Firma";
-				case 2: return "Interno/Eksterno";
+				case 2: return "Interno/Vanjsko";
                 case 3: return "Datum Narudžbe";
                 case 4: return "Datum Isporuke";
 		case 5: return "Pozicija";
@@ -63,7 +63,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		MyTreeNode treenode = ( MyTreeNode )node;
 		String intExtVal = "";
 		if (!treenode.getChildren().isEmpty())
-			intExtVal = treenode.getIsBusinessPartnerExternal() ? "E" : "I";
+			intExtVal = treenode.getIsBusinessPartnerExternal() ? "V" : "I";
 
 		switch( column )
 		{
