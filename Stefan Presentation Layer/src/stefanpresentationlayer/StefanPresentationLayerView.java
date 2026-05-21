@@ -150,10 +150,10 @@ public class StefanPresentationLayerView extends FrameView {
         btnDesigns = new javax.swing.JButton();
         btnDesignsFromExcel = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        btnDesigns1 = new javax.swing.JButton();
-        btnChangeDesignPrice = new javax.swing.JButton();
         upisVanjskeFirmeButton = new javax.swing.JButton();
         newExternalOrderBtn = new javax.swing.JButton();
+        btnDesigns1 = new javax.swing.JButton();
+        btnChangeDesignPrice = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -259,6 +259,26 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
+        upisVanjskeFirmeButton.setIcon(resourceMap.getIcon("upisVanjskeFirmeButton.icon")); // NOI18N
+        upisVanjskeFirmeButton.setText(resourceMap.getString("upisVanjskeFirmeButton.text")); // NOI18N
+        upisVanjskeFirmeButton.setToolTipText(resourceMap.getString("upisVanjskeFirmeButton.toolTipText")); // NOI18N
+        upisVanjskeFirmeButton.setIconTextGap(28);
+        upisVanjskeFirmeButton.setName("upisVanjskeFirmeButton"); // NOI18N
+        upisVanjskeFirmeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upisVanjskeFirmeButtonActionPerformed(evt);
+            }
+        });
+
+        newExternalOrderBtn.setIcon(resourceMap.getIcon("newExternalOrderBtn.icon")); // NOI18N
+        newExternalOrderBtn.setText(resourceMap.getString("newExternalOrderBtn.text")); // NOI18N
+        newExternalOrderBtn.setName("newExternalOrderBtn"); // NOI18N
+        newExternalOrderBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newExternalOrderBtnActionPerformed(evt);
+            }
+        });
+
         btnDesigns1.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
         btnDesigns1.setIcon(resourceMap.getIcon("btnDesignsWH.icon")); // NOI18N
         btnDesigns1.setText(resourceMap.getString("btnDesignsWH.text")); // NOI18N
@@ -281,25 +301,6 @@ public class StefanPresentationLayerView extends FrameView {
             }
         });
 
-        upisVanjskeFirmeButton.setText(resourceMap.getString("upisVanjskeFirmeButton.text")); // NOI18N
-        upisVanjskeFirmeButton.setToolTipText(resourceMap.getString("upisVanjskeFirmeButton.toolTipText")); // NOI18N
-        upisVanjskeFirmeButton.setName("upisVanjskeFirmeButton"); // NOI18N
-        upisVanjskeFirmeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                upisVanjskeFirmeButtonActionPerformed(evt);
-            }
-        });
-
-        newExternalOrderBtn.setIcon(resourceMap.getIcon("newExternalOrderBtn.icon")); // NOI18N
-        newExternalOrderBtn.setText(resourceMap.getString("newExternalOrderBtn.text")); // NOI18N
-        newExternalOrderBtn.setName("newExternalOrderBtn"); // NOI18N
-        newExternalOrderBtn.setSelectedIcon(null);
-        newExternalOrderBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newExternalOrderBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -307,29 +308,34 @@ public class StefanPresentationLayerView extends FrameView {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDesignsFromExcel)
-                        .addGap(18, 18, 18)
-                        .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(newOrderBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(newExternalOrderBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(allOrdersBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
+                            .addComponent(jLabel2))
+                        .addContainerGap())
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(newOrderBtn)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                                .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(newExternalOrderBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(allOrdersBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,13 +361,13 @@ public class StefanPresentationLayerView extends FrameView {
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnChangeDesignPrice)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnChangeDesignPrice)
+                    .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         btnDesigns1.getAccessibleContext().setAccessibleName(resourceMap.getString("btnDesigns1.AccessibleContext.accessibleName")); // NOI18N
