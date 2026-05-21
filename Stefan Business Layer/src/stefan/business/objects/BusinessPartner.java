@@ -19,6 +19,7 @@ public class BusinessPartner {
     private String printRow3;
     private String city;
     private boolean requireShippingDate;
+    private boolean isExternalSource;
 
     /**
      * @return the idBill
@@ -103,9 +104,17 @@ public class BusinessPartner {
    
     public void setRequireShippingDate(boolean requireShippingDate) {
         this.requireShippingDate = requireShippingDate;
-    }       
-    
-    
+    }
+
+    public boolean getIsExternalSource() {
+        return isExternalSource;
+    }
+
+    public void setIsExternalSource(boolean outsideSource) {
+        isExternalSource = outsideSource;
+    }
+
+
     @Override
     public String toString()
     {

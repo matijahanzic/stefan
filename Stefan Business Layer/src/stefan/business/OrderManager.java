@@ -308,6 +308,7 @@ public class OrderManager {
         if (order.getBusinessPartnerId() != null){
             o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
             o.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
+            o.setIsBusinessPartnerExternal(order.getBusinessPartnerId().getIsExternalSource());
         }
         
         List<OrderItem> oi = new ArrayList<OrderItem>();
@@ -387,6 +388,7 @@ public class OrderManager {
         if (order.getBusinessPartnerId() != null){
             newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
             newOrder.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
+            newOrder.setIsBusinessPartnerExternal(order.getBusinessPartnerId().getIsExternalSource());
         }
         return newOrder;
     }

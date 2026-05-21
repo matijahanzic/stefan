@@ -7,6 +7,8 @@ package stefan.business;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.*;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,13 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.PrintSetup;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -134,6 +129,7 @@ public class ExcelManager {
     private Font arial20Bold;
     private CellStyle styleArial20Bold;
     private CellStyle styleArialYellowBackground;
+    private CellStyle styleArialLightBlueBackground;
     private CellStyle styleArialGreenBackground;
     private CellStyle styleArialCenter;
     private CellStyle styleArialYellowCenter;
@@ -223,7 +219,12 @@ public class ExcelManager {
         styleArialYellowBackground.setFont(arial);
         styleArialYellowBackground.setFillForegroundColor(HSSFColor.YELLOW.index);
         styleArialYellowBackground.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        
+
+        styleArialLightBlueBackground = workbook.createCellStyle();
+        styleArialLightBlueBackground.setFont(arial);
+        styleArialLightBlueBackground.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
+        styleArialLightBlueBackground.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
         styleArialGreenBackground = workbook.createCellStyle();
         styleArialGreenBackground.setFont(arial);
         styleArialGreenBackground.setFillForegroundColor(HSSFColor.GREEN.index);
@@ -517,7 +518,7 @@ public class ExcelManager {
     public void CreateNewOpenOrders() throws IOException {
 
         //prepare data
-        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
+        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, bp.isExternalSource, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
                 + "d.6k as pcs6, d.10k as pcs10, d.15k as pcs15, d.20k as pcs20, d.30k as pcs30, d.40k as pcs40, d.50k as pcs50, "
                 + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, d.isNlx, "
                 + "CASE WHEN billItem.idOrderItem IS NULL THEN 0 ELSE 1 end as isOnTemporaryBill "
@@ -580,8 +581,8 @@ public class ExcelManager {
                     (String) resultElement[3],
                     (Date) resultElement[4],
                     (String) resultElement[5],
-                    (String) resultElement[6],
-                    (BigDecimal) resultElement[7],
+                    (Boolean) resultElement[6],
+                    (String) resultElement[7],
                     (BigDecimal) resultElement[8],
                     (BigDecimal) resultElement[9],
                     (BigDecimal) resultElement[10],
@@ -597,10 +598,11 @@ public class ExcelManager {
                     (BigDecimal) resultElement[20],
                     (BigDecimal) resultElement[21],
                     (BigDecimal) resultElement[22],
-                    (Boolean) resultElement[23], 
+                    (BigDecimal) resultElement[23],
                     (Boolean) resultElement[24],
                     (Boolean) resultElement[25],
-                    (Long) resultElement[26]);
+                    (Boolean) resultElement[26],
+                    (Long) resultElement[27]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -760,6 +762,8 @@ public class ExcelManager {
             //debt
             Cell cellDebt = row.createCell(cellCounter++);
             cellDebt.setCellValue(hasDug ? "DUG" : "");
+            if (openOrderItem.getExternalOrder())
+                cellDebt.setCellStyle(styleArialLightBlueBackground);
 
             //shiping date
             Cell cellShippingDate = row.createCell(cellCounter++);

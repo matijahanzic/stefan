@@ -28,6 +28,8 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		
 	}
 
+	public static final int INTERNAL_EXTERNAL_COLUMN_INDEX = 2;
+
 	@Override
 	public int getColumnCount() 
 	{
@@ -41,15 +43,16 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		{
 		case 0: return "Broj Narudžbe";
                 case 1: return "Firma";
-                case 2: return "Datum Narudžbe";
-                case 3: return "Datum Isporuke";
-		case 4: return "Pozicija";
-		case 5: return "Naziv Nacrta";
-                case 6: return "Broj Nacrta";
-                case 7: return "Identitet Nacrta";
-                case 8: return "Klasa Nacrta";
-                case 9: return "Naručeno";
-                case 10: return "Isporučeno";
+				case 2: return "Interno/Vanjsko";
+                case 3: return "Datum Narudžbe";
+                case 4: return "Datum Isporuke";
+		case 5: return "Pozicija";
+		case 6: return "Naziv Nacrta";
+                case 7: return "Broj Nacrta";
+                case 8: return "Identitet Nacrta";
+                case 9: return "Klasa Nacrta";
+                case 10: return "Naručeno";
+                case 11: return "Isporučeno";
 		default: return "Unknown";
 		}
 	}
@@ -58,19 +61,24 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 	public Object getValueAt( Object node, int column ) 
 	{		
 		MyTreeNode treenode = ( MyTreeNode )node;
+		String intExtVal = "";
+		if (!treenode.getChildren().isEmpty())
+			intExtVal = treenode.getIsBusinessPartnerExternal() ? "V" : "I";
+
 		switch( column )
 		{
 		case 0: return treenode.getOrderNumber();
-                case 1: return treenode.getBusinessPartnerName();  
-                case 2: return treenode.getOrderDate();  
-                case 3: return treenode.getOrderShippingDate();
-		case 4: return treenode.getPosition();
-		case 5: return treenode.getDesignName();
-                case 6: return treenode.getDesignNumber();
-                case 7: return treenode.getDesignIdentity();
-                case 8: return treenode.getDesignClass();
-                case 9: return treenode.getQuantityOrdered();
-                case 10: return treenode.getQuantityDelivered();                                
+                case 1: return treenode.getBusinessPartnerName();
+				case 2: return intExtVal;
+                case 3: return treenode.getOrderDate();
+                case 4: return treenode.getOrderShippingDate();
+		case 5: return treenode.getPosition();
+		case 6: return treenode.getDesignName();
+                case 7: return treenode.getDesignNumber();
+                case 8: return treenode.getDesignIdentity();
+                case 9: return treenode.getDesignClass();
+                case 10: return treenode.getQuantityOrdered();
+                case 11: return treenode.getQuantityDelivered();
                             
 		default: return "Unknown";
 		}

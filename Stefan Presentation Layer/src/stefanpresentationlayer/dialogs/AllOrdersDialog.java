@@ -10,15 +10,21 @@
  */
 package stefanpresentationlayer.dialogs;
 
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.tree.TreePath;
+
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
 import stefan.business.OrderManager;
 import stefan.business.objects.Order;
 import stefanpresentationlayer.MyTreeNode;
 import stefanpresentationlayer.MyTreeTableModel;
+import stefanpresentationlayer.OrdersTableCellRenderer;
+import stefanpresentationlayer.models.OrderType;
 
 /**
  *
@@ -28,12 +34,20 @@ public class AllOrdersDialog extends javax.swing.JDialog {
 
    
     private MyTreeTableModel treeTableModel;
+
+    private List<OrderType> bpTypes = ObservableCollections.observableList(new ArrayList<OrderType>());
+    private OrderType selectedBpType = OrderType.All;
+
     /** Creates new form AllOrdersDialog */
     public AllOrdersDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);              
         initComponents(); 
         refreshTreeData();
-        setTitle("Pregled Narudžbi");            
+        setTitle("Pregled Narudžbi");
+
+        bpTypes.add(OrderType.All);
+        bpTypes.add(OrderType.Internal);
+        bpTypes.add(OrderType.External);
     }
   
     
@@ -45,6 +59,7 @@ public class AllOrdersDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTreeTable1 = new org.jdesktop.swingx.JXTreeTable();
@@ -54,6 +69,8 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         jButtonUpdateShippingDate = new javax.swing.JButton();
         jButtonChaneQuantity = new javax.swing.JButton();
         btnChangePosition = new javax.swing.JButton();
+        bpTypeFilterCBox = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -114,6 +131,22 @@ public class AllOrdersDialog extends javax.swing.JDialog {
             }
         });
 
+        bpTypeFilterCBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        bpTypeFilterCBox.setName("bpTypeFilterCBox"); // NOI18N
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${bpTypes}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, bpTypeFilterCBox);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        bpTypeFilterCBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                bpTypeFilterCBoxItemStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +154,7 @@ public class AllOrdersDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1133, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(_btnDeleteOrder)
                         .addGap(18, 18, 18)
@@ -131,7 +164,11 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jButtonChaneQuantity)
                         .addGap(18, 18, 18)
-                        .addComponent(btnChangePosition))
+                        .addComponent(btnChangePosition)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(closeBtn, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -144,13 +181,17 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                     .addComponent(_btnDeleteOrderItem)
                     .addComponent(jButtonUpdateShippingDate)
                     .addComponent(jButtonChaneQuantity)
-                    .addComponent(btnChangePosition))
+                    .addComponent(btnChangePosition)
+                    .addComponent(jLabel1)
+                    .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -159,10 +200,47 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 
+    private List<Order> allItems = new ArrayList<Order>();
+    private List<Order> filteredItems = new ArrayList<Order>();
     private void refreshTreeData(){
         OrderManager manager = new OrderManager();
-        List<Order> items = manager.getOrders();
-        treeTableModel = new MyTreeTableModel(items);   
+        allItems = manager.getOrders();
+
+        treeTableModel = new MyTreeTableModel(allItems);
+        jXTreeTable1.setDefaultRenderer(Object.class, new OrdersTableCellRenderer());
+        jXTreeTable1.setTreeTableModel(treeTableModel);
+        jXTreeTable1.expandAll();
+    }
+
+    private void filterTreeData() {
+        filteredItems.clear();
+
+        switch (this.selectedBpType) {
+            case Internal: {
+                for (Order o : this.allItems) {
+                    if (!o.getIsBusinessPartnerExternal())
+                        filteredItems.add(o);
+                }
+                break;
+            }
+
+            case External: {
+                for (Order o : this.allItems) {
+                    if (o.getIsBusinessPartnerExternal())
+                        filteredItems.add(o);
+                }
+                break;
+            }
+
+            case All:
+            default: {
+                filteredItems.addAll(this.allItems);
+                break;
+            }
+        }
+
+        treeTableModel = new MyTreeTableModel(filteredItems);
+        jXTreeTable1.setDefaultRenderer(Object.class, new OrdersTableCellRenderer());
         jXTreeTable1.setTreeTableModel(treeTableModel);
         jXTreeTable1.expandAll();
     }
@@ -338,6 +416,14 @@ private void btnChangePositionActionPerformed(java.awt.event.ActionEvent evt) {/
     }
 }//GEN-LAST:event_btnChangePositionActionPerformed
 
+private void bpTypeFilterCBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_bpTypeFilterCBoxItemStateChanged
+        Object it = evt.getItem();
+        if (it instanceof OrderType && evt.getStateChange() == ItemEvent.SELECTED) {
+            selectedBpType = (OrderType)it;
+            filterTreeData();
+        }
+}//GEN-LAST:event_bpTypeFilterCBoxItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -384,12 +470,15 @@ private void btnChangePositionActionPerformed(java.awt.event.ActionEvent evt) {/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnDeleteOrder;
     private javax.swing.JButton _btnDeleteOrderItem;
+    private javax.swing.JComboBox bpTypeFilterCBox;
     private javax.swing.JButton btnChangePosition;
     private javax.swing.JButton closeBtn;
     private javax.swing.JButton jButtonChaneQuantity;
     private javax.swing.JButton jButtonUpdateShippingDate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jXTreeTable1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -406,6 +495,12 @@ private void btnChangePositionActionPerformed(java.awt.event.ActionEvent evt) {/
         this.treeTableModel = treeTableModel;
     }
 
-    
-    
+
+    public List<OrderType> getBpTypes() {
+        return bpTypes;
+    }
+
+    public void setBpTypes(List<OrderType> bpTypes) {
+        this.bpTypes = bpTypes;
+    }
 }
