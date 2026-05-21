@@ -77,6 +77,7 @@ public class DesignJDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         editDesignButton = new javax.swing.JButton();
         btnDeleteDesign = new javax.swing.JButton();
+        createDesignButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -190,8 +191,8 @@ public class DesignJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs5");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs6}"));
-        columnBinding.setColumnName("Pcs6");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs8}"));
+        columnBinding.setColumnName("Pcs8");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs10}"));
@@ -202,36 +203,36 @@ public class DesignJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs15");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs16}"));
+        columnBinding.setColumnName("Pcs16");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs20}"));
         columnBinding.setColumnName("Pcs20");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs30}"));
-        columnBinding.setColumnName("Pcs30");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs40}"));
-        columnBinding.setColumnName("Pcs40");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs32}"));
+        columnBinding.setColumnName("Pcs32");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs50}"));
         columnBinding.setColumnName("Pcs50");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs64}"));
+        columnBinding.setColumnName("Pcs64");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs100}"));
         columnBinding.setColumnName("Pcs100");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs200}"));
-        columnBinding.setColumnName("Pcs200");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs128}"));
+        columnBinding.setColumnName("Pcs128");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs500}"));
         columnBinding.setColumnName("Pcs500");
-        columnBinding.setColumnClass(java.math.BigDecimal.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs1000}"));
-        columnBinding.setColumnName("Pcs1000");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
@@ -278,23 +279,25 @@ public class DesignJDialog extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(14).setPreferredWidth(30);
         jTable1.getColumnModel().getColumn(14).setHeaderValue(resourceMap.getString("jTable1.columnModel.title11")); // NOI18N
         jTable1.getColumnModel().getColumn(15).setPreferredWidth(30);
-        jTable1.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title14")); // NOI18N
+        jTable1.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title24")); // NOI18N
         jTable1.getColumnModel().getColumn(16).setPreferredWidth(30);
-        jTable1.getColumnModel().getColumn(16).setHeaderValue(resourceMap.getString("jTable1.columnModel.title16")); // NOI18N
+        jTable1.getColumnModel().getColumn(16).setHeaderValue(resourceMap.getString("jTable1.columnModel.title14")); // NOI18N
         jTable1.getColumnModel().getColumn(17).setPreferredWidth(30);
-        jTable1.getColumnModel().getColumn(17).setHeaderValue(resourceMap.getString("jTable1.columnModel.title18")); // NOI18N
+        jTable1.getColumnModel().getColumn(17).setHeaderValue(resourceMap.getString("jTable1.columnModel.title16")); // NOI18N
         jTable1.getColumnModel().getColumn(18).setPreferredWidth(30);
-        jTable1.getColumnModel().getColumn(18).setHeaderValue(resourceMap.getString("jTable1.columnModel.title7")); // NOI18N
+        jTable1.getColumnModel().getColumn(18).setHeaderValue(resourceMap.getString("jTable1.columnModel.title18")); // NOI18N
         jTable1.getColumnModel().getColumn(19).setPreferredWidth(20);
         jTable1.getColumnModel().getColumn(19).setHeaderValue(resourceMap.getString("jTable1.columnModel.title12")); // NOI18N
-        jTable1.getColumnModel().getColumn(20).setPreferredWidth(20);
-        jTable1.getColumnModel().getColumn(20).setHeaderValue(resourceMap.getString("jTable1.columnModel.title19")); // NOI18N
+        jTable1.getColumnModel().getColumn(20).setPreferredWidth(30);
+        jTable1.getColumnModel().getColumn(20).setHeaderValue(resourceMap.getString("jTable1.columnModel.title23")); // NOI18N
         jTable1.getColumnModel().getColumn(21).setPreferredWidth(20);
-        jTable1.getColumnModel().getColumn(21).setHeaderValue(resourceMap.getString("jTable1.columnModel.title8")); // NOI18N
-        jTable1.getColumnModel().getColumn(22).setPreferredWidth(20);
-        jTable1.getColumnModel().getColumn(22).setHeaderValue(resourceMap.getString("jTable1.columnModel.title22")); // NOI18N
+        jTable1.getColumnModel().getColumn(21).setHeaderValue(resourceMap.getString("jTable1.columnModel.title19")); // NOI18N
+        jTable1.getColumnModel().getColumn(22).setResizable(false);
+        jTable1.getColumnModel().getColumn(22).setPreferredWidth(30);
+        jTable1.getColumnModel().getColumn(22).setHeaderValue(resourceMap.getString("jTable1.columnModel.title8")); // NOI18N
+        jTable1.getColumnModel().getColumn(23).setResizable(false);
         jTable1.getColumnModel().getColumn(23).setPreferredWidth(20);
-        jTable1.getColumnModel().getColumn(23).setHeaderValue(resourceMap.getString("jTable1.columnModel.title23")); // NOI18N
+        jTable1.getColumnModel().getColumn(23).setHeaderValue(resourceMap.getString("jTable1.columnModel.title22")); // NOI18N
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
@@ -306,6 +309,15 @@ public class DesignJDialog extends javax.swing.JDialog {
         btnDeleteDesign.setAction(actionMap.get("btnDeleteDesignAction")); // NOI18N
         btnDeleteDesign.setText(resourceMap.getString("btnDeleteDesign.text")); // NOI18N
         btnDeleteDesign.setName("btnDeleteDesign"); // NOI18N
+
+        createDesignButton1.setText(resourceMap.getString("createDesignButton1.text")); // NOI18N
+        createDesignButton1.setToolTipText(resourceMap.getString("createDesignButton1.toolTipText")); // NOI18N
+        createDesignButton1.setName("createDesignButton1"); // NOI18N
+        createDesignButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createDesignButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -335,10 +347,12 @@ public class DesignJDialog extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(createDesignButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(createDesignButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(editDesignButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDeleteDesign)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 680, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 533, Short.MAX_VALUE)
                                 .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -364,8 +378,9 @@ public class DesignJDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createDesignButton)
-                    .addComponent(editDesignButton)
                     .addComponent(jButton1)
+                    .addComponent(createDesignButton1)
+                    .addComponent(editDesignButton)
                     .addComponent(btnDeleteDesign))
                 .addContainerGap())
         );
@@ -420,7 +435,8 @@ public class DesignJDialog extends javax.swing.JDialog {
 
         EditDesignJDialog dodajNacrtDialog = new EditDesignJDialog(null, true);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        //dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        dodajNacrtDialog.setLocationRelativeTo(null);
         dodajNacrtDialog.CreateNew();
         dodajNacrtDialog.setVisible(true);
         this.setVisible(true);
@@ -440,6 +456,20 @@ public class DesignJDialog extends javax.swing.JDialog {
             odaberiNacrtClick();
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDesignButton1ActionPerformed
+        
+        EditDesignJDialog dodajNacrtDialog = new EditDesignJDialog(null, true);
+        dodajNacrtDialog.SetIsWH();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //dodajNacrtDialog.setLocation((dim.width / 2) - (dodajNacrtDialog.getSize().width / 2) , 50);
+        dodajNacrtDialog.setLocationRelativeTo(null);
+        dodajNacrtDialog.CreateNew();
+        dodajNacrtDialog.setVisible(true);
+        this.setVisible(true);
+        RefreshTableData();
+        
+}//GEN-LAST:event_createDesignButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -487,6 +517,7 @@ public class DesignJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeleteDesign;
     private javax.swing.JButton createDesignButton;
+    private javax.swing.JButton createDesignButton1;
     private javax.swing.JTextField designClassTextField;
     private javax.swing.JTextField designIdentityTextField;
     private javax.swing.JTextField designNumTextField;
@@ -624,6 +655,11 @@ public class DesignJDialog extends javax.swing.JDialog {
         } else {
             selectedDesign = designs.get(rowIndex);
             EditDesignJDialog editNacrtDialog = new EditDesignJDialog(null, true);
+            
+            if(selectedDesign.getCode().equals("WH")){
+                editNacrtDialog.SetIsWH();    
+            }
+            
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             editNacrtDialog.setLocation((dim.width / 2) - (editNacrtDialog.getSize().width / 2) , 50);  
             List<Design> selectedDesigns = new ArrayList<Design>();

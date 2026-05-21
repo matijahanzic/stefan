@@ -148,9 +148,10 @@ public class StefanPresentationLayerView extends FrameView {
         jLabel3 = new javax.swing.JLabel();
         allOrdersBtn = new javax.swing.JButton();
         btnDesigns = new javax.swing.JButton();
-        btnChangeDesignPrice = new javax.swing.JButton();
         btnDesignsFromExcel = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        btnDesigns1 = new javax.swing.JButton();
+        btnChangeDesignPrice = new javax.swing.JButton();
         upisVanjskeFirmeButton = new javax.swing.JButton();
         newExternalOrderBtn = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
@@ -232,20 +233,11 @@ public class StefanPresentationLayerView extends FrameView {
         btnDesigns.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
         btnDesigns.setIcon(resourceMap.getIcon("btnDesigns.icon")); // NOI18N
         btnDesigns.setText(resourceMap.getString("btnDesigns.text")); // NOI18N
+        btnDesigns.setToolTipText(resourceMap.getString("btnDesigns.toolTipText")); // NOI18N
         btnDesigns.setName("btnDesigns"); // NOI18N
         btnDesigns.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDesignsActionPerformed(evt);
-            }
-        });
-
-        btnChangeDesignPrice.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
-        btnChangeDesignPrice.setIcon(resourceMap.getIcon("btnChangeDesignPrice.icon")); // NOI18N
-        btnChangeDesignPrice.setText(resourceMap.getString("btnChangeDesignPrice.text")); // NOI18N
-        btnChangeDesignPrice.setName("btnChangeDesignPrice"); // NOI18N
-        btnChangeDesignPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangeDesignPriceActionPerformed(evt);
             }
         });
 
@@ -264,6 +256,28 @@ public class StefanPresentationLayerView extends FrameView {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        btnDesigns1.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
+        btnDesigns1.setIcon(resourceMap.getIcon("btnDesignsWH.icon")); // NOI18N
+        btnDesigns1.setText(resourceMap.getString("btnDesignsWH.text")); // NOI18N
+        btnDesigns1.setToolTipText(resourceMap.getString("btnDesignsWH.toolTipText")); // NOI18N
+        btnDesigns1.setActionCommand(resourceMap.getString("btnDesignsWH.actionCommand")); // NOI18N
+        btnDesigns1.setName("btnDesignsWH"); // NOI18N
+        btnDesigns1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesigns1ActionPerformed(evt);
+            }
+        });
+
+        btnChangeDesignPrice.setAction(actionMap.get("materialBtnActionPerformed")); // NOI18N
+        btnChangeDesignPrice.setIcon(resourceMap.getIcon("btnChangeDesignPrice.icon")); // NOI18N
+        btnChangeDesignPrice.setText(resourceMap.getString("btnChangeDesignPrice.text")); // NOI18N
+        btnChangeDesignPrice.setName("btnChangeDesignPrice"); // NOI18N
+        btnChangeDesignPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeDesignPriceActionPerformed(evt);
             }
         });
 
@@ -298,9 +312,7 @@ public class StefanPresentationLayerView extends FrameView {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDesignsFromExcel)
                         .addGap(18, 18, 18)
@@ -314,7 +326,9 @@ public class StefanPresentationLayerView extends FrameView {
                         .addGap(18, 18, 18)
                         .addComponent(jButton3))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 1174, Short.MAX_VALUE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnChangeDesignPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -341,11 +355,16 @@ public class StefanPresentationLayerView extends FrameView {
                 .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDesigns, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChangeDesignPrice)
-                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(127, Short.MAX_VALUE))
+                    .addComponent(btnDesignsFromExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(upisVanjskeFirmeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDesigns1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnChangeDesignPrice)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
+
+        btnDesigns1.getAccessibleContext().setAccessibleName(resourceMap.getString("btnDesigns1.AccessibleContext.accessibleName")); // NOI18N
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -397,7 +416,7 @@ public class StefanPresentationLayerView extends FrameView {
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statusMessageLabel)
                     .addComponent(statusAnimationLabel)
@@ -443,14 +462,16 @@ public class StefanPresentationLayerView extends FrameView {
     private void btnDesignsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesignsActionPerformed
         EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);    
         dialog.setResizable(false);
-        dialog.setLocation(0, 50);       
+        //dialog.setLocation(0, 50);
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);   
     }//GEN-LAST:event_btnDesignsActionPerformed
 
     private void btnChangeDesignPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeDesignPriceActionPerformed
         PriceChangeJDialog dialog=new PriceChangeJDialog(null, true);
         dialog.setResizable(false);
-        dialog.setLocation(0, 50);       
+        //dialog.setLocation(0, 50);
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnChangeDesignPriceActionPerformed
 
@@ -458,10 +479,11 @@ private void btnDesignsFromExcelActionPerformed(java.awt.event.ActionEvent evt) 
 
     if (ShowImportFileDialog()) {
         String filePath =  importFilePath + "\\" + importFileName;
-        ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath);
+        ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath, "FOPAC");
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
         designDialog.setSize(dim.width, (dim.height - 100)); 
-        designDialog.setLocation(0, 50);  
+        //designDialog.setLocation(0, 50);
+        designDialog.setLocationRelativeTo(null);
         designDialog.setVisible(true);
     }
     else
@@ -482,6 +504,15 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 }//GEN-LAST:event_jButton3ActionPerformed
 
+private void btnDesigns1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesigns1ActionPerformed
+        EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);
+        dialog.SetIsWH();
+        dialog.setResizable(false);
+        //dialog.setLocation(0, 150);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+}//GEN-LAST:event_btnDesigns1ActionPerformed
+
 private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upisVanjskeFirmeButtonActionPerformed
     NewExternalBusinessPartnerJDialog dialog = new NewExternalBusinessPartnerJDialog(this.getFrame(), true);
     dialog.setLocation(0, 50);
@@ -489,14 +520,14 @@ private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_upisVanjskeFirmeButtonActionPerformed
 
 private void newExternalOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newExternalOrderBtnActionPerformed
-    NewExternalOrderJDialog orderDialog= new NewExternalOrderJDialog(this.getFrame(), true); 
+    NewExternalOrderJDialog orderDialog= new NewExternalOrderJDialog(this.getFrame(), true);
 
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            orderDialog.setSize(dim.width, (dim.height - 100));
-            orderDialog.setLocation(0, 50);
-            orderDialog.setVisible(true);
-            //dohvati vrijednosti koje su unesene u ovaj dialog      
-            //this.firePropertyChange("items", null, null);
+    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    orderDialog.setSize(dim.width, (dim.height - 100));
+    orderDialog.setLocation(0, 50);
+    orderDialog.setVisible(true);
+    //dohvati vrijednosti koje su unesene u ovaj dialog
+    //this.firePropertyChange("items", null, null);
 }//GEN-LAST:event_newExternalOrderBtnActionPerformed
 
 private String importFilePath;
@@ -519,6 +550,7 @@ private boolean ShowImportFileDialog() {
     private javax.swing.JButton allOrdersBtn;
     private javax.swing.JButton btnChangeDesignPrice;
     private javax.swing.JButton btnDesigns;
+    private javax.swing.JButton btnDesigns1;
     private javax.swing.JButton btnDesignsFromExcel;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -11,6 +11,7 @@
 package stefanpresentationlayer.dialogs;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import stefan.business.DesignManager;
 import stefan.business.objects.Design;
 
@@ -29,6 +31,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     private Design design = new Design();
     private boolean isNew = false;
+    private boolean _isFopac = true;
 
     /** Creates new form EditDesignJDialog */
     public EditDesignJDialog(java.awt.Frame parent, boolean modal) {
@@ -40,6 +43,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jPanel2.setVisible(true);
     }
 
+    public void SetIsWH() {
+        _isFopac = false;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -48,10 +55,12 @@ public class EditDesignJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         designNumberTF = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnFindDesign = new javax.swing.JButton();
@@ -61,50 +70,18 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         btnSaveChanges = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         panel = new javax.swing.JPanel();
-        price1000 = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
-        price30 = new javax.swing.JTextField();
-        price10 = new javax.swing.JTextField();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        price100 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         revisionInput = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        price3 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        price500 = new javax.swing.JTextField();
-        price2 = new javax.swing.JTextField();
-        price1 = new javax.swing.JTextField();
         designIdInput = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         designNumberInput = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        price200 = new javax.swing.JTextField();
-        jLabel24 = new javax.swing.JLabel();
         percentTF = new javax.swing.JTextField();
         designClassInput = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
-        price4 = new javax.swing.JTextField();
-        jLabel31 = new javax.swing.JLabel();
-        price6 = new javax.swing.JTextField();
-        price50 = new javax.swing.JTextField();
-        price40 = new javax.swing.JTextField();
-        price20 = new javax.swing.JTextField();
-        price15 = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
-        price5 = new javax.swing.JTextField();
         desigDateInput = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         daGlodanjeButton = new javax.swing.JRadioButton();
@@ -117,6 +94,63 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         daNiklanjeButton = new javax.swing.JRadioButton();
         designNameInput = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        fopacPanel = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        price1 = new javax.swing.JTextField();
+        price2 = new javax.swing.JTextField();
+        price3 = new javax.swing.JTextField();
+        price5 = new javax.swing.JTextField();
+        price10 = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        price15 = new javax.swing.JTextField();
+        price20 = new javax.swing.JTextField();
+        price50 = new javax.swing.JTextField();
+        price100 = new javax.swing.JTextField();
+        price500 = new javax.swing.JTextField();
+        whPanel = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        price1_1 = new javax.swing.JTextField();
+        price2_2 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        price4 = new javax.swing.JTextField();
+        price8 = new javax.swing.JTextField();
+        price32 = new javax.swing.JTextField();
+        price16 = new javax.swing.JTextField();
+        price64 = new javax.swing.JTextField();
+        price128 = new javax.swing.JTextField();
+        price500_1 = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        neFertigButton = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        daFertigButton = new javax.swing.JRadioButton();
+        jLabel42 = new javax.swing.JLabel();
+        stezanjeTok = new javax.swing.JTextField();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        minPoKom = new javax.swing.JTextField();
+        stezanjeGlod = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        satnica = new javax.swing.JTextField();
+        eurKomMaterijal = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         createNewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -163,33 +197,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         panel.setName("panel"); // NOI18N
 
-        price1000.setName("price1000"); // NOI18N
-        price1000.setNextFocusableComponent(daTokarenjeButton);
-
-        jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
-        jLabel21.setName("jLabel21"); // NOI18N
-
-        price30.setName("price30"); // NOI18N
-        price30.setNextFocusableComponent(price40);
-
-        price10.setName("price10"); // NOI18N
-        price10.setNextFocusableComponent(price15);
-
-        jLabel32.setText(resourceMap.getString("jLabel32.text")); // NOI18N
-        jLabel32.setName("jLabel32"); // NOI18N
-
-        jLabel23.setText(resourceMap.getString("jLabel23.text")); // NOI18N
-        jLabel23.setName("jLabel23"); // NOI18N
-
-        jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
-        jLabel22.setName("jLabel22"); // NOI18N
-
-        jLabel29.setText(resourceMap.getString("jLabel29.text")); // NOI18N
-        jLabel29.setName("jLabel29"); // NOI18N
-
-        price100.setName("price100"); // NOI18N
-        price100.setNextFocusableComponent(price200);
-
         jLabel20.setText(resourceMap.getString("jLabel20.text")); // NOI18N
         jLabel20.setName("jLabel20"); // NOI18N
 
@@ -206,43 +213,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel16.setText(resourceMap.getString("jLabel16.text")); // NOI18N
         jLabel16.setName("jLabel16"); // NOI18N
 
-        jLabel34.setText(resourceMap.getString("jLabel34.text")); // NOI18N
-        jLabel34.setName("jLabel34"); // NOI18N
-
-        jLabel30.setText(resourceMap.getString("jLabel30.text")); // NOI18N
-        jLabel30.setName("jLabel30"); // NOI18N
-
-        price3.setName("price3"); // NOI18N
-        price3.setNextFocusableComponent(price4);
-
-        jLabel28.setText(resourceMap.getString("jLabel28.text")); // NOI18N
-        jLabel28.setName("jLabel28"); // NOI18N
-
-        jLabel25.setText(resourceMap.getString("jLabel25.text")); // NOI18N
-        jLabel25.setName("jLabel25"); // NOI18N
-
         jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
         jLabel17.setName("jLabel17"); // NOI18N
 
         jLabel18.setText(resourceMap.getString("jLabel18.text")); // NOI18N
         jLabel18.setName("jLabel18"); // NOI18N
 
-        jLabel36.setText(resourceMap.getString("jLabel36.text")); // NOI18N
-        jLabel36.setName("jLabel36"); // NOI18N
-
-        price500.setName("price500"); // NOI18N
-        price500.setNextFocusableComponent(price1000);
-
-        price2.setName("price2"); // NOI18N
-        price2.setNextFocusableComponent(price3);
-
-        price1.setName("price1"); // NOI18N
-        price1.setNextFocusableComponent(price2);
-
         designIdInput.setName("designIdInput"); // NOI18N
-
-        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
-        jLabel26.setName("jLabel26"); // NOI18N
 
         jLabel19.setText(resourceMap.getString("jLabel19.text")); // NOI18N
         jLabel19.setName("jLabel19"); // NOI18N
@@ -250,51 +227,12 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         designNumberInput.setEditable(false);
         designNumberInput.setName("designNumberInput"); // NOI18N
 
-        jLabel35.setText(resourceMap.getString("jLabel35.text")); // NOI18N
-        jLabel35.setName("jLabel35"); // NOI18N
-
-        jLabel33.setText(resourceMap.getString("jLabel33.text")); // NOI18N
-        jLabel33.setName("jLabel33"); // NOI18N
-
-        price200.setName("price200"); // NOI18N
-        price200.setNextFocusableComponent(price500);
-
-        jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
-        jLabel24.setName("jLabel24"); // NOI18N
-
         percentTF.setName("percentTF"); // NOI18N
 
         designClassInput.setName("designClassInput"); // NOI18N
 
         jLabel37.setText(resourceMap.getString("jLabel37.text")); // NOI18N
         jLabel37.setName("jLabel37"); // NOI18N
-
-        price4.setName("price4"); // NOI18N
-        price4.setNextFocusableComponent(price5);
-
-        jLabel31.setText(resourceMap.getString("jLabel31.text")); // NOI18N
-        jLabel31.setName("jLabel31"); // NOI18N
-
-        price6.setName("price6"); // NOI18N
-        price6.setNextFocusableComponent(price10);
-
-        price50.setName("price50"); // NOI18N
-        price50.setNextFocusableComponent(price100);
-
-        price40.setName("price40"); // NOI18N
-        price40.setNextFocusableComponent(price50);
-
-        price20.setName("price20"); // NOI18N
-        price20.setNextFocusableComponent(price30);
-
-        price15.setName("price15"); // NOI18N
-        price15.setNextFocusableComponent(price20);
-
-        jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
-        jLabel27.setName("jLabel27"); // NOI18N
-
-        price5.setName("price5"); // NOI18N
-        price5.setNextFocusableComponent(price6);
 
         desigDateInput.setEditable(false);
         desigDateInput.setText(resourceMap.getString("desigDateInput.text")); // NOI18N
@@ -305,7 +243,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         buttonGroup2.add(daGlodanjeButton);
         daGlodanjeButton.setText(resourceMap.getString("daGlodanjeButton.text")); // NOI18N
         daGlodanjeButton.setName("daGlodanjeButton"); // NOI18N
-        daGlodanjeButton.setNextFocusableComponent(daNiklanjeButton);
+        daGlodanjeButton.setNextFocusableComponent(daNlxButton);
 
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setToolTipText(resourceMap.getString("jLabel2.toolTipText")); // NOI18N
@@ -319,6 +257,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         buttonGroup2.add(daNlxButton);
         daNlxButton.setText(resourceMap.getString("daNlxButton.text")); // NOI18N
         daNlxButton.setName("daNlxButton"); // NOI18N
+        daNlxButton.setNextFocusableComponent(daNiklanjeButton);
         daNlxButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 daNlxButtonActionPerformed(evt);
@@ -403,97 +342,593 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel38.setText(resourceMap.getString("jLabel38.text")); // NOI18N
         jLabel38.setName("jLabel38"); // NOI18N
 
+        jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setLayout(new java.awt.CardLayout());
+
+        fopacPanel.setName("fopacPanel"); // NOI18N
+        fopacPanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel21.setText(resourceMap.getString("jLabel21.text")); // NOI18N
+        jLabel21.setName("jLabel21"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        fopacPanel.add(jLabel21, gridBagConstraints);
+
+        jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
+        jLabel22.setName("jLabel22"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        fopacPanel.add(jLabel22, gridBagConstraints);
+
+        jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
+        jLabel24.setName("jLabel24"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        fopacPanel.add(jLabel24, gridBagConstraints);
+
+        jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
+        jLabel26.setName("jLabel26"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        fopacPanel.add(jLabel26, gridBagConstraints);
+
+        jLabel28.setText(resourceMap.getString("jLabel28.text")); // NOI18N
+        jLabel28.setName("jLabel28"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 10, 0, 0);
+        fopacPanel.add(jLabel28, gridBagConstraints);
+
+        price1.setName("price1"); // NOI18N
+        price1.setNextFocusableComponent(price2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 4, 0, 0);
+        fopacPanel.add(price1, gridBagConstraints);
+
+        price2.setName("price2"); // NOI18N
+        price2.setNextFocusableComponent(price3);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 4, 0, 0);
+        fopacPanel.add(price2, gridBagConstraints);
+
+        price3.setName("price3"); // NOI18N
+        price3.setNextFocusableComponent(price5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 4, 0, 0);
+        fopacPanel.add(price3, gridBagConstraints);
+
+        price5.setName("price5"); // NOI18N
+        price5.setNextFocusableComponent(price10);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 4, 0, 0);
+        fopacPanel.add(price5, gridBagConstraints);
+
+        price10.setName("price10"); // NOI18N
+        price10.setNextFocusableComponent(price15);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 4, 19, 0);
+        fopacPanel.add(price10, gridBagConstraints);
+
+        jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
+        jLabel27.setName("jLabel27"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
+        fopacPanel.add(jLabel27, gridBagConstraints);
+
+        jLabel35.setText(resourceMap.getString("jLabel35.text")); // NOI18N
+        jLabel35.setName("jLabel35"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
+        fopacPanel.add(jLabel35, gridBagConstraints);
+
+        jLabel33.setText(resourceMap.getString("jLabel33.text")); // NOI18N
+        jLabel33.setName("jLabel33"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
+        fopacPanel.add(jLabel33, gridBagConstraints);
+
+        jLabel32.setText(resourceMap.getString("jLabel32.text")); // NOI18N
+        jLabel32.setName("jLabel32"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
+        fopacPanel.add(jLabel32, gridBagConstraints);
+
+        jLabel36.setText(resourceMap.getString("jLabel36.text")); // NOI18N
+        jLabel36.setName("jLabel36"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
+        fopacPanel.add(jLabel36, gridBagConstraints);
+
+        price15.setName("price15"); // NOI18N
+        price15.setNextFocusableComponent(price20);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        fopacPanel.add(price15, gridBagConstraints);
+
+        price20.setName("price20"); // NOI18N
+        price20.setNextFocusableComponent(price50);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        fopacPanel.add(price20, gridBagConstraints);
+
+        price50.setName("price50"); // NOI18N
+        price50.setNextFocusableComponent(price100);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        fopacPanel.add(price50, gridBagConstraints);
+
+        price100.setName("price100"); // NOI18N
+        price100.setNextFocusableComponent(price500);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        fopacPanel.add(price100, gridBagConstraints);
+
+        price500.setName("price500"); // NOI18N
+        price500.setNextFocusableComponent(daTokarenjeButton);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 18, 19, 23);
+        fopacPanel.add(price500, gridBagConstraints);
+
+        jPanel4.add(fopacPanel, "card3");
+
+        whPanel.setName("whPanel"); // NOI18N
+        whPanel.setLayout(new java.awt.GridBagLayout());
+
+        jLabel23.setText(resourceMap.getString("jLabel23.text")); // NOI18N
+        jLabel23.setName("jLabel23"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(30, 10, 0, 0);
+        whPanel.add(jLabel23, gridBagConstraints);
+
+        jLabel25.setText(resourceMap.getString("jLabel25.text")); // NOI18N
+        jLabel25.setName("jLabel25"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        whPanel.add(jLabel25, gridBagConstraints);
+
+        jLabel29.setText(resourceMap.getString("jLabel29.text")); // NOI18N
+        jLabel29.setName("jLabel29"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.ipadx = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        whPanel.add(jLabel29, gridBagConstraints);
+
+        jLabel30.setText(resourceMap.getString("jLabel30.text")); // NOI18N
+        jLabel30.setName("jLabel30"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.ipadx = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 0);
+        whPanel.add(jLabel30, gridBagConstraints);
+
+        jLabel31.setText(resourceMap.getString("jLabel31.text")); // NOI18N
+        jLabel31.setName("jLabel31"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        whPanel.add(jLabel31, gridBagConstraints);
+
+        price1_1.setName("price1_1"); // NOI18N
+        price1_1.setNextFocusableComponent(price2_2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(27, 10, 0, 0);
+        whPanel.add(price1_1, gridBagConstraints);
+
+        price2_2.setName("price2_2"); // NOI18N
+        price2_2.setNextFocusableComponent(price4);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 0);
+        whPanel.add(price2_2, gridBagConstraints);
+
+        jLabel34.setText(resourceMap.getString("jLabel34.text")); // NOI18N
+        jLabel34.setName("jLabel34"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(33, 18, 0, 0);
+        whPanel.add(jLabel34, gridBagConstraints);
+
+        jLabel39.setText(resourceMap.getString("jLabel39.text")); // NOI18N
+        jLabel39.setName("jLabel39"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        whPanel.add(jLabel39, gridBagConstraints);
+
+        jLabel40.setText(resourceMap.getString("jLabel40.text")); // NOI18N
+        jLabel40.setName("jLabel40"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        whPanel.add(jLabel40, gridBagConstraints);
+
+        jLabel41.setText(resourceMap.getString("jLabel41.text")); // NOI18N
+        jLabel41.setName("jLabel41"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 18, 0, 0);
+        whPanel.add(jLabel41, gridBagConstraints);
+
+        price4.setName("price4"); // NOI18N
+        price4.setNextFocusableComponent(price8);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 0);
+        whPanel.add(price4, gridBagConstraints);
+
+        price8.setName("price8"); // NOI18N
+        price8.setNextFocusableComponent(price16);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 0);
+        whPanel.add(price8, gridBagConstraints);
+
+        price32.setName("price32"); // NOI18N
+        price32.setNextFocusableComponent(price64);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(30, 18, 0, 21);
+        whPanel.add(price32, gridBagConstraints);
+
+        price16.setName("price16"); // NOI18N
+        price16.setNextFocusableComponent(price32);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 10, 22, 0);
+        whPanel.add(price16, gridBagConstraints);
+
+        price64.setName("price64"); // NOI18N
+        price64.setNextFocusableComponent(price128);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 21);
+        whPanel.add(price64, gridBagConstraints);
+
+        price128.setName("price128"); // NOI18N
+        price128.setNextFocusableComponent(price500_1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 21);
+        whPanel.add(price128, gridBagConstraints);
+
+        price500_1.setName("price500_1"); // NOI18N
+        price500_1.setNextFocusableComponent(daTokarenjeButton);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 21);
+        whPanel.add(price500_1, gridBagConstraints);
+
+        jPanel4.add(whPanel, "card2");
+
+        jPanel5.setName("jPanel5"); // NOI18N
+
+        jPanel6.setName("jPanel6"); // NOI18N
+
+        buttonGroup4.add(neFertigButton);
+        neFertigButton.setText(resourceMap.getString("neFertigButton.text")); // NOI18N
+        neFertigButton.setName("neFertigButton"); // NOI18N
+        neFertigButton.setNextFocusableComponent(minPoKom);
+
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        buttonGroup4.add(daFertigButton);
+        daFertigButton.setText(resourceMap.getString("daFertigButton.text")); // NOI18N
+        daFertigButton.setName("daFertigButton"); // NOI18N
+        daFertigButton.setNextFocusableComponent(neFertigButton);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(daFertigButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(neFertigButton)))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(neFertigButton)
+                    .addComponent(daFertigButton))
+                .addContainerGap())
+        );
+
+        jLabel42.setText(resourceMap.getString("jLabel42.text")); // NOI18N
+        jLabel42.setName("jLabel42"); // NOI18N
+
+        stezanjeTok.setName("stezanjeTok"); // NOI18N
+        stezanjeTok.setNextFocusableComponent(stezanjeGlod);
+
+        jLabel43.setText(resourceMap.getString("jLabel43.text")); // NOI18N
+        jLabel43.setName("jLabel43"); // NOI18N
+
+        jLabel44.setText(resourceMap.getString("jLabel44.text")); // NOI18N
+        jLabel44.setName("jLabel44"); // NOI18N
+
+        minPoKom.setName("minPoKom"); // NOI18N
+        minPoKom.setNextFocusableComponent(stezanjeTok);
+
+        stezanjeGlod.setName("stezanjeGlod"); // NOI18N
+        stezanjeGlod.setNextFocusableComponent(satnica);
+
+        jLabel45.setText(resourceMap.getString("jLabel45.text")); // NOI18N
+        jLabel45.setName("jLabel45"); // NOI18N
+
+        jLabel46.setText(resourceMap.getString("jLabel46.text")); // NOI18N
+        jLabel46.setName("jLabel46"); // NOI18N
+
+        satnica.setName("satnica"); // NOI18N
+        satnica.setNextFocusableComponent(eurKomMaterijal);
+
+        eurKomMaterijal.setName("eurKomMaterijal"); // NOI18N
+        eurKomMaterijal.setNextFocusableComponent(jPanel4);
+
+        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
+        jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
+        jButton2.setName("jButton2"); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel43)
+                            .addComponent(stezanjeTok, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel45)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minPoKom, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel44)
+                    .addComponent(jLabel46)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(eurKomMaterijal, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(stezanjeGlod, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(30, 30, 30))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(minPoKom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel44)
+                    .addComponent(jLabel43))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(stezanjeGlod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stezanjeTok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel46)
+                    .addComponent(jLabel45))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(satnica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eurKomMaterijal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(designNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price15))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price10))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price6))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price5))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price4))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price3))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price2))
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(designNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(designNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel18)
                             .addComponent(designIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(price20, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price30, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(price500, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price1000, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price40, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price50, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price100, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price200, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(designClassInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,8 +937,17 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(desigDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(35, 35, 35))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,90 +955,43 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel18)
+                        .addComponent(jLabel19)
                         .addComponent(jLabel16)
                         .addComponent(jLabel38)
-                        .addComponent(jLabel17)
-                        .addComponent(jLabel18)
-                        .addComponent(jLabel19))
+                        .addComponent(jLabel17))
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(designNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(designNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(designIdInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(designClassInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(desigDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(desigDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(designNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(revisionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(designNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(price1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(price20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel35)
-                        .addComponent(jLabel37))
-                    .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(price2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34)
-                    .addComponent(price30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel24)
-                            .addComponent(price3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel30))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel23)
-                            .addComponent(price4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel33))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel26)
-                            .addComponent(price5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel25)
-                            .addComponent(price6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel29)))
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelLayout.createSequentialGroup()
-                                .addComponent(price40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(price50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(price100, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(price200, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel28)
-                            .addComponent(price10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36)
-                            .addComponent(price500, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel27)
-                            .addComponent(price15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31)
-                            .addComponent(price1000, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))
+                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelLayout.createSequentialGroup()
+                            .addComponent(jLabel37)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(percentTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1))
+                            .addGap(26, 26, 26)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(27, 27, 27)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap()))))
         );
 
         jLabel38.getAccessibleContext().setAccessibleName(resourceMap.getString("jLabel38.AccessibleContext.accessibleName")); // NOI18N
 
-        jPanel1.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 840, -1));
+        jPanel1.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 870, 330));
 
         createNewButton.setText(resourceMap.getString("createNewButton.text")); // NOI18N
         createNewButton.setName("createNewButton"); // NOI18N
@@ -611,8 +1008,8 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -655,7 +1052,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     private void btnFindDesignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindDesignActionPerformed
         DesignManager manager = new DesignManager();
-        List<Design> designs = manager.GetDesignsByNumber(designNumberTF.getText());
+        List<Design> designs = manager.GetDesignsByNumberAndCode(designNumberTF.getText(), GetDesignCode());
         LoadData(designs);
 
     }//GEN-LAST:event_btnFindDesignActionPerformed
@@ -664,6 +1061,8 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         if (designs.size() == 1) {
             btnSaveChanges.setEnabled(true);
             panel.setVisible(true);
+            TogglePanelVisibility();
+
             design = designs.get(0);
             designClassInput.setText(design.getClassMark());
             designIdInput.setText(design.getDesignIdentity());
@@ -673,117 +1072,173 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             desigDateInput.setText(f.format(design.getDate()));
 
-            if (design.isNiklanje())
-            {
+
+            if (design.isNiklanje()) {
                 daNiklanjeButton.setSelected(true);
-            }
-            else
-            {
+            } else {
                 neNiklanjeButton.setSelected(true);
             }
-            
-            if (design.getIsNlx())
-            {
+
+            if (design.getIsNlx()) {
                 daNlxButton.setSelected(true);
                 daTokarenjeButton.setSelected(false);
                 daGlodanjeButton.setSelected(false);
-            }
-            else if (design.getIsTokarenje())
-            {
+            } else if (design.getIsTokarenje()) {
                 daNlxButton.setSelected(false);
                 daTokarenjeButton.setSelected(true);
                 daGlodanjeButton.setSelected(false);
-            }
-            else
-            {
+            } else {
                 daNlxButton.setSelected(false);
                 daTokarenjeButton.setSelected(false);
                 daGlodanjeButton.setSelected(true);
-            }         
-          
-            
-            if (design.getPcs1() != null) {
-                price1.setText(design.getPcs1().toPlainString().replace('.', ','));
-            } else {
-                price1.setText("");
             }
-            if (design.getPcs2() != null) {
-                price2.setText(design.getPcs2().toPlainString().replace('.', ','));
+
+            if (_isFopac) {
+                if (design.getPcs1() != null) {
+                    price1.setText(design.getPcs1().toPlainString().replace('.', ','));
+                } else {
+                    price1.setText("");
+                }
+                if (design.getPcs2() != null) {
+                    price2.setText(design.getPcs2().toPlainString().replace('.', ','));
+                } else {
+                    price2.setText("");
+                }
+                if (design.getPcs3() != null) {
+                    price3.setText(design.getPcs3().toPlainString().replace('.', ','));
+                } else {
+                    price3.setText("");
+                }
+                if (design.getPcs5() != null) {
+                    price5.setText(design.getPcs5().toPlainString().replace('.', ','));
+                } else {
+                    price5.setText("");
+                }
+                if (design.getPcs10() != null) {
+                    price10.setText(design.getPcs10().toPlainString().replace('.', ','));
+                } else {
+                    price10.setText("");
+                }
+                if (design.getPcs15() != null) {
+                    price15.setText(design.getPcs15().toPlainString().replace('.', ','));
+                } else {
+                    price15.setText("");
+                }
+                if (design.getPcs20() != null) {
+                    price20.setText(design.getPcs20().toPlainString().replace('.', ','));
+                } else {
+                    price20.setText("");
+                }
+                if (design.getPcs50() != null) {
+                    price50.setText(design.getPcs50().toPlainString().replace('.', ','));
+                } else {
+                    price50.setText("");
+                }
+                if (design.getPcs100() != null) {
+                    price100.setText(design.getPcs100().toPlainString().replace('.', ','));
+                } else {
+                    price100.setText("");
+                }
+                if (design.getPcs500() != null) {
+                    price500.setText(design.getPcs500().toPlainString().replace('.', ','));
+                } else {
+                    price500.setText("");
+                }
             } else {
-                price2.setText("");
+                if (design.getPcs1() != null) {
+                    price1_1.setText(design.getPcs1().toPlainString().replace('.', ','));
+                } else {
+                    price1_1.setText("");
+                }
+                if (design.getPcs2() != null) {
+                    price2_2.setText(design.getPcs2().toPlainString().replace('.', ','));
+                } else {
+                    price2_2.setText("");
+                }
+                if (design.getPcs4() != null) {
+                    price4.setText(design.getPcs4().toPlainString().replace('.', ','));
+                } else {
+                    price4.setText("");
+                }
+                if (design.getPcs8() != null) {
+                    price8.setText(design.getPcs8().toPlainString().replace('.', ','));
+                } else {
+                    price8.setText("");
+                }
+                if (design.getPcs16() != null) {
+                    price16.setText(design.getPcs16().toPlainString().replace('.', ','));
+                } else {
+                    price16.setText("");
+                }
+                if (design.getPcs32() != null) {
+                    price32.setText(design.getPcs32().toPlainString().replace('.', ','));
+                } else {
+                    price32.setText("");
+                }
+                if (design.getPcs64() != null) {
+                    price64.setText(design.getPcs64().toPlainString().replace('.', ','));
+                } else {
+                    price64.setText("");
+                }
+                if (design.getPcs128() != null) {
+                    price128.setText(design.getPcs128().toPlainString().replace('.', ','));
+                } else {
+                    price128.setText("");
+                }
+                if (design.getPcs500() != null) {
+                    price500_1.setText(design.getPcs500().toPlainString().replace('.', ','));
+                } else {
+                    price500_1.setText("");
+                }
             }
-            if (design.getPcs3() != null) {
-                price3.setText(design.getPcs3().toPlainString().replace('.', ','));
-            } else {
-                price3.setText("");
-            }
+
+
+
+
+            /*
             if (design.getPcs4() != null) {
-                price4.setText(design.getPcs4().toPlainString().replace('.', ','));
+            price4.setText(design.getPcs4().toPlainString().replace('.', ','));
             } else {
-                price4.setText("");
-            }
-            if (design.getPcs5() != null) {
-                price5.setText(design.getPcs5().toPlainString().replace('.', ','));
-            } else {
-                price5.setText("");
-            }
+            price4.setText("");
+            }*/
+
+            /*
             if (design.getPcs6() != null) {
-                price6.setText(design.getPcs6().toPlainString().replace('.', ','));
+            price6.setText(design.getPcs6().toPlainString().replace('.', ','));
             } else {
-                price6.setText("");
+            price6.setText("");
             }
-            if (design.getPcs10() != null) {
-                price10.setText(design.getPcs10().toPlainString().replace('.', ','));
-            } else {
-                price10.setText("");
-            }
-            if (design.getPcs15() != null) {
-                price15.setText(design.getPcs15().toPlainString().replace('.', ','));
-            } else {
-                price15.setText("");
-            }
-            if (design.getPcs20() != null) {
-                price20.setText(design.getPcs20().toPlainString().replace('.', ','));
-            } else {
-                price20.setText("");
-            }
+             */
+
+            /*
             if (design.getPcs30() != null) {
-                price30.setText(design.getPcs30().toPlainString().replace('.', ','));
+            price30.setText(design.getPcs30().toPlainString().replace('.', ','));
             } else {
-                price30.setText("");
+            price30.setText("");
             }
             if (design.getPcs40() != null) {
-                price40.setText(design.getPcs40().toPlainString().replace('.', ','));
+            price40.setText(design.getPcs40().toPlainString().replace('.', ','));
             } else {
-                price40.setText("");
+            price40.setText("");
             }
+             */
 
-            if (design.getPcs50() != null) {
-                price50.setText(design.getPcs50().toPlainString().replace('.', ','));
-            } else {
-                price50.setText("");
-            }
-            if (design.getPcs100() != null) {
-                price100.setText(design.getPcs100().toPlainString().replace('.', ','));
-            } else {
-                price100.setText("");
-            }
+            /*
             if (design.getPcs200() != null) {
-                price200.setText(design.getPcs200().toPlainString().replace('.', ','));
+            price200.setText(design.getPcs200().toPlainString().replace('.', ','));
             } else {
-                price200.setText("");
+            price200.setText("");
             }
-            if (design.getPcs500() != null) {
-                price500.setText(design.getPcs500().toPlainString().replace('.', ','));
-            } else {
-                price500.setText("");
-            }
-            if (design.getPcs1000() != null) {
-                price1000.setText(design.getPcs1000().toPlainString().replace('.', ','));
-            } else {
-                price1000.setText("");
-            }
+            
+             */
 
+            /*
+            if (design.getPcs1000() != null) {
+            price1000.setText(design.getPcs1000().toPlainString().replace('.', ','));
+            } else {
+            price1000.setText("");
+            }
+             */
 
         } else {
             panel.setVisible(false);
@@ -794,17 +1249,28 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     public void CreateNew() {
         jPanel2.setVisible(true);
-        neNiklanjeButton.setSelected(true);      
+        neNiklanjeButton.setSelected(true);
         daTokarenjeButton.setSelected(true);
+        daFertigButton.setSelected(true);
         btnSaveChanges.setEnabled(true);
         panel.setVisible(true);
         SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
         desigDateInput.setText(f.format(new Date()));
         designNumberInput.setEditable(true);
         btnFindDesign.setEnabled(false);
+        TogglePanelVisibility();
         isNew = true;
     }
-    
+
+    private void TogglePanelVisibility() {
+        fopacPanel.setVisible(_isFopac);
+        whPanel.setVisible(!_isFopac);
+    }
+
+    private String GetDesignCode() {
+        return _isFopac ? "FOPAC" : "WH";
+    }
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -828,17 +1294,33 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price1_1.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price1_1.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
             BigDecimal price = new BigDecimal(price2.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price2.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+
+        try {
+            BigDecimal price = new BigDecimal(price2_2.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price2_2.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+
         try {
             BigDecimal price = new BigDecimal(price3.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price3.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+
         try {
             BigDecimal price = new BigDecimal(price4.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -851,10 +1333,19 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             price5.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        /*
         try {
-            BigDecimal price = new BigDecimal(price6.getText().replace(',', '.'));
+        BigDecimal price = new BigDecimal(price6.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price6.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
+        try {
+            BigDecimal price = new BigDecimal(price8.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price6.setText(price.toPlainString().replace('.', ','));
+            price8.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
         try {
@@ -870,27 +1361,51 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price16.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price16.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        try {
             BigDecimal price = new BigDecimal(price20.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price20.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
         try {
-            BigDecimal price = new BigDecimal(price30.getText().replace(',', '.'));
+            BigDecimal price = new BigDecimal(price32.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price30.setText(price.toPlainString().replace('.', ','));
+            price32.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        /*
         try {
-            BigDecimal price = new BigDecimal(price40.getText().replace(',', '.'));
-            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price40.setText(price.toPlainString().replace('.', ','));
+        BigDecimal price = new BigDecimal(price30.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price30.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+         * 
+         */
+        /*
+        try {
+        BigDecimal price = new BigDecimal(price40.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price40.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
         try {
             BigDecimal price = new BigDecimal(price50.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price50.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        try {
+            BigDecimal price = new BigDecimal(price64.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price64.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
         try {
@@ -900,11 +1415,21 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
-            BigDecimal price = new BigDecimal(price200.getText().replace(',', '.'));
+            BigDecimal price = new BigDecimal(price128.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price200.setText(price.toPlainString().replace('.', ','));
+            price128.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        /*
+        try {
+        BigDecimal price = new BigDecimal(price200.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price200.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
+
         try {
             BigDecimal price = new BigDecimal(price500.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
@@ -912,11 +1437,20 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
-            BigDecimal price = new BigDecimal(price1000.getText().replace(',', '.'));
+            BigDecimal price = new BigDecimal(price500_1.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
-            price1000.setText(price.toPlainString().replace('.', ','));
+            price500_1.setText(price.toPlainString().replace('.', ','));
         } catch (NumberFormatException e) {
         }
+        /*
+        try {
+        BigDecimal price = new BigDecimal(price1000.getText().replace(',', '.'));
+        price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+        price1000.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -927,13 +1461,13 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design = new stefan.business.objects.Design();
             design.setDesignNumber(designNumberInput.getText());
             design.setDate(new Date());
-
+            design.setCode(GetDesignCode());
         }
         try {
-            if (!isNew && design.getPcs1()==null && (price1.getText()!= null || !"".equals(price1.getText()))) {
+            if (!isNew && design.getPcs1() == null && (price1.getText() != null || !"".equals(price1.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs1()!=null && design.getPcs1().compareTo(new BigDecimal(price1.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs1() != null && design.getPcs1().compareTo(new BigDecimal(price1.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
 
@@ -941,184 +1475,288 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs2()==null && (price2.getText()!= null || !"".equals(price2.getText()))) {
+            if (!isNew && design.getPcs1() == null && (price1_1.getText() != null || !"".equals(price1_1.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs2()!=null && design.getPcs2().compareTo(new BigDecimal(price2.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs1() != null && design.getPcs1().compareTo(new BigDecimal(price1_1.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+
+            design.setPcs1(new BigDecimal(price1_1.getText().replace(',', '.')));
+
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs2() == null && (price2.getText() != null || !"".equals(price2.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs2() != null && design.getPcs2().compareTo(new BigDecimal(price2.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs2(new BigDecimal(price2.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs3()==null && (price3.getText()!= null || !"".equals(price3.getText()))) {
+            if (!isNew && design.getPcs2() == null && (price2_2.getText() != null || !"".equals(price2_2.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs3()!=null && design.getPcs3().compareTo(new BigDecimal(price3.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs2() != null && design.getPcs2().compareTo(new BigDecimal(price2_2.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs2(new BigDecimal(price2_2.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs3() == null && (price3.getText() != null || !"".equals(price3.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs3() != null && design.getPcs3().compareTo(new BigDecimal(price3.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs3(new BigDecimal(price3.getText().replace(',', '.')));
 
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs4()==null && (price4.getText()!= null || !"".equals(price4.getText()))) {
+            if (!isNew && design.getPcs4() == null && (price4.getText() != null || !"".equals(price4.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs4()!=null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs4() != null && design.getPcs4().compareTo(new BigDecimal(price4.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs4(new BigDecimal(price4.getText().replace(',', '.')));
 
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs5()==null && (price5.getText()!= null || !"".equals(price5.getText()))) {
+            if (!isNew && design.getPcs5() == null && (price5.getText() != null || !"".equals(price5.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs5()!=null && design.getPcs5().compareTo(new BigDecimal(price5.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs5() != null && design.getPcs5().compareTo(new BigDecimal(price5.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs5(new BigDecimal(price5.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        try { 
-            if (!isNew && design.getPcs6()==null && (price6.getText()!= null || !"".equals(price6.getText()))) {
+        try {
+            if (!isNew && design.getPcs8() == null && (price8.getText() != null || !"".equals(price8.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew &&  design.getPcs6()!=null && design.getPcs6().compareTo(new BigDecimal(price6.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs8() != null && design.getPcs8().compareTo(new BigDecimal(price8.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
-            design.setPcs6(new BigDecimal(price6.getText().replace(',', '.')));
+            design.setPcs8(new BigDecimal(price8.getText().replace(',', '.')));
+
         } catch (NumberFormatException e) {
         }
+        /*
+        try { 
+        if (!isNew && design.getPcs6()==null && (price6.getText()!= null || !"".equals(price6.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew &&  design.getPcs6()!=null && design.getPcs6().compareTo(new BigDecimal(price6.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs6(new BigDecimal(price6.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
         try {
-            if (!isNew && design.getPcs10()==null && (price10.getText()!= null || !"".equals(price10.getText()))) {
+            if (!isNew && design.getPcs10() == null && (price10.getText() != null || !"".equals(price10.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs10()!=null && design.getPcs10().compareTo(new BigDecimal(price10.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs10() != null && design.getPcs10().compareTo(new BigDecimal(price10.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs10(new BigDecimal(price10.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs15()==null && (price15.getText()!= null || !"".equals(price15.getText()))) {
+            if (!isNew && design.getPcs15() == null && (price15.getText() != null || !"".equals(price15.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs15()!=null && design.getPcs15().compareTo(new BigDecimal(price15.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs15() != null && design.getPcs15().compareTo(new BigDecimal(price15.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs15(new BigDecimal(price15.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs20()==null && (price20.getText()!= null || !"".equals(price20.getText()))) {
+            if (!isNew && design.getPcs16() == null && (price16.getText() != null || !"".equals(price16.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs20()!=null && design.getPcs20().compareTo(new BigDecimal(price20.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs16() != null && design.getPcs16().compareTo(new BigDecimal(price16.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs16(new BigDecimal(price16.getText().replace(',', '.')));
+
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs20() == null && (price20.getText() != null || !"".equals(price20.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs20() != null && design.getPcs20().compareTo(new BigDecimal(price20.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs20(new BigDecimal(price20.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        /*
         try {
-            if (!isNew && design.getPcs30()==null && (price30.getText()!= null || !"".equals(price30.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs30()!=null && design.getPcs30().compareTo(new BigDecimal(price30.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs30(new BigDecimal(price30.getText().replace(',', '.')));
+        if (!isNew && design.getPcs30()==null && (price30.getText()!= null || !"".equals(price30.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs30()!=null && design.getPcs30().compareTo(new BigDecimal(price30.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs30(new BigDecimal(price30.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs40()==null && (price40.getText()!= null || !"".equals(price40.getText()))) {
-                priceChanged = true;
-            }
-            if (!isNew && design.getPcs40()!=null && design.getPcs40().compareTo(new BigDecimal(price40.getText().replace(',', '.'))) != 0) {
-                priceChanged = true;
-            }
-            design.setPcs40(new BigDecimal(price40.getText().replace(',', '.')));
+        if (!isNew && design.getPcs40()==null && (price40.getText()!= null || !"".equals(price40.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs40()!=null && design.getPcs40().compareTo(new BigDecimal(price40.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs40(new BigDecimal(price40.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+         * 
+         */
         try {
-            if (!isNew && design.getPcs50()==null && (price50.getText()!= null || !"".equals(price50.getText()))) {
+            if (!isNew && design.getPcs32() == null && (price32.getText() != null || !"".equals(price32.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs50()!=null && design.getPcs50().compareTo(new BigDecimal(price50.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs32() != null && design.getPcs32().compareTo(new BigDecimal(price32.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs32(new BigDecimal(price32.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs50() == null && (price50.getText() != null || !"".equals(price50.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs50() != null && design.getPcs50().compareTo(new BigDecimal(price50.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs50(new BigDecimal(price50.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs100()==null && (price100.getText()!= null || !"".equals(price100.getText()))) {
+            if (!isNew && design.getPcs64() == null && (price64.getText() != null || !"".equals(price64.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs100()!=null && design.getPcs100().compareTo(new BigDecimal(price100.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs64() != null && design.getPcs64().compareTo(new BigDecimal(price64.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs64(new BigDecimal(price64.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            if (!isNew && design.getPcs100() == null && (price100.getText() != null || !"".equals(price100.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs100() != null && design.getPcs100().compareTo(new BigDecimal(price100.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs100(new BigDecimal(price100.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+
         try {
-            if (!isNew && design.getPcs200()==null && (price200.getText()!= null || !"".equals(price200.getText()))) {
+            if (!isNew && design.getPcs128() == null && (price128.getText() != null || !"".equals(price128.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs200()!=null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs128() != null && design.getPcs128().compareTo(new BigDecimal(price128.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
-            design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
+            design.setPcs128(new BigDecimal(price128.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        /*
         try {
-            if (!isNew && design.getPcs500()==null && (price500.getText()!= null || !"".equals(price500.getText()))) {
+        if (!isNew && design.getPcs200()==null && (price200.getText()!= null || !"".equals(price200.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs200()!=null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
+        try {
+            if (!isNew && design.getPcs500() == null && (price500.getText() != null || !"".equals(price500.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs500()!=null && design.getPcs500().compareTo(new BigDecimal(price500.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs500() != null && design.getPcs500().compareTo(new BigDecimal(price500.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
             design.setPcs500(new BigDecimal(price500.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
         try {
-            if (!isNew && design.getPcs1000()==null && (price1000.getText()!= null || !"".equals(price1000.getText()))) {
+            if (!isNew && design.getPcs500() == null && (price500_1.getText() != null || !"".equals(price500_1.getText()))) {
                 priceChanged = true;
             }
-            if (!isNew && design.getPcs1000()!=null && design.getPcs1000().compareTo(new BigDecimal(price1000.getText().replace(',', '.'))) != 0) {
+            if (!isNew && design.getPcs500() != null && design.getPcs500().compareTo(new BigDecimal(price500_1.getText().replace(',', '.'))) != 0) {
                 priceChanged = true;
             }
-            design.setPcs1000(new BigDecimal(price1000.getText().replace(',', '.')));
+            design.setPcs500(new BigDecimal(price500_1.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
+        /*
+        try {
+        if (!isNew && design.getPcs1000()==null && (price1000.getText()!= null || !"".equals(price1000.getText()))) {
+        priceChanged = true;
+        }
+        if (!isNew && design.getPcs1000()!=null && design.getPcs1000().compareTo(new BigDecimal(price1000.getText().replace(',', '.'))) != 0) {
+        priceChanged = true;
+        }
+        design.setPcs1000(new BigDecimal(price1000.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+         * 
+         */
 
         if (priceChanged) {
             design.setDate(new Date());
         }
-        
-        if(daNiklanjeButton.isSelected()) {
+
+        if (daNiklanjeButton.isSelected()) {
             design.setNiklanje(true);
-        }
-            else {
+        } else {
             design.setNiklanje(false);
         }
-        
-        if(daNlxButton.isSelected()) {
+
+        if (daNlxButton.isSelected()) {
             design.setIsNlx(true);
-        }
-            else {
+        } else {
             design.setIsNlx(false);
         }
-        
-        if(daTokarenjeButton.isSelected()) {
+
+        if (daTokarenjeButton.isSelected()) {
             design.setIsTokarenje(true);
-        }
-            else {
+        } else {
             design.setIsTokarenje(false);
         }
-        
+
         design.setName(designNameInput.getText());
         design.setClassMark(designClassInput.getText());
         design.setDesignIdentity(designIdInput.getText());
@@ -1137,14 +1775,115 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         this.dispose();
 
     }//GEN-LAST:event_btnSaveChangesActionPerformed
-     
+
 private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewButtonActionPerformed
-   CreateNew();
+    CreateNew();
 }//GEN-LAST:event_createNewButtonActionPerformed
 
 private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daNlxButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_daNlxButtonActionPerformed
+
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    if ((!daFertigButton.isSelected() && !neFertigButton.isSelected())
+            || (minPoKom.getText() == null || "".equals(minPoKom.getText().trim()))
+            || (stezanjeTok.getText() == null || "".equals(stezanjeTok.getText().trim()))
+            || (stezanjeGlod.getText() == null || "".equals(stezanjeGlod.getText().trim()))
+            || (satnica.getText() == null || "".equals(satnica.getText().trim()))
+            || (eurKomMaterijal.getText() == null || "".equals(eurKomMaterijal.getText().trim()))) {
+        JOptionPane.showMessageDialog(null, "Unesite sve vrijednosti", "Greška", JOptionPane.ERROR_MESSAGE);
+    }
+
+    BigDecimal[] komValues;
+    JTextField[] textBoxes;
+    
+    if (_isFopac) {
+        komValues = new BigDecimal[]{
+            new BigDecimal("1"),
+            new BigDecimal("2"),
+            new BigDecimal("3.5"),
+            new BigDecimal("7.5"),
+            new BigDecimal("10"),
+            new BigDecimal("15"),
+            new BigDecimal("20"),
+            new BigDecimal("50"),
+            new BigDecimal("100"),
+            new BigDecimal("500")};
+
+        textBoxes = new JTextField[]{
+            price1,
+            price2,
+            price3,
+            price5,
+            price10,
+            price15,
+            price20,
+            price50,
+            price100,
+            price500
+        };
+
+        
+
+    } else {
+        komValues = new BigDecimal[]{
+            new BigDecimal("1"),
+            new BigDecimal("2"),
+            new BigDecimal("4"),
+            new BigDecimal("8"),
+            new BigDecimal("16"),
+            new BigDecimal("32"),
+            new BigDecimal("64"),
+            new BigDecimal("128"),
+            new BigDecimal("500"),
+            };
+
+        textBoxes = new JTextField[]{
+            price1_1,
+            price2_2,
+            price4,
+            price8,
+            price16,
+            price32,
+            price64,
+            price128,
+            price500_1
+        };
+
+
+    }
+    
+    for (int i = 0; i < komValues.length; i++) {
+            BigDecimal total = CalculatePriceRow(komValues[i]);
+            textBoxes[i].setText(total.toPlainString().replace('.', ','));
+        }
+    
+}//GEN-LAST:event_jButton2ActionPerformed
+
+    private BigDecimal CalculatePriceRow(BigDecimal kom) {
+        boolean indFerting = daFertigButton.isSelected();
+        BigDecimal mpk = new BigDecimal(minPoKom.getText().replace(',', '.'));
+        BigDecimal stt = new BigDecimal(stezanjeTok.getText().replace(',', '.'));
+        BigDecimal stg = new BigDecimal(stezanjeGlod.getText().replace(',', '.'));
+        BigDecimal s = new BigDecimal(satnica.getText().replace(',', '.'));
+        BigDecimal ekom = new BigDecimal(eurKomMaterijal.getText().replace(',', '.'));
+
+        BigDecimal multiplier = new BigDecimal("1.05").multiply(new BigDecimal("1.05")).multiply(new BigDecimal("1.07")).multiply(new BigDecimal("1.035")).multiply(new BigDecimal("1.02"));
+
+
+        BigDecimal term1 = stt.multiply(new BigDecimal("20")).add(stg.multiply(new BigDecimal("30")));
+        BigDecimal term2 = term1.divide(kom, MathContext.DECIMAL128);
+
+        BigDecimal workPrice = mpk.add(term2).divide(new BigDecimal("60"), MathContext.DECIMAL128).multiply(s);
+        BigDecimal workMaterialTransport = workPrice.add(ekom).multiply(new BigDecimal("1.08"));
+        BigDecimal workMaterialTransportGalvanization = indFerting ? BigDecimal.ZERO : workMaterialTransport.multiply(new BigDecimal("1.2"));
+        BigDecimal total = indFerting ? workMaterialTransport.multiply(multiplier) : workMaterialTransportGalvanization.multiply(multiplier);
+
+        total = total.setScale(2, RoundingMode.HALF_UP);
+
+        return total;
+    }
 
     /**
      * @param args the command line arguments
@@ -1196,7 +1935,9 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JButton createNewButton;
+    private javax.swing.JRadioButton daFertigButton;
     private javax.swing.JRadioButton daGlodanjeButton;
     private javax.swing.JRadioButton daNiklanjeButton;
     private javax.swing.JRadioButton daNlxButton;
@@ -1207,7 +1948,10 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JTextField designNameInput;
     private javax.swing.JTextField designNumberInput;
     private javax.swing.JTextField designNumberTF;
+    private javax.swing.JTextField eurKomMaterijal;
+    private javax.swing.JPanel fopacPanel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1234,30 +1978,51 @@ private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTextField minPoKom;
+    private javax.swing.JRadioButton neFertigButton;
     private javax.swing.JRadioButton neNiklanjeButton;
     private javax.swing.JPanel panel;
     private javax.swing.JTextField percentTF;
     private javax.swing.JTextField price1;
     private javax.swing.JTextField price10;
     private javax.swing.JTextField price100;
-    private javax.swing.JTextField price1000;
+    private javax.swing.JTextField price128;
     private javax.swing.JTextField price15;
+    private javax.swing.JTextField price16;
+    private javax.swing.JTextField price1_1;
     private javax.swing.JTextField price2;
     private javax.swing.JTextField price20;
-    private javax.swing.JTextField price200;
+    private javax.swing.JTextField price2_2;
     private javax.swing.JTextField price3;
-    private javax.swing.JTextField price30;
+    private javax.swing.JTextField price32;
     private javax.swing.JTextField price4;
-    private javax.swing.JTextField price40;
     private javax.swing.JTextField price5;
     private javax.swing.JTextField price50;
     private javax.swing.JTextField price500;
-    private javax.swing.JTextField price6;
+    private javax.swing.JTextField price500_1;
+    private javax.swing.JTextField price64;
+    private javax.swing.JTextField price8;
     private javax.swing.JTextField revisionInput;
+    private javax.swing.JTextField satnica;
+    private javax.swing.JTextField stezanjeGlod;
+    private javax.swing.JTextField stezanjeTok;
+    private javax.swing.JPanel whPanel;
     // End of variables declaration//GEN-END:variables
 }
