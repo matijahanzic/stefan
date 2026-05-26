@@ -95,6 +95,33 @@ public class DesignManager {
             newDesign.setK20(design.getPcs128());
             
             newDesign.setCode(design.getCode());
+            
+            newDesign.setCalcIsFerting(design.getCalcIsFerting());
+            newDesign.setCalcMinPoKom(design.getCalcMinPoKom());
+            newDesign.setCalcStezanjeTok(design.getCalcStezanjeTok());
+            newDesign.setCalcStezanjeGlod(design.getCalcStezanjeGlod());
+            newDesign.setCalcSatnica(design.getCalcSatnica());
+            newDesign.setCalcEurPoKom(design.getCalcEurPoKom());
+            
+            newDesign.setPosao1k(design.getPosao1k());
+            newDesign.setPosao2k(design.getPosao2k());
+            newDesign.setPosao3k(design.getPosao3k());
+            newDesign.setPosao4k(design.getPosao4k());
+            newDesign.setPosao5k(design.getPosao5k());
+            newDesign.setPosao8k(design.getPosao8k());
+            newDesign.setPosao10k(design.getPosao10k());
+            newDesign.setPosao15k(design.getPosao15k());
+            newDesign.setPosao16k(design.getPosao16k());
+            newDesign.setPosao20k(design.getPosao20k());
+            newDesign.setPosao32k(design.getPosao32k());
+            newDesign.setPosao50k(design.getPosao50k());
+            newDesign.setPosao64k(design.getPosao64k());
+            newDesign.setPosao100k(design.getPosao100k());
+            newDesign.setPosao128k(design.getPosao128k());
+            newDesign.setPosao200k(design.getPosao200k());
+            newDesign.setPosao500k(design.getPosao500k());
+            
+            
       
             entityManager.getTransaction().begin();
             
@@ -314,6 +341,33 @@ public class DesignManager {
         result.setPcs64(design.getK19());
         result.setPcs128(design.getK20());
         result.setCode(design.getCode());
+        
+        result.setCalcIsFerting(design.getCalcIsFerting());
+        result.setCalcEurPoKom(design.getCalcEurPoKom());
+        result.setCalcMinPoKom(design.getCalcMinPoKom());
+        result.setCalcSatnica(design.getCalcSatnica());
+        result.setCalcStezanjeGlod(design.getCalcStezanjeGlod());
+        result.setCalcStezanjeTok(design.getCalcStezanjeTok());
+        
+        result.setPosao1k(design.getPosao1k());
+        result.setPosao2k(design.getPosao2k());
+        result.setPosao3k(design.getPosao3k());
+        result.setPosao4k(design.getPosao4k());
+        result.setPosao5k(design.getPosao5k());
+        result.setPosao8k(design.getPosao8k());
+        result.setPosao10k(design.getPosao10k());
+        result.setPosao15k(design.getPosao15k());
+        result.setPosao16k(design.getPosao16k());
+        result.setPosao20k(design.getPosao20k());
+        result.setPosao32k(design.getPosao32k());
+        result.setPosao50k(design.getPosao50k());
+        result.setPosao64k(design.getPosao64k());
+        result.setPosao100k(design.getPosao100k());
+        result.setPosao128k(design.getPosao128k());
+        result.setPosao200k(design.getPosao200k());
+        result.setPosao500k(design.getPosao500k());
+        
+        
         return result;            
     }
 
