@@ -15,7 +15,9 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,6 +34,24 @@ public class EditDesignJDialog extends javax.swing.JDialog {
     private Design design = new Design();
     private boolean isNew = false;
     private boolean _isFopac = true;
+    private Map<String,BigDecimal> posaoValues = new HashMap<String,BigDecimal>();
+    /*private BigDecimal posao500k = null;
+    private BigDecimal posao200k = null;
+    private BigDecimal posao128k = null;
+    private BigDecimal posao100k = null;
+    private BigDecimal posao64k = null;
+    private BigDecimal posao50k = null;
+    private BigDecimal posao32k = null;
+    private BigDecimal posao20k = null;
+    private BigDecimal posao16k = null;
+    private BigDecimal posao15k = null;
+    private BigDecimal posao10k = null;
+    private BigDecimal posao8k = null;
+    private BigDecimal posao5k = null;
+    private BigDecimal posao4k = null;
+    private BigDecimal posao3k = null;
+    private BigDecimal posao2k = null;
+    private BigDecimal posao1k = null;*/
 
     /** Creates new form EditDesignJDialog */
     public EditDesignJDialog(java.awt.Frame parent, boolean modal) {
@@ -116,6 +136,8 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         price50 = new javax.swing.JTextField();
         price100 = new javax.swing.JTextField();
         price500 = new javax.swing.JTextField();
+        price200 = new javax.swing.JTextField();
+        jLabel47 = new javax.swing.JLabel();
         whPanel = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
@@ -342,7 +364,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel38.setText(resourceMap.getString("jLabel38.text")); // NOI18N
         jLabel38.setName("jLabel38"); // NOI18N
 
+        jPanel4.setMinimumSize(new java.awt.Dimension(291, 225));
         jPanel4.setName("jPanel4"); // NOI18N
+        jPanel4.setPreferredSize(new java.awt.Dimension(291, 225));
+        jPanel4.setRequestFocusEnabled(false);
         jPanel4.setLayout(new java.awt.CardLayout());
 
         fopacPanel.setName("fopacPanel"); // NOI18N
@@ -354,7 +379,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(24, 17, 0, 0);
         fopacPanel.add(jLabel21, gridBagConstraints);
 
         jLabel22.setText(resourceMap.getString("jLabel22.text")); // NOI18N
@@ -363,7 +388,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(14, 17, 0, 0);
         fopacPanel.add(jLabel22, gridBagConstraints);
 
         jLabel24.setText(resourceMap.getString("jLabel24.text")); // NOI18N
@@ -372,7 +397,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(14, 17, 0, 0);
         fopacPanel.add(jLabel24, gridBagConstraints);
 
         jLabel26.setText(resourceMap.getString("jLabel26.text")); // NOI18N
@@ -381,7 +406,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(14, 17, 0, 0);
         fopacPanel.add(jLabel26, gridBagConstraints);
 
         jLabel28.setText(resourceMap.getString("jLabel28.text")); // NOI18N
@@ -391,7 +416,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(12, 17, 0, 0);
         fopacPanel.add(jLabel28, gridBagConstraints);
 
         price1.setName("price1"); // NOI18N
@@ -402,7 +427,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 4, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 4, 0, 0);
         fopacPanel.add(price1, gridBagConstraints);
 
         price2.setName("price2"); // NOI18N
@@ -446,7 +471,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 79;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 4, 19, 0);
+        gridBagConstraints.insets = new java.awt.Insets(9, 4, 0, 0);
         fopacPanel.add(price10, gridBagConstraints);
 
         jLabel27.setText(resourceMap.getString("jLabel27.text")); // NOI18N
@@ -457,7 +482,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(24, 18, 0, 0);
         fopacPanel.add(jLabel27, gridBagConstraints);
 
         jLabel35.setText(resourceMap.getString("jLabel35.text")); // NOI18N
@@ -494,10 +519,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         jLabel36.setName("jLabel36"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(14, 18, 0, 0);
         fopacPanel.add(jLabel36, gridBagConstraints);
 
         price15.setName("price15"); // NOI18N
@@ -508,7 +533,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        gridBagConstraints.insets = new java.awt.Insets(21, 18, 0, 30);
         fopacPanel.add(price15, gridBagConstraints);
 
         price20.setName("price20"); // NOI18N
@@ -519,7 +544,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 30);
         fopacPanel.add(price20, gridBagConstraints);
 
         price50.setName("price50"); // NOI18N
@@ -530,7 +555,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 30);
         fopacPanel.add(price50, gridBagConstraints);
 
         price100.setName("price100"); // NOI18N
@@ -541,19 +566,40 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 23);
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 0, 30);
         fopacPanel.add(price100, gridBagConstraints);
 
         price500.setName("price500"); // NOI18N
         price500.setNextFocusableComponent(daTokarenjeButton);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 77;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 18, 11, 30);
+        fopacPanel.add(price500, gridBagConstraints);
+
+        price200.setName("price200"); // NOI18N
+        price200.setNextFocusableComponent(daTokarenjeButton);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 18, 19, 23);
-        fopacPanel.add(price500, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(9, 18, 0, 30);
+        fopacPanel.add(price200, gridBagConstraints);
+
+        jLabel47.setText(resourceMap.getString("jLabel47.text")); // NOI18N
+        jLabel47.setName("jLabel47"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
+        fopacPanel.add(jLabel47, gridBagConstraints);
 
         jPanel4.add(fopacPanel, "card3");
 
@@ -897,7 +943,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                         .addComponent(eurKomMaterijal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -917,7 +963,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(designNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                             .addComponent(jLabel17))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -926,7 +972,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
@@ -972,7 +1018,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))
                     .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -991,7 +1037,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         jLabel38.getAccessibleContext().setAccessibleName(resourceMap.getString("jLabel38.AccessibleContext.accessibleName")); // NOI18N
 
-        jPanel1.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 870, 330));
+        jPanel1.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 870, 320));
 
         createNewButton.setText(resourceMap.getString("createNewButton.text")); // NOI18N
         createNewButton.setName("createNewButton"); // NOI18N
@@ -1018,11 +1064,11 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                         .addComponent(btnFindDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(createNewButton))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSaveChanges)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addComponent(btnCancel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1039,11 +1085,11 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addComponent(btnSaveChanges, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSaveChanges, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1072,6 +1118,79 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
             desigDateInput.setText(f.format(design.getDate()));
 
+
+            if (design.getCalcIsFerting()) {
+                daFertigButton.setSelected(true);
+            } else {
+                neFertigButton.setSelected(true);
+            }
+            if (design.getCalcMinPoKom() != null) {
+                minPoKom.setText(design.getCalcMinPoKom().toPlainString().replace('.', ','));
+            } else {
+                minPoKom.setText("");
+            }
+
+            if (design.getCalcStezanjeGlod() != null) {
+                stezanjeGlod.setText(design.getCalcStezanjeGlod().toPlainString().replace('.', ','));
+            } else {
+                stezanjeGlod.setText("");
+            }
+
+            if (design.getCalcStezanjeTok() != null) {
+                stezanjeTok.setText(design.getCalcStezanjeTok().toPlainString().replace('.', ','));
+            } else {
+                stezanjeTok.setText("");
+            }
+
+            if (design.getCalcSatnica() != null) {
+                satnica.setText(design.getCalcSatnica().toPlainString().replace('.', ','));
+            } else {
+                satnica.setText("");
+            }
+
+            if (design.getCalcEurPoKom() != null) {
+                eurKomMaterijal.setText(design.getCalcEurPoKom().toPlainString().replace('.', ','));
+            } else {
+                eurKomMaterijal.setText("");
+            }
+
+            posaoValues.put("500",design.getPosao500k());
+            posaoValues.put("200",design.getPosao200k());
+            posaoValues.put("128",design.getPosao128k());
+            posaoValues.put("100",design.getPosao100k());
+            posaoValues.put("64",design.getPosao64k());
+            posaoValues.put("50",design.getPosao50k());
+            posaoValues.put("32",design.getPosao32k());
+            posaoValues.put("20",design.getPosao20k());
+            posaoValues.put("16",design.getPosao16k());
+            posaoValues.put("15",design.getPosao15k());
+            posaoValues.put("10",design.getPosao10k());
+            posaoValues.put("8",design.getPosao8k());
+            posaoValues.put("5",design.getPosao5k());
+            posaoValues.put("4",design.getPosao4k());
+            posaoValues.put("3",design.getPosao3k());
+            posaoValues.put("2",design.getPosao2k());
+            posaoValues.put("1",design.getPosao1k());
+            
+            /*
+            this.posao500k = design.getPosao500k();
+            this.posao200k = design.getPosao200k();
+            this.posao128k = design.getPosao128k();
+            this.posao100k = design.getPosao100k();
+            this.posao64k = design.getPosao64k();
+            this.posao50k = design.getPosao50k();
+            this.posao32k = design.getPosao32k();
+            this.posao20k = design.getPosao20k();
+            this.posao16k = design.getPosao16k();
+            this.posao15k = design.getPosao15k();
+            this.posao10k = design.getPosao10k();
+            this.posao8k = design.getPosao8k();
+            this.posao5k = design.getPosao5k();
+            this.posao4k = design.getPosao4k();
+            this.posao3k = design.getPosao3k();
+            this.posao2k = design.getPosao2k();
+            this.posao1k = design.getPosao1k();
+*/
 
             if (design.isNiklanje()) {
                 daNiklanjeButton.setSelected(true);
@@ -1138,6 +1257,11 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                     price100.setText(design.getPcs100().toPlainString().replace('.', ','));
                 } else {
                     price100.setText("");
+                }
+                if (design.getPcs200() != null) {
+                    price200.setText(design.getPcs200().toPlainString().replace('.', ','));
+                } else {
+                    price200.setText("");
                 }
                 if (design.getPcs500() != null) {
                     price500.setText(design.getPcs500().toPlainString().replace('.', ','));
@@ -1415,6 +1539,12 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
         }
         try {
+            BigDecimal price = new BigDecimal(price200.getText().replace(',', '.'));
+            price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
+            price200.setText(price.toPlainString().replace('.', ','));
+        } catch (NumberFormatException e) {
+        }
+        try {
             BigDecimal price = new BigDecimal(price128.getText().replace(',', '.'));
             price = price.multiply(percent).setScale(2, RoundingMode.HALF_UP);
             price128.setText(price.toPlainString().replace('.', ','));
@@ -1688,19 +1818,18 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setPcs128(new BigDecimal(price128.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-        /*
+
         try {
-        if (!isNew && design.getPcs200()==null && (price200.getText()!= null || !"".equals(price200.getText()))) {
-        priceChanged = true;
-        }
-        if (!isNew && design.getPcs200()!=null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
-        priceChanged = true;
-        }
-        design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
+            if (!isNew && design.getPcs200() == null && (price200.getText() != null || !"".equals(price200.getText()))) {
+                priceChanged = true;
+            }
+            if (!isNew && design.getPcs200() != null && design.getPcs200().compareTo(new BigDecimal(price200.getText().replace(',', '.'))) != 0) {
+                priceChanged = true;
+            }
+            design.setPcs200(new BigDecimal(price200.getText().replace(',', '.')));
         } catch (NumberFormatException e) {
         }
-         * 
-         */
+
         try {
             if (!isNew && design.getPcs500() == null && (price500.getText() != null || !"".equals(price500.getText()))) {
                 priceChanged = true;
@@ -1757,6 +1886,52 @@ public class EditDesignJDialog extends javax.swing.JDialog {
             design.setIsTokarenje(false);
         }
 
+        design.setPosao1k(posaoValues.get("1"));
+        design.setPosao2k(posaoValues.get("2"));
+        design.setPosao3k(posaoValues.get("3"));
+        design.setPosao4k(posaoValues.get("4"));
+        design.setPosao5k(posaoValues.get("5"));
+        design.setPosao8k(posaoValues.get("8"));
+        design.setPosao10k(posaoValues.get("10"));
+        design.setPosao15k(posaoValues.get("15"));
+        design.setPosao16k(posaoValues.get("16"));
+        design.setPosao20k(posaoValues.get("20"));
+        design.setPosao32k(posaoValues.get("32"));
+        design.setPosao50k(posaoValues.get("50"));
+        design.setPosao64k(posaoValues.get("64"));
+        design.setPosao100k(posaoValues.get("100"));
+        design.setPosao128k(posaoValues.get("128"));
+        design.setPosao200k(posaoValues.get("200"));
+        design.setPosao500k(posaoValues.get("500"));
+        
+        
+        if (daFertigButton.isSelected()) {
+            design.setCalcIsFerting(true);
+        } else {
+            design.setCalcIsFerting(false);
+        }
+        
+        try {
+            design.setCalcMinPoKom(new BigDecimal(minPoKom.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+        try {
+            design.setCalcStezanjeGlod(new BigDecimal(stezanjeGlod.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+         try {
+            design.setCalcStezanjeTok(new BigDecimal(stezanjeTok.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+          try {
+            design.setCalcEurPoKom(new BigDecimal(eurKomMaterijal.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+          try {
+            design.setCalcSatnica(new BigDecimal(satnica.getText().replace(',', '.')));
+        } catch (NumberFormatException e) {
+        }
+
         design.setName(designNameInput.getText());
         design.setClassMark(designClassInput.getText());
         design.setDesignIdentity(designIdInput.getText());
@@ -1797,7 +1972,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     BigDecimal[] komValues;
     JTextField[] textBoxes;
-    
+    BigDecimal[] properyValues;
+
     if (_isFopac) {
         komValues = new BigDecimal[]{
             new BigDecimal("1"),
@@ -1809,7 +1985,9 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             new BigDecimal("20"),
             new BigDecimal("50"),
             new BigDecimal("100"),
+            new BigDecimal("200"),
             new BigDecimal("500")};
+        
 
         textBoxes = new JTextField[]{
             price1,
@@ -1821,10 +1999,11 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             price20,
             price50,
             price100,
+            price200,
             price500
         };
 
-        
+
 
     } else {
         komValues = new BigDecimal[]{
@@ -1836,8 +2015,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             new BigDecimal("32"),
             new BigDecimal("64"),
             new BigDecimal("128"),
-            new BigDecimal("500"),
-            };
+            new BigDecimal("500"),};
 
         textBoxes = new JTextField[]{
             price1_1,
@@ -1853,15 +2031,35 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 
     }
-    
+
     for (int i = 0; i < komValues.length; i++) {
-            BigDecimal total = CalculatePriceRow(komValues[i]);
-            textBoxes[i].setText(total.toPlainString().replace('.', ','));
-        }
-    
+        CalculationResult cr = CalculatePriceRow(komValues[i]);
+        textBoxes[i].setText(cr.total.toPlainString().replace('.', ','));
+        
+        BigDecimal komValue = komValues[i];
+        if(komValue.compareTo(new BigDecimal("3.5")) == 0)
+            komValue = new BigDecimal("3");
+        else if(komValue.compareTo(new BigDecimal("7.5")) == 0)
+            komValue = new BigDecimal("5");
+        
+        
+        posaoValues.put(komValue.toPlainString(),cr.work);
+    }
+
+
 }//GEN-LAST:event_jButton2ActionPerformed
 
-    private BigDecimal CalculatePriceRow(BigDecimal kom) {
+    class CalculationResult{
+        public BigDecimal total;
+        public BigDecimal work;
+        
+        public CalculationResult(BigDecimal total, BigDecimal work){
+            this.total = total;
+            this.work = work;
+        }
+    }
+    
+    private CalculationResult CalculatePriceRow(BigDecimal kom) {
         boolean indFerting = daFertigButton.isSelected();
         BigDecimal mpk = new BigDecimal(minPoKom.getText().replace(',', '.'));
         BigDecimal stt = new BigDecimal(stezanjeTok.getText().replace(',', '.'));
@@ -1882,7 +2080,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
         total = total.setScale(2, RoundingMode.HALF_UP);
 
-        return total;
+        return new CalculationResult(total,workPrice);
     }
 
     /**
@@ -1987,6 +2185,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -2009,6 +2208,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField price1_1;
     private javax.swing.JTextField price2;
     private javax.swing.JTextField price20;
+    private javax.swing.JTextField price200;
     private javax.swing.JTextField price2_2;
     private javax.swing.JTextField price3;
     private javax.swing.JTextField price32;

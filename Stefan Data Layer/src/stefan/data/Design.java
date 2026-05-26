@@ -141,6 +141,54 @@ public class Design implements Serializable {
     private String name;
     @Column(name = "code")
     private String code;
+    
+    @Column(name = "calcIsFerting")
+    private Boolean calcIsFerting;
+    @Column(name = "calcMinPoKom")
+    private BigDecimal calcMinPoKom;
+    @Column(name = "calcStezanjeTok")
+    private BigDecimal calcStezanjeTok;
+    @Column(name = "calcStezanjeGlod")
+    private BigDecimal calcStezanjeGlod;
+    @Column(name = "calcSatnica")
+    private BigDecimal calcSatnica;
+    @Column(name = "calcEurPoKom")
+    private BigDecimal calcEurPoKom;
+    @Column(name = "posao1k")
+    private BigDecimal posao1k;
+    @Column(name = "posao2k")
+    private BigDecimal posao2k;
+    @Column(name = "posao3k")
+    private BigDecimal posao3k;
+    @Column(name = "posao4k")
+    private BigDecimal posao4k;
+    @Column(name = "posao5k")
+    private BigDecimal posao5k;
+    @Column(name = "posao8k")
+    private BigDecimal posao8k;
+    @Column(name = "posao10k")
+    private BigDecimal posao10k;
+    @Column(name = "posao15k")
+    private BigDecimal posao15k;
+    @Column(name = "posao16k")
+    private BigDecimal posao16k;
+    @Column(name = "posao20k")
+    private BigDecimal posao20k;
+    @Column(name = "posao32k")
+    private BigDecimal posao32k;
+    @Column(name = "posao50k")
+    private BigDecimal posao50k;
+    @Column(name = "posao64k")
+    private BigDecimal posao64k;
+    @Column(name = "posao100k")
+    private BigDecimal posao100k;
+    @Column(name = "posao128k")
+    private BigDecimal posao128k;
+    @Column(name = "posao200k")
+    private BigDecimal posao200k;
+    @Column(name = "posao500k")
+    private BigDecimal posao500k;
+    
     @JoinColumn(name = "materialId", referencedColumnName = "idShape")
     @ManyToOne
     private Material materialId;
@@ -502,5 +550,189 @@ public class Design implements Serializable {
     
     public void setCode(String code) {
         this.code = code;
+    }
+    
+    public boolean getCalcIsFerting() {
+        return calcIsFerting;
+    }
+
+    public void setCalcIsFerting(boolean calcIsFerting) {
+        this.calcIsFerting = calcIsFerting;
+    }
+
+    public BigDecimal getCalcMinPoKom() {
+        return calcMinPoKom;
+    }
+
+    public void setCalcMinPoKom(BigDecimal calcMinPoKom) {
+        this.calcMinPoKom = calcMinPoKom;
+    }
+
+    public BigDecimal getCalcStezanjeTok() {
+        return calcStezanjeTok;
+    }
+
+    public void setCalcStezanjeTok(BigDecimal calcStezanjeTok) {
+        this.calcStezanjeTok = calcStezanjeTok;
+    }
+
+    public BigDecimal getCalcStezanjeGlod() {
+        return calcStezanjeGlod;
+    }
+
+    public void setCalcStezanjeGlod(BigDecimal calcStezanjeGlod) {
+        this.calcStezanjeGlod = calcStezanjeGlod;
+    }
+
+    public BigDecimal getCalcSatnica() {
+        return calcSatnica;
+    }
+
+    public void setCalcSatnica(BigDecimal calcSatnica) {
+        this.calcSatnica = calcSatnica;
+    }
+
+    public BigDecimal getCalcEurPoKom() {
+        return calcEurPoKom;
+    }
+
+    public void setCalcEurPoKom(BigDecimal calcEurPoKom) {
+        this.calcEurPoKom = calcEurPoKom;
+    }
+
+    public BigDecimal getPosao1k() {
+        return posao1k;
+    }
+
+    public void setPosao1k(BigDecimal posao1k) {
+        this.posao1k = posao1k;
+    }
+
+    public BigDecimal getPosao2k() {
+        return posao2k;
+    }
+
+    public void setPosao2k(BigDecimal posao2k) {
+        this.posao2k = posao2k;
+    }
+
+    public BigDecimal getPosao3k() {
+        return posao3k;
+    }
+
+    public void setPosao3k(BigDecimal posao3k) {
+        this.posao3k = posao3k;
+    }
+
+    public BigDecimal getPosao4k() {
+        return posao4k;
+    }
+
+    public void setPosao4k(BigDecimal posao4k) {
+        this.posao4k = posao4k;
+    }
+
+    public BigDecimal getPosao5k() {
+        return posao5k;
+    }
+
+    public void setPosao5k(BigDecimal posao5k) {
+        this.posao5k = posao5k;
+    }
+
+    public BigDecimal getPosao8k() {
+        return posao8k;
+    }
+
+    public void setPosao8k(BigDecimal posao8k) {
+        this.posao8k = posao8k;
+    }
+
+    public BigDecimal getPosao10k() {
+        return posao10k;
+    }
+
+    public void setPosao10k(BigDecimal posao10k) {
+        this.posao10k = posao10k;
+    }
+
+    public BigDecimal getPosao15k() {
+        return posao15k;
+    }
+
+    public void setPosao15k(BigDecimal posao15k) {
+        this.posao15k = posao15k;
+    }
+
+    public BigDecimal getPosao16k() {
+        return posao16k;
+    }
+
+    public void setPosao16k(BigDecimal posao16k) {
+        this.posao16k = posao16k;
+    }
+
+    public BigDecimal getPosao20k() {
+        return posao20k;
+    }
+
+    public void setPosao20k(BigDecimal posao20k) {
+        this.posao20k = posao20k;
+    }
+
+    public BigDecimal getPosao32k() {
+        return posao32k;
+    }
+
+    public void setPosao32k(BigDecimal posao32k) {
+        this.posao32k = posao32k;
+    }
+
+    public BigDecimal getPosao50k() {
+        return posao50k;
+    }
+
+    public void setPosao50k(BigDecimal posao50k) {
+        this.posao50k = posao50k;
+    }
+
+    public BigDecimal getPosao64k() {
+        return posao64k;
+    }
+
+    public void setPosao64k(BigDecimal posao64k) {
+        this.posao64k = posao64k;
+    }
+
+    public BigDecimal getPosao100k() {
+        return posao100k;
+    }
+
+    public void setPosao100k(BigDecimal posao100k) {
+        this.posao100k = posao100k;
+    }
+
+    public BigDecimal getPosao128k() {
+        return posao128k;
+    }
+
+    public void setPosao128k(BigDecimal posao128k) {
+        this.posao128k = posao128k;
+    }
+
+    public BigDecimal getPosao200k() {
+        return posao200k;
+    }
+
+    public void setPosao200k(BigDecimal posao200k) {
+        this.posao200k = posao200k;
+    }
+
+    public BigDecimal getPosao500k() {
+        return posao500k;
+    }
+
+    public void setPosao500k(BigDecimal posao500k) {
+        this.posao500k = posao500k;
     }
 }
