@@ -235,7 +235,7 @@ public class ExcelManager {
         styleArial8.setFont(arial8);
 
         arial24 = workbook.createFont();
-        arial24.setFontHeight((short)24);
+        arial24.setFontHeightInPoints((short)24);
         arial24.setFontName("Arial");
 
         styleArial24 = workbook.createCellStyle();
@@ -625,26 +625,26 @@ public class ExcelManager {
         // Order section
         {
             {
-                Row orderTitle = printSheet.createRow(21);
+                Row orderTitle = printSheet.createRow(19);
 
                 Cell descCell = orderTitle.createCell(0);
-                descCell.setCellStyle(styleArial24);
+                descCell.setCellStyle(styleArial20);
                 descCell.setCellValue("Narudžba br. " + orderInst.getOrderNumber());
             }
 
             {
-                Row orderDateTitle = printSheet.createRow(21);
+                Row orderDateTitle = printSheet.createRow(20);
 
-                Cell descCell = orderDateTitle.createCell(8);
+                Cell descCell = orderDateTitle.createCell(7);
                 descCell.setCellStyle(styleArialCE10);
                 descCell.setCellValue("Datum narudžbe");
 
 
-                Row orderDate = printSheet.createRow(22);
+                Row orderDate = printSheet.createRow(21);
 
-                Cell orderDateCell = orderDate.createCell(8);
+                Cell orderDateCell = orderDate.createCell(7);
                 orderDateCell.setCellStyle(styleArial20);
-                orderDateCell.setCellValue(orderInst.getDate());
+                orderDateCell.setCellValue(new SimpleDateFormat("dd.MM.yyyy.").format(orderInst.getDate()));
             }
         }
 
