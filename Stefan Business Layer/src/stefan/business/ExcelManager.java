@@ -42,6 +42,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import stefan.business.objects.Design;
 import stefan.business.objects.DuplicateOrderedDesignDto;
 import stefan.data.Businesspartner;
+import stefan.data.Orderitems;
 import stefan.data.Orders;
 
 /**
@@ -719,33 +720,61 @@ public class ExcelManager {
                 itemsHeaderCell.setCellValue("Artikli");
             }
 
-            int rowIdx = 27;
             {
                 Row itemsTableHeaderRow = printSheet.createRow(26);
 
                 Cell itemCodeCell = itemsTableHeaderRow.createCell(2);
                 itemCodeCell.setCellStyle(styleArialCE10);
-                itemCodeCell.setCellValue("Artikli");
+                itemCodeCell.setCellValue("Šifra robe");
 
                 Cell itemNameCell = itemsTableHeaderRow.createCell(3);
                 itemNameCell.setCellStyle(styleArialCE10);
-                itemNameCell.setCellValue("Artikli");
+                itemNameCell.setCellValue("Naziv robe/usluge");
 
                 Cell itemMeasUnitCell = itemsTableHeaderRow.createCell(4);
                 itemMeasUnitCell.setCellStyle(styleArialCE10);
-                itemMeasUnitCell.setCellValue("Artikli");
+                itemMeasUnitCell.setCellValue("J.mj.");
 
                 Cell itemQuantityCell = itemsTableHeaderRow.createCell(5);
                 itemQuantityCell.setCellStyle(styleArialCE10);
-                itemQuantityCell.setCellValue("Artikli");
+                itemQuantityCell.setCellValue("Količina");
 
                 Cell itemPriceCell = itemsTableHeaderRow.createCell(6);
                 itemPriceCell.setCellStyle(styleArialCE10);
-                itemPriceCell.setCellValue("Artikli");
+                itemPriceCell.setCellValue("Cijena");
 
                 Cell itemTotalPriceCell = itemsTableHeaderRow.createCell(6);
                 itemTotalPriceCell.setCellStyle(styleArialCE10);
-                itemTotalPriceCell.setCellValue("Artikli");
+                itemTotalPriceCell.setCellValue("Vrijednost");
+            }
+
+            int rowIdx = 27;
+            for (Orderitems oi : orderInst.getOrderitemsList()) {
+                Row itemsTableHeaderRow = printSheet.createRow(rowIdx++);
+
+                Cell itemCodeCell = itemsTableHeaderRow.createCell(2);
+                itemCodeCell.setCellStyle(styleArialCE10);
+                itemCodeCell.setCellValue(oi.getIdDesign().getCode());
+
+                Cell itemNameCell = itemsTableHeaderRow.createCell(3);
+                itemNameCell.setCellStyle(styleArialCE10);
+                itemNameCell.setCellValue(oi.getIdDesign().getName());
+
+                Cell itemMeasUnitCell = itemsTableHeaderRow.createCell(4);
+                itemMeasUnitCell.setCellStyle(styleArialCE10);
+                itemMeasUnitCell.setCellValue("Stck");
+
+                Cell itemQuantityCell = itemsTableHeaderRow.createCell(5);
+                itemQuantityCell.setCellStyle(styleArialCE10);
+                itemQuantityCell.setCellValue(oi.getQuantityOrdered());
+
+                Cell itemPriceCell = itemsTableHeaderRow.createCell(6);
+                itemPriceCell.setCellStyle(styleArialCE10);
+                itemPriceCell.setCellValue("1221"); // TODO: FILL
+
+                Cell itemTotalPriceCell = itemsTableHeaderRow.createCell(6);
+                itemTotalPriceCell.setCellStyle(styleArialCE10);
+                itemTotalPriceCell.setCellValue("123414"); // TODO: FILL
             }
         }
 
