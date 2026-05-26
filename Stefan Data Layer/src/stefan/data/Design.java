@@ -553,7 +553,7 @@ public class Design implements Serializable {
     }
     
     public boolean getCalcIsFerting() {
-        return calcIsFerting;
+        return calcIsFerting == null ? false : calcIsFerting;
     }
 
     public void setCalcIsFerting(boolean calcIsFerting) {
