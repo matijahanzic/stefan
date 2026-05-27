@@ -22,6 +22,8 @@ import java.math.RoundingMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -63,8 +65,8 @@ class OpenOrderKWData {
     public void AddGlodanje(OpenOrderDto dto) {
         Glodanje.add(dto);
     }
-    
-     public void AddNLX(OpenOrderDto dto) {
+
+    public void AddNLX(OpenOrderDto dto) {
         NLX.add(dto);
     }
 
@@ -73,11 +75,10 @@ class OpenOrderKWData {
     }
 
     public Integer GetListSize() {
-        
+
         if (this.NLX.size() > this.Tokarenje.size() && this.NLX.size() > this.Glodanje.size()) {
             return this.NLX.size();
-        } 
-        else if (this.Tokarenje.size() > this.Glodanje.size()) {
+        } else if (this.Tokarenje.size() > this.Glodanje.size()) {
             return this.Tokarenje.size();
         } else {
             return this.Glodanje.size();
@@ -85,15 +86,133 @@ class OpenOrderKWData {
     }
 
     public ArrayList<OpenOrderDto> GetTokarenjeData() {
+        sortLegacyData(this.Tokarenje);
         return this.Tokarenje;
     }
 
     public ArrayList<OpenOrderDto> GetGlodanjeData() {
+        sortLegacyData(this.Glodanje);
         return this.Glodanje;
     }
-    
-     public ArrayList<OpenOrderDto> GetNLXData() {
+
+    public ArrayList<OpenOrderDto> GetNLXData() {
+        sortLegacyData(this.NLX);
         return this.NLX;
+    }
+    
+    public static void sortLegacyData(ArrayList<OpenOrderDto> list) {
+        Collections.sort(list, new Comparator<OpenOrderDto>() {
+            public int compare(OpenOrderDto o1, OpenOrderDto o2) {
+                
+                String s1 = o1.getDesignNumber();
+                String s2 = o2.getDesignNumber();
+                
+                int g1 = getGroup(s1);
+                int g2 = getGroup(s2);
+
+                // Step 1: If they belong to different groups, sort by group hierarchy (1 -> 2 -> 3 -> 4)
+                if (g1 != g2) {
+                    return g1 - g2;
+                }
+
+                // Step 2: If they are in the same group, apply specific sorting logic
+                switch (g1) {
+                    case 1: // Pure numbers
+                        return comparePureNumbers(s1, s2);
+                    case 2: // Numbers with dots
+                        return compareSegments(s1, s2, false);
+                    case 3: // Letters and numbers with dots
+                        return compareSegments(s1, s2, true);
+                    case 4: // Letters and numbers without dots
+                        return compareAlphanumeric(s1, s2);
+                    default:
+                        return s1.compareTo(s2);
+                }
+            }
+        });
+    }
+
+    /**
+     * Classifies the string into one of the 4 variation categories.
+     */
+    private static int getGroup(String s) {
+        if (s.matches("\\d+")) {
+            return 1; // Pure numbers
+        } else if (s.matches("[\\d\\.]+")) {
+            return 2; // Numbers and dots only
+        } else if (s.contains(".")) {
+            return 3; // Mixed characters divided by dots
+        } else {
+            return 4; // Mixed characters without dots
+        }
+    }
+
+    /**
+     * Compares two pure numeric strings numerically.
+     */
+    private static int comparePureNumbers(String s1, String s2) {
+        try {
+            long n1 = Long.parseLong(s1);
+            long n2 = Long.parseLong(s2);
+            return n1 < n2 ? -1 : (n1 > n2 ? 1 : 0);
+        } catch (NumberFormatException e) {
+            // Fallback to string comparison if the number is too massive for a Long
+            return s1.compareTo(s2);
+        }
+    }
+
+    /**
+     * Splits dot-separated strings and compares them segment by segment.
+     */
+    private static int compareSegments(String s1, String s2, boolean isMixed) {
+        String[] parts1 = s1.split("\\.");
+        String[] parts2 = s2.split("\\.");
+        int minLength = Math.min(parts1.length, parts2.length);
+
+        for (int i = 0; i < minLength; i++) {
+            int cmp;
+            if (isMixed) {
+                cmp = compareAlphanumeric(parts1[i], parts2[i]);
+            } else {
+                cmp = comparePureNumbers(parts1[i], parts2[i]);
+            }
+            
+            if (cmp != 0) {
+                return cmp;
+            }
+        }
+        // If segments match so far, the one with fewer segments comes first
+        return parts1.length - parts2.length;
+    }
+
+    /**
+     * Separates the letters from the numbers in a single block/segment,
+     * sorting letters alphabetically first, then numbers ascending.
+     */
+    private static int compareAlphanumeric(String seg1, String seg2) {
+        // Extract only letters (strip out all digits)
+        String letters1 = seg1.replaceAll("\\d", "");
+        String letters2 = seg2.replaceAll("\\d", "");
+        int letterComp = letters1.compareTo(letters2);
+        if (letterComp != 0) {
+            return letterComp;
+        }
+
+        // Extract only numbers (strip out non-digits)
+        String numStr1 = seg1.replaceAll("\\D", "");
+        String numStr2 = seg2.replaceAll("\\D", "");
+
+        if (numStr1.isEmpty() && numStr2.isEmpty()) return 0;
+        if (numStr1.isEmpty()) return -1;
+        if (numStr2.isEmpty()) return 1;
+
+        try {
+            long n1 = Long.parseLong(numStr1);
+            long n2 = Long.parseLong(numStr2);
+            return n1 < n2 ? -1 : (n1 > n2 ? 1 : 0);
+        } catch (NumberFormatException e) {
+            return numStr1.compareTo(numStr2);
+        }
     }
 }
 
@@ -310,7 +429,7 @@ public class ExcelManager {
         styleArialYellowCenter.setAlignment(CellStyle.ALIGN_CENTER);
         styleArialYellowCenter.setFillForegroundColor(HSSFColor.YELLOW.index);
         styleArialYellowCenter.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        
+
         styleArialGreenCenter = workbook.createCellStyle();
         styleArialGreenCenter.setFont(arial);
         styleArialGreenCenter.setAlignment(CellStyle.ALIGN_CENTER);
@@ -952,17 +1071,17 @@ public class ExcelManager {
             _workbook.setSheetName(1, "Berlin");
             SetTokaranjeAndGlodanjeHeader(berlinSheet, "Berlin");
             SetOpenOrderData(berlinSheet, BerlinOpenOrdersByKW);
-            
+
             Sheet barsselSheet = _workbook.createSheet();
             _workbook.setSheetName(2, "Barssel");
             SetTokaranjeAndGlodanjeHeader(barsselSheet, "Barssel");
             SetOpenOrderData(barsselSheet, BarsselOpenOrdersByKW);
-            
+
             Sheet radobojSheet = _workbook.createSheet();
             _workbook.setSheetName(3, "Radoboj");
             SetTokaranjeAndGlodanjeHeader(radobojSheet, "Radoboj");
             SetOpenOrderData(radobojSheet, RadobojOpenOrdersByKW);
-            
+
             Sheet lengerichSheet = _workbook.createSheet();
             _workbook.setSheetName(4, "WH");
             SetTokaranjeAndGlodanjeHeader(lengerichSheet, "WH");
@@ -989,7 +1108,7 @@ public class ExcelManager {
         Cell cell3_17 = row3.createCell(17);
         cell3_17.setCellValue("GLODANJE " + city);
         cell3_17.setCellStyle(styleArial20Bold);
-                
+
         Cell cell3_31 = row3.createCell(31);
         cell3_31.setCellValue("NLX " + city);
         cell3_31.setCellStyle(styleArial20Bold);
@@ -1031,7 +1150,7 @@ public class ExcelManager {
             }
             if (openOrderItem.isOnTemporaryBill()) {
                 cellDesignNumber.setCellStyle(styleArialGreenBackground);
-            }                
+            }
 
             //width = 256 * x =>
             sheet.setColumnWidth(cellCounter - 1, 3072);
@@ -1054,8 +1173,7 @@ public class ExcelManager {
             cellRemainingPcs.setCellValue(openOrderItem.getQuantityOrdered() - openOrderItem.getQuantityDelivered());
             if (openOrderItem.isOnTemporaryBill()) {
                 cellRemainingPcs.setCellStyle(styleArialGreenCenter);
-            }  
-            else if (hasDug) {
+            } else if (hasDug) {
                 cellRemainingPcs.setCellStyle(styleArialYellowCenter);
             } else {
                 cellRemainingPcs.setCellStyle(styleArialCenter);
@@ -1086,8 +1204,9 @@ public class ExcelManager {
             //debt
             Cell cellDebt = row.createCell(cellCounter++);
             cellDebt.setCellValue(hasDug ? "DUG" : "");
-            if (openOrderItem.getExternalOrder())
+            if (openOrderItem.getExternalOrder()) {
                 cellDebt.setCellStyle(styleArialLightBlueBackground);
+            }
 
             //shiping date
             Cell cellShippingDate = row.createCell(cellCounter++);
@@ -1127,24 +1246,24 @@ public class ExcelManager {
         cell3_3.setCellStyle(styleArial20Bold);
 
         Row row5 = sheet.createRow(6);
-        
+
         Cell cell5_3 = row5.createCell(3);
         cell5_3.setCellValue("Broj nacrta");
         sheet.setColumnWidth(3, 3472);
-        
+
         Cell cell5_4 = row5.createCell(4);
         cell5_4.setCellValue("Kupac");
         sheet.setColumnWidth(4, 10072);
-        
+
         Cell cell5_5 = row5.createCell(5);
         cell5_5.setCellValue("Komada");
         sheet.setColumnWidth(5, 2300);
-        
+
         Cell cell5_6 = row5.createCell(6);
         cell5_6.setCellValue("Broj narudžbe");
         sheet.setColumnWidth(6, 3500);
-        
-        Cell cell5_7 = row5.createCell(7);        
+
+        Cell cell5_7 = row5.createCell(7);
         sheet.setColumnWidth(7, 4072);
         cell5_7.setCellValue("Datum isporuke");
 
@@ -1221,11 +1340,11 @@ public class ExcelManager {
             ArrayList<OpenOrderDto> tokarenje = openOrders.GetTokarenjeData();
             ArrayList<OpenOrderDto> glodanje = openOrders.GetGlodanjeData();
             ArrayList<OpenOrderDto> nlx = openOrders.GetNLXData();
-           
+
             BigDecimal TokarenjePriceSum = BigDecimal.ZERO;
             BigDecimal GlodanjePriceSum = BigDecimal.ZERO;
             BigDecimal NlxPriceSum = BigDecimal.ZERO;
-            
+
             for (int i = 0; i < openOrders.GetListSize(); i++) {
 
                 Row row = null;
@@ -1244,7 +1363,7 @@ public class ExcelManager {
                 TokarenjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, tokarenje, i, 2, TokarenjePriceSum);
 
                 GlodanjePriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, glodanje, i, 16, GlodanjePriceSum);
-                
+
                 NlxPriceSum = AddOpenOrderRow(row, kwHeaderRow, entryKW, sheet, today, nlx, i, 30, NlxPriceSum);
 
                 if (i + 1 == openOrders.GetListSize()) {
@@ -1453,13 +1572,13 @@ public class ExcelManager {
 
             Cell cell22_5 = row22.createCell(5);
             cell22_5.setCellStyle(styleArialCE10BorderBottom);
-            
+
             Cell cell22_6 = row22.createCell(6);
             cell22_6.setCellStyle(styleArialCE10BorderBottom);
 
             Cell cell22_7 = row22.createCell(7);
             cell22_7.setCellValue("EUR / STCK");
-            cell22_7.setCellStyle(styleArialCE10BorderBottom);            
+            cell22_7.setCellStyle(styleArialCE10BorderBottom);
 
             Cell cell22_8 = row22.createCell(8);
             cell22_8.setCellStyle(styleArialCE10BorderBottom);
@@ -1522,8 +1641,8 @@ public class ExcelManager {
             cell19_4.setCellStyle(styleArialCE10BorderBottomAlignRight);
 
             Cell cell19_5 = row20.createCell(5);
-            cell19_5.setCellStyle(styleArialCE10BorderBottom);            
-            
+            cell19_5.setCellStyle(styleArialCE10BorderBottom);
+
             Cell cell19_6 = row20.createCell(6);
             cell19_6.setCellStyle(styleArialCE10BorderBottom);
 
@@ -1742,7 +1861,7 @@ public class ExcelManager {
         } else {
             rowNum = 21;
         }
-        
+
         int billItemsRowsNeeded = 3;
 
         data.add((double) rowNum + billItemsRowsNeeded + (billItemsAdded * billItemsRowsNeeded));
@@ -1809,10 +1928,10 @@ public class ExcelManager {
         Cell cell6 = row1.createCell(columnNum + 9);
         cell6.setCellValue("EUR");
         cell.setCellStyle(styleArial);
-        
+
         //NEXT ROW
-        Row row2 = sheet.createRow(rowNum + 2 + (billItemsAdded * billItemsRowsNeeded)); 
-        
+        Row row2 = sheet.createRow(rowNum + 2 + (billItemsAdded * billItemsRowsNeeded));
+
         Cell cell7 = row2.createCell(columnNum);
         cell7.setCellValue("Geliefert laut Pos. " + billItem.getPosition() + " Ihrer Bestellung");
         cell7.setCellStyle(styleArialBorderBottom);
@@ -1821,19 +1940,19 @@ public class ExcelManager {
         cell8.setCellStyle(styleArialBorderBottom);
         Cell cell9 = row2.createCell(columnNum + 2);
         cell9.setCellStyle(styleArialBorderBottom);
-        
+
         Cell cell10 = row2.createCell(columnNum + 3);
         cell10.setCellStyle(styleArialBorderBottom);
-        
+
         Cell cell11 = row2.createCell(columnNum + 4);
         cell11.setCellValue(billItem.getOrderNumber());
         cell11.setCellStyle(styleArialBorderBottom);
-        
+
         Cell cell12 = row2.createCell(columnNum + 5);
         cell12.setCellStyle(styleArialBorderBottom);
-        
+
         Cell cell13 = row2.createCell(columnNum + 6);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");      
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         cell13.setCellValue("vom " + formatter.format(billItem.getOrderDate()));
         cell13.setCellStyle(styleArialBorderBottom);
 
@@ -1866,7 +1985,7 @@ public class ExcelManager {
         Cell cell_3 = row.createCell(7);
         cell_3.setCellValue("Gesamtsumme :");
         cell_3.setCellStyle(styleArialCE10);
-        
+
         Cell cell = row.createCell(9);
         cell.setCellValue(totalSum.toString().replace(".", ","));
         cell.setCellStyle(styleArialDoubleBorder);
@@ -1888,7 +2007,7 @@ public class ExcelManager {
     }
 
     public void AddMissingData(Sheet sheet, BigDecimal totalSum) {
-     
+
         Row row17 = sheet.getRow(17);
         Cell cell = row17.createCell(9);
         cell.setCellValue(totalSum.toString().replace(".", ","));
