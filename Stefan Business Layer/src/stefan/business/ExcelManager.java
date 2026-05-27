@@ -8,14 +8,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
 
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -36,13 +35,11 @@ import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.KWDetailsDto;
 import stefan.business.objects.OpenOrderDto;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
 import stefan.business.objects.Design;
 import stefan.business.objects.DuplicateOrderedDesignDto;
+import stefan.data.Businesspartner;
+import stefan.data.Orderitems;
+import stefan.data.Orders;
 
 /**
  *
@@ -230,9 +227,13 @@ public class ExcelManager {
     private Font arialCE10;
     private Font arial36Bold;
     private Font arial;
+    private Font arial8;
+    private Font arial24;
     private CellStyle stylearial36Bold;
+    private CellStyle styleArial24;
     private CellStyle styleArialCE10;
     private CellStyle styleArial;
+    private CellStyle styleArial8;
     private CellStyle styleArialAlignRight;
     private CellStyle styleArialBold;
     private CellStyle styleArialBoldAlignRight;
@@ -245,7 +246,9 @@ public class ExcelManager {
     private CellStyle styleTopAndBottomBorder;
     private Font arialCE10Bold;
     private CellStyle styleArialCE10Bold;
+    private Font arial20;
     private Font arial20Bold;
+    private CellStyle styleArial20;
     private CellStyle styleArial20Bold;
     private CellStyle styleArialYellowBackground;
     private CellStyle styleArialLightBlueBackground;
@@ -294,6 +297,13 @@ public class ExcelManager {
         styleArial20Bold.setFont(arial20Bold);
 
 
+        arial20 = workbook.createFont();
+        arial20.setFontHeightInPoints((short)20);
+        arial20.setFontName("Arial");
+
+        styleArial20 = workbook.createCellStyle();
+        styleArial20.setFont(arial20);
+
         arialDoubleBorder12Bold = workbook.createFont();
         arialDoubleBorder12Bold.setFontHeightInPoints((short) 12);
         arialDoubleBorder12Bold.setFontName("Arial");
@@ -329,6 +339,20 @@ public class ExcelManager {
 
         styleArial = workbook.createCellStyle();
         styleArial.setFont(arial);
+
+        arial8 = workbook.createFont();
+        arial8.setFontHeightInPoints((short)8);
+        arial8.setFontName("Arial");
+
+        styleArial8 = workbook.createCellStyle();
+        styleArial8.setFont(arial8);
+
+        arial24 = workbook.createFont();
+        arial24.setFontHeightInPoints((short)24);
+        arial24.setFontName("Arial");
+
+        styleArial24 = workbook.createCellStyle();
+        styleArial24.setFont(arial24);
 
         styleArialAlignRight = workbook.createCellStyle();
         styleArialAlignRight.setFont(arial);
@@ -596,10 +620,9 @@ public class ExcelManager {
         return sheet;
     }
 
-    private boolean ShowSaveFileDialog() {
+    private boolean ShowSaveFileDialog(String fName) {
 
         JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");
-        String fName = "Otvorene narudzbe";
         chooser.setSelectedFile(new File(fName));
         int rVal = chooser.showSaveDialog(null);
 
@@ -611,6 +634,11 @@ public class ExcelManager {
             return false;
         }
     }
+
+    private boolean ShowSaveFileDialog() {
+        return ShowSaveFileDialog("Otvorene narudzbe");
+    }
+
     private String filename;
     private String filepath;
     private EntityManager entityManager;
@@ -632,6 +660,302 @@ public class ExcelManager {
         } else {
             data.AddGlodanje(dto);
         }
+    }
+
+    public void createExternalOrderPirnt(int orderId) throws IOException {
+        EntityManager em = QueryManager.getEntityManagerInstance();
+        Query q = em.createNamedQuery("Orders.findByIdOrder");
+        q.setParameter("idOrder", orderId);
+        Object order = q.getSingleResult();
+        if (!(order instanceof Orders))
+            return;
+
+        Orders orderInst = (Orders)order;
+        if (!ShowSaveFileDialog("vanjska_narudzba_" + orderInst.getOrderNumber()))
+            return;
+
+        Businesspartner bussPartner = orderInst.getBusinessPartnerId();
+
+        Sheet printSheet = _workbook.createSheet("Narudžba");
+
+        // 256 == 7px in the worksheet
+        final int _7px = 256;
+        printSheet.setColumnWidth(0, _7px * 14);
+        printSheet.setColumnWidth(1, _7px * 26);
+        printSheet.setColumnWidth(2, _7px * 10);
+        printSheet.setColumnWidth(3, _7px * 16);
+        printSheet.setColumnWidth(4, _7px * 12);
+        printSheet.setColumnWidth(5, _7px * 12);
+
+        // Header section
+        {
+            // Header row 1
+            {
+                Row headerRow = printSheet.createRow(0);
+
+                Cell hrCell = headerRow.createCell(0);
+                hrCell.setCellStyle(styleArial20Bold);
+                hrCell.setCellValue("ŠTEFAN d.o.o.");
+            }
+
+            // Header row 2
+            {
+                Row headerRow = printSheet.createRow(1);
+
+                Cell hrCell = headerRow.createCell(0);
+                hrCell.setCellStyle(styleArial);
+                hrCell.setCellValue("Razvor 24d, 49 295 Kumrovec");
+            }
+
+            // Header row 3
+            {
+                Row headerRow = printSheet.createRow(2);
+
+                Cell hrCell = headerRow.createCell(0);
+                hrCell.setCellStyle(styleArial);
+                hrCell.setCellValue("OIB : 68386551086");
+            }
+        }
+
+        // Description section
+        {
+            {
+                Row descRow = printSheet.createRow(10);
+
+                Cell descCell = descRow.createCell(0);
+                descCell.setCellStyle(styleArialBold);
+                descCell.setCellValue(bussPartner.getDisplayName());
+            }
+
+            {
+                Row descRow = printSheet.createRow(11);
+
+                Cell descCell = descRow.createCell(0);
+                descCell.setCellStyle(styleArial);
+                descCell.setCellValue(bussPartner.getPrintRow1());
+            }
+
+            {
+                Row descRow = printSheet.createRow(12);
+
+                Cell descCell = descRow.createCell(0);
+                descCell.setCellStyle(styleArial);
+                descCell.setCellValue(bussPartner.getPrintRow2());
+            }
+        }
+
+        // Order section
+        {
+            {
+                Row orderTitle = printSheet.createRow(18);
+
+                Cell descCell = orderTitle.createCell(0);
+                descCell.setCellStyle(styleArial20);
+                descCell.setCellValue("Narudžba br. " + orderInst.getOrderNumber());
+            }
+
+            {
+                Row orderDateTitle = printSheet.createRow(19);
+
+                Cell descCell = orderDateTitle.createCell(4);
+                descCell.setCellStyle(styleArialCE10);
+                descCell.setCellValue("Datum narudžbe");
+
+
+                Row orderDate = printSheet.createRow(20);
+
+                Cell orderDateCell = orderDate.createCell(4);
+                orderDateCell.setCellStyle(styleArial20);
+                orderDateCell.setCellValue(new SimpleDateFormat("dd.MM.yyyy.").format(orderInst.getDate()));
+            }
+        }
+
+        // Supplier section
+        {
+            {
+                Row supplierTitle = printSheet.createRow(23);
+
+                Cell supplierTitleCell = supplierTitle.createCell(0);
+                supplierTitleCell.setCellStyle(styleArialCE10);
+                supplierTitleCell.setCellValue("Dobavljač");
+            }
+
+            {
+                Row supplierHeaderRow = printSheet.createRow(24);
+
+                CellStyle tableHeaderStyle = _workbook.createCellStyle();
+                tableHeaderStyle.setFont(arialCE10);
+                tableHeaderStyle.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
+                tableHeaderStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+                Cell codeCell = supplierHeaderRow.createCell(0);
+                codeCell.setCellStyle(tableHeaderStyle);
+                codeCell.setCellValue("Šifra");
+
+                Cell nameCell = supplierHeaderRow.createCell(1);
+                nameCell.setCellStyle(tableHeaderStyle);
+                nameCell.setCellValue("Naziv i adresa dobavljača");
+
+                Cell cityCell = supplierHeaderRow.createCell(2);
+                cityCell.setCellStyle(tableHeaderStyle);
+                cityCell.setCellValue("Mjesto");
+
+                Cell vatNoCell = supplierHeaderRow.createCell(3);
+                vatNoCell.setCellStyle(tableHeaderStyle);
+                vatNoCell.setCellValue("PDV ID. BR./OIB");
+            }
+
+            {
+                Row supplierHeaderRow = printSheet.createRow(25);
+
+                CellStyle verticallyCenteredStyle = _workbook.createCellStyle();
+                verticallyCenteredStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+                verticallyCenteredStyle.setFont(arial8);
+
+                Cell codeCell = supplierHeaderRow.createCell(0);
+                codeCell.setCellStyle(verticallyCenteredStyle);
+                codeCell.setCellValue(bussPartner.getId());
+
+                String nameAndAddress =
+                        bussPartner.getName() + '\n' +
+                        bussPartner.getPrintRow1() + '\n' +
+                        bussPartner.getPrintRow2();
+
+                Cell nameCell = supplierHeaderRow.createCell(1);
+                CellStyle wrapStyle = _workbook.createCellStyle();
+                wrapStyle.setFont(arial8);
+                wrapStyle.setWrapText(true);
+                nameCell.setCellStyle(wrapStyle);
+                nameCell.setCellValue(nameAndAddress);
+
+                Cell cityCell = supplierHeaderRow.createCell(2);
+                cityCell.setCellStyle(verticallyCenteredStyle);
+                cityCell.setCellValue(bussPartner.getCity());
+
+                Cell vatNoCell = supplierHeaderRow.createCell(3);
+                vatNoCell.setCellStyle(verticallyCenteredStyle);
+                vatNoCell.setCellValue(bussPartner.getPrintRow3());
+            }
+        }
+
+        // Items section
+        {
+            {
+                Row itemsHeaderRow = printSheet.createRow(27);
+
+                Cell itemsHeaderCell = itemsHeaderRow.createCell(0);
+                itemsHeaderCell.setCellStyle(styleArialCE10);
+                itemsHeaderCell.setCellValue("Artikli");
+            }
+
+            {
+                Row itemsTableHeaderRow = printSheet.createRow(28);
+
+                CellStyle tableHeaderStyle = _workbook.createCellStyle();
+                tableHeaderStyle.setFont(arialCE10);
+                tableHeaderStyle.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
+                tableHeaderStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+                Cell itemCodeCell = itemsTableHeaderRow.createCell(0);
+                itemCodeCell.setCellStyle(tableHeaderStyle);
+                itemCodeCell.setCellValue("Šifra robe");
+
+                Cell itemNameCell = itemsTableHeaderRow.createCell(1);
+                itemNameCell.setCellStyle(tableHeaderStyle);
+                itemNameCell.setCellValue("Naziv robe/usluge");
+
+                Cell itemMeasUnitCell = itemsTableHeaderRow.createCell(2);
+                itemMeasUnitCell.setCellStyle(tableHeaderStyle);
+                itemMeasUnitCell.setCellValue("J.mj.");
+
+                Cell itemQuantityCell = itemsTableHeaderRow.createCell(3);
+                itemQuantityCell.setCellStyle(tableHeaderStyle);
+                itemQuantityCell.setCellValue("Količina");
+
+                Cell itemPriceCell = itemsTableHeaderRow.createCell(4);
+                itemPriceCell.setCellStyle(tableHeaderStyle);
+                itemPriceCell.setCellValue("Cijena");
+
+                Cell itemTotalPriceCell = itemsTableHeaderRow.createCell(5);
+                itemTotalPriceCell.setCellStyle(tableHeaderStyle);
+                itemTotalPriceCell.setCellValue("Vrijednost");
+            }
+
+            DataFormat wbDataFormat = _workbook.createDataFormat();
+
+            CellStyle decimal2Style = _workbook.createCellStyle();
+            decimal2Style.setFont(arialCE10);
+            decimal2Style.setDataFormat(wbDataFormat.getFormat("0.00"));
+
+            CellStyle decimal3Style = _workbook.createCellStyle();
+            decimal3Style.setFont(arialCE10);
+            decimal3Style.setDataFormat(wbDataFormat.getFormat("0.000"));
+
+            int rowIdx = 29;
+            for (Orderitems oi : orderInst.getOrderitemsList()) {
+                Row itemsTableHeaderRow = printSheet.createRow(rowIdx);
+
+                Cell itemCodeCell = itemsTableHeaderRow.createCell(0);
+                itemCodeCell.setCellStyle(styleArialCE10);
+                itemCodeCell.setCellValue(oi.getIdDesign().getDesignNumber());
+
+                Cell itemNameCell = itemsTableHeaderRow.createCell(1);
+                itemNameCell.setCellStyle(styleArialCE10);
+                itemNameCell.setCellValue(oi.getIdDesign().getName());
+
+                Cell itemMeasUnitCell = itemsTableHeaderRow.createCell(2);
+                itemMeasUnitCell.setCellStyle(styleArialCE10);
+                itemMeasUnitCell.setCellValue("Stck");
+
+                Cell itemQuantityCell = itemsTableHeaderRow.createCell(3);
+                itemQuantityCell.setCellStyle(decimal3Style);
+                itemQuantityCell.setCellValue(oi.getQuantityOrdered());
+
+                DesignManager dm = new DesignManager();
+                PresentationHelper pHelper = new PresentationHelper(
+                    dm.mapData(oi.getIdDesign()),
+                    oi.getQuantityOrdered(),
+                    oi.getShippingDate()
+                );
+
+                Cell itemPriceCell = itemsTableHeaderRow.createCell(4);
+                itemPriceCell.setCellStyle(decimal2Style);
+                itemPriceCell.setCellValue(pHelper.getPricePerPart().doubleValue());
+
+                Cell itemTotalPriceCell = itemsTableHeaderRow.createCell(5);
+                itemTotalPriceCell.setCellStyle(decimal2Style);
+                itemTotalPriceCell.setCellFormula("$D$" + (rowIdx + 1) + " * $E$" + (rowIdx + 1));
+
+                rowIdx++;
+            }
+
+            // Summary row
+            {
+                int startIdx = rowIdx - orderInst.getOrderitemsList().size() + 1;
+                Row summaryRow = printSheet.createRow(rowIdx);
+
+                CellStyle decimal3StyleBold = _workbook.createCellStyle();
+                decimal3StyleBold.setFont(arialCE10Bold);
+                decimal3StyleBold.setDataFormat(wbDataFormat.getFormat("0.000"));
+
+                Cell quantitySummaryCell = summaryRow.createCell(3);
+                quantitySummaryCell.setCellStyle(decimal3StyleBold);
+                quantitySummaryCell.setCellFormula("SUM($D$" + startIdx + ":$D$" + rowIdx + ")");
+
+
+                CellStyle decimal2StyleBold = _workbook.createCellStyle();
+                decimal2StyleBold.setFont(arialCE10Bold);
+                decimal2StyleBold.setDataFormat(wbDataFormat.getFormat("0.00"));
+
+                Cell totalPriceCell = summaryRow.createCell(5);
+                totalPriceCell.setCellStyle(decimal2StyleBold);
+                totalPriceCell.setCellFormula("SUM($F$" + startIdx + ":$F$" + rowIdx + ")");
+            }
+        }
+
+        FileOutputStream fos = CreateNewFile(filename, filepath);
+        _workbook.write(fos);
+        fos.close();
     }
 
     public void CreateNewOpenOrders() throws IOException {
