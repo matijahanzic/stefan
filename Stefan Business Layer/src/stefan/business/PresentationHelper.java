@@ -28,7 +28,8 @@ public class PresentationHelper {
     private String position;
     private int parts;
     private int desingDBid;
-    private BigDecimal pricePerPart;    
+    private BigDecimal pricePerPart;
+    private BigDecimal pricePerPartOverride;
     private Date shippingDate; 
 
     public PresentationHelper() {
@@ -143,7 +144,19 @@ public class PresentationHelper {
         if(pricePerPart == null){
             return new BigDecimal(-1);
         }
+
+        if (pricePerPartOverride != null)
+            return pricePerPartOverride;
+
         return pricePerPart;
+    }
+
+    public BigDecimal getPricePerPartOverride() {
+        return pricePerPartOverride;
+    }
+
+    public void setPricePerPartOverride(BigDecimal pricePerPartOverride) {
+        this.pricePerPartOverride = pricePerPartOverride;
     }
 
     /**

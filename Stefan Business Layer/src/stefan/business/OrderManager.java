@@ -237,6 +237,7 @@ public class OrderManager {
                 add.setPosition(item.getPosition());
                 add.setQuantityDelivered(item.getQuantityDelivered());
                 add.setQuantityOrdered(item.getQuantityOrdered());
+                add.setPricePerPartOverride(item.getPricePerPartOverride());
                 add.setIdDesign(designManager.GetDesignsByDBId(item.getDesignId()));     
                 add.setShippingDate(item.getShippingDate());
                 allItems.add(add);
@@ -267,6 +268,7 @@ public class OrderManager {
                 newOrderItem.setPosition(oi.getPosition());
                 newOrderItem.setQuantityDelivered(oi.getQuantityDelivered());
                 newOrderItem.setQuantityOrdered(oi.getQuantityOrdered());
+                newOrderItem.setPricePerPartOverride(oi.getPricePerPartOverride());
                 newOrderItem.setIdDesign(designManager.GetDesignsByDBId(oi.getDesignId()));
                 newOrderItem.setShippingDate(oi.getShippingDate());
 
@@ -325,6 +327,7 @@ public class OrderManager {
         item.setPosition(orderItem.getPosition());
         item.setQuantityDelivered(orderItem.getQuantityDelivered());
         item.setQuantityOrdered(orderItem.getQuantityOrdered());
+        item.setPricePerPartOverride(orderItem.getPricePerPartOverride());
         item.setShippingDate(orderItem.getShippingDate());
         item.setOrder(order);
         DesignManager designManager = new DesignManager();

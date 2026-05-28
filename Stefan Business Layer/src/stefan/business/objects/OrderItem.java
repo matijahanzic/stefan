@@ -4,6 +4,7 @@
  */
 package stefan.business.objects;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,7 +17,8 @@ public class OrderItem {
     private int designId;
     private String position;    
     private Integer quantityOrdered;   
-    private Integer quantityDelivered;   
+    private Integer quantityDelivered;
+    private BigDecimal pricePerPartOverride;
     private Order order;    
     private Design design;
     private Date shippingDate;  
@@ -75,6 +77,14 @@ public class OrderItem {
      */
     public void setQuantityDelivered(Integer quantityDelivered) {
         this.quantityDelivered = quantityDelivered;
+    }
+
+    public BigDecimal getPricePerPartOverride() {
+        return pricePerPartOverride;
+    }
+
+    public void setPricePerPartOverride(BigDecimal pricePerPartOverride) {
+        this.pricePerPartOverride = pricePerPartOverride;
     }
 
     /**
