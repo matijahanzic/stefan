@@ -21,7 +21,9 @@ public class DesignJDialog extends javax.swing.JDialog {
 
     private List<Design> designs = ObservableCollections.observableList(new ArrayList<stefan.business.objects.Design>());
     private int parts;
+    private double priceOverride;
     private Design selectedDesign;
+    private boolean isExternalOrder;
     private boolean isShippingDateRequired; 
     private Date shippingDate;
     private static Date previousShippingDate;
@@ -543,6 +545,10 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
         return parts;
     }
 
+    public double getPriceOverride() {
+        return this.priceOverride;
+    }
+
     public Date getShippingDate() {
         return shippingDate;
     }
@@ -563,51 +569,85 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
         int rowIndex = jTable1.getSelectedRow();
         if (rowIndex == -1) {
             JOptionPane.showMessageDialog(null, "Odaberite nacrt");
-        } else {
-            selectedDesign = designs.get(rowIndex);
-            boolean isAnswerOk = false;
+            return;
+        }
 
-            while (!isAnswerOk) {
-                String partsString = JOptionPane.showInputDialog(null, "Koliko komada?", "Broj komada", JOptionPane.QUESTION_MESSAGE);
-                if (partsString == null) {
-                    selectedDesign = null;
-                    break;
-                } else {
-                    try {
-                        parts = Integer.valueOf(partsString);
-                        if (parts <= 0) {
-                            JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
-                        } else {
-                            stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(selectedDesign, parts, null);
-                            if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
-                                JOptionPane.showMessageDialog(null, "Za odabrani nacrt i kolicinu: " + parts + " ne postoji definirana cijena. Uredite odabrani nacrta i ponovno ga dodajte!");
-                                EditDesignJDialog d = new EditDesignJDialog(null, true);
+        selectedDesign = designs.get(rowIndex);
 
-                                d.setResizable(false);
-                                d.setLocation(0, 50);
-                                List<Design> list = new ArrayList<Design>();
-                                list.add(selectedDesign);
-                                d.LoadData(list);
-                                d.setVisible(true);
-                                designNumTextFieldKeyReleased(null);
-                                return;
+        if (isExternalOrder) {
+            NewExternalOrderItemJDialog externalItemSelection = new NewExternalOrderItemJDialog(null, true, this.getSelectedDesign());
 
-                            }
-                            
-                            if (!this.isShippingDateRequired){
-                                isAnswerOk = true;
-                                this.dispose();
-                            }
-                            else {                               
-                                shippingDate = odaberiDatum();
-                                previousShippingDate = shippingDate;
-                                isAnswerOk = true;
-                                this.dispose();          
-                            }                                                 
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+            externalItemSelection.setBounds(
+                dim.width / 2 - externalItemSelection.getWidth() / 2,
+                dim.height / 2 - externalItemSelection.getHeight() / 2,
+
+                externalItemSelection.getWidth(),
+                externalItemSelection.getHeight()
+            );
+
+            externalItemSelection.setTitle("Upis količine");
+            externalItemSelection.setVisible(true);
+
+            if (!externalItemSelection.isOkExitStatus())
+                return;
+
+            parts = externalItemSelection.getQuantity();
+            priceOverride = externalItemSelection.getFinalPriceValue();
+            if (!this.isShippingDateRequired) {
+                this.dispose();
+            } else {
+                shippingDate = odaberiDatum();
+                previousShippingDate = shippingDate;
+                this.dispose();
+            }
+
+            return;
+        }
+
+        boolean isAnswerOk = false;
+
+        while (!isAnswerOk) {
+            String partsString = JOptionPane.showInputDialog(null, "Koliko komada?", "Broj komada", JOptionPane.QUESTION_MESSAGE);
+            if (partsString == null) {
+                selectedDesign = null;
+                break;
+            } else {
+                try {
+                    parts = Integer.valueOf(partsString);
+                    if (parts <= 0) {
+                        JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
+                    } else {
+                        stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(selectedDesign, parts, null);
+                        if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
+                            JOptionPane.showMessageDialog(null, "Za odabrani nacrt i kolicinu: " + parts + " ne postoji definirana cijena. Uredite odabrani nacrta i ponovno ga dodajte!");
+                            EditDesignJDialog d = new EditDesignJDialog(null, true);
+
+                            d.setResizable(false);
+                            d.setLocation(0, 50);
+                            List<Design> list = new ArrayList<Design>();
+                            list.add(selectedDesign);
+                            d.LoadData(list);
+                            d.setVisible(true);
+                            designNumTextFieldKeyReleased(null);
+                            return;
+
                         }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
+
+                        if (!this.isShippingDateRequired){
+                            isAnswerOk = true;
+                            this.dispose();
+                        }
+                        else {
+                            shippingDate = odaberiDatum();
+                            previousShippingDate = shippingDate;
+                            isAnswerOk = true;
+                            this.dispose();
+                        }
                     }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
                 }
             }
         }
@@ -641,7 +681,11 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
     
     public void setIsShippingDateRequired(boolean isShippingDateRequired){
         this.isShippingDateRequired = isShippingDateRequired;
-    }            
+    }
+
+    public void setIsExternalOrder(boolean isExternalOrder) {
+        this.isExternalOrder = isExternalOrder;
+    }
 
     private void RefreshTableData() {
         designNumTextFieldKeyReleased(null);
