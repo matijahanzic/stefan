@@ -4,6 +4,8 @@
  */
 package stefan.business.objects;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author Administrator
@@ -11,8 +13,10 @@ package stefan.business.objects;
 public class ImportOrderItemDto {
      private OrderItem existingOrderItem;    
       private OrderItem importedOrderItem;    
-      private Boolean selected = true;
+      private Boolean selected = false;
       private String warningText;
+      private BigDecimal pricePerPart;
+      private BigDecimal total;
       
       public String getWarningText(){
     return this.warningText;
@@ -45,5 +49,21 @@ public void setSelected(Boolean selected){
     }
     public void setImportedOrderItem(OrderItem importedOrderItem) {
         this.importedOrderItem = importedOrderItem;
+    }
+    
+    public BigDecimal getPricePerPart(){
+        return this.pricePerPart;
+    }
+    
+    public void setPricePerPart(BigDecimal pricePerPart){
+        this.pricePerPart = pricePerPart;
+    }
+    
+     public BigDecimal getTotal(){
+        return this.total;
+    }
+    
+    public void setTotal(BigDecimal total){
+        this.total = total;
     }
 }

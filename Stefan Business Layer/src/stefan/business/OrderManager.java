@@ -224,6 +224,15 @@ public class OrderManager {
         return mapOrderData(order);
     }
     
+    public List<stefan.business.objects.Order> GetAllOrdersByOrderNumberFullyMapped(String orderNumber){
+        Query q = entityManager.createNamedQuery("Orders.findByOrderNumber");
+        q.setParameter("orderNumber", orderNumber);
+        List<stefan.data.Orders> orders = q.getResultList();
+        
+        
+        return mapData(orders);
+    }
+    
      public void UpdateOrder(Order existingOrder) throws Exception {
         try {
            

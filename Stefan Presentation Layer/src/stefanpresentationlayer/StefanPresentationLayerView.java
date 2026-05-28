@@ -10,6 +10,8 @@ import java.awt.Toolkit;
 import java.awt.print.PrinterException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdesktop.application.Action;
@@ -33,6 +35,7 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import stefan.business.ExcelManager;
@@ -53,11 +56,9 @@ import stefanpresentationlayer.dialogs.PriceManagmentJDialog;
  */
 public class StefanPresentationLayerView extends FrameView {
 
- 
-
     public StefanPresentationLayerView(SingleFrameApplication app) {
         super(app);
-        initComponents();      
+        initComponents();
 
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
@@ -449,45 +450,45 @@ public class StefanPresentationLayerView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOrderBtnActionPerformed
-            
-        NewOrderJDialog orderDialog= new NewOrderJDialog(this.getFrame(), true); 
-              
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();     
-            orderDialog.setSize(dim.width, (dim.height - 100));     
-            orderDialog.setLocation(0, 50);        
-            orderDialog.setVisible(true);   
-            //dohvati vrijednosti koje su unesene u ovaj dialog      
-            //this.firePropertyChange("items", null, null);    
-  
+
+        NewOrderJDialog orderDialog = new NewOrderJDialog(this.getFrame(), true);
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        orderDialog.setSize(dim.width, (dim.height - 100));
+        orderDialog.setLocation(0, 50);
+        orderDialog.setVisible(true);
+        //dohvati vrijednosti koje su unesene u ovaj dialog      
+        //this.firePropertyChange("items", null, null);    
+
     }//GEN-LAST:event_newOrderBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         NewBill newDlg= new NewBill(this.getFrame(), true);          
-         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-         newDlg.setSize(dim.width, (dim.height - 100)); 
-         newDlg.setLocation(0, 50);     
-         newDlg.setVisible(true);
+        NewBill newDlg = new NewBill(this.getFrame(), true);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        newDlg.setSize(dim.width, (dim.height - 100));
+        newDlg.setLocation(0, 50);
+        newDlg.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void allOrdersBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allOrdersBtnActionPerformed
-        AllOrdersDialog orderDialog= new AllOrdersDialog(this.getFrame(), true); 
-       
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
-        orderDialog.setSize(dim.width, (dim.height - 100)); 
-        orderDialog.setLocation(0, 50);       
-        orderDialog.setVisible(true);   
+        AllOrdersDialog orderDialog = new AllOrdersDialog(this.getFrame(), true);
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        orderDialog.setSize(dim.width, (dim.height - 100));
+        orderDialog.setLocation(0, 50);
+        orderDialog.setVisible(true);
     }//GEN-LAST:event_allOrdersBtnActionPerformed
 
     private void btnDesignsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesignsActionPerformed
-        EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);    
+        EditDesignJDialog dialog = new EditDesignJDialog(this.getFrame(), true);
         dialog.setResizable(false);
         //dialog.setLocation(0, 50);
         dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);   
+        dialog.setVisible(true);
     }//GEN-LAST:event_btnDesignsActionPerformed
 
     private void btnChangeDesignPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeDesignPriceActionPerformed
-        PriceChangeJDialog dialog=new PriceChangeJDialog(null, true);
+        PriceChangeJDialog dialog = new PriceChangeJDialog(null, true);
         dialog.setResizable(false);
         //dialog.setLocation(0, 50);
         dialog.setLocationRelativeTo(null);
@@ -497,39 +498,37 @@ public class StefanPresentationLayerView extends FrameView {
 private void btnDesignsFromExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesignsFromExcelActionPerformed
 
     if (ShowImportFileDialog()) {
-        String filePath =  importFilePath + "\\" + importFileName;
+        String filePath = importFilePath + "\\" + importFileName;
         ImportDesignsFromExcelJDialog designDialog = new ImportDesignsFromExcelJDialog(null, true, filePath, "FOPAC");
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
-        designDialog.setSize(dim.width, (dim.height - 100)); 
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        designDialog.setSize(dim.width, (dim.height - 100));
         //designDialog.setLocation(0, 50);
         designDialog.setLocationRelativeTo(null);
         designDialog.setVisible(true);
-    }
-    else
-    {
+    } else {
         return;
     }
-    
+
 }//GEN-LAST:event_btnDesignsFromExcelActionPerformed
 
 private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     // TODO add your handling code here: 
-        Workbook workbook = new HSSFWorkbook();
-        ExcelManager excelManager = new ExcelManager(workbook);
-        try {
-            excelManager.CreateNewOpenOrders();
-        } catch (IOException ex) {
-            Logger.getLogger(StefanPresentationLayerView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    Workbook workbook = new HSSFWorkbook();
+    ExcelManager excelManager = new ExcelManager(workbook);
+    try {
+        excelManager.CreateNewOpenOrders();
+    } catch (IOException ex) {
+        Logger.getLogger(StefanPresentationLayerView.class.getName()).log(Level.SEVERE, null, ex);
+    }
 }//GEN-LAST:event_jButton3ActionPerformed
 
 private void btnDesigns1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesigns1ActionPerformed
-        EditDesignJDialog dialog= new EditDesignJDialog(this.getFrame(), true);
-        dialog.SetIsWH();
-        dialog.setResizable(false);
-        //dialog.setLocation(0, 150);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+    EditDesignJDialog dialog = new EditDesignJDialog(this.getFrame(), true);
+    dialog.SetIsWH();
+    dialog.setResizable(false);
+    //dialog.setLocation(0, 150);
+    dialog.setLocationRelativeTo(null);
+    dialog.setVisible(true);
 }//GEN-LAST:event_btnDesigns1ActionPerformed
 
 private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upisVanjskeFirmeButtonActionPerformed
@@ -539,7 +538,7 @@ private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent ev
 }//GEN-LAST:event_upisVanjskeFirmeButtonActionPerformed
 
 private void newExternalOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newExternalOrderBtnActionPerformed
-    NewExternalOrderJDialog orderDialog= new NewExternalOrderJDialog(this.getFrame(), true);
+    NewExternalOrderJDialog orderDialog = new NewExternalOrderJDialog(this.getFrame(), true);
 
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     orderDialog.setSize(dim.width, (dim.height - 100));
@@ -552,26 +551,30 @@ private void newExternalOrderBtnActionPerformed(java.awt.event.ActionEvent evt) 
 private void btnUcitajNarudzbuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUcitajNarudzbuActionPerformed
 
     if (ShowImportFileDialog()) {
-        String filePath =  importFilePath + "\\" + importFileName;
-        ImportOrdersFromCsvJDialog dialog = new ImportOrdersFromCsvJDialog(null, filePath);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
-        dialog.setSize(dim.width, (dim.height - 100)); 
-        //designDialog.setLocation(0, 50);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-    }
-    else
-    {
+        String filePath = importFilePath + "\\" + importFileName;
+        ImportOrdersFromCsvJDialog dialog;
+        try {
+            dialog = new ImportOrdersFromCsvJDialog(null, filePath);
+
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            dialog.setSize(dim.width - 300, (dim.height - 300));
+            //designDialog.setLocation(0, 50);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    } else {
         return;
     }
-    
+
 }//GEN-LAST:event_btnUcitajNarudzbuActionPerformed
+    private String importFilePath;
+    private String importFileName;
 
-private String importFilePath;
-private String importFileName;
-private boolean ShowImportFileDialog() {
+    private boolean ShowImportFileDialog() {
 
-        JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");  
+        JFileChooser chooser = new JFileChooser("C:\\doo\\fakture\\");
         int rVal = chooser.showOpenDialog(this.getFrame());
 
         if (rVal == JFileChooser.APPROVE_OPTION) {
@@ -582,7 +585,6 @@ private boolean ShowImportFileDialog() {
             return false;
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton allOrdersBtn;
     private javax.swing.JButton btnChangeDesignPrice;
@@ -615,9 +617,7 @@ private boolean ShowImportFileDialog() {
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
     private JDialog aboutBox;
-
     /**
      * @return the items
      */
-  
 }
