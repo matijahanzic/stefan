@@ -40,7 +40,7 @@ public class MyTreeNode
 		orderId=item.getOrder().getIdOrder();
                 orderNumber=item.getOrder().getOrderNumber();
                 position=item.getPosition();
-                designId=item.getDesignId();
+                designId=item.getDesign().getIdDesign();
                 designName=item.getDesign().getName();
                 designNumber=item.getDesign().getDesignNumber();
                 designIdentity=item.getDesign().getDesignIdentity();

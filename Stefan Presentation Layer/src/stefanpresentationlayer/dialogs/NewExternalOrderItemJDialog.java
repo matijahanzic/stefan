@@ -137,9 +137,19 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         return this.quantityValue;
     }
 
+    public void setQuantityValue(int quantityValue) {
+        this.quantityValue = quantityValue;
+        this.quantity.setText(Integer.toString(this.quantityValue));
+    }
+
     private double pricePerPartValue;
     public double getPricePerPartValue() {
         return pricePerPartValue;
+    }
+
+    public void setPricePerPartValue(double pricePerPartValue) {
+        this.pricePerPartValue = pricePerPartValue;
+        this.finalPrice.setText(Double.toString(this.pricePerPartValue));
     }
 
     /** This method is called from within the constructor to

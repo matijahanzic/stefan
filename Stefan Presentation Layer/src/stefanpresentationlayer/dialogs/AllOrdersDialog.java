@@ -10,8 +10,11 @@
  */
 package stefanpresentationlayer.dialogs;
 
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +27,13 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
+import stefan.business.DesignManager;
 import stefan.business.ExcelManager;
 import stefan.business.OrderManager;
+import stefan.business.objects.Design;
 import stefan.business.objects.Order;
+import stefan.data.Orderitems;
+import stefan.data.Orders;
 import stefanpresentationlayer.MyTreeNode;
 import stefanpresentationlayer.MyTreeTableModel;
 import stefanpresentationlayer.OrdersTableCellRenderer;
@@ -355,48 +362,80 @@ private void jButtonUpdateShippingDateActionPerformed(java.awt.event.ActionEvent
 
 private void jButtonChaneQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChaneQuantityActionPerformed
     int row = jXTreeTable1.getSelectedRow();
-    if (row != -1)
-    {
-        TreePath tp = jXTreeTable1.getPathForRow(row);
-        MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
-        if (node.getOrderItemId() != null)
-        {
-            boolean isAnswerOk = false;
-            int parts = 0;
-            
-            while (!isAnswerOk) {
-                String partsString = JOptionPane.showInputDialog(null, "Koliko komada?", "Broj komada", JOptionPane.QUESTION_MESSAGE);
-                if (partsString == null) {                    
-                    break;
-                } else {
-                   try {
-                        parts = Integer.valueOf(partsString);
-                        if (parts <= 0) {
-                            JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
-                        }
-                        else {
-                            isAnswerOk = true;                            
-                        }                     
-                   }
-                   catch (NumberFormatException e) {
-                       JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
-                   }
-                }               
-            }
-            
-            if (isAnswerOk){
-                OrderManager manager = new OrderManager();
-                manager.UpdateOrderItemQuantityOrdered(node.getOrderItemId(), parts);
-            
-                refreshTreeData();  
-            }
-        }
-    }
-    else {
+    if (row == -1) {
         JOptionPane.showMessageDialog(null, "Odaberite stavku narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-        return;        
+        return;
     }
 
+    TreePath tp = jXTreeTable1.getPathForRow(row);
+    MyTreeNode node = (MyTreeNode)tp.getLastPathComponent();
+    if (node.getOrderItemId() == null)
+        return;
+
+    OrderManager om = new OrderManager();
+    Orders o = om.getOrderById(node.getOrderId());
+    if (o.getBusinessPartnerId().getIsExternalSource()) {
+        Orderitems oi = om.getOrderItemById(node.getOrderItemId());
+
+        DesignManager dm = new DesignManager();
+        Design d = dm.mapData(dm.GetDesignsByDBId(node.getDesignId()));
+
+        NewExternalOrderItemJDialog editOrderItemDiag = new NewExternalOrderItemJDialog(null, true, d);
+        editOrderItemDiag.setQuantityValue(node.getQuantityOrdered());
+        editOrderItemDiag.setPricePerPartValue(oi.getPricePerPartOverride().doubleValue());
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        editOrderItemDiag.setBounds(
+            dim.width / 2 - editOrderItemDiag.getWidth() / 2,
+            dim.height / 2 - editOrderItemDiag.getHeight() / 2,
+
+            editOrderItemDiag.getWidth(),
+            editOrderItemDiag.getHeight()
+        );
+
+        editOrderItemDiag.setTitle("Upis količine");
+        editOrderItemDiag.setVisible(true);
+
+        if (!editOrderItemDiag.isOkExitStatus())
+            return;
+
+        int qty = editOrderItemDiag.getQuantity();
+        BigDecimal pricePerPartOvr = new BigDecimal(editOrderItemDiag.getPricePerPartValue()).setScale(2, RoundingMode.HALF_UP);
+
+        om.UpdateOrderItemQuantityOrdered(oi.getIdOrderItems(), qty, pricePerPartOvr);
+        refreshTreeData();
+        return;
+    }
+
+    boolean isAnswerOk = false;
+    int parts = 0;
+
+    while (!isAnswerOk) {
+        String partsString = JOptionPane.showInputDialog(null, "Koliko komada?", "Broj komada", JOptionPane.QUESTION_MESSAGE);
+        if (partsString == null) {
+            break;
+        } else {
+           try {
+                parts = Integer.valueOf(partsString);
+                if (parts <= 0) {
+                    JOptionPane.showMessageDialog(null, "Unesite više od 0 komada");
+                }
+                else {
+                    isAnswerOk = true;
+                }
+           }
+           catch (NumberFormatException e) {
+               JOptionPane.showMessageDialog(null, "Unesite samo brojeve");
+           }
+        }
+    }
+
+    if (isAnswerOk){
+        om.UpdateOrderItemQuantityOrdered(node.getOrderItemId(), parts);
+
+        refreshTreeData();
+    }
 }//GEN-LAST:event_jButtonChaneQuantityActionPerformed
 
 private void btnChangePositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePositionActionPerformed
