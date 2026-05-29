@@ -1,0 +1,69 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package stefan.business.objects;
+
+import java.math.BigDecimal;
+
+/**
+ *
+ * @author Administrator
+ */
+public class ImportOrderItemDto {
+     private OrderItem existingOrderItem;    
+      private OrderItem importedOrderItem;    
+      private Boolean selected = false;
+      private String warningText;
+      private BigDecimal pricePerPart;
+      private BigDecimal total;
+      
+      public String getWarningText(){
+    return this.warningText;
+}
+
+public void setWarningText(String warningText){
+    this.warningText = warningText;
+}
+
+public Boolean getSelected(){
+    return this.selected;
+}
+
+public void setSelected(Boolean selected){
+    this.selected = selected;
+}
+
+         public OrderItem getExistingOrderItem() {
+        return existingOrderItem;
+    }
+
+
+    public void setExistingOrderItem(OrderItem existingOrderItem) {
+        this.existingOrderItem = existingOrderItem;
+    }
+    
+   
+    public OrderItem getImportedOrderItem() {
+        return importedOrderItem;
+    }
+    public void setImportedOrderItem(OrderItem importedOrderItem) {
+        this.importedOrderItem = importedOrderItem;
+    }
+    
+    public BigDecimal getPricePerPart(){
+        return this.pricePerPart;
+    }
+    
+    public void setPricePerPart(BigDecimal pricePerPart){
+        this.pricePerPart = pricePerPart;
+    }
+    
+     public BigDecimal getTotal(){
+        return this.total;
+    }
+    
+    public void setTotal(BigDecimal total){
+        this.total = total;
+    }
+}
