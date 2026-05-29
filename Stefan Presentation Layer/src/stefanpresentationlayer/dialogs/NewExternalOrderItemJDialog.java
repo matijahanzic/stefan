@@ -179,17 +179,17 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderItemJDialog.class);
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel1.border.lineColor"))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jPanel1.setName("jPanel1"); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 500));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel4.border.lineColor"))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(null));
         jPanel4.setName("jPanel4"); // NOI18N
         jPanel4.setPreferredSize(new java.awt.Dimension(150, 204));
         jPanel4.setLayout(new java.awt.GridLayout(6, 2, 16, 0));
 
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderItemJDialog.class);
         fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
         fertigCBox.setEnabled(false);
         fertigCBox.setName("fertigCBox"); // NOI18N
@@ -207,13 +207,12 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 27, Short.MAX_VALUE)
+            .addGap(0, 28, Short.MAX_VALUE)
         );
 
         jPanel4.add(jPanel5);
 
         minPerPiece.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        minPerPiece.setText(resourceMap.getString("minPerPiece.text")); // NOI18N
         minPerPiece.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         minPerPiece.setName("minPerPiece"); // NOI18N
         minPerPiece.setPreferredSize(new java.awt.Dimension(200, 14));
@@ -224,7 +223,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel1);
 
         tightLathing.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        tightLathing.setText(resourceMap.getString("tightLathing.text")); // NOI18N
         tightLathing.setName("tightLathing"); // NOI18N
         jPanel4.add(tightLathing);
 
@@ -233,7 +231,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel2);
 
         tightMilling.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        tightMilling.setText(resourceMap.getString("tightMilling.text")); // NOI18N
         tightMilling.setName("tightMilling"); // NOI18N
         jPanel4.add(tightMilling);
 
@@ -242,7 +239,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel3);
 
         hourlyCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        hourlyCost.setText(resourceMap.getString("hourlyCost.text")); // NOI18N
         hourlyCost.setName("hourlyCost"); // NOI18N
         jPanel4.add(hourlyCost);
 
@@ -251,7 +247,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel4);
 
         pricePerPiece.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        pricePerPiece.setText(resourceMap.getString("pricePerPiece.text")); // NOI18N
         pricePerPiece.setName("pricePerPiece"); // NOI18N
         jPanel4.add(pricePerPiece);
 
@@ -288,7 +283,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
 
         jPanel2.setName("jPanel2"); // NOI18N
 
-        quantity.setText(resourceMap.getString("quantity.text")); // NOI18N
         quantity.setName("quantity"); // NOI18N
         quantity.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -296,7 +290,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
             }
         });
 
-        finalPrice.setText(resourceMap.getString("finalPrice.text")); // NOI18N
         finalPrice.setName("finalPrice"); // NOI18N
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
@@ -352,7 +345,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(finalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmBtn)
                     .addComponent(cancelBtn))
