@@ -216,10 +216,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel6.setName("jPanel6"); // NOI18N
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
-        jPanel4.setMaximumSize(new java.awt.Dimension(200, 204));
-        jPanel4.setMinimumSize(new java.awt.Dimension(200, 204));
+        jPanel4.setMaximumSize(new java.awt.Dimension(210, 204));
+        jPanel4.setMinimumSize(new java.awt.Dimension(210, 204));
         jPanel4.setName("jPanel4"); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(200, 204));
+        jPanel4.setPreferredSize(new java.awt.Dimension(210, 204));
         jPanel4.setLayout(new java.awt.GridLayout(6, 2, 16, 0));
 
         fertig.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
