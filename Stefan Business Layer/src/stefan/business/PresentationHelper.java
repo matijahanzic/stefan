@@ -34,7 +34,8 @@ public class PresentationHelper {
 
     public PresentationHelper() {
     }
-    public PresentationHelper(stefan.business.objects.Design design, int parts, Date shippingDate) {        
+
+    public PresentationHelper(stefan.business.objects.Design design, int parts, Date shippingDate) {
         this.designNumber = design.getDesignNumber();
         this.designIdentity = design.getDesignIdentity();
         this.designClass = design.getClassMark();
@@ -47,8 +48,8 @@ public class PresentationHelper {
         this.parts = parts;
         this.shippingDate = shippingDate;
         this.desingDBid = design.getIdDesign();
-        this.pricePerPart = new BigDecimal("-1");        
-        
+        this.pricePerPart = new BigDecimal("-1");
+
 
         CalculatePrice(design);
     }
@@ -86,8 +87,8 @@ public class PresentationHelper {
      */
     public String getRevision() {
         return revision;
-    }    
-    
+    }
+
     /**
      * @return the designDate
      */
@@ -101,27 +102,26 @@ public class PresentationHelper {
     public boolean getNiklanje() {
         return niklanje;
     }
-    
+
     /**
      * @return the isTokarenje
      */
     public boolean getIsTokarenje() {
         return isTokarenje;
     }
-    
+
     /**
      * @return the isTokarenjeDisplayName
      */
     public String getIsTokarenjeDisplayName() {
         if (isNlx) {
             return "N";
-        } else if (isTokarenje) {         
+        } else if (isTokarenje) {
             return "T";
-        }
-        else {
+        } else {
             return "G";
         }
-    }   
+    }
 
     /**
      * @return the parts
@@ -129,7 +129,7 @@ public class PresentationHelper {
     public int getParts() {
         return parts;
     }
-    
+
     /**
      * @return the shippingDate
      */
@@ -141,7 +141,7 @@ public class PresentationHelper {
      * @return the pricePerPart
      */
     public BigDecimal getPricePerPart() {
-        if(pricePerPart == null){
+        if (pricePerPart == null) {
             return new BigDecimal(-1);
         }
 
@@ -164,62 +164,84 @@ public class PresentationHelper {
      */
     public BigDecimal getTotalPrice() {
         BigDecimal tempPricePerPart = getPricePerPart();
-       // return pricePerPart.multiply(new BigDecimal(parts)).setScale(2, RoundingMode.HALF_UP);
-         return tempPricePerPart.multiply(new BigDecimal(parts)).setScale(2, RoundingMode.HALF_UP);
+        // return pricePerPart.multiply(new BigDecimal(parts)).setScale(2, RoundingMode.HALF_UP);
+        return tempPricePerPart.multiply(new BigDecimal(parts)).setScale(2, RoundingMode.HALF_UP);
     }
 
     private void CalculatePrice(stefan.business.objects.Design d) {
-        if(d==null)
-        {
-            DesignManager manager=new DesignManager();
+        if (d == null) {
+            DesignManager manager = new DesignManager();
             stefan.data.Design design = manager.GetDesignsByDBId(getDesingDBid());
-            d=manager.mapData(design);
+            d = manager.mapData(design);
         }
+
         List<Integer> partsList = new ArrayList<Integer>();
-        partsList.add(1);
-        partsList.add(2);
-        partsList.add(3);
-        partsList.add(4);
-        partsList.add(5);
-        partsList.add(6);
-        partsList.add(10);
-        partsList.add(15);
-        partsList.add(20);
-        partsList.add(30);
-        partsList.add(40);
-        partsList.add(50);
-        partsList.add(100);
-        partsList.add(200);
-        partsList.add(500);
-        partsList.add(1000);
-        
         List<BigDecimal> pricePerPartList = new ArrayList<BigDecimal>();
+
+
+        partsList.add(1);
         pricePerPartList.add(d.getPcs1());
+
+        partsList.add(2);
         pricePerPartList.add(d.getPcs2());
+
+        partsList.add(3);
         pricePerPartList.add(d.getPcs3());
+
+        partsList.add(4);
         pricePerPartList.add(d.getPcs4());
+
+        partsList.add(5);
         pricePerPartList.add(d.getPcs5());
-        pricePerPartList.add(d.getPcs6());
+
+        partsList.add(8);
+        pricePerPartList.add(d.getPcs8());
+
+        partsList.add(10);
         pricePerPartList.add(d.getPcs10());
+
+        partsList.add(15);
         pricePerPartList.add(d.getPcs15());
+
+        partsList.add(16);
+        pricePerPartList.add(d.getPcs16());
+
+        partsList.add(20);
         pricePerPartList.add(d.getPcs20());
-        pricePerPartList.add(d.getPcs30());
-        pricePerPartList.add(d.getPcs40());
+
+        partsList.add(32);
+        pricePerPartList.add(d.getPcs32());
+
+        partsList.add(50);
         pricePerPartList.add(d.getPcs50());
+
+        partsList.add(64);
+        pricePerPartList.add(d.getPcs64());
+
+        partsList.add(100);
         pricePerPartList.add(d.getPcs100());
+
+        partsList.add(128);
+        pricePerPartList.add(d.getPcs128());
+
+        partsList.add(200);
         pricePerPartList.add(d.getPcs200());
+
+        partsList.add(500);
         pricePerPartList.add(d.getPcs500());
-        pricePerPartList.add(d.getPcs1000());
-        
+
+
+
         //paziti ako nema cijene manje od zadanog 
         //broja komada
-        for(int i = 15; i>=0; i--){
-            if(this.parts >= partsList.get(i)){
-                if(pricePerPartList.get(i)!=null){
-                    this.setPricePerPart(pricePerPartList.get(i));                    
+        for (int i = partsList.size() - 1; i >= 0; i--) {
+            if (this.parts >= partsList.get(i)) {
+                if (pricePerPartList.get(i) != null) {
+                    this.setPricePerPart(pricePerPartList.get(i));
                     break;
-                }else
+                } else {
                     continue;
+                }
             }
         }
         //privremeno rjesenje
@@ -254,8 +276,8 @@ public class PresentationHelper {
     public void setDesignName(String designName) {
         this.designName = designName;
     }
-    
-     /**
+
+    /**
      * @param revision the revision to set
      */
     public void setRevision(String revision) {
@@ -275,7 +297,7 @@ public class PresentationHelper {
     public void setNiklanje(boolean niklanje) {
         this.niklanje = niklanje;
     }
-    
+
     /**
      * @param isTokarenje the isTokarenje to set
      */
@@ -290,7 +312,7 @@ public class PresentationHelper {
         this.parts = parts;
         CalculatePrice(null);
     }
-    
+
     /**
      * @param shippingDate the shippingDate to set
      */
@@ -304,8 +326,6 @@ public class PresentationHelper {
     public void setPricePerPart(BigDecimal pricePerPart) {
         this.pricePerPart = pricePerPart;
     }
-
-   
 
     /**
      * @return the desingDBid

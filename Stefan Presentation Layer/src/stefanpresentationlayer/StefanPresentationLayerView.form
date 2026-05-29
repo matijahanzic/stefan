@@ -16,26 +16,12 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton2" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
-                              <Component id="jSeparator1" alignment="0" pref="1174" max="32767" attributes="0"/>
-                              <Component id="jLabel1" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="newOrderBtn" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="newExternalOrderBtn" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="allOrdersBtn" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="jSeparator2" alignment="0" pref="1174" max="32767" attributes="0"/>
-                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jButton2" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
+                      <Component id="jSeparator1" alignment="0" pref="1174" max="32767" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSeparator2" alignment="0" pref="1174" max="32767" attributes="0"/>
+                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="btnChangeDesignPrice" alignment="0" max="32767" attributes="1"/>
@@ -51,7 +37,19 @@
                               <Component id="btnDesignsFromExcel" alignment="0" max="32767" attributes="1"/>
                           </Group>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="newOrderBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnUcitajNarudzbu" min="-2" max="-2" attributes="1"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="newExternalOrderBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="allOrdersBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -63,6 +61,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="newOrderBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUcitajNarudzbu" alignment="3" min="-2" pref="57" max="-2" attributes="0"/>
                       <Component id="newExternalOrderBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="allOrdersBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -266,6 +265,17 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChangeDesignPriceActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnUcitajNarudzbu">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" resourceKey="btnUcitajNarudzbu.icon"/>
+            <Property name="text" type="java.lang.String" resourceKey="btnUcitajNarudzbu.text"/>
+            <Property name="actionCommand" type="java.lang.String" resourceKey="btnUcitajNarudzbu.actionCommand"/>
+            <Property name="name" type="java.lang.String" value="btnUcitajNarudzbu" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUcitajNarudzbuActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
