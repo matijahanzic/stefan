@@ -60,9 +60,14 @@ public class Design {
         return setQtys;
     }
 
-    public BigDecimal getPriceForPcs(int pcs) {
-        List<Integer> lst = Arrays.asList(getPcsQuantities());
-        if (!lst.contains(pcs))
+    public BigDecimal getPriceForPcs(int pcsIn) {
+        List<Integer> lst = getSetPcsQuantities();
+        int pcs = pcsIn;
+
+        while (!lst.contains(pcs) && pcs >= 0)
+            pcs--;
+
+        if (!lst.contains(pcs) || pcs <= 0)
             return null;
 
         try {
@@ -78,9 +83,14 @@ public class Design {
         }
     }
 
-    public BigDecimal getWorkForPcs(int pcs) {
-        List<Integer> lst = Arrays.asList(getPcsQuantities());
-        if (!lst.contains(pcs))
+    public BigDecimal getWorkForPcs(int pcsIn) {
+        List<Integer> lst = getSetPcsQuantities();
+        int pcs = pcsIn;
+
+        while (!lst.contains(pcs) && pcs >= 0)
+            pcs--;
+
+        if (!lst.contains(pcs) || pcs <= 0)
             return null;
 
         try {
