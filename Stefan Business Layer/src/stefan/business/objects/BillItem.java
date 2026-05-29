@@ -256,6 +256,9 @@ public class BillItem implements Comparable<BillItem> {
     }
 
     public void CalculatePrice(stefan.business.objects.Design d) {
+        if (this.pricePerPart != null)
+            return;
+
         if (d == null) {
             DesignManager manager = new DesignManager();
             stefan.data.Design design = manager.GetDesignsByDBId(designId);

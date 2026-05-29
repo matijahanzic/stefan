@@ -98,6 +98,7 @@ public class OrderManager {
         item.setQuantityDelivered(orderitem.getQuantityDelivered());
         item.setQuantityOrdered(orderitem.getQuantityOrdered());
         item.setNiklanje(orderitem.getIdDesign().getNiklanje());
+        item.setPricePerPart(orderitem.getPricePerPartOverride());
         return item;
 
     }
