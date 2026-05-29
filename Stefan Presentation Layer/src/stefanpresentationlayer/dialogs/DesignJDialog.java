@@ -594,7 +594,7 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
                 return;
 
             parts = externalItemSelection.getQuantity();
-            priceOverride = externalItemSelection.getFinalPriceValue();
+            priceOverride = externalItemSelection.getPricePerPartValue();
             if (!this.isShippingDateRequired) {
                 this.dispose();
             } else {

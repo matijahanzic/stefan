@@ -137,9 +137,9 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         return this.quantityValue;
     }
 
-    private double finalPriceValue;
-    public double getFinalPriceValue() {
-        return finalPriceValue;
+    private double pricePerPartValue;
+    public double getPricePerPartValue() {
+        return pricePerPartValue;
     }
 
     /** This method is called from within the constructor to
@@ -179,17 +179,17 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderItemJDialog.class);
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel1.border.lineColor"))); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 500));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel4.border.lineColor"))); // NOI18N
         jPanel4.setName("jPanel4"); // NOI18N
         jPanel4.setPreferredSize(new java.awt.Dimension(150, 204));
         jPanel4.setLayout(new java.awt.GridLayout(6, 2, 16, 0));
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderItemJDialog.class);
         fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
         fertigCBox.setEnabled(false);
         fertigCBox.setName("fertigCBox"); // NOI18N
@@ -291,6 +291,11 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         });
 
         finalPrice.setName("finalPrice"); // NOI18N
+        finalPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                finalPriceFocusLost(evt);
+            }
+        });
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
@@ -345,7 +350,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(finalPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmBtn)
                     .addComponent(cancelBtn))
@@ -389,7 +394,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
 
         String finalPriceText = finalPrice.getText();
         if (finalPriceText == null || finalPriceText.isEmpty()) {
-            String msg = "Konačna cijena je obavezan podatak";
+            String msg = "Cijena po komadu je obavezan podatak";
             if (errorMessage != null)
                 errorMessage += "\n" + msg;
             else
@@ -406,10 +411,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                 errorMessage = msg;
             }
 
-            msg = "Konačna cijena mora biti decimalni broj veći od 0";
+            msg = "Cijena po komadu mora biti decimalni broj veći od 0";
             try {
-                finalPriceValue = Double.parseDouble(finalPriceText);
-                if (finalPriceValue <= 0.) {
+                pricePerPartValue = Double.parseDouble(finalPriceText);
+                if (pricePerPartValue <= 0.) {
                     if (errorMessage != null)
                         errorMessage += "\n" + msg;
                     else
@@ -431,6 +436,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         this.optionPaneExitCode = JOptionPane.OK_OPTION;
         this.dispose();
     }//GEN-LAST:event_confirmBtnActionPerformed
+
+    private void finalPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_finalPriceFocusLost
+        finalPrice.setText(finalPrice.getText().replace(',', '.'));
+    }//GEN-LAST:event_finalPriceFocusLost
 
     /**
      * @param args the command line arguments

@@ -393,11 +393,14 @@ public class NewExternalOrderJDialog extends javax.swing.JDialog implements Tabl
 
         if (designDialog.getSelectedDesign() == null)
             return;
+
+        BigDecimal priceOverride = new BigDecimal(designDialog.getPriceOverride());
+        priceOverride = priceOverride.setScale(2, RoundingMode.HALF_UP);
      
         //dohvati vrijednosti koje su unesene u ovaj dialog
         stefan.business.PresentationHelper helper = new PresentationHelper(designDialog.getSelectedDesign(), designDialog.getParts(), designDialog.getShippingDate());
-        if (!new BigDecimal(designDialog.getPriceOverride()).equals(helper.getPricePerPart()))
-            helper.setPricePerPartOverride(new BigDecimal(designDialog.getPriceOverride()));
+        if (!priceOverride.equals(helper.getPricePerPart()))
+            helper.setPricePerPartOverride(priceOverride);
 
         helper.setPosition(String.format("%05d", position));
         position+=10;
