@@ -233,6 +233,10 @@ public class DesignJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Pcs128");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
         columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs200}"));
+        columnBinding.setColumnName("Pcs200");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pcs500}"));
         columnBinding.setColumnName("Pcs500");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
@@ -294,12 +298,11 @@ public class DesignJDialog extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(20).setHeaderValue(resourceMap.getString("jTable1.columnModel.title23")); // NOI18N
         jTable1.getColumnModel().getColumn(21).setPreferredWidth(20);
         jTable1.getColumnModel().getColumn(21).setHeaderValue(resourceMap.getString("jTable1.columnModel.title19")); // NOI18N
-        jTable1.getColumnModel().getColumn(22).setResizable(false);
         jTable1.getColumnModel().getColumn(22).setPreferredWidth(30);
         jTable1.getColumnModel().getColumn(22).setHeaderValue(resourceMap.getString("jTable1.columnModel.title8")); // NOI18N
-        jTable1.getColumnModel().getColumn(23).setResizable(false);
-        jTable1.getColumnModel().getColumn(23).setPreferredWidth(20);
-        jTable1.getColumnModel().getColumn(23).setHeaderValue(resourceMap.getString("jTable1.columnModel.title22")); // NOI18N
+        jTable1.getColumnModel().getColumn(23).setHeaderValue(resourceMap.getString("jTable1.columnModel.title24")); // NOI18N
+        jTable1.getColumnModel().getColumn(24).setPreferredWidth(20);
+        jTable1.getColumnModel().getColumn(24).setHeaderValue(resourceMap.getString("jTable1.columnModel.title22")); // NOI18N
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
