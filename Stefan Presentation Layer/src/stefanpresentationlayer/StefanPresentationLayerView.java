@@ -557,10 +557,15 @@ private void btnUcitajNarudzbuActionPerformed(java.awt.event.ActionEvent evt) {/
             dialog = new ImportOrdersFromCsvJDialog(null, filePath);
 
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            dialog.setSize(dim.width - 300, (dim.height - 300));
-            //designDialog.setLocation(0, 50);
+
+            int targetWidth = (int) (dim.width * 0.75);
+            int targetHeight = (int) (dim.height * 0.75);
+            dialog.setSize(targetWidth, targetHeight);
+
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
+
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

@@ -85,8 +85,9 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line;
 
-        Order order = new Order();
-        Map<String, ImportOrderItemDto> itemMap = new HashMap<String, ImportOrderItemDto>();
+        //Order order = new Order();
+        importOrder = new Order();
+        //Map<String, ImportOrderItemDto> itemMap = new HashMap<String, ImportOrderItemDto>();
 
         // Context-tracking variables for dynamic header mapping
         List<String> currentHeaders = null;
@@ -130,7 +131,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                 // 1. Core Order Details Row
                 if ("head".equals(rowType) && "".equals(subType)) {
-                    order.setOrderNumber(rowData.get("order_number"));
+                    importOrder.setOrderNumber(rowData.get("order_number"));
                     brojNarudzbeText.setText(rowData.get("order_number"));
                 } // 2. Order Address Row
                 else if ("head".equals(rowType) && "delivery_address".equals(subType)) {
@@ -140,29 +141,29 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     for (BusinessPartner bPartner : bPartners) {
                         if (bPartner.getCity().equalsIgnoreCase(bpCity)) {
-                            order.setBusinessPartnerName(bPartner.getName());
-                            order.setBusinessPartnerId(bPartner.getId());
+                            importOrder.setBusinessPartnerName(bPartner.getName());
+                            importOrder.setBusinessPartnerId(bPartner.getId());
                             partnerText.setText(bPartner.getDisplayName());
                         }
                     }
 
-                    if (order.getBusinessPartnerId() == null) {
+                    if (importOrder.getBusinessPartnerId() == null) {
                         throw new NoSuchElementException("Nije pronađen poslovni partner naveden na narudžbi");
                     }
 
-                    List<Order> existingOrders = new OrderManager().GetAllOrdersByOrderNumberFullyMapped(order.getOrderNumber());
+                    List<Order> existingOrders = new OrderManager().GetAllOrdersByOrderNumberFullyMapped(importOrder.getOrderNumber());
                     if (existingOrders != null) {
                         for (Order eOrder : existingOrders) {
-                            if (eOrder.getBusinessPartnerId().equals(order.getBusinessPartnerId())) {
-                                order = eOrder;
-                                throw new NoSuchElementException("Narudžba sa brojem " + order.getOrderNumber() + " već postoji za kupca " + order.getBusinessPartnerName());
+                            if (eOrder.getBusinessPartnerId().equals(importOrder.getBusinessPartnerId())) {
+                                importOrder = eOrder;
+                                throw new NoSuchElementException("Narudžba sa brojem " + importOrder.getOrderNumber() + " već postoji za kupca " + importOrder.getBusinessPartnerName());
                                 //_isNew = false;
                                 //break;
                             }
                         }
                     }
 
-                    if (order.getBusinessPartnerName().toLowerCase().startsWith("w")) {
+                    if (importOrder.getBusinessPartnerName().toLowerCase().startsWith("w")) {
                         _designCode = "WH";
                     }
 
@@ -251,13 +252,6 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                     _total = _total.add(price);
 
                     importOrderItem.setImportedOrderItem(item);
-
-                    List<OrderItem> orderItems = order.getOrderitemsList();
-                    if (orderItems == null) {
-                        orderItems = new ArrayList<OrderItem>();
-                    }
-                    orderItems.add(item);
-                    order.setOrderitemsList(orderItems);
 
                     currentItemScope = importOrderItem; // Store scope context for immediate subsequent disposition rows
 
@@ -572,52 +566,42 @@ private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_cancelBtnActionPerformed
 
 private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderBtnActionPerformed
-    /*
-    if (orderNumberTextField.getText().trim().isEmpty())
-    {
-    JOptionPane.showMessageDialog(null, "Unesite broj narudžbe.","Upozorenje",javax.swing.JOptionPane.WARNING_MESSAGE);      
-    return;
+
+
+    if (importOrder.getOrderNumber() == null) {
+        JOptionPane.showMessageDialog(null, "Neispravni podaci za narudžbu. Molimo, zatvorite ekran i pokušajte ponovno", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
     }
-    
-    int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
-    if(selectedFirmaIndex < 0){
-    JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-    return;
+
+    importOrder.setDate(jXDatePickerDesignDate.getDate());
+    if (importOrder.getDate() == null) {
+        JOptionPane.showMessageDialog(null, "Nije upisan datum narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
     }
-    
-    BusinessPartner bp = bpItems.get(selectedFirmaIndex);
-    if(bp == null){
-    JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
-    return;
-    }              
-    
-    
-    Order order=new Order();
-    order.setDate(jXOrderDatePicker.getDate());
-    order.setIsDelivered(false);
-    order.setOrderNumber(orderNumberTextField.getText());
-    order.setBusinessPartnerId(bp.getId());
-    
-    List<OrderItem> orderItems=new ArrayList<OrderItem>();       
-    for (PresentationHelper item : items) 
-    {
-    OrderItem oi=new OrderItem();
-    
-    oi.setPosition(item.getPosition());
-    oi.setQuantityDelivered(0);
-    oi.setQuantityOrdered(item.getParts());           
-    oi.setDesignId(item.getDesingDBid());
-    oi.setShippingDate(item.getShippingDate());
-    
-    orderItems.add(oi);
+
+    if (importOrder.getOrderNumber().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Nije upisan broj narudžbe.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
     }
-    order.setOrderitemsList(orderItems);
-    
-    OrderManager orderManager=new OrderManager();
-    orderManager.SaveOrder(order);
+
+
+    if (importOrder.getBusinessPartnerId() == null) {
+        JOptionPane.showMessageDialog(null, "Firma nije postavljena", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    for (ImportOrderItemDto iItem : importOrderItems) {
+        orderItems.add(iItem.getImportedOrderItem());
+    }
+    importOrder.setOrderitemsList(orderItems);
+
+    OrderManager orderManager = new OrderManager();
+    orderManager.SaveOrder(importOrder);
+
+    _isSuccess = true;
+
     this.dispose();
-     * 
-     */
 }//GEN-LAST:event_createOrderBtnActionPerformed
 
 private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
@@ -631,29 +615,14 @@ private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:e
     int showConfirmDialog = JOptionPane.showOptionDialog(null, "Jeste li sigurni da želite ukloniti odabrane stavke?", "Pitanje", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
     if (showConfirmDialog == 0) {
         Iterator<ImportOrderItemDto> iterator = importOrderItems.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             ImportOrderItemDto item = iterator.next();
-            if(item != null && item.getSelected()){
+            if (item != null && item.getSelected()) {
                 iterator.remove();
             }
         }
     }
-    /*
-    int rowIndex = MaterialsTable.getSelectedRow();
-    if (rowIndex!=-1)
-    {
-    totalPrice=totalPrice.min(items.get(rowIndex).getTotalPrice());
-    priceLbl.setText(totalPrice.setScale(2, RoundingMode.HALF_UP).toPlainString().replace('.',','));
-    items.remove(rowIndex);
-    this.firePropertyChange("items", null, null);
-    if (items.isEmpty())
-    {
-    deleteBtn.setEnabled(false);
-    createOrderBtn.setEnabled(false);
-    }
-    }
-     *
-     */
+
 }//GEN-LAST:event_deleteBtnMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField brojNarudzbeText;
