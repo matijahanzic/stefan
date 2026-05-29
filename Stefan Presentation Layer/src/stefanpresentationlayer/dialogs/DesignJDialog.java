@@ -591,7 +591,10 @@ private void createDesignButton1ActionPerformed(java.awt.event.ActionEvent evt) 
             externalItemSelection.setVisible(true);
 
             if (!externalItemSelection.isOkExitStatus())
+            {
+                this.selectedDesign = null;
                 return;
+            }
 
             parts = externalItemSelection.getQuantity();
             priceOverride = externalItemSelection.getPricePerPartValue();
