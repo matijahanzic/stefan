@@ -961,7 +961,7 @@ public class ExcelManager {
     public void CreateNewOpenOrders() throws IOException {
 
         //prepare data
-        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, bp.isExternalSource, d.designNumber, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
+        String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, bp.isExternalSource, d.designNumber, oi.pricePerPartOverride, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
                 + "d.6k as pcs6, d.10k as pcs10, d.15k as pcs15, d.20k as pcs20, d.30k as pcs30, d.40k as pcs40, d.50k as pcs50, "
                 + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, d.isNlx, "
                 + "CASE WHEN billItem.idOrderItem IS NULL THEN 0 ELSE 1 end as isOnTemporaryBill "
@@ -1042,10 +1042,11 @@ public class ExcelManager {
                     (BigDecimal) resultElement[21],
                     (BigDecimal) resultElement[22],
                     (BigDecimal) resultElement[23],
-                    (Boolean) resultElement[24],
+                    (BigDecimal) resultElement[24],
                     (Boolean) resultElement[25],
                     (Boolean) resultElement[26],
-                    (Long) resultElement[27]);
+                    (Boolean) resultElement[27],
+                    (Long) resultElement[28]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);

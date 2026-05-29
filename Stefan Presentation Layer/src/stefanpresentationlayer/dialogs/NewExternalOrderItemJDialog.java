@@ -10,11 +10,12 @@
  */
 package stefanpresentationlayer.dialogs;
 
-import stefan.business.PresentationHelper;
 import stefan.business.objects.Design;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -69,7 +70,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
 
             @Override
             public int getColumnCount() {
-                return 2;
+                return 3;
             }
 
             @Override
@@ -78,7 +79,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                     return "Količina";
 
                 if (column == 1)
-                    return "Cijena";
+                    return "Cijena (posao)";
+
+                if (column == 2)
+                    return "Cijena (total)";
 
                 return "Unknown";
             }
@@ -110,10 +114,22 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                     return Integer.toString(qty);
                 }
 
-                if (column != 1)
+                if (column > 2)
                     return "Unknown";
 
-                return String.format("%.2f", this.design.getPriceForPcs(qty).doubleValue());
+                if (column == 1) {
+                    BigDecimal workForPcs = this.design.getWorkForPcs(qty);
+                    if (workForPcs == null)
+                        return "-";
+
+                    return String.format("%.2f", workForPcs.setScale(2, RoundingMode.HALF_UP).doubleValue());
+                }
+
+                BigDecimal totalForPcs = this.design.getPriceForPcs(qty);
+                if (totalForPcs == null)
+                    return "-";
+
+                return String.format("%.2f", totalForPcs.setScale(2, RoundingMode.HALF_UP).doubleValue());
             }
         });
     }
@@ -137,9 +153,19 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         return this.quantityValue;
     }
 
-    private double finalPriceValue;
-    public double getFinalPriceValue() {
-        return finalPriceValue;
+    public void setQuantityValue(int quantityValue) {
+        this.quantityValue = quantityValue;
+        this.quantity.setText(Integer.toString(this.quantityValue));
+    }
+
+    private double pricePerPartValue;
+    public double getPricePerPartValue() {
+        return pricePerPartValue;
+    }
+
+    public void setPricePerPartValue(double pricePerPartValue) {
+        this.pricePerPartValue = pricePerPartValue;
+        this.finalPrice.setText(Double.toString(this.pricePerPartValue));
     }
 
     /** This method is called from within the constructor to
@@ -152,9 +178,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        fertigCBox = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
+        fertigCBox = new javax.swing.JCheckBox();
         minPerPiece = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         tightLathing = new javax.swing.JLabel();
@@ -182,12 +209,17 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(NewExternalOrderItemJDialog.class);
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel1.border.lineColor"))); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(200, 500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 500));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel4.border.lineColor"))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel6.border.lineColor"))); // NOI18N
+        jPanel6.setName("jPanel6"); // NOI18N
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+
+        jPanel4.setMaximumSize(new java.awt.Dimension(200, 204));
+        jPanel4.setMinimumSize(new java.awt.Dimension(200, 204));
         jPanel4.setName("jPanel4"); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(150, 204));
+        jPanel4.setPreferredSize(new java.awt.Dimension(200, 204));
         jPanel4.setLayout(new java.awt.GridLayout(6, 2, 16, 0));
 
         fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
@@ -203,17 +235,21 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 92, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 27, Short.MAX_VALUE)
+            .addGap(0, 34, Short.MAX_VALUE)
         );
 
         jPanel4.add(jPanel5);
 
+        fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
+        fertigCBox.setEnabled(false);
+        fertigCBox.setName("fertigCBox"); // NOI18N
+        jPanel4.add(fertigCBox);
+
         minPerPiece.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        minPerPiece.setText(resourceMap.getString("minPerPiece.text")); // NOI18N
         minPerPiece.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         minPerPiece.setName("minPerPiece"); // NOI18N
         minPerPiece.setPreferredSize(new java.awt.Dimension(200, 14));
@@ -224,7 +260,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel1);
 
         tightLathing.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        tightLathing.setText(resourceMap.getString("tightLathing.text")); // NOI18N
         tightLathing.setName("tightLathing"); // NOI18N
         jPanel4.add(tightLathing);
 
@@ -233,7 +268,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel2);
 
         tightMilling.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        tightMilling.setText(resourceMap.getString("tightMilling.text")); // NOI18N
         tightMilling.setName("tightMilling"); // NOI18N
         jPanel4.add(tightMilling);
 
@@ -242,7 +276,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel3);
 
         hourlyCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        hourlyCost.setText(resourceMap.getString("hourlyCost.text")); // NOI18N
         hourlyCost.setName("hourlyCost"); // NOI18N
         jPanel4.add(hourlyCost);
 
@@ -251,7 +284,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.add(jLabel4);
 
         pricePerPiece.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        pricePerPiece.setText(resourceMap.getString("pricePerPiece.text")); // NOI18N
         pricePerPiece.setName("pricePerPiece"); // NOI18N
         jPanel4.add(pricePerPiece);
 
@@ -259,7 +291,9 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jLabel5.setName("jLabel5"); // NOI18N
         jPanel4.add(jLabel5);
 
-        jPanel1.add(jPanel4);
+        jPanel6.add(jPanel4);
+
+        jPanel1.add(jPanel6);
 
         jPanel3.setName("jPanel3"); // NOI18N
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -288,7 +322,6 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
 
         jPanel2.setName("jPanel2"); // NOI18N
 
-        quantity.setText(resourceMap.getString("quantity.text")); // NOI18N
         quantity.setName("quantity"); // NOI18N
         quantity.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -296,8 +329,12 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
             }
         });
 
-        finalPrice.setText(resourceMap.getString("finalPrice.text")); // NOI18N
         finalPrice.setName("finalPrice"); // NOI18N
+        finalPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                finalPriceFocusLost(evt);
+            }
+        });
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
@@ -330,10 +367,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                            .addComponent(quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
-                            .addComponent(finalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                            .addComponent(finalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(confirmBtn)
@@ -378,8 +415,11 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
             return;
         }
 
-        PresentationHelper ph = new PresentationHelper(this.design, qtyValue, null);
-        this.finalPrice.setText(ph.getPricePerPart().toString());
+        BigDecimal workPrice = this.design.getWorkForPcs(qtyValue);
+        if (workPrice == null)
+            workPrice = this.design.getPriceForPcs(qtyValue);
+
+        this.finalPrice.setText(workPrice.setScale(2, RoundingMode.HALF_UP).toString());
     }//GEN-LAST:event_quantityFocusLost
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
@@ -396,7 +436,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
 
         String finalPriceText = finalPrice.getText();
         if (finalPriceText == null || finalPriceText.isEmpty()) {
-            String msg = "Konačna cijena je obavezan podatak";
+            String msg = "Cijena po komadu je obavezan podatak";
             if (errorMessage != null)
                 errorMessage += "\n" + msg;
             else
@@ -413,10 +453,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
                 errorMessage = msg;
             }
 
-            msg = "Konačna cijena mora biti decimalni broj veći od 0";
+            msg = "Cijena po komadu mora biti decimalni broj veći od 0";
             try {
-                finalPriceValue = Double.parseDouble(finalPriceText);
-                if (finalPriceValue <= 0.) {
+                pricePerPartValue = Double.parseDouble(finalPriceText);
+                if (pricePerPartValue <= 0.) {
                     if (errorMessage != null)
                         errorMessage += "\n" + msg;
                     else
@@ -438,6 +478,10 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         this.optionPaneExitCode = JOptionPane.OK_OPTION;
         this.dispose();
     }//GEN-LAST:event_confirmBtnActionPerformed
+
+    private void finalPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_finalPriceFocusLost
+        finalPrice.setText(finalPrice.getText().replace(',', '.'));
+    }//GEN-LAST:event_finalPriceFocusLost
 
     /**
      * @param args the command line arguments
@@ -500,6 +544,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel minPerPiece;
     private javax.swing.JLabel pricePerPiece;

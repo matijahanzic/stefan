@@ -78,6 +78,24 @@ public class Design {
         }
     }
 
+    public BigDecimal getWorkForPcs(int pcs) {
+        List<Integer> lst = Arrays.asList(getPcsQuantities());
+        if (!lst.contains(pcs))
+            return null;
+
+        try {
+            Object val = Design.class.getDeclaredField(String.format("posao%dk", pcs)).get(this);
+            if (!(val instanceof BigDecimal))
+                return null;
+
+            return (BigDecimal)val;
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
+
     private Integer idDesign;
     private String designNumber;
     private String designIdentity;

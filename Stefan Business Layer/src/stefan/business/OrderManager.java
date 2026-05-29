@@ -5,6 +5,8 @@
 package stefan.business;
 
 import stefan.business.objects.BillItem;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +98,7 @@ public class OrderManager {
         item.setQuantityDelivered(orderitem.getQuantityDelivered());
         item.setQuantityOrdered(orderitem.getQuantityOrdered());
         item.setNiklanje(orderitem.getIdDesign().getNiklanje());
+        item.setPricePerPart(orderitem.getPricePerPartOverride());
         return item;
 
     }
@@ -124,18 +127,22 @@ public class OrderManager {
 
 
     }
-    
-    public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity) {
+
+    public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity, BigDecimal pricePerPartOverride) {
         try {
             entityManager.getTransaction().begin();
             Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
             q.setParameter("idOrderItems", orderItemId);
             stefan.data.Orderitems orderItem = (stefan.data.Orderitems) q.getResultList().get(0);
             orderItem.setQuantityOrdered(quantity);
+            orderItem.setPricePerPartOverride(pricePerPartOverride);
             entityManager.getTransaction().commit();
-        } 
-        catch (Exception e) {
         }
+        catch (Exception e) { /* Ignore */ }
+    }
+    
+    public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity) {
+        UpdateOrderItemQuantityOrdered(orderItemId, quantity, null);
     }
     
      public void UpdateOrderItemPosition(Integer orderItemId, String position) {

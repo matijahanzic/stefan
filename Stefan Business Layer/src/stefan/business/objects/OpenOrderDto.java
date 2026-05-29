@@ -22,7 +22,7 @@ import java.util.List;
 public class OpenOrderDto implements Comparable  {
 
     public OpenOrderDto(Integer idOrderItems, Integer quantityOrdered, Integer quantityDelivered, String orderNumber, Date shippingDate,
-                        String city, Boolean isExternalOrder, String designNumber, BigDecimal pcs1, BigDecimal pcs2, BigDecimal pcs3, BigDecimal pcs4, BigDecimal pcs5, BigDecimal pcs6, BigDecimal pcs10,
+                        String city, Boolean isExternalOrder, String designNumber, BigDecimal pricePerPartOverride, BigDecimal pcs1, BigDecimal pcs2, BigDecimal pcs3, BigDecimal pcs4, BigDecimal pcs5, BigDecimal pcs6, BigDecimal pcs10,
                         BigDecimal pcs15, BigDecimal pcs20, BigDecimal pcs30, BigDecimal pcs40, BigDecimal pcs50, BigDecimal pcs100, BigDecimal pcs200, BigDecimal pcs500, BigDecimal pcs1000, boolean niklanje, boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill){
        
        this.idOrderItems = idOrderItems;
@@ -33,6 +33,7 @@ public class OpenOrderDto implements Comparable  {
        this.city = city;
        this.isExternalOrder = isExternalOrder;
        this.designNumber = designNumber;
+       this.pricePerPartOverride = pricePerPartOverride;
        this.pcs1 = pcs1;
        this.pcs2 = pcs2;
        this.pcs3 = pcs3;
@@ -92,7 +93,9 @@ public class OpenOrderDto implements Comparable  {
 
     //design
    
-    private String designNumber;    
+    private String designNumber;
+
+    private BigDecimal pricePerPartOverride;
     
     private BigDecimal pcs1;
     
@@ -606,6 +609,11 @@ public class OpenOrderDto implements Comparable  {
     
     
     public BigDecimal GetPrice() {
+        //broj komada preostalih za isporuku
+        int partsLeftToDeliver = getQuantityOrdered() - getQuantityDelivered();
+
+        if (this.pricePerPartOverride != null)
+            return this.pricePerPartOverride.multiply(new BigDecimal(partsLeftToDeliver)).setScale(2, RoundingMode.HALF_UP);
        
         List<Integer> partsList = new ArrayList<Integer>();
         partsList.add(1);
@@ -658,9 +666,6 @@ public class OpenOrderDto implements Comparable  {
                 }
             }
         }
-        
-        //broj komada preostalih za isporuku
-        Integer partsLeftToDeliver = getQuantityOrdered() - getQuantityDelivered();
         
         return pricePerPart.multiply(new BigDecimal(partsLeftToDeliver)).setScale(2, RoundingMode.HALF_UP);
     }
