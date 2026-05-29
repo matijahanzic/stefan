@@ -599,8 +599,6 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
     OrderManager orderManager = new OrderManager();
     orderManager.SaveOrder(importOrder);
 
-    _isSuccess = true;
-
     this.dispose();
 }//GEN-LAST:event_createOrderBtnActionPerformed
 
