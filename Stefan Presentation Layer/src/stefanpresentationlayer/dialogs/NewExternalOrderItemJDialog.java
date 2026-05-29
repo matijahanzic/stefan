@@ -35,7 +35,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
     private void setDesignCalcParameters() {
         final String decimalFormat = "%.2f";
 
-        fertigCBox.setSelected(design.getCalcIsFerting());
+        fertig.setText(design.getCalcIsFerting() ? "F" : "-");
 
         if (design.getCalcMinPoKom() != null)
             minPerPiece.setText(String.format(decimalFormat, design.getCalcMinPoKom().doubleValue()));
@@ -180,8 +180,8 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        fertigCBox = new javax.swing.JCheckBox();
+        fertig = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         minPerPiece = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         tightLathing = new javax.swing.JLabel();
@@ -222,32 +222,14 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
         jPanel4.setPreferredSize(new java.awt.Dimension(200, 204));
         jPanel4.setLayout(new java.awt.GridLayout(6, 2, 16, 0));
 
-        fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
-        fertigCBox.setEnabled(false);
-        fertigCBox.setName("fertigCBox"); // NOI18N
-        jPanel4.add(fertigCBox);
+        fertig.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        fertig.setText(resourceMap.getString("fertig.text")); // NOI18N
+        fertig.setName("fertig"); // NOI18N
+        jPanel4.add(fertig);
 
-        jPanel5.setMinimumSize(new java.awt.Dimension(0, 0));
-        jPanel5.setName("jPanel5"); // NOI18N
-        jPanel5.setPreferredSize(new java.awt.Dimension(0, 0));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 92, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 34, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(jPanel5);
-
-        fertigCBox.setText(resourceMap.getString("fertigCBox.text")); // NOI18N
-        fertigCBox.setEnabled(false);
-        fertigCBox.setName("fertigCBox"); // NOI18N
-        jPanel4.add(fertigCBox);
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+        jPanel4.add(jLabel8);
 
         minPerPiece.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         minPerPiece.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -365,18 +347,15 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(finalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addComponent(quantity, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(finalPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(confirmBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelBtn)
-                        .addGap(7, 7, 7))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmBtn)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,7 +508,7 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelBtn;
     private javax.swing.JButton confirmBtn;
-    private javax.swing.JCheckBox fertigCBox;
+    private javax.swing.JLabel fertig;
     private javax.swing.JTextField finalPrice;
     private javax.swing.JLabel hourlyCost;
     private javax.swing.JLabel jLabel1;
@@ -539,11 +518,11 @@ public class NewExternalOrderItemJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel minPerPiece;
