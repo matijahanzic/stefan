@@ -14,6 +14,7 @@
 # *.jar
 dist/
 build/
+out/
 *.war
 *.ear
 *.zip
@@ -24,3 +25,6 @@ build/
 hs_err_pid*
 *.properties
 *.properties
+
+# IntelliJ
+.idea/
