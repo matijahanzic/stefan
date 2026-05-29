@@ -94,6 +94,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
         String currentDescriptorType = "";
         String currentDescriptorSubtype = "";
         ImportOrderItemDto currentItemScope = null;
+        Boolean _isDeleted = false;
 
         String _designCode = "FOPAC";
 
@@ -170,7 +171,16 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                 } // 3. Item Core Details Row
                 else if ("position".equals(rowType) && "".equals(subType)) {
+                    
+                    _isDeleted = false;
+                    
                     String posNum = tokens.get(2); // Always 5 characters at position index 2
+
+                    String isDeleted = CleanString(rowData.get("is_deleted"));
+                    if ("1".equalsIgnoreCase(isDeleted)) {
+                        _isDeleted = true;
+                        continue;
+                    }
 
                     ImportOrderItemDto importOrderItem = new ImportOrderItemDto();
                     OrderItem item = new OrderItem();
@@ -183,6 +193,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                     } catch (ParseException e) {
                         throw new ParseException("Količina nije ispravan cijeli broj", 0);
                     }
+
 
                     String rev = CleanString(rowData.get("rev_lev"));
                     String designName = CleanString(rowData.get("material_name"));
@@ -258,7 +269,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                     importOrderItems.add(importOrderItem);
                 } // 4. Item Delivery/Disposition Row
                 else if ("position".equals(rowType) && "disposition".equals(subType)) {
-                    if (currentItemScope != null) {
+                    if (currentItemScope != null && !_isDeleted) {
 
                         Date date = null;
                         try {
