@@ -4,15 +4,79 @@
  */
 package stefan.business.objects;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 /**
  *
  * @author Matija
  */
 public class Design {
+
+    public Integer[] getPcsQuantities() {
+        return new Integer[]
+        {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            8,
+            10,
+            15,
+            16,
+            20,
+            30,
+            32,
+            40,
+            50,
+            64,
+            100,
+            128,
+            200,
+            500,
+            1000
+        };
+    }
+
+    public List<Integer> getSetPcsQuantities() {
+        List<Integer> setQtys = new ArrayList<Integer>();
+
+        for (int qt : getPcsQuantities()) {
+            try {
+                Field f = Design.class.getDeclaredField(String.format("pcs%d", qt));
+                if (f.getType() == BigDecimal.class && f.get(this) != null)
+                    setQtys.add(qt);
+            } catch (NoSuchFieldException nfe) { /* Ignore */ }
+            catch (IllegalAccessException iae) { /* Ignore */ }
+        }
+
+        return setQtys;
+    }
+
+    public BigDecimal getPriceForPcs(int pcs) {
+        List<Integer> lst = Arrays.asList(getPcsQuantities());
+        if (!lst.contains(pcs))
+            return null;
+
+        try {
+            Object val = Design.class.getDeclaredField(String.format("pcs%d", pcs)).get(this);
+            if (!(val instanceof BigDecimal))
+                return null;
+
+            return (BigDecimal)val;
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
 
     private Integer idDesign;
     private String designNumber;

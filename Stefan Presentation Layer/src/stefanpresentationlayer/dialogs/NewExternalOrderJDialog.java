@@ -22,9 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingx.JXMonthView;
-import org.jdesktop.swingx.calendar.DateSelectionModel;
-import stefan.business.BillManager;
 import stefan.business.BusinessPartnerManager;
 import stefan.business.OrderManager;
 import stefan.business.PresentationHelper;
@@ -387,31 +384,35 @@ public class NewExternalOrderJDialog extends javax.swing.JDialog implements Tabl
          
         DesignJDialog designDialog = new DesignJDialog(null, true);
         designDialog.setIsShippingDateRequired(isShippingDateRequired());
+        designDialog.setIsExternalOrder(true);
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
         designDialog.setSize(dim.width, (dim.height - 100)); 
         designDialog.setLocation(0, 50);                      
         designDialog.setVisible(true);
+
+        if (designDialog.getSelectedDesign() == null)
+            return;
      
-         //dohvati vrijednosti koje su unesene u ovaj dialog  
-         if (designDialog.getSelectedDesign() != null) {
-             stefan.business.PresentationHelper helper = new PresentationHelper(designDialog.getSelectedDesign(), designDialog.getParts(), designDialog.getShippingDate()); 
-             helper.setPosition(String.format("%05d", position));
-             position+=10;
-             items.add(helper);    	
-             totalPrice=totalPrice.add(helper.getTotalPrice());            
-             priceLbl.setText(totalPrice.setScale(2, RoundingMode.HALF_UP).toPlainString().replace('.',','));
-             if (!items.isEmpty())
-             {
-                deleteBtn.setEnabled(true);   
-                createOrderBtn.setEnabled(true);
-             }
-             this.firePropertyChange("items", null, null); 
-             MaterialsTable.getSelectionModel().setSelectionInterval(0, items.size()-1);
-             MaterialsTable.scrollRectToVisible(new Rectangle(MaterialsTable.getCellRect(items.size()-1,0, true)));
-         } else {
-             
-         }           
-		 }//GEN-LAST:event_NacrtiMouseClicked
+        //dohvati vrijednosti koje su unesene u ovaj dialog
+        stefan.business.PresentationHelper helper = new PresentationHelper(designDialog.getSelectedDesign(), designDialog.getParts(), designDialog.getShippingDate());
+        if (!new BigDecimal(designDialog.getPriceOverride()).equals(helper.getPricePerPart()))
+            helper.setPricePerPartOverride(new BigDecimal(designDialog.getPriceOverride()));
+
+        helper.setPosition(String.format("%05d", position));
+        position+=10;
+        items.add(helper);
+        totalPrice=totalPrice.add(helper.getTotalPrice());
+        priceLbl.setText(totalPrice.setScale(2, RoundingMode.HALF_UP).toPlainString().replace('.',','));
+        if (!items.isEmpty())
+        {
+           deleteBtn.setEnabled(true);
+           createOrderBtn.setEnabled(true);
+        }
+        this.firePropertyChange("items", null, null);
+        MaterialsTable.getSelectionModel().setSelectionInterval(0, items.size()-1);
+        MaterialsTable.scrollRectToVisible(new Rectangle(MaterialsTable.getCellRect(items.size()-1,0, true)));
+     }//GEN-LAST:event_NacrtiMouseClicked
 
     private void orderNumberTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderNumberTextFieldActionPerformed
         // TODO add your handling code here:
@@ -474,6 +475,7 @@ public class NewExternalOrderJDialog extends javax.swing.JDialog implements Tabl
             oi.setQuantityOrdered(item.getParts());           
             oi.setDesignId(item.getDesingDBid());
             oi.setShippingDate(item.getShippingDate());
+            oi.setPricePerPartOverride(item.getPricePerPartOverride());
             
             orderItems.add(oi);
         }
@@ -512,7 +514,8 @@ public class NewExternalOrderJDialog extends javax.swing.JDialog implements Tabl
             
             oi.setPosition(item.getPosition());
             oi.setQuantityDelivered(0);
-            oi.setQuantityOrdered(item.getParts());           
+            oi.setQuantityOrdered(item.getParts());
+            oi.setPricePerPartOverride(item.getPricePerPartOverride());
             oi.setDesignId(item.getDesingDBid());
             oi.setShippingDate(item.getShippingDate());
             

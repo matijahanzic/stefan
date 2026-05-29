@@ -5,6 +5,7 @@
 package stefan.data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -58,6 +59,8 @@ public class Orderitems implements Serializable {
     private Integer quantityOrdered;
     @Column(name = "quantityDelivered")
     private Integer quantityDelivered;
+    @Column(name = "pricePerPartOverride")
+    private BigDecimal pricePerPartOverride;
     @JoinColumn(name = "idOrder", referencedColumnName = "idOrder")
     @ManyToOne(optional = false)
     private Orders idOrder;
@@ -102,6 +105,14 @@ public class Orderitems implements Serializable {
 
     public void setQuantityDelivered(Integer quantityDelivered) {
         this.quantityDelivered = quantityDelivered;
+    }
+
+    public BigDecimal getPricePerPartOverride() {
+        return pricePerPartOverride;
+    }
+
+    public void setPricePerPartOverride(BigDecimal pricePerPartOverride) {
+        this.pricePerPartOverride = pricePerPartOverride;
     }
 
     public Orders getIdOrder() {

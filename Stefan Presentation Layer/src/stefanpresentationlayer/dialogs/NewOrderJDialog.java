@@ -471,7 +471,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             
             oi.setPosition(item.getPosition());
             oi.setQuantityDelivered(0);
-            oi.setQuantityOrdered(item.getParts());           
+            oi.setQuantityOrdered(item.getParts());
+            oi.setPricePerPartOverride(item.getPricePerPartOverride());
             oi.setDesignId(item.getDesingDBid());
             oi.setShippingDate(item.getShippingDate());
             
@@ -512,7 +513,8 @@ public class NewOrderJDialog extends javax.swing.JDialog implements TableModelLi
             
             oi.setPosition(item.getPosition());
             oi.setQuantityDelivered(0);
-            oi.setQuantityOrdered(item.getParts());           
+            oi.setQuantityOrdered(item.getParts());
+            oi.setPricePerPartOverride(item.getPricePerPartOverride());
             oi.setDesignId(item.getDesingDBid());
             oi.setShippingDate(item.getShippingDate());
             

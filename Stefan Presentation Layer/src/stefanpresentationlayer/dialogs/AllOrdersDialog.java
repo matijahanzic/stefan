@@ -11,19 +11,26 @@
 package stefanpresentationlayer.dialogs;
 
 import java.awt.event.ItemEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.tree.TreePath;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingx.JXDatePicker;
+import stefan.business.ExcelManager;
 import stefan.business.OrderManager;
 import stefan.business.objects.Order;
 import stefanpresentationlayer.MyTreeNode;
 import stefanpresentationlayer.MyTreeTableModel;
 import stefanpresentationlayer.OrdersTableCellRenderer;
+import stefanpresentationlayer.StefanPresentationLayerView;
 import stefanpresentationlayer.models.OrderType;
 
 /**
@@ -71,6 +78,7 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         btnChangePosition = new javax.swing.JButton();
         bpTypeFilterCBox = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        printExternalOrderButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -80,6 +88,11 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(stefanpresentationlayer.StefanPresentationLayerApp.class).getContext().getResourceMap(AllOrdersDialog.class);
         jXTreeTable1.setFont(resourceMap.getFont("jXTreeTable1.font")); // NOI18N
         jXTreeTable1.setName("jXTreeTable1"); // NOI18N
+        jXTreeTable1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                jXTreeTable1ValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jXTreeTable1);
 
         closeBtn.setText(resourceMap.getString("closeBtn.text")); // NOI18N
@@ -147,6 +160,19 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
+        printExternalOrderButton.setText(resourceMap.getString("printExternalOrderButton.text")); // NOI18N
+        printExternalOrderButton.setEnabled(false);
+        printExternalOrderButton.setName("printExternalOrderButton"); // NOI18N
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jXTreeTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedRows.length != 0}"), printExternalOrderButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "");
+        bindingGroup.addBinding(binding);
+
+        printExternalOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printExternalOrderButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,7 +194,9 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(printExternalOrderButton))
                     .addComponent(closeBtn, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -183,7 +211,8 @@ public class AllOrdersDialog extends javax.swing.JDialog {
                     .addComponent(jButtonChaneQuantity)
                     .addComponent(btnChangePosition)
                     .addComponent(jLabel1)
-                    .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bpTypeFilterCBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(printExternalOrderButton))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -424,6 +453,53 @@ private void bpTypeFilterCBoxItemStateChanged(java.awt.event.ItemEvent evt) {//G
         }
 }//GEN-LAST:event_bpTypeFilterCBoxItemStateChanged
 
+    private void printExternalOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printExternalOrderButtonActionPerformed
+        int[] rows = jXTreeTable1.getSelectedRows();
+        if (rows.length == 0)
+            return;
+
+        List<Integer> orders = new ArrayList<Integer>();
+        for (int rowIdx : rows) {
+            TreePath tp = jXTreeTable1.getPathForRow(rowIdx);
+            Object o = tp.getLastPathComponent();
+
+            if (!(o instanceof MyTreeNode))
+                continue;
+
+            MyTreeNode tn = (MyTreeNode)o;
+
+            orders.add(tn.getOrderId());
+        }
+
+        if (orders.isEmpty())
+            return;
+
+        Workbook workbook = new HSSFWorkbook();
+        ExcelManager excelManager = new ExcelManager(workbook);
+        try {
+            excelManager.createExternalOrderPirnt(orders.get(0));
+        } catch (IOException ex) {
+            Logger.getLogger(StefanPresentationLayerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_printExternalOrderButtonActionPerformed
+
+    private void jXTreeTable1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jXTreeTable1ValueChanged
+        int[] selectedRows = jXTreeTable1.getSelectedRows();
+        printExternalOrderButton.setEnabled(selectedRows.length > 0);
+        for (int selectedRow : selectedRows) {
+            TreePath selectedTreePath = jXTreeTable1.getPathForRow(selectedRow);
+            if (!(selectedTreePath.getLastPathComponent() instanceof MyTreeNode))
+                continue;
+
+            MyTreeNode lastSelectedNode = (MyTreeNode)selectedTreePath.getLastPathComponent();
+            if (!lastSelectedNode.getIsBusinessPartnerExternal())
+            {
+                printExternalOrderButton.setEnabled(false);
+                break;
+            }
+        }
+    }//GEN-LAST:event_jXTreeTable1ValueChanged
+
     /**
      * @param args the command line arguments
      */
@@ -478,6 +554,7 @@ private void bpTypeFilterCBoxItemStateChanged(java.awt.event.ItemEvent evt) {//G
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jXTreeTable1;
+    private javax.swing.JButton printExternalOrderButton;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
