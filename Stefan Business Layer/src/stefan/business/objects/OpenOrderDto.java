@@ -22,8 +22,8 @@ import java.util.List;
 public class OpenOrderDto implements Comparable  {
 
     public OpenOrderDto(Integer idOrderItems, Integer quantityOrdered, Integer quantityDelivered, String orderNumber, Date shippingDate,
-                        String city, Boolean isExternalOrder, String designNumber, BigDecimal pricePerPartOverride, BigDecimal pcs1, BigDecimal pcs2, BigDecimal pcs3, BigDecimal pcs4, BigDecimal pcs5, BigDecimal pcs6, BigDecimal pcs10,
-                        BigDecimal pcs15, BigDecimal pcs20, BigDecimal pcs30, BigDecimal pcs40, BigDecimal pcs50, BigDecimal pcs100, BigDecimal pcs200, BigDecimal pcs500, BigDecimal pcs1000, boolean niklanje, boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill){
+                        String city, Boolean isExternalOrder, String designNumber, BigDecimal pricePerPartOverride, BigDecimal pcs1, BigDecimal pcs2, BigDecimal pcs3, BigDecimal pcs4, BigDecimal pcs5, BigDecimal pcs8, BigDecimal pcs10,
+                        BigDecimal pcs15,BigDecimal pcs16, BigDecimal pcs20, BigDecimal pcs32, BigDecimal pcs50, BigDecimal pcs64, BigDecimal pcs100,BigDecimal pcs128, BigDecimal pcs200, BigDecimal pcs500, boolean niklanje, boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill){
        
        this.idOrderItems = idOrderItems;
        this.quantityOrdered = quantityOrdered;
@@ -41,26 +41,27 @@ public class OpenOrderDto implements Comparable  {
     
     this.pcs5=pcs5;
     
-    this.pcs6=pcs6;
+   // this.pcs6=pcs6;
+    this.pcs8=pcs8;
     this.pcs10=pcs10;
     
     this.pcs15=pcs15;
-    
+     this.pcs16=pcs16;
     this.pcs20=pcs20;
     
-    this.pcs30=pcs30;
-    
-    this.pcs40=pcs40;
+    //this.pcs30=pcs30;
+     this.pcs32=pcs32;
+    //this.pcs40=pcs40;
     
     this.pcs50=pcs50;
-    
+     this.pcs64=pcs64;
     this.pcs100=pcs100;
-    
+     this.pcs128=pcs128;
     this.pcs200=pcs200;
     
     this.pcs500=pcs500;
     
-    this.pcs1000=pcs1000;  
+    //this.pcs1000=pcs1000;  
     
     this.niklanje=niklanje;
     
@@ -107,27 +108,32 @@ public class OpenOrderDto implements Comparable  {
     
     private BigDecimal pcs5;
     
-    private BigDecimal pcs6;
+      private BigDecimal pcs8;
+    //private BigDecimal pcs6;
     
     private BigDecimal pcs10;
     
     private BigDecimal pcs15;
     
+    private BigDecimal pcs16;
+    
     private BigDecimal pcs20;
     
-    private BigDecimal pcs30;
+    private BigDecimal pcs32;
+    //private BigDecimal pcs30;
     
-    private BigDecimal pcs40;
+    //private BigDecimal pcs40;
     
     private BigDecimal pcs50;
+    private BigDecimal pcs64;
     
     private BigDecimal pcs100;
-    
+    private BigDecimal pcs128;
     private BigDecimal pcs200;
     
     private BigDecimal pcs500;
     
-    private BigDecimal pcs1000;  
+    //private BigDecimal pcs1000;  
     
     private boolean niklanje;
     
@@ -370,18 +376,57 @@ public class OpenOrderDto implements Comparable  {
 
     /**
      * @return the pcs6
-     */
+
     public BigDecimal getPcs6() {
         return pcs6;
     }
-
+     */
     /**
      * @param pcs6 the pcs6 to set
-     */
+    
     public void setPcs6(BigDecimal pcs6) {
         this.pcs6 = pcs6;
     }
-
+ */
+     public BigDecimal getPcs8() {
+        return pcs8;
+    }
+     
+     public void setPcs8(BigDecimal pcs8) {
+        this.pcs8 = pcs8;
+    }
+     
+     public BigDecimal getPcs16() {
+        return pcs16;
+    }
+     
+     public void setPcs16(BigDecimal pcs16) {
+        this.pcs16 = pcs16;
+    }
+     
+     public BigDecimal getPcs32() {
+        return pcs32;
+    }
+     
+     public void setPcs32(BigDecimal pcs32) {
+        this.pcs32 = pcs32;
+    }
+     
+     public BigDecimal getPcs64() {
+        return pcs64;
+    }
+     
+     public void setPcs64(BigDecimal pcs64) {
+        this.pcs64 = pcs64;
+    }
+     
+     public BigDecimal getPcs128() {
+        return pcs128;
+    }
+     
+     public void setPcs128(BigDecimal pcs128) {
+        this.pcs128 = pcs128;
+    }
     /**
      * @return the pcs10
      */
@@ -426,32 +471,31 @@ public class OpenOrderDto implements Comparable  {
 
     /**
      * @return the pcs30
-     */
+     
     public BigDecimal getPcs30() {
         return pcs30;
     }
-
+*/
     /**
      * @param pcs30 the pcs30 to set
-     */
+    
     public void setPcs30(BigDecimal pcs30) {
         this.pcs30 = pcs30;
     }
-
+*/
     /**
      * @return the pcs40
-     */
+    
     public BigDecimal getPcs40() {
         return pcs40;
     }
-
+ */
     /**
      * @param pcs40 the pcs40 to set
-     */
+   
     public void setPcs40(BigDecimal pcs40) {
         this.pcs40 = pcs40;
-    }
-
+    }  */
     /**
      * @return the pcs50
      */
@@ -510,18 +554,18 @@ public class OpenOrderDto implements Comparable  {
 
     /**
      * @return the pcs1000
-     */
+     
     public BigDecimal getPcs1000() {
         return pcs1000;
     }
-
+*/
     /**
      * @param pcs1000 the pcs1000 to set
-     */
+    
     public void setPcs1000(BigDecimal pcs1000) {
         this.pcs1000 = pcs1000;
     }
-
+ */
     /**
      * @return the niklanje
      */
@@ -621,17 +665,22 @@ public class OpenOrderDto implements Comparable  {
         partsList.add(3);
         partsList.add(4);
         partsList.add(5);
-        partsList.add(6);
+        //partsList.add(6);
+        partsList.add(8);
         partsList.add(10);
         partsList.add(15);
+        partsList.add(16);
         partsList.add(20);
-        partsList.add(30);
-        partsList.add(40);
+        //partsList.add(30);
+        partsList.add(32);
+        //partsList.add(40);
         partsList.add(50);
+        partsList.add(64);
         partsList.add(100);
+        partsList.add(128);
         partsList.add(200);
         partsList.add(500);
-        partsList.add(1000);
+        //partsList.add(1000);
 
         List<BigDecimal> pricePerPartList = new ArrayList<BigDecimal>();
         pricePerPartList.add(getPcs1());
@@ -639,17 +688,23 @@ public class OpenOrderDto implements Comparable  {
         pricePerPartList.add(getPcs3());
         pricePerPartList.add(getPcs4());
         pricePerPartList.add(getPcs5());
-        pricePerPartList.add(getPcs6());
+        //pricePerPartList.add(getPcs6());
+        pricePerPartList.add(getPcs8());
         pricePerPartList.add(getPcs10());
         pricePerPartList.add(getPcs15());
+        pricePerPartList.add(getPcs16());
         pricePerPartList.add(getPcs20());
-        pricePerPartList.add(getPcs30());
-        pricePerPartList.add(getPcs40());
+        //pricePerPartList.add(getPcs30());
+        pricePerPartList.add(getPcs32());
+        //pricePerPartList.add(getPcs40());
         pricePerPartList.add(getPcs50());
+        pricePerPartList.add(getPcs64());
         pricePerPartList.add(getPcs100());
+        pricePerPartList.add(getPcs128());
         pricePerPartList.add(getPcs200());
+        
         pricePerPartList.add(getPcs500());
-        pricePerPartList.add(getPcs1000());
+        //pricePerPartList.add(getPcs1000());
 
         BigDecimal pricePerPart = new BigDecimal(-1);
         

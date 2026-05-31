@@ -962,8 +962,8 @@ public class ExcelManager {
 
         //prepare data
         String query = "SELECT oi.idOrderItems, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, oi.shippingDate, bp.city, bp.isExternalSource, d.designNumber, oi.pricePerPartOverride, d.1k as pcs1, d.2k as pcs2, d.3k as pcs3, d.4k as pcs4, d.5k as pcs5, "
-                + "d.6k as pcs6, d.10k as pcs10, d.15k as pcs15, d.20k as pcs20, d.30k as pcs30, d.40k as pcs40, d.50k as pcs50, "
-                + "d.100k as pcs100, d.200k as pcs200, d.500k as pcs500, d.1000k as pcs1000, d.niklanje, d.isTokarenje, d.isNlx, "
+                + "d.8k as pcs8, d.10k as pcs10, d.15k as pcs15,d.16k as pcs16, d.20k as pcs20, d.32k as pcs32, d.50k as pcs50, "
+                + "d.64k as pcs64, d.100k as pcs100,d.128k as pcs128, d.200k as pcs200, d.500k as pcs500, d.niklanje, d.isTokarenje, d.isNlx, "
                 + "CASE WHEN billItem.idOrderItem IS NULL THEN 0 ELSE 1 end as isOnTemporaryBill "
                 + "FROM stefan.orderitems oi "
                 + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
@@ -1043,10 +1043,11 @@ public class ExcelManager {
                     (BigDecimal) resultElement[22],
                     (BigDecimal) resultElement[23],
                     (BigDecimal) resultElement[24],
-                    (Boolean) resultElement[25],
+                    (BigDecimal) resultElement[25],
                     (Boolean) resultElement[26],
                     (Boolean) resultElement[27],
-                    (Long) resultElement[28]);
+                    (Boolean) resultElement[28],
+                    (Long) resultElement[29]);
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
