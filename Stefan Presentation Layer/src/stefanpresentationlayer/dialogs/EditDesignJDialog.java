@@ -173,7 +173,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
         satnica = new javax.swing.JTextField();
         eurKomMaterijal = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        createNewButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -1039,14 +1038,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
         jPanel1.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 870, 320));
 
-        createNewButton.setText(resourceMap.getString("createNewButton.text")); // NOI18N
-        createNewButton.setName("createNewButton"); // NOI18N
-        createNewButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createNewButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1061,9 +1052,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(designNumberTF, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFindDesign, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(createNewButton))
+                        .addComponent(btnFindDesign))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSaveChanges)
@@ -1078,8 +1067,7 @@ public class EditDesignJDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(designNumberTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFindDesign)
-                    .addComponent(createNewButton))
+                    .addComponent(btnFindDesign))
                 .addGap(12, 12, 12)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1104,7 +1092,10 @@ public class EditDesignJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnFindDesignActionPerformed
 
     public void LoadData(List<Design> designs) {
-        if (designs.size() == 1) {
+        if(designs == null || designs.isEmpty()){
+             CreateNew();
+        }
+        else if (designs.size() == 1) {
             btnSaveChanges.setEnabled(true);
             panel.setVisible(true);
             TogglePanelVisibility();
@@ -1372,6 +1363,33 @@ public class EditDesignJDialog extends javax.swing.JDialog {
     }
 
     public void CreateNew() {
+        designNumberInput.setText(designNumberTF.getText());
+        revisionInput.setText(null);
+        designNameInput.setText(null);
+        designIdInput.setText(null);
+        designClassInput.setText(null);
+        minPoKom.setText(null);
+        stezanjeGlod.setText(null);
+        stezanjeTok.setText(null);
+        satnica.setText(null);
+        eurKomMaterijal.setText(null);
+        price1.setText(null);
+        price2.setText(null);
+        price3.setText(null);
+        price4.setText(null);
+        price5.setText(null);
+        price8.setText(null);
+        price10.setText(null);
+        price15.setText(null);
+        price16.setText(null);
+        price20.setText(null);
+        price32.setText(null);
+        price50.setText(null);
+        price64.setText(null);
+        price100.setText(null);
+        price128.setText(null);
+        price200.setText(null);
+        price500.setText(null);
         jPanel2.setVisible(true);
         neNiklanjeButton.setSelected(true);
         daTokarenjeButton.setSelected(true);
@@ -1951,10 +1969,6 @@ public class EditDesignJDialog extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 
-private void createNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewButtonActionPerformed
-    CreateNew();
-}//GEN-LAST:event_createNewButtonActionPerformed
-
 private void daNlxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daNlxButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_daNlxButtonActionPerformed
@@ -2134,7 +2148,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
-    private javax.swing.JButton createNewButton;
     private javax.swing.JRadioButton daFertigButton;
     private javax.swing.JRadioButton daGlodanjeButton;
     private javax.swing.JRadioButton daNiklanjeButton;

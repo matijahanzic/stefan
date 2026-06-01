@@ -43,9 +43,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="designNumberTF" min="-2" pref="129" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnFindDesign" min="-2" pref="90" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="createNewButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFindDesign" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
@@ -66,7 +64,6 @@
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="designNumberTF" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnFindDesign" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="createNewButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
@@ -1297,14 +1294,5 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="createNewButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="createNewButton.text"/>
-        <Property name="name" type="java.lang.String" value="createNewButton" noResource="true"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createNewButtonActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>
