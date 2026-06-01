@@ -168,7 +168,6 @@ public class AllOrdersDialog extends javax.swing.JDialog {
         jLabel1.setName("jLabel1"); // NOI18N
 
         printExternalOrderButton.setText(resourceMap.getString("printExternalOrderButton.text")); // NOI18N
-        printExternalOrderButton.setEnabled(false);
         printExternalOrderButton.setName("printExternalOrderButton"); // NOI18N
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jXTreeTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedRows.length != 0}"), printExternalOrderButton, org.jdesktop.beansbinding.BeanProperty.create("enabled"), "");

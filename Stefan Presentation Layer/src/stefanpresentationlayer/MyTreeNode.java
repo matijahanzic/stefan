@@ -4,6 +4,7 @@
  */
 package stefanpresentationlayer;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class MyTreeNode
     private Integer quantityDelivered;
     private String businessPartnerName;
     private boolean isBusinessPartnerExternal;
+    private BigDecimal pricePcs;
     private List<MyTreeNode> children = new ArrayList<MyTreeNode>();
 
 	public MyTreeNode() 
@@ -53,6 +55,8 @@ public class MyTreeNode
                 Date shippingDate = item.getShippingDate();
                 if (shippingDate != null)
                     orderShippingDate = f.format(shippingDate);
+                
+                pricePcs = item.getPricePerPartOverride() != null ? item.getPricePerPartOverride() : item.getDesign().getPriceForPcs(quantityOrdered);
 	}
 	
         public MyTreeNode(Order item) 
@@ -285,5 +289,9 @@ public class MyTreeNode
 
     public void setIsBusinessPartnerExternal(boolean businessPartnerExternal) {
         isBusinessPartnerExternal = businessPartnerExternal;
+    }
+    
+    public BigDecimal getPcsPrice(){
+        return pricePcs;
     }
 }

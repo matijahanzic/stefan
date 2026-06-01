@@ -33,7 +33,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 	@Override
 	public int getColumnCount() 
 	{
-		return 11;
+		return 13;
 	}
 	
 	@Override
@@ -53,6 +53,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
                 case 9: return "Klasa Nacrta";
                 case 10: return "Naručeno";
                 case 11: return "Isporučeno";
+                case 12: return "Cijena/kom";
 		default: return "Unknown";
 		}
 	}
@@ -79,7 +80,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
                 case 9: return treenode.getDesignClass();
                 case 10: return treenode.getQuantityOrdered();
                 case 11: return treenode.getQuantityDelivered();
-                            
+                case 12: return treenode.getPcsPrice();
 		default: return "Unknown";
 		}
 	}

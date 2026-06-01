@@ -184,7 +184,6 @@
     <Component class="javax.swing.JButton" name="printExternalOrderButton">
       <Properties>
         <Property name="text" type="java.lang.String" resourceKey="printExternalOrderButton.text"/>
-        <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="printExternalOrderButton" noResource="true"/>
       </Properties>
       <BindingProperties>
