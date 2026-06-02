@@ -65,6 +65,15 @@ public class BusinessPartnerManager {
     public boolean saveBusinessPartner(BusinessPartner bussPartner) {
         try {
             Businesspartner newBp = new Businesspartner();
+            if (bussPartner.getId() != null && bussPartner.getId() != 0) {
+                entityManager.getTransaction().begin();
+                Query q = entityManager.createNamedQuery("Businesspartner.findById");
+                q.setParameter("id", bussPartner.getId());
+                Object qResult = q.getSingleResult();
+                if (qResult instanceof Businesspartner)
+                    newBp = (Businesspartner)qResult;
+            }
+
             newBp.setName(bussPartner.getName());
             newBp.setDisplayName(bussPartner.getDisplayName());
             newBp.setPrintInd(bussPartner.getPrintInd());
@@ -75,12 +84,33 @@ public class BusinessPartnerManager {
             newBp.setRequireShippingDate(bussPartner.getRequireShippingDate());
             newBp.setIsExternalSource(bussPartner.getIsExternalSource());
 
-            entityManager.getTransaction().begin();
+            if (!entityManager.getTransaction().isActive())
+                entityManager.getTransaction().begin();
+
             entityManager.persist(newBp);
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
             entityManager.getTransaction().rollback();//mislim da ovo ne dela
+            return false;
+        }
+    }
+
+    public boolean deleteExternalBusinessPartner(BusinessPartner bp) {
+        try {
+            Query q = entityManager.createNamedQuery("Businesspartner.findById");
+            q.setParameter("id", bp.getId());
+            Object qRes = q.getSingleResult();
+            if (!(qRes instanceof Businesspartner))
+                return false;
+
+            entityManager.getTransaction().begin();
+            entityManager.remove(qRes);
+            entityManager.getTransaction().commit();
+
+            return true;
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             return false;
         }
     }

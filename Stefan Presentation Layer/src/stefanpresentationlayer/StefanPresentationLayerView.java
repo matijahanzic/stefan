@@ -533,7 +533,9 @@ private void btnDesigns1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
 private void upisVanjskeFirmeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upisVanjskeFirmeButtonActionPerformed
     NewExternalBusinessPartnerJDialog dialog = new NewExternalBusinessPartnerJDialog(this.getFrame(), true);
-    dialog.setLocation(0, 50);
+
+    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    dialog.setLocation((dim.width - dialog.getWidth()) / 2, (dim.height - dialog.getHeight())/ 2);
     dialog.setVisible(true);
 }//GEN-LAST:event_upisVanjskeFirmeButtonActionPerformed
 
