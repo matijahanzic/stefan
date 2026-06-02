@@ -52,7 +52,6 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         city = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
-        requireShippingDate = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova vanjska firma"); // NOI18N
@@ -94,6 +93,7 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
         printRow2.setName("printRow2"); // NOI18N
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setToolTipText(resourceMap.getString("jLabel6.toolTipText")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
 
         printRow3.setName("printRow3"); // NOI18N
@@ -118,15 +118,6 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
             }
         });
 
-        requireShippingDate.setText(resourceMap.getString("requireShippingDate.text")); // NOI18N
-        requireShippingDate.setToolTipText(resourceMap.getString("requireShippingDate.toolTipText")); // NOI18N
-        requireShippingDate.setName("requireShippingDate"); // NOI18N
-        requireShippingDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                requireShippingDateActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -134,30 +125,27 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(requireShippingDate)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(printRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(name, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel4))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(displayName, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                            .addComponent(printRow2))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(confirmButton)
-                                .addComponent(printRow3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(printRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(name, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(jLabel4))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3)
+                    .addComponent(displayName, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .addComponent(printRow2))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(confirmButton)
+                        .addComponent(printRow3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -184,9 +172,7 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
                         .addComponent(printRow1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(printRow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(requireShippingDate)
-                .addGap(18, 18, 18)
+                .addGap(59, 59, 59)
                 .addComponent(confirmButton)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -283,20 +269,12 @@ private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     newBp.setPrintRow2(printRow2);
     newBp.setPrintRow3(printRow3);
     newBp.setCity(city);
-    newBp.setRequireShippingDate(this.requireShippingDate.isSelected());
+    newBp.setRequireShippingDate(false);
     newBp.setIsExternalSource(true);
-
-    if (newBp.getName() == null || newBp.getName().equals("")) {
-        
-    }
 
     bpm.saveBusinessPartner(newBp);
     this.dispose();
 }//GEN-LAST:event_confirmButtonActionPerformed
-
-private void requireShippingDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requireShippingDateActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_requireShippingDateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,6 +336,5 @@ private void requireShippingDateActionPerformed(java.awt.event.ActionEvent evt) 
     private javax.swing.JTextField printRow1;
     private javax.swing.JTextField printRow2;
     private javax.swing.JTextField printRow3;
-    private javax.swing.JCheckBox requireShippingDate;
     // End of variables declaration//GEN-END:variables
 }
