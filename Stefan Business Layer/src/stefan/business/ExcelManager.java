@@ -13,20 +13,13 @@ import org.apache.poi.ss.usermodel.*;
 import stefan.business.objects.BillItem;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.swing.JFileChooser;
@@ -919,6 +912,20 @@ public class ExcelManager {
         Query q = entityManager.createNativeQuery(query);
         List<Object[]> rawListResult = q.getResultList();
 
+        String externalDesignsQText =
+            "SELECT DISTINCT d.designNumber " +
+            "FROM stefan.orderitems oi " +
+            "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder " +
+            "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId " +
+            "INNER JOIN stefan.design d ON d.idDesign = oi.idDesign " +
+            "WHERE bp.isExternalSource = 1";
+
+        Query qExternDesigns = entityManager.createNativeQuery(externalDesignsQText);
+        List<String> externDesignsRawResult = qExternDesigns.getResultList();
+
+        Set<String> externDesignNumbers = new HashSet<String>();
+        externDesignNumbers.addAll(externDesignsRawResult);
+
         //duplicates
         String duplicatesQueryString = "SELECT  d1.designNumber, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, bp.name, oi.shippingDate "
                 + "FROM stefan.design d1 "
@@ -962,7 +969,6 @@ public class ExcelManager {
         Map<String, OpenOrderKWData> RadobojOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> LengerichOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         for (Object[] resultElement : rawListResult) {
-
             OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
                     (Integer) resultElement[1],
                     (Integer) resultElement[2],
@@ -971,6 +977,7 @@ public class ExcelManager {
                     (String) resultElement[5],
                     (Boolean) resultElement[6],
                     (String) resultElement[7],
+                    externDesignNumbers.contains(resultElement[7]),
                     (BigDecimal) resultElement[8],
                     (BigDecimal) resultElement[9],
                     (BigDecimal) resultElement[10],
@@ -993,6 +1000,9 @@ public class ExcelManager {
                     (Boolean) resultElement[27],
                     (Boolean) resultElement[28],
                     (Long) resultElement[29]);
+
+            if (dto.getExternalOrder())
+                continue;
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -1151,9 +1161,8 @@ public class ExcelManager {
             //debt
             Cell cellDebt = row.createCell(cellCounter++);
             cellDebt.setCellValue(hasDug ? "DUG" : "");
-            if (openOrderItem.getExternalOrder()) {
+            if (openOrderItem.getIsDesignExternal())
                 cellDebt.setCellStyle(styleArialLightBlueBackground);
-            }
 
             //shiping date
             Cell cellShippingDate = row.createCell(cellCounter++);
