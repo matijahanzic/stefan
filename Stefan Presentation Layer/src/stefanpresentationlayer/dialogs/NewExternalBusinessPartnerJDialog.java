@@ -10,21 +10,81 @@
  */
 package stefanpresentationlayer.dialogs;
 
+import org.jdesktop.observablecollections.ObservableCollections;
 import stefan.business.BusinessPartnerManager;
 import stefan.business.objects.BusinessPartner;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Luka
  */
 public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
+    private List<BusinessPartner> externalBusinessPartners = ObservableCollections.observableList(new ArrayList<BusinessPartner>());
 
     /** Creates new form NewExternalBusinessPartnerJDialog */
     public NewExternalBusinessPartnerJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        BusinessPartnerManager bpm = new BusinessPartnerManager();
+        externalBusinessPartners.addAll(bpm.getExternalBusinessPartners());
+    }
+
+    public List<BusinessPartner> getExternalBusinessPartners() {
+        return externalBusinessPartners;
+    }
+
+    public void setExternalBusinessPartners(List<BusinessPartner> externalBusinessPartners) {
+        this.externalBusinessPartners = externalBusinessPartners;
+    }
+
+    private BusinessPartner selectedPartnerForEdit;
+
+    public BusinessPartner getSelectedPartnerForEdit() {
+        return selectedPartnerForEdit;
+    }
+
+    private void fillEditFields() {
+        this.name.setText(this.selectedPartnerForEdit.getName());
+        this.displayName.setText(this.selectedPartnerForEdit.getDisplayName());
+        this.printRow1.setText(this.selectedPartnerForEdit.getPrintRow1());
+        this.printRow2.setText(this.selectedPartnerForEdit.getPrintRow2());
+        this.city.setText(this.selectedPartnerForEdit.getCity());
+        this.printRow3.setText(this.selectedPartnerForEdit.getPrintRow3());
+    }
+
+    private void selectBussPartnerForEdit(BusinessPartner bp) {
+        this.selectedPartnerForEdit = new BusinessPartner();
+
+        this.selectedPartnerForEdit.setIsExternalSource(true);
+        this.selectedPartnerForEdit.setPrintInd(false);
+        this.selectedPartnerForEdit.setRequireShippingDate(false);
+
+        if (bp == null) {
+            this.cancelEditBtn.setEnabled(false);
+            this.deleteSupplierBtn.setEnabled(false);
+            fillEditFields();
+            return;
+        }
+
+        this.selectedPartnerForEdit.setId(bp.getId());
+
+        this.selectedPartnerForEdit.setName(bp.getName());
+        this.selectedPartnerForEdit.setDisplayName(bp.getDisplayName());
+        this.selectedPartnerForEdit.setPrintRow1(bp.getPrintRow1());
+        this.selectedPartnerForEdit.setPrintRow2(bp.getPrintRow2());
+        this.selectedPartnerForEdit.setCity(bp.getCity());
+        this.selectedPartnerForEdit.setPrintRow3(bp.getPrintRow3());
+
+
+        this.cancelEditBtn.setEnabled(true);
+        this.deleteSupplierBtn.setEnabled(true);
+
+        fillEditFields();
     }
 
     /** This method is called from within the constructor to
@@ -35,6 +95,7 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -52,7 +113,13 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         city = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
-        requireShippingDate = new javax.swing.JCheckBox();
+        cancelBtn = new javax.swing.JButton();
+        cancelEditBtn = new javax.swing.JButton();
+        deleteSupplierBtn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        externalSuppliersTab = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova vanjska firma"); // NOI18N
@@ -94,6 +161,7 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
         printRow2.setName("printRow2"); // NOI18N
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setToolTipText(resourceMap.getString("jLabel6.toolTipText")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
 
         printRow3.setName("printRow3"); // NOI18N
@@ -118,12 +186,29 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
             }
         });
 
-        requireShippingDate.setText(resourceMap.getString("requireShippingDate.text")); // NOI18N
-        requireShippingDate.setToolTipText(resourceMap.getString("requireShippingDate.toolTipText")); // NOI18N
-        requireShippingDate.setName("requireShippingDate"); // NOI18N
-        requireShippingDate.addActionListener(new java.awt.event.ActionListener() {
+        cancelBtn.setText(resourceMap.getString("cancelBtn.text")); // NOI18N
+        cancelBtn.setName("cancelBtn"); // NOI18N
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                requireShippingDateActionPerformed(evt);
+                cancelBtnActionPerformed(evt);
+            }
+        });
+
+        cancelEditBtn.setText(resourceMap.getString("cancelEditBtn.text")); // NOI18N
+        cancelEditBtn.setEnabled(false);
+        cancelEditBtn.setName("cancelEditBtn"); // NOI18N
+        cancelEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelEditBtnActionPerformed(evt);
+            }
+        });
+
+        deleteSupplierBtn.setText(resourceMap.getString("deleteSupplierBtn.text")); // NOI18N
+        deleteSupplierBtn.setEnabled(false);
+        deleteSupplierBtn.setName("deleteSupplierBtn"); // NOI18N
+        deleteSupplierBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteSupplierBtnActionPerformed(evt);
             }
         });
 
@@ -133,8 +218,15 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(requireShippingDate)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cancelEditBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(deleteSupplierBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(confirmButton))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -155,10 +247,8 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
                         .addGap(32, 32, 32)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(confirmButton)
-                                .addComponent(printRow3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(printRow3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,11 +274,13 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
                         .addComponent(printRow1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(printRow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(requireShippingDate)
-                .addGap(18, 18, 18)
-                .addComponent(confirmButton)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(confirmButton)
+                    .addComponent(cancelBtn)
+                    .addComponent(cancelEditBtn)
+                    .addComponent(deleteSupplierBtn))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -201,7 +293,7 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addContainerGap(792, Short.MAX_VALUE))))
+                        .addContainerGap(801, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,6 +305,69 @@ public class NewExternalBusinessPartnerJDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(resourceMap.getColor("jPanel3.border.lineColor"))); // NOI18N
+        jPanel3.setName("jPanel3"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        externalSuppliersTab.setName("externalSuppliersTab"); // NOI18N
+        externalSuppliersTab.getTableHeader().setReorderingAllowed(false);
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${externalBusinessPartners}");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, externalSuppliersTab);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${displayName}"));
+        columnBinding.setColumnName("Display Name");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${city}"));
+        columnBinding.setColumnName("City");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${printRow3}"));
+        columnBinding.setColumnName("Print Row3");
+        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        externalSuppliersTab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                externalSuppliersTabMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(externalSuppliersTab);
+        externalSuppliersTab.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("externalSuppliersTab.columnModel.title0")); // NOI18N
+        externalSuppliersTab.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("externalSuppliersTab.columnModel.title1")); // NOI18N
+        externalSuppliersTab.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("externalSuppliersTab.columnModel.title2")); // NOI18N
+
+        jLabel8.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1133, Short.MAX_VALUE)
+                    .addComponent(jLabel8))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -229,8 +384,6 @@ private void printRow3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         return str == null || str.isEmpty();
     }
 private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-    BusinessPartnerManager bpm = new BusinessPartnerManager();
-
     StringBuilder validationMessageBuilder = new StringBuilder();
 
     String name = this.name.getText();
@@ -275,7 +428,13 @@ private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         return;
     }
 
+    BusinessPartnerManager bpm = new BusinessPartnerManager();
     BusinessPartner newBp = new BusinessPartner();
+
+    if (this.selectedPartnerForEdit != null && this.selectedPartnerForEdit.getId() != null) {
+        newBp.setId(this.selectedPartnerForEdit.getId());
+    }
+
     newBp.setName(name);
     newBp.setDisplayName(displayName);
     newBp.setPrintInd(false);
@@ -283,20 +442,61 @@ private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     newBp.setPrintRow2(printRow2);
     newBp.setPrintRow3(printRow3);
     newBp.setCity(city);
-    newBp.setRequireShippingDate(this.requireShippingDate.isSelected());
+    newBp.setRequireShippingDate(false);
     newBp.setIsExternalSource(true);
-
-    if (newBp.getName() == null || newBp.getName().equals("")) {
-        
-    }
 
     bpm.saveBusinessPartner(newBp);
     this.dispose();
 }//GEN-LAST:event_confirmButtonActionPerformed
 
-private void requireShippingDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requireShippingDateActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_requireShippingDateActionPerformed
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelBtnActionPerformed
+
+    private void externalSuppliersTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_externalSuppliersTabMouseClicked
+        if (evt.getClickCount() < 2)
+            return;
+
+        int row = this.externalSuppliersTab.getSelectedRow();
+        if (row < 0 || row >= this.externalBusinessPartners.size())
+            return;
+
+        this.selectBussPartnerForEdit(this.externalBusinessPartners.get(row));
+    }//GEN-LAST:event_externalSuppliersTabMouseClicked
+
+    private void cancelEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelEditBtnActionPerformed
+        this.selectBussPartnerForEdit(null);
+    }//GEN-LAST:event_cancelEditBtnActionPerformed
+
+    private void deleteSupplierBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSupplierBtnActionPerformed
+        Object[] opts = new Object[] { "Da", "Ne" };
+        int res = JOptionPane.showOptionDialog(
+            null,
+            "Jeste li sigurni da želite ukloniti odabranog dobavljača?",
+            "Brisanje dobavljača",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opts,
+            opts[1]
+        );
+
+        if (res == JOptionPane.CLOSED_OPTION || res == 1)
+            return;
+
+        int row = this.externalSuppliersTab.getSelectedRow();
+        if (row < 0 || row >= this.externalBusinessPartners.size())
+            return;
+
+        BusinessPartner bp = this.externalBusinessPartners.get(row);
+        if (bp.getId() == null || bp.getId() == 0)
+            return;
+
+        BusinessPartnerManager bpm = new BusinessPartnerManager();
+        bpm.deleteExternalBusinessPartner(bp);
+        this.externalBusinessPartners.remove(row);
+        this.selectBussPartnerForEdit(null);
+    }//GEN-LAST:event_deleteSupplierBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,9 +542,13 @@ private void requireShippingDateActionPerformed(java.awt.event.ActionEvent evt) 
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
+    private javax.swing.JButton cancelEditBtn;
     private javax.swing.JTextField city;
     private javax.swing.JButton confirmButton;
+    private javax.swing.JButton deleteSupplierBtn;
     private javax.swing.JTextField displayName;
+    private javax.swing.JTable externalSuppliersTab;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -352,12 +556,15 @@ private void requireShippingDateActionPerformed(java.awt.event.ActionEvent evt) 
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField printRow1;
     private javax.swing.JTextField printRow2;
     private javax.swing.JTextField printRow3;
-    private javax.swing.JCheckBox requireShippingDate;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
