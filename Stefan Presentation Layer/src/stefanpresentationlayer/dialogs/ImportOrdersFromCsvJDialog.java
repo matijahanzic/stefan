@@ -203,71 +203,73 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                     String designNumber = CleanString(rowData.get("ZZNUMMER"));
                     String designClassMark = CleanString(rowData.get("EXTWG"));
 
-                    if ("".equals(designNumber)) {
-                        throw new NoSuchElementException("Broj nacrta nije upisan u datoteku za import");
-                    }
+                    if (!"".equals(designNumber)) {
 
+                        List<Design> designs = designManager.GetDesignsByNumberAndCode(designNumber, _designCode);
 
-                    List<Design> designs = designManager.GetDesignsByNumberAndCode(designNumber, _designCode);
+                        if (designs != null) {
 
-                    if (designs == null) {
-                        throw new NoSuchElementException("Nije pronađen dizajn " + _designCode + " sa brojem " + designNumber);
-                    } else {
-                        for (Design design : designs) {
-                            if (CleanString(design.getDesignNumber()).equalsIgnoreCase(designNumber)) {
-                                item.setDesign(design);
-                                item.setDesignId(design.getIdDesign());
+                            for (Design design : designs) {
+                                if (CleanString(design.getDesignNumber()).equalsIgnoreCase(designNumber)) {
+                                    item.setDesign(design);
+                                    item.setDesignId(design.getIdDesign());
+                                }
                             }
                         }
                     }
 
                     if (item.getDesign() == null) {
-                        throw new NoSuchElementException("Nije pronađen dizajn " + _designCode + " sa brojem " + designNumber);
-                    }
-
-                    if (!rev.equalsIgnoreCase(CleanString(item.getDesign().getRevision()))) {
-                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Revizija nacrta za import: " + rev + ", revizija upisanog nacrta: " + CleanString(item.getDesign().getRevision())));
-                    }
-
-                    if (!designName.equalsIgnoreCase(CleanString(item.getDesign().getName()))) {
-                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Naziv nacrta za import: " + designName + ", naziv upisanog nacrta: " + CleanString(item.getDesign().getName())));
-                    }
-
-                    if (!designClassMark.equalsIgnoreCase(CleanString(item.getDesign().getClassMark()))) {
-                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Klasa nacrta za import: " + designClassMark + ", klasa upisanog nacrta: " + CleanString(item.getDesign().getClassMark())));
-                    }
-
-                    stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(item.getDesign(), item.getQuantityOrdered(), null);
-
-                    if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
-                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Za količinu " + item.getQuantityOrdered() + " ne postoji definirana cijena u nacrtu s brojem: " + designNumber));
                         importOrderItem.setIndShouldImport(false);
-                    }
-
-                    try {
-                        NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
-                        if (nf instanceof DecimalFormat) {
-                            ((DecimalFormat) nf).setParseBigDecimal(true);
-                        }
-                        BigDecimal price = (BigDecimal) nf.parse(rowData.get("price_per_unit"));
-
-                        importOrderItem.setPricePerPart(price);
-
-                        if (helper.getPricePerPart().compareTo(price) != 0) {
-                            importOrderItem.setPricePerPart(helper.getPricePerPart());
-                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena za " + item.getQuantityOrdered() + " komada upisana u datoteku:" + price + " a u nacrtu:" + helper.getPricePerPart()));
+                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Nije pronađen dizajn " + _designCode + " sa brojem " + designNumber));
+                    } else {
+                        if (!rev.equalsIgnoreCase(CleanString(item.getDesign().getRevision()))) {
+                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Revizija nacrta u csv: " + rev + ", revizija upisanog nacrta: " + CleanString(item.getDesign().getRevision())));
                         }
 
-                    } catch (ParseException e) {
-                        //throw new ParseException("Cijena nije ispravano upisana", 0);
-                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena nije ispravano upisana"));
-                        importOrderItem.setIndShouldImport(false);
+                        if (!designName.equalsIgnoreCase(CleanString(item.getDesign().getName()))) {
+                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Naziv nacrta u csv: " + designName + ", naziv upisanog nacrta: " + CleanString(item.getDesign().getName())));
+                        }
+
+                        if (!designClassMark.equalsIgnoreCase(CleanString(item.getDesign().getClassMark()))) {
+                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Klasa nacrta u csv: " + designClassMark + ", klasa upisanog nacrta: " + CleanString(item.getDesign().getClassMark())));
+                        }
+
+                        stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(item.getDesign(), item.getQuantityOrdered(), null);
+
+                        if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
+                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Za količinu " + item.getQuantityOrdered() + " ne postoji definirana cijena u nacrtu s brojem: " + designNumber));
+                            importOrderItem.setIndShouldImport(false);
+                        }
+
+                        try {
+                            NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
+                            if (nf instanceof DecimalFormat) {
+                                ((DecimalFormat) nf).setParseBigDecimal(true);
+                            }
+                            BigDecimal price = (BigDecimal) nf.parse(rowData.get("price_per_unit"));
+
+                            importOrderItem.setPricePerPart(price);
+
+                            if (helper.getPricePerPart().compareTo(price) != 0) {
+                                importOrderItem.setPricePerPart(helper.getPricePerPart());
+                                importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena za " + item.getQuantityOrdered() + " komada csv:" + price + " a u nacrtu:" + helper.getPricePerPart()));
+                            }
+
+                        } catch (ParseException e) {
+                            //throw new ParseException("Cijena nije ispravano upisana", 0);
+                            importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena nije ispravano upisana"));
+                            importOrderItem.setIndShouldImport(false);
+                        }
+
+                        BigDecimal price = importOrderItem.getPricePerPart().multiply(BigDecimal.valueOf(item.getQuantityOrdered())).setScale(2, RoundingMode.HALF_UP);
+
+                        importOrderItem.setTotal(price);
+                        _total = _total.add(price);
+
+
+
                     }
 
-                    BigDecimal price = importOrderItem.getPricePerPart().multiply(BigDecimal.valueOf(item.getQuantityOrdered())).setScale(2, RoundingMode.HALF_UP);
-
-                    importOrderItem.setTotal(price);
-                    _total = _total.add(price);
 
                     importOrderItem.setImportedOrderItem(item);
 
@@ -610,6 +612,9 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
     List<OrderItem> orderItems = new ArrayList<OrderItem>();
     for (ImportOrderItemDto iItem : importOrderItems) {
+        if(iItem.getIndShouldImport() == false){
+            continue;
+        }
         orderItems.add(iItem.getImportedOrderItem());
     }
     importOrder.setOrderitemsList(orderItems);
