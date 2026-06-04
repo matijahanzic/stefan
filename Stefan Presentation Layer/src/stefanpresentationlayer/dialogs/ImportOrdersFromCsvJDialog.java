@@ -171,9 +171,9 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                 } // 3. Item Core Details Row
                 else if ("position".equals(rowType) && "".equals(subType)) {
-                    
+
                     _isDeleted = false;
-                    
+
                     String posNum = tokens.get(2); // Always 5 characters at position index 2
 
                     String isDeleted = CleanString(rowData.get("is_deleted"));
@@ -192,7 +192,9 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         item.setQuantityOrdered(quantity);
                         item.setQuantityDelivered(0);
                     } catch (ParseException e) {
-                        throw new ParseException("Količina nije ispravan cijeli broj", 0);
+                        //throw new ParseException("Količina nije ispravan cijeli broj", 0);
+                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Količina u csv datoteci nije ispravan cijeli broj"));
+                        importOrderItem.setIndShouldImport(false);
                     }
 
 
@@ -239,6 +241,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
                         importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Za količinu " + item.getQuantityOrdered() + " ne postoji definirana cijena u nacrtu s brojem: " + designNumber));
+                        importOrderItem.setIndShouldImport(false);
                     }
 
                     try {
@@ -251,11 +254,14 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         importOrderItem.setPricePerPart(price);
 
                         if (helper.getPricePerPart().compareTo(price) != 0) {
+                            importOrderItem.setPricePerPart(helper.getPricePerPart());
                             importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena za " + item.getQuantityOrdered() + " komada upisana u datoteku:" + price + " a u nacrtu:" + helper.getPricePerPart()));
                         }
 
                     } catch (ParseException e) {
-                        throw new ParseException("Cijena nije ispravano upisana", 0);
+                        //throw new ParseException("Cijena nije ispravano upisana", 0);
+                        importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Cijena nije ispravano upisana"));
+                        importOrderItem.setIndShouldImport(false);
                     }
 
                     BigDecimal price = importOrderItem.getPricePerPart().multiply(BigDecimal.valueOf(item.getQuantityOrdered())).setScale(2, RoundingMode.HALF_UP);

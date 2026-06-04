@@ -17,6 +17,15 @@ public class ImportOrderItemDto {
       private String warningText;
       private BigDecimal pricePerPart;
       private BigDecimal total;
+      private Boolean indShouldImport = true;
+      
+      public Boolean getIndShouldImport(){
+          return indShouldImport;
+      }
+      
+      public void setIndShouldImport(Boolean shouldImport){
+          indShouldImport = shouldImport;
+      }
       
       public String getWarningText(){
     return this.warningText;
