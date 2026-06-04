@@ -141,12 +141,14 @@ public class PresentationHelper {
      * @return the pricePerPart
      */
     public BigDecimal getPricePerPart() {
+        
+        if (pricePerPartOverride != null)
+            return pricePerPartOverride;
+        
+        
         if (pricePerPart == null) {
             return new BigDecimal(-1);
         }
-
-        if (pricePerPartOverride != null)
-            return pricePerPartOverride;
 
         return pricePerPart;
     }

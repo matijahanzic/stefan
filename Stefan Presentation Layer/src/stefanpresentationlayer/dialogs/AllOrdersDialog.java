@@ -30,6 +30,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import stefan.business.DesignManager;
 import stefan.business.ExcelManager;
 import stefan.business.OrderManager;
+import stefan.business.PresentationHelper;
 import stefan.business.objects.Design;
 import stefan.business.objects.Order;
 import stefan.data.Orderitems;
@@ -381,7 +382,12 @@ private void jButtonChaneQuantityActionPerformed(java.awt.event.ActionEvent evt)
 
         NewExternalOrderItemJDialog editOrderItemDiag = new NewExternalOrderItemJDialog(null, true, d);
         editOrderItemDiag.setQuantityValue(node.getQuantityOrdered());
-        editOrderItemDiag.setPricePerPartValue(oi.getPricePerPartOverride().doubleValue());
+        
+        PresentationHelper p = new PresentationHelper(d,oi.getQuantityOrdered(),null);
+        p.setPricePerPartOverride(oi.getPricePerPartOverride());
+        
+        
+        editOrderItemDiag.setPricePerPartValue(p.getPricePerPart().doubleValue());
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 

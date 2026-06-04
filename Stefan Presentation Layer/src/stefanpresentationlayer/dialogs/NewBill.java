@@ -43,6 +43,7 @@ import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.PackageNumberComparator;
 import stefan.business.objects.OrderNumberComparator;
 import stefan.business.objects.DesignNumberComparator;
+import stefan.business.objects.ExternalOrderItemDto;
 import stefan.business.objects.ItemOrderNumberComparator;
 import stefan.business.objects.Order;
 import stefan.business.objects.TotalPriceComparator;
@@ -70,6 +71,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private double bolzenCijena = 0, welleCijena = 0;
     private BigDecimal totalSum = new BigDecimal("0.00");
     private int otpremnicaCurrentRow = 0;
+    private List<ExternalOrderItemDto> _externalOrderItems = new ArrayList<ExternalOrderItemDto>();
 
     /** Creates new form NewBill */
     public NewBill(java.awt.Frame parent, boolean modal) {
@@ -496,9 +498,46 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     FileOutputStream file = manager.CreateNewFile(fileName, filePath);
                     OrderManager orderManager = new OrderManager();
 
+                    _externalOrderItems.clear();
+
+                    for (BillItem billItem : items) {
+                        String designNumber = billItem.getDesignNumber();
+
+                        Boolean found = false;
+                        for (ExternalOrderItemDto extDto : _externalOrderItems) {
+                            if (designNumber.equalsIgnoreCase(extDto.getDesignNumber())) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found) {
+                            continue;
+                        }
+
+                        List<stefan.data.Orderitems> eoi = orderManager.getExternalOrderItemByDesignNumber(designNumber);
+                        if (eoi != null && !eoi.isEmpty()) {
+                            for (stefan.data.Orderitems externalOrderItem : eoi) {
+
+                                stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(DesignManager.mapData(externalOrderItem.getIdDesign()), externalOrderItem.getQuantityOrdered(), null);
+                                helper.setPricePerPartOverride(externalOrderItem.getPricePerPartOverride());
+                                if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
+                                    continue;
+                                }
+
+                                Integer externalAvailable = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
+
+                                ExternalOrderItemDto e = new ExternalOrderItemDto(billItem.getDesignNumber(), helper.getPricePerPart(), externalAvailable);
+                                _externalOrderItems.add(e);
+                            }
+                        }
+
+
+                    }
+
                     indexOfData = 0;
                     for (int i = 1; i <= pageNum; i++) {
-                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false, bp), pageNum, manager, workbook, bp, orderManager);
+                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false, bp), pageNum, manager, workbook, bp);
                     }
                     if (pageNumChanged) {
                         pageNum++;
@@ -542,22 +581,22 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
                                 for (Orderitems externalOrderItem : externalOrderItems) {
 
-                                    Integer externalOrdered = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
-                                    if (quantityFakturirano >= externalOrdered) {
+                                    Integer externalAvailable = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
+                                    if (quantityFakturirano >= externalAvailable) {
                                         externalOrderNumbers.add(externalOrderItem.getIdOrder().getIdOrder());
                                         orderManager.deleteOrderItem(externalOrderItem.getIdOrderItems());
-                                        break;
-
+                                        quantityFakturirano = quantityFakturirano - externalAvailable;
+                                        if (quantityFakturirano == 0) {
+                                            break;
+                                        }
                                     } else {
-                                        orderManager.UpdateOrderItemQuantityDelivered(externalOrderItem.getIdOrderItems(), externalOrdered - quantityFakturirano);
-                                        quantityFakturirano = quantityFakturirano - externalOrdered;
-
+                                        orderManager.UpdateOrderItemQuantityDelivered(externalOrderItem.getIdOrderItems(), externalOrderItem.getQuantityDelivered() + quantityFakturirano);
+                                        break;
                                     }
                                 }
                             }
 
                         } catch (Exception e) {
-                            Integer t = 0;
                         }
                     }
 
@@ -578,7 +617,6 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                                 orderManager.deleteOrder(externalOrderNumbers.get(oni));
                             }
                         } catch (Exception e) {
-                            Integer t = 0;
                         }
                     }
 
@@ -631,7 +669,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         // manager.AddPageNumber(sheet, i, pageNum);
     }
 
-    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp, OrderManager om) {
+    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
         int currentRow = 0, dodano = 0;
 
         List<Double> data = new ArrayList<Double>();
@@ -643,10 +681,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
                 BigDecimal amount = b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()));
 
-                totalSum = totalSum.add(amount).setScale(2, RoundingMode.HALF_UP);;
-                naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);;
+                totalSum = totalSum.add(amount).setScale(2, RoundingMode.HALF_UP);
 
-                TrySetPlacenoKupcima(b.getDesignNumber(), b.getParts(), om);
+                if (TrySetPlacenoVanjskimDobavljacima(b.getDesignNumber(), b.getParts())) {
+                    naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);
+                }
 
                 data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
@@ -668,9 +707,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BigDecimal amount = b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()));
 
                 totalSum = totalSum.add(amount).setScale(2, RoundingMode.HALF_UP);
-                naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);;
 
-                TrySetPlacenoKupcima(b.getDesignNumber(), b.getParts(), om);
+
+                if (TrySetPlacenoVanjskimDobavljacima(b.getDesignNumber(), b.getParts())) {
+                    naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);
+                }
 
                 data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
@@ -687,42 +728,54 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         currentRow = 0;
     }
 
-    private void TrySetPlacenoKupcima(String designNumber, Integer remainingFakturirano, OrderManager orderManager) {
+    private boolean TrySetPlacenoVanjskimDobavljacima(String designNumber, Integer remainingFakturirano) {
 
-        List<stefan.data.Orderitems> externalOrderItems = orderManager.getExternalOrderItemByDesignNumber(designNumber);
-        if (externalOrderItems == null || !externalOrderItems.isEmpty()) {
-            return;
+        if (_externalOrderItems == null || _externalOrderItems.isEmpty()) {
+            return false;
         }
 
         BigDecimal amount = BigDecimal.ZERO;
 
-        for (Orderitems externalOrderItem : externalOrderItems) {
+        for (ExternalOrderItemDto externalOrderItem : _externalOrderItems) {
 
-            stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(DesignManager.mapData(externalOrderItem.getIdDesign()), externalOrderItem.getQuantityOrdered(), null);
-            if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
+            if (!externalOrderItem.getDesignNumber().equalsIgnoreCase(designNumber)) {
                 continue;
             }
 
-            Integer externalOrdered = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
 
-            if (remainingFakturirano >= externalOrdered) {
+            Integer externalAvailable = externalOrderItem.getAvailablePcs();
 
-                amount = amount.add(helper.getPricePerPart().multiply(BigDecimal.valueOf(externalOrdered)));
+            if (remainingFakturirano >= externalAvailable) {
 
-                remainingFakturirano = remainingFakturirano - externalOrdered;
+                amount = amount.add(externalOrderItem.getPricePerPart().multiply(BigDecimal.valueOf(externalAvailable)));
+
+                externalOrderItem.setAvailablePcs(0);
+
+                remainingFakturirano = remainingFakturirano - externalAvailable;
+
             } else {
 
-                amount = amount.add(helper.getPricePerPart().multiply(BigDecimal.valueOf(remainingFakturirano)));
+                amount = amount.add(externalOrderItem.getPricePerPart().multiply(BigDecimal.valueOf(remainingFakturirano)));
+
+                externalOrderItem.setAvailablePcs(externalAvailable - remainingFakturirano);
+
+                remainingFakturirano = 0;
+
+            }
+
+
+            if (remainingFakturirano <= 0) {
                 break;
             }
-            
+
         }
-        
-        if(amount == BigDecimal.ZERO)
-            return;
-        
+
+        if (amount == BigDecimal.ZERO) {
+            return false;
+        }
+
         placenoVanjskimKupcima = placenoVanjskimKupcima.add(amount).setScale(2, RoundingMode.HALF_UP);
-            
+        return true;
     }
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
 

@@ -92,14 +92,15 @@ class OpenOrderKWData {
         sortLegacyData(this.NLX);
         return this.NLX;
     }
-    
+
     public static void sortLegacyData(ArrayList<OpenOrderDto> list) {
         Collections.sort(list, new Comparator<OpenOrderDto>() {
+
             public int compare(OpenOrderDto o1, OpenOrderDto o2) {
-                
+
                 String s1 = o1.getDesignNumber();
                 String s2 = o2.getDesignNumber();
-                
+
                 int g1 = getGroup(s1);
                 int g2 = getGroup(s2);
 
@@ -169,7 +170,7 @@ class OpenOrderKWData {
             } else {
                 cmp = comparePureNumbers(parts1[i], parts2[i]);
             }
-            
+
             if (cmp != 0) {
                 return cmp;
             }
@@ -195,9 +196,15 @@ class OpenOrderKWData {
         String numStr1 = seg1.replaceAll("\\D", "");
         String numStr2 = seg2.replaceAll("\\D", "");
 
-        if (numStr1.isEmpty() && numStr2.isEmpty()) return 0;
-        if (numStr1.isEmpty()) return -1;
-        if (numStr2.isEmpty()) return 1;
+        if (numStr1.isEmpty() && numStr2.isEmpty()) {
+            return 0;
+        }
+        if (numStr1.isEmpty()) {
+            return -1;
+        }
+        if (numStr2.isEmpty()) {
+            return 1;
+        }
 
         try {
             long n1 = Long.parseLong(numStr1);
@@ -291,7 +298,7 @@ public class ExcelManager {
 
 
         arial20 = workbook.createFont();
-        arial20.setFontHeightInPoints((short)20);
+        arial20.setFontHeightInPoints((short) 20);
         arial20.setFontName("Arial");
 
         styleArial20 = workbook.createCellStyle();
@@ -334,14 +341,14 @@ public class ExcelManager {
         styleArial.setFont(arial);
 
         arial8 = workbook.createFont();
-        arial8.setFontHeightInPoints((short)8);
+        arial8.setFontHeightInPoints((short) 8);
         arial8.setFontName("Arial");
 
         styleArial8 = workbook.createCellStyle();
         styleArial8.setFont(arial8);
 
         arial24 = workbook.createFont();
-        arial24.setFontHeightInPoints((short)24);
+        arial24.setFontHeightInPoints((short) 24);
         arial24.setFontName("Arial");
 
         styleArial24 = workbook.createCellStyle();
@@ -631,7 +638,6 @@ public class ExcelManager {
     private boolean ShowSaveFileDialog() {
         return ShowSaveFileDialog("Otvorene narudzbe");
     }
-
     private String filename;
     private String filepath;
     private EntityManager entityManager;
@@ -660,12 +666,14 @@ public class ExcelManager {
         Query q = em.createNamedQuery("Orders.findByIdOrder");
         q.setParameter("idOrder", orderId);
         Object order = q.getSingleResult();
-        if (!(order instanceof Orders))
+        if (!(order instanceof Orders)) {
             return;
+        }
 
-        Orders orderInst = (Orders)order;
-        if (!ShowSaveFileDialog("vanjska_narudzba_" + orderInst.getOrderNumber()))
+        Orders orderInst = (Orders) order;
+        if (!ShowSaveFileDialog("vanjska_narudzba_" + orderInst.getOrderNumber())) {
             return;
+        }
 
         Businesspartner bussPartner = orderInst.getBusinessPartnerId();
 
@@ -848,10 +856,9 @@ public class ExcelManager {
                 BigDecimal pricePerPart = oi.getPricePerPartOverride();
                 if (pricePerPart == null) {
                     PresentationHelper pHelper = new PresentationHelper(
-                        dm.mapData(oi.getIdDesign()),
-                        oi.getQuantityOrdered(),
-                        oi.getShippingDate()
-                    );
+                            dm.mapData(oi.getIdDesign()),
+                            oi.getQuantityOrdered(),
+                            oi.getShippingDate());
 
                     pricePerPart = pHelper.getPricePerPart();
                 }
@@ -913,12 +920,12 @@ public class ExcelManager {
         List<Object[]> rawListResult = q.getResultList();
 
         String externalDesignsQText =
-            "SELECT DISTINCT d.designNumber " +
-            "FROM stefan.orderitems oi " +
-            "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder " +
-            "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId " +
-            "INNER JOIN stefan.design d ON d.idDesign = oi.idDesign " +
-            "WHERE bp.isExternalSource = 1";
+                "SELECT DISTINCT d.designNumber "
+                + "FROM stefan.orderitems oi "
+                + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
+                + "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId "
+                + "INNER JOIN stefan.design d ON d.idDesign = oi.idDesign "
+                + "WHERE bp.isExternalSource = 1";
 
         Query qExternDesigns = entityManager.createNativeQuery(externalDesignsQText);
         List<String> externDesignsRawResult = qExternDesigns.getResultList();
@@ -1001,8 +1008,9 @@ public class ExcelManager {
                     (Boolean) resultElement[28],
                     (Long) resultElement[29]);
 
-            if (dto.getExternalOrder())
+            if (dto.getExternalOrder()) {
                 continue;
+            }
 
             if (dto.getCity().contains("Berlin")) {
                 AddOpenOrder(BerlinOpenOrdersByKW, dto);
@@ -1161,8 +1169,9 @@ public class ExcelManager {
             //debt
             Cell cellDebt = row.createCell(cellCounter++);
             cellDebt.setCellValue(hasDug ? "DUG" : "");
-            if (openOrderItem.getIsDesignExternal())
+            if (openOrderItem.getIsDesignExternal()) {
                 cellDebt.setCellStyle(styleArialLightBlueBackground);
+            }
 
             //shiping date
             Cell cellShippingDate = row.createCell(cellCounter++);
@@ -1970,7 +1979,7 @@ public class ExcelManager {
         cell.setCellStyle(styleArial);
     }
 
-    public void AddAditionalData(Sheet sheet, int bolzenKom, double bolzenCijena, int welleKom, double welleCijena, int totalKom) {
+    public void AddAditionalData(Sheet sheet, int bolzenKom, double bolzenCijena, int welleKom, double welleCijena, int totalKom, BigDecimal placenoVanjskimDobavljacima, BigDecimal naplacenoOdKupca) {
         Row row = sheet.getRow(2);
         Cell cell = row.createCell(13);
         cell.setCellValue("BOLZEN");
@@ -2004,6 +2013,33 @@ public class ExcelManager {
         Cell cell10 = row3.createCell(13);
         cell10.setCellValue(totalKom);
         cell10.setCellStyle(styleArial);
+
+        if (placenoVanjskimDobavljacima.compareTo(BigDecimal.ZERO) > 0) {
+            Row row4 = sheet.getRow(8);
+            Cell cell11 = row4.createCell(12);
+            cell11.setCellValue("Plaćeno vanjskim:");
+            cell11.setCellStyle(styleArial);
+            Cell cell11_1 = row4.createCell(13);
+            cell11_1.setCellValue(placenoVanjskimDobavljacima.doubleValue());
+            cell11_1.setCellStyle(styleArial);
+
+            Row row5 = sheet.getRow(9);
+            Cell cell12 = row5.createCell(12);
+            cell12.setCellValue("Naplaćeno:");
+            cell12.setCellStyle(styleArial);
+            Cell cell12_1 = row5.createCell(13);
+            cell12_1.setCellValue(naplacenoOdKupca.doubleValue());
+            cell12_1.setCellStyle(styleArial);
+
+            Row row6 = sheet.getRow(10);
+            Cell cell13 = row6.createCell(12);
+            cell13.setCellValue("Zarada:");
+            cell13.setCellStyle(styleArial);
+            Cell cell13_1 = row6.createCell(13);
+            cell13_1.setCellValue(naplacenoOdKupca.subtract(placenoVanjskimDobavljacima).doubleValue());
+            cell13_1.setCellStyle(styleArial);
+        }
+
     }
 
     public void WriteFooter(int i, Sheet sheet, BigDecimal totalSum, BusinessPartner bp) {
