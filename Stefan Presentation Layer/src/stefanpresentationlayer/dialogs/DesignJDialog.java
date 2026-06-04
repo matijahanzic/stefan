@@ -285,7 +285,7 @@ public class DesignJDialog extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(14).setPreferredWidth(30);
         jTable1.getColumnModel().getColumn(14).setHeaderValue(resourceMap.getString("jTable1.columnModel.title11")); // NOI18N
         jTable1.getColumnModel().getColumn(15).setPreferredWidth(30);
-        jTable1.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title24")); // NOI18N
+        jTable1.getColumnModel().getColumn(15).setHeaderValue(resourceMap.getString("jTable1.columnModel.title115")); // NOI18N
         jTable1.getColumnModel().getColumn(16).setPreferredWidth(30);
         jTable1.getColumnModel().getColumn(16).setHeaderValue(resourceMap.getString("jTable1.columnModel.title14")); // NOI18N
         jTable1.getColumnModel().getColumn(17).setPreferredWidth(30);

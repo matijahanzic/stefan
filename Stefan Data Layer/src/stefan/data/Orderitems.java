@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,7 +41,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orderitems.findByPosition", query = "SELECT o FROM Orderitems o WHERE o.position = :position"),
     @NamedQuery(name = "Orderitems.findByQuantityOrdered", query = "SELECT o FROM Orderitems o WHERE o.quantityOrdered = :quantityOrdered"),
     @NamedQuery(name = "Orderitems.findUndelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityOrdered > o.quantityDelivered"),
-    @NamedQuery(name = "Orderitems.findByQuantityDelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityDelivered = :quantityDelivered")
+    @NamedQuery(name = "Orderitems.findByQuantityDelivered", query = "SELECT o FROM Orderitems o WHERE o.quantityDelivered = :quantityDelivered"),
+    @NamedQuery(name = "Orderitems.getCount", query = "SELECT COUNT(o) FROM Orderitems o WHERE o.idOrder.idOrder = :idOrder")
+})
+@NamedNativeQueries({
+@NamedNativeQuery(name = "Orderitems.findExternalByDesignNumber", query = "SELECT oi.* FROM Orderitems oi INNER JOIN Design d ON oi.idDesign = d.idDesign INNER JOIN Orders o ON oi.idOrder = o.idOrder INNER JOIN BusinessPartner p ON o.businessPartnerId = p.id WHERE p.isExternalSource = 1 AND d.designNumber = ?1", resultClass = Orderitems.class),
 })
 public class Orderitems implements Serializable {
     @Column(name = "shippingDate")
