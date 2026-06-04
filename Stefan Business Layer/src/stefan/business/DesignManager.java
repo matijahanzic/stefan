@@ -26,6 +26,8 @@ public class DesignManager {
         entityManager=QueryManager.getEntityManagerInstance();
     }
     
+    
+    
     public void SaveDesign(Design design) throws Exception
     {      
         try {
@@ -307,7 +309,7 @@ public class DesignManager {
         return results;    
     }
     
-    public Design mapData(stefan.data.Design design)
+    public static Design mapData(stefan.data.Design design)
     {
         Design result=new Design(design.getIdDesign());        
         result.setClassMark(design.getClassMark());

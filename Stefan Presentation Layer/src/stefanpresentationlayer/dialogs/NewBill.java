@@ -64,6 +64,8 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private int indexOfData = 0;
     private String fileName, filePath;
     private int bolzenKom = 0, welleKom = 0, totalKom = 0;
+    private BigDecimal placenoVanjskimKupcima = BigDecimal.ZERO;
+    private BigDecimal naplacenoOdKupaca = BigDecimal.ZERO;
     private String billDate;
     private double bolzenCijena = 0, welleCijena = 0;
     private BigDecimal totalSum = new BigDecimal("0.00");
@@ -492,9 +494,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     Workbook workbook = new HSSFWorkbook();
                     ExcelManager manager = new ExcelManager(workbook);
                     FileOutputStream file = manager.CreateNewFile(fileName, filePath);
+                    OrderManager orderManager = new OrderManager();
+
                     indexOfData = 0;
                     for (int i = 1; i <= pageNum; i++) {
-                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false, bp), pageNum, manager, workbook, bp);
+                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false, bp), pageNum, manager, workbook, bp, orderManager);
                     }
                     if (pageNumChanged) {
                         pageNum++;
@@ -506,7 +510,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     CreateOtpremnica(bp);
 
                     //update delvered quantity in DB
-                    OrderManager orderManager = new OrderManager();
+
                     for (BillItem billItem : items) {
                         orderManager.UpdateOrderItem(billItem);
                     }
@@ -574,7 +578,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                                 orderManager.deleteOrder(externalOrderNumbers.get(oni));
                             }
                         } catch (Exception e) {
-                               Integer t = 0;
+                            Integer t = 0;
                         }
                     }
 
@@ -627,7 +631,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         // manager.AddPageNumber(sheet, i, pageNum);
     }
 
-    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
+    private void AddItemsToSheet(int i, Sheet sheet, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp, OrderManager om) {
         int currentRow = 0, dodano = 0;
 
         List<Double> data = new ArrayList<Double>();
@@ -637,7 +641,12 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BillItem b = items.get(indexOfData++);
                 itemsBackup.add(b);
 
-                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal amount = b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()));
+
+                totalSum = totalSum.add(amount).setScale(2, RoundingMode.HALF_UP);;
+                naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);;
+
+                TrySetPlacenoKupcima(b.getDesignNumber(), b.getParts(), om);
 
                 data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
@@ -656,7 +665,12 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BillItem b = items.get(indexOfData++);
                 itemsBackup.add(b);
 
-                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal amount = b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()));
+
+                totalSum = totalSum.add(amount).setScale(2, RoundingMode.HALF_UP);
+                naplacenoOdKupaca = naplacenoOdKupaca.add(amount).setScale(2, RoundingMode.HALF_UP);;
+
+                TrySetPlacenoKupcima(b.getDesignNumber(), b.getParts(), om);
 
                 data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
@@ -673,6 +687,43 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         currentRow = 0;
     }
 
+    private void TrySetPlacenoKupcima(String designNumber, Integer remainingFakturirano, OrderManager orderManager) {
+
+        List<stefan.data.Orderitems> externalOrderItems = orderManager.getExternalOrderItemByDesignNumber(designNumber);
+        if (externalOrderItems == null || !externalOrderItems.isEmpty()) {
+            return;
+        }
+
+        BigDecimal amount = BigDecimal.ZERO;
+
+        for (Orderitems externalOrderItem : externalOrderItems) {
+
+            stefan.business.PresentationHelper helper = new stefan.business.PresentationHelper(DesignManager.mapData(externalOrderItem.getIdDesign()), externalOrderItem.getQuantityOrdered(), null);
+            if (helper.getPricePerPart().compareTo(BigDecimal.ZERO) == -1) {
+                continue;
+            }
+
+            Integer externalOrdered = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
+
+            if (remainingFakturirano >= externalOrdered) {
+
+                amount = amount.add(helper.getPricePerPart().multiply(BigDecimal.valueOf(externalOrdered)));
+
+                remainingFakturirano = remainingFakturirano - externalOrdered;
+            } else {
+
+                amount = amount.add(helper.getPricePerPart().multiply(BigDecimal.valueOf(remainingFakturirano)));
+                break;
+            }
+            
+        }
+        
+        if(amount == BigDecimal.ZERO)
+            return;
+        
+        placenoVanjskimKupcima = placenoVanjskimKupcima.add(amount).setScale(2, RoundingMode.HALF_UP);
+            
+    }
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
 
         if (billChanged) {
@@ -913,6 +964,8 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -1043,7 +1096,7 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             //zadnja stranica  
             if (HasPlace(currentRow)) {
                 manager.AddTotalSum(sheet, totalSum, currentRow);
-                manager.AddAditionalData(sheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
+                manager.AddAditionalData(sheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom, placenoVanjskimKupcima, naplacenoOdKupaca);
                 manager.WriteFooter(currentRow + 1, sheet, totalSum, bp);
             } else {
                 manager.AddSum(sheet, totalSum, currentRow);
@@ -1057,7 +1110,7 @@ private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 manager.AddMissingData(newSheet, totalSum);
                 manager.AddTopAndBottomBorder(newSheet);
                 manager.AddTotalSum(newSheet, totalSum, 24);
-                manager.AddAditionalData(newSheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom);
+                manager.AddAditionalData(newSheet, bolzenKom, bolzenCijena, welleKom, welleCijena, totalKom, placenoVanjskimKupcima, naplacenoOdKupaca);
                 manager.WriteFooter(26, newSheet, totalSum, bp);
                 pageNumChanged = true;
             }
