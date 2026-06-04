@@ -38,6 +38,8 @@ public class MyTableCellRenderer extends DefaultTableCellRenderer {
          {
              if ("Tokarenje".equals(columName) || "Is Tokarenje".equals(columName)){
                  value = ((Boolean)value) ? "T" : "G";
+             }else if("Ind Should Import".equals(columName)){
+                 value =((Boolean)value) ? "DA" : "NE";
              }
              else {
                  value = ((Boolean)value) ? "X02" : "F";
