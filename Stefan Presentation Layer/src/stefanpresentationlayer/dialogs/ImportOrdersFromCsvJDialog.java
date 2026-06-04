@@ -190,6 +190,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
                         int quantity = nf.parse(rowData.get("quantity")).intValue();
                         item.setQuantityOrdered(quantity);
+                        item.setQuantityDelivered(0);
                     } catch (ParseException e) {
                         throw new ParseException("Količina nije ispravan cijeli broj", 0);
                     }

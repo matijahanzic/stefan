@@ -49,7 +49,6 @@ import stefan.business.objects.TotalPriceComparator;
 import stefan.data.Orderitems;
 import stefanpresentationlayer.MyTableCellRenderer;
 
-
 /**
  *
  * @author Matija
@@ -91,11 +90,11 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         for (int i = 0; i < ItemsTable.getModel().getColumnCount(); i++) {
             ItemsTable.getColumnModel().getColumn(i).setCellRenderer(rendrer);
         }
-        
+
         jXDatePicker1.getMonthView().setFirstDayOfWeek(2);
-        jXDatePicker1.getMonthView().setShowingWeekNumber(true); 
-        jXDatePicker1.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4); 
-        
+        jXDatePicker1.getMonthView().setShowingWeekNumber(true);
+        jXDatePicker1.getMonthView().getSelectionModel().setMinimalDaysInFirstWeek(4);
+
         refreshBillList();
         _btnDeleteBill.setEnabled(false);
     }
@@ -457,30 +456,29 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         if (billNumberTextField.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Unesite broj računa!", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {
-            String billNumber = billNumberTextField.getText().trim();            
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy"); 
-            billDate = formatter.format(jXDatePicker1.getDate());    
-            
+            String billNumber = billNumberTextField.getText().trim();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            billDate = formatter.format(jXDatePicker1.getDate());
+
             int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
-            if(selectedFirmaIndex < 0){
+            if (selectedFirmaIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
+
             BusinessPartner bp = bpItems.get(selectedFirmaIndex);
-            if(bp == null){
-                 JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+            if (bp == null) {
+                JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             int maxItemsPerPage = 13;
-            try {                
+            try {
                 int pageNum = 1;
                 if (items.size() > maxItemsPerPage) {
                     pageNum = (items.size() / maxItemsPerPage);
-                    if (items.size() % maxItemsPerPage != 0)
-                    {
+                    if (items.size() % maxItemsPerPage != 0) {
                         pageNum = pageNum + 1;
                     }
                 } else {
@@ -496,7 +494,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                     FileOutputStream file = manager.CreateNewFile(fileName, filePath);
                     indexOfData = 0;
                     for (int i = 1; i <= pageNum; i++) {
-                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false,bp), pageNum, manager, workbook,bp);
+                        AddItemsToSheet(i, manager.CreateNewBillSheet(workbook, i - 1, billDate, billNumber, false, bp), pageNum, manager, workbook, bp);
                     }
                     if (pageNumChanged) {
                         pageNum++;
@@ -518,32 +516,68 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                         BillManager billManager = new BillManager();
                         billManager.deleteBill(bills.get(index).getIdBill());
                     }
-                    
-                    ArrayList orderNumbers = new ArrayList();
-                    for(BillItem billItem : items){
-                        try{
-                        Orderitems it = orderManager.getOrderItemById(billItem.getOrderItemId());
-                        if(it.getQuantityDelivered()>=it.getQuantityOrdered()){
-                            if(!orderNumbers.contains(it.getIdOrder().getOrderNumber())){
-                                orderNumbers.add(it.getIdOrder().getOrderNumber());
+
+                    List<Integer> orderNumbers = new ArrayList();
+                    List<Integer> externalOrderNumbers = new ArrayList();
+
+                    for (BillItem billItem : items) {
+                        try {
+                            Orderitems it = orderManager.getOrderItemById(billItem.getOrderItemId());
+                            if (it.getQuantityDelivered() >= it.getQuantityOrdered()) {
+                                if (!orderNumbers.contains(it.getIdOrder().getIdOrder())) {
+                                    orderNumbers.add(it.getIdOrder().getIdOrder());
+                                }
+                                orderManager.deleteOrderItem(billItem.getOrderItemId());
                             }
-                            orderManager.deleteOrderItem(billItem.getOrderItemId());
-                        }
-                        }catch(Exception e){
-                        
+
+
+                            List<stefan.data.Orderitems> externalOrderItems = orderManager.getExternalOrderItemByDesignNumber(it.getIdDesign().getDesignNumber());
+                            if (externalOrderItems != null && !externalOrderItems.isEmpty()) {
+
+                                Integer quantityFakturirano = it.getQuantityDelivered();
+
+                                for (Orderitems externalOrderItem : externalOrderItems) {
+
+                                    Integer externalOrdered = externalOrderItem.getQuantityOrdered() - externalOrderItem.getQuantityDelivered();
+                                    if (quantityFakturirano >= externalOrdered) {
+                                        externalOrderNumbers.add(externalOrderItem.getIdOrder().getIdOrder());
+                                        orderManager.deleteOrderItem(externalOrderItem.getIdOrderItems());
+                                        break;
+
+                                    } else {
+                                        orderManager.UpdateOrderItemQuantityDelivered(externalOrderItem.getIdOrderItems(), externalOrdered - quantityFakturirano);
+                                        quantityFakturirano = quantityFakturirano - externalOrdered;
+
+                                    }
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            Integer t = 0;
                         }
                     }
-                    
-                    for(int oni=0; oni<orderNumbers.size();oni++){
-                        try{
-                        Order ord = orderManager.GetOrderByOrderNumberFullyMapped(orderNumbers.get(oni).toString());
-                        if(ord.getOrderitemsList() == null || ord.getOrderitemsList().isEmpty()){
-                            orderManager.deleteOrder(ord.getIdOrder());
-                        }
-                        }catch(Exception e){
-                            
+
+                    for (int oni = 0; oni < orderNumbers.size(); oni++) {
+                        try {
+                            Integer count = orderManager.getOrderItemsCount(orderNumbers.get(oni));
+                            if (count == 0) {
+                                orderManager.deleteOrder(orderNumbers.get(oni));
+                            }
+                        } catch (Exception e) {
                         }
                     }
+
+                    for (int oni = 0; oni < externalOrderNumbers.size(); oni++) {
+                        try {
+                            Integer count = orderManager.getOrderItemsCount(externalOrderNumbers.get(oni));
+                            if (count == 0) {
+                                orderManager.deleteOrder(externalOrderNumbers.get(oni));
+                            }
+                        } catch (Exception e) {
+                               Integer t = 0;
+                        }
+                    }
+
                     //open created documents 
                     Desktop dt = Desktop.getDesktop();
                     String billPath, otpremnicaPath;
@@ -579,13 +613,13 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         if (i == 1) {
             while ((dodano <= 12) && (!itemsBackup.isEmpty())) {
                 BillItem b = itemsBackup.remove(0);
-                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b,shouldPrint);
+                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b, shouldPrint);
                 dodano++;
             }
         } else {
             while ((dodano <= 13) && (!itemsBackup.isEmpty())) {
                 BillItem b = itemsBackup.remove(0);
-                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b,shouldPrint);
+                otpremnicaCurrentRow = manager.AddOtpremnicaBillItems(i, dodano, sheet, b, shouldPrint);
                 dodano++;
             }
         }
@@ -603,7 +637,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 BillItem b = items.get(indexOfData++);
                 itemsBackup.add(b);
 
-                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);         
+                totalSum = totalSum.add(b.getPricePerPart().multiply(BigDecimal.valueOf((double) b.getParts()))).setScale(2, RoundingMode.HALF_UP);
 
                 data = manager.AddBillItems(i, dodano, sheet, b, bp.getPrintInd());
                 currentRow = (int) ((double) data.get(0));
@@ -614,7 +648,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 totalKom += b.getParts();
                 dodano++;
             }
-            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb,bp);
+            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb, bp);
 
         } else {
             manager.AddMissingData(sheet, totalSum);
@@ -633,7 +667,7 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 totalKom += b.getParts();
                 dodano++;
             }
-            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb,bp);
+            WriteCalculatedData(sheet, currentRow, i, pageNum, manager, wb, bp);
         }
         dodano = 0;
         currentRow = 0;
@@ -670,30 +704,30 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             BillItem bi = newDlg.getSelectedBillItem();
             DesignManager manager = new DesignManager();
             stefan.data.Design design = manager.GetDesignsByDBId(bi.getDesignId());
-            bi.CalculatePrice(manager.mapData(design)); 
+            bi.CalculatePrice(manager.mapData(design));
             bi.setItemOrderNumber(items.size() + 1);
             items.add(bi);
-           // Collections.sort(items, new OrderNumberComparator());
+            // Collections.sort(items, new OrderNumberComparator());
             sortByComboActionPerformed(null);
             updateTotalPrice();
-            
+
             List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
             for (BillItem bItems : items) {
-                BillItem p = copyBillItem(bItems);    
+                BillItem p = copyBillItem(bItems);
                 tempItems.add(p);
             }
-           
+
             items.clear();
-            items = tempItems;            
-            
+            items = tempItems;
+
             this.firePropertyChange("items", null, null);
-            ItemsTable.getSelectionModel().setSelectionInterval(0, items.size()-1);
-            ItemsTable.scrollRectToVisible(new Rectangle(ItemsTable.getCellRect(items.size()-1,0, true)));
+            ItemsTable.getSelectionModel().setSelectionInterval(0, items.size() - 1);
+            ItemsTable.scrollRectToVisible(new Rectangle(ItemsTable.getCellRect(items.size() - 1, 0, true)));
             if (!items.isEmpty()) {
                 deleteBtn.setEnabled(true);
                 saveBill.setEnabled(true);
             }
-            
+
             billChanged = true;
         }
     }//GEN-LAST:event_addBillItemBtnActionPerformed
@@ -702,24 +736,21 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
 
         int rowIndex = ItemsTable.getSelectedRow();
         if (rowIndex != -1) {
-                        
-            BillItem itemToRemove = items.get(rowIndex);            
+
+            BillItem itemToRemove = items.get(rowIndex);
             List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
             for (BillItem bi : items) {
-                BillItem p = copyBillItem(bi);    
-                if (p.getItemOrderNumber() > itemToRemove.getItemOrderNumber())
-                {
-                    p.setItemOrderNumber(p.getItemOrderNumber()-1);
+                BillItem p = copyBillItem(bi);
+                if (p.getItemOrderNumber() > itemToRemove.getItemOrderNumber()) {
+                    p.setItemOrderNumber(p.getItemOrderNumber() - 1);
                     tempItems.add(p);
-                }  
-                else if (p.getItemOrderNumber() < itemToRemove.getItemOrderNumber())
-                {
+                } else if (p.getItemOrderNumber() < itemToRemove.getItemOrderNumber()) {
                     tempItems.add(p);
-                }         
+                }
             }
             items.clear();
-            items = tempItems;            
-            
+            items = tempItems;
+
             updateTotalPrice();
             this.firePropertyChange("items", null, null);
             if (items.isEmpty()) {
@@ -735,16 +766,16 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
             JOptionPane.showMessageDialog(null, "Unesite broj računa.", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         int selectedFirmaIndex = cbxZaFirmu.getSelectedIndex();
-        if(selectedFirmaIndex < 0){
+        if (selectedFirmaIndex < 0) {
             JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         BusinessPartner bp = bpItems.get(selectedFirmaIndex);
-        if(bp == null){
-             JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        if (bp == null) {
+            JOptionPane.showMessageDialog(null, "Odaberite firmu", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -781,29 +812,29 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     private void cbxSavedBillsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSavedBillsActionPerformed
 
         int index = cbxSavedBills.getSelectedIndex();
-        if (index != -1 && index != 0) {       
-        
+        if (index != -1 && index != 0) {
+
             _btnDeleteBill.setEnabled(true);
             items.clear();
             this.firePropertyChange("items", null, null);
             billNumberTextField.setText(bills.get(index).getBillNumber());
             jXDatePicker1.setDate(bills.get(index).getDate());
-            
+
             Integer businessPartnerId = bills.get(index).getBusinessPartnerId();
             BusinessPartner selectedPartner = null;
-            for(BusinessPartner p : bpItems){
-                if(p.getId() == businessPartnerId){
+            for (BusinessPartner p : bpItems) {
+                if (p.getId() == businessPartnerId) {
                     selectedPartner = p;
                     break;
                 }
             }
-            if(selectedPartner != null){
+            if (selectedPartner != null) {
                 cbxZaFirmu.setSelectedItem(selectedPartner);
             }
-            
-            
+
+
             for (BillItem bi : bills.get(index).getBillitemsList()) {
-                BillItem p = copyBillItem(bi); 
+                BillItem p = copyBillItem(bi);
                 items.add(p);
             }
 
@@ -815,9 +846,9 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
                 saveBill.setEnabled(false);
             }
             billChanged = false;
-            
+
             Collections.sort(items, new ItemOrderNumberComparator());
-     
+
             this.firePropertyChange("items", null, null);
         } else {
             _btnDeleteBill.setEnabled(false);
@@ -834,19 +865,29 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
     }//GEN-LAST:event_billNumberTextFieldKeyTyped
 
 private void sortByComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByComboActionPerformed
-   
-        switch(sortByCombo.getSelectedIndex()){
-            case 0: Collections.sort(items, new DesignNumberComparator()); break;
-            case 1: Collections.sort(items, new OrderNumberComparator()); break;  
-            case 2: Collections.sort(items, new PackageNumberComparator()); break;
-            case 3: Collections.sort(items, new TotalPriceComparator()); break;
-            case 4: Collections.sort(items, new ItemOrderNumberComparator()); break;
-        }
-        this.firePropertyChange("items", null, null);
+
+    switch (sortByCombo.getSelectedIndex()) {
+        case 0:
+            Collections.sort(items, new DesignNumberComparator());
+            break;
+        case 1:
+            Collections.sort(items, new OrderNumberComparator());
+            break;
+        case 2:
+            Collections.sort(items, new PackageNumberComparator());
+            break;
+        case 3:
+            Collections.sort(items, new TotalPriceComparator());
+            break;
+        case 4:
+            Collections.sort(items, new ItemOrderNumberComparator());
+            break;
+    }
+    this.firePropertyChange("items", null, null);
 }//GEN-LAST:event_sortByComboActionPerformed
 
 private void cbxZaFirmuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxZaFirmuActionPerformed
-billChanged = true;
+    billChanged = true;
 }//GEN-LAST:event_cbxZaFirmuActionPerformed
 
     private void clearAllFields() {
@@ -937,10 +978,10 @@ billChanged = true;
         //TableModel model = (TableModel)e.getSource();
         //String columnName = model.getColumnName(column);
         // Object data = model.getValueAt(row, column);    
-        if (row != -1 && column == 8 || column ==9) {
+        if (row != -1 && column == 8 || column == 9) {
             List<BillItem> tempItems = ObservableCollections.observableList(new ArrayList<BillItem>());
             for (BillItem bi : items) {
-                BillItem p = copyBillItem(bi);             
+                BillItem p = copyBillItem(bi);
                 tempItems.add(p);
             }
             items.clear();
@@ -992,13 +1033,13 @@ billChanged = true;
     }
 
     private void WriteCalculatedData(Sheet sheet, int currentRow, int i, int pageNum, ExcelManager manager, Workbook wb, BusinessPartner bp) {
-        
-        
+
+
         if (i != pageNum) {
             //nije zadnja stranica
             manager.AddSum(sheet, totalSum, currentRow);
         } else {
-            
+
             //zadnja stranica  
             if (HasPlace(currentRow)) {
                 manager.AddTotalSum(sheet, totalSum, currentRow);
@@ -1006,12 +1047,12 @@ billChanged = true;
                 manager.WriteFooter(currentRow + 1, sheet, totalSum, bp);
             } else {
                 manager.AddSum(sheet, totalSum, currentRow);
-                
-                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");              
-                
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
                 Sheet newSheet = manager.CreateNewBillSheet(wb, i,
                         formatter.format(jXDatePicker1.getDate()),
-                        billNumberTextField.getText().trim(), false,bp);
+                        billNumberTextField.getText().trim(), false, bp);
 
                 manager.AddMissingData(newSheet, totalSum);
                 manager.AddTopAndBottomBorder(newSheet);
@@ -1030,19 +1071,20 @@ billChanged = true;
         return bills;
     }
 
-     /**
+    /**
      * @return the bpItems
      */
     public List<BusinessPartner> getBpItems() {
         return bpItems;
     }
+
     /**
      * @param bills the bills to set
      */
     public void setBills(List<Bill> bills) {
         this.bills = bills;
     }
-    
+
     /**
      * @param bpItems the bpItems to set
      */
@@ -1064,7 +1106,7 @@ billChanged = true;
         FileOutputStream file = manager.CreateNewFile("Otpremnica", filePath);
 
         for (int i = 1; i <= pageNum; i++) {
-            AddItemsToOtpremnicaSheet(i, manager.CreateNewOtpremnicaSheet(workbook, i - 1, billDate, billNumberTextField.getText().trim(),bp), pageNum, manager,bp.getPrintInd());
+            AddItemsToOtpremnicaSheet(i, manager.CreateNewOtpremnicaSheet(workbook, i - 1, billDate, billNumberTextField.getText().trim(), bp), pageNum, manager, bp.getPrintInd());
         }
         //ima mjesta - dodaj na isti sheet
         if ((64 - otpremnicaCurrentRow) >= 6) {
@@ -1072,7 +1114,7 @@ billChanged = true;
         } //nema mjesta - dodaj noci sheet
         else {
             pageNum++;
-            manager.AddTopAndBottomBorder(manager.CreateNewOtpremnicaSheet(workbook, pageNum - 1, billDate, billNumberTextField.getText().trim(),bp));
+            manager.AddTopAndBottomBorder(manager.CreateNewOtpremnicaSheet(workbook, pageNum - 1, billDate, billNumberTextField.getText().trim(), bp));
             manager.WriteOtpremnicaFooter(25, workbook.getSheetAt(pageNum - 1));
         }
 

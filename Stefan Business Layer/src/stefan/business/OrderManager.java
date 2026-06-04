@@ -36,18 +36,17 @@ public class OrderManager {
         List<stefan.data.Orders> orders = q.getResultList();
         return mapData(orders);
 
-    }   
-    
+    }
 
     public List<BillItem> getUndeliveredBillItemsByDesignNumber(String designNumber) {
         List<BillItem> items = new ArrayList<BillItem>();
         Query q = entityManager.createNamedQuery("Orderitems.findUndelivered");
         List<stefan.data.Orderitems> orders = q.getResultList();
-        AddBillItems(items,orders,designNumber);
+        AddBillItems(items, orders, designNumber);
         return items;
     }
-    
-    public List<BillItem> getAllBillItemsByDesignNumber(String designNumber){
+
+    public List<BillItem> getAllBillItemsByDesignNumber(String designNumber) {
         List<BillItem> items = new ArrayList<BillItem>();
         Query q = entityManager.createNamedQuery("Orderitems.findAll");
         List<stefan.data.Orderitems> orders = q.getResultList();
@@ -59,10 +58,15 @@ public class OrderManager {
         List<BillItem> items = new ArrayList<BillItem>();
         Query q = entityManager.createNamedQuery("Orderitems.findUndelivered");
         List<stefan.data.Orderitems> orders = q.getResultList();
-        
-        
-       
+
+
+
         for (Orderitems orderitem : orders) {
+
+            if (orderitem.getIdOrder().getBusinessPartnerId().getIsExternalSource() == true) {
+                continue;
+            }
+
             items.add(populateBillItem(orderitem));
         }
 
@@ -75,6 +79,9 @@ public class OrderManager {
         List<stefan.data.Orderitems> orders = q.getResultList();
 
         for (Orderitems orderitem : orders) {
+            if (orderitem.getIdOrder().getBusinessPartnerId().getIsExternalSource() == true) {
+                continue;
+            }
             items.add(populateBillItem(orderitem));
         }
 
@@ -94,7 +101,7 @@ public class OrderManager {
         item.setOrderItemId(orderitem.getIdOrderItems());
         item.setOrderDate(orderitem.getIdOrder().getDate());
         item.setOrderNumber(orderitem.getIdOrder().getOrderNumber());
-        item.setPosition(orderitem.getPosition());        
+        item.setPosition(orderitem.getPosition());
         item.setQuantityDelivered(orderitem.getQuantityDelivered());
         item.setQuantityOrdered(orderitem.getQuantityOrdered());
         item.setNiklanje(orderitem.getIdDesign().getNiklanje());
@@ -106,10 +113,10 @@ public class OrderManager {
     private BillItem filterByDesignName(Orderitems orderitem, String designNumber) {
         BillItem item = new BillItem();
         String designNum = orderitem.getIdDesign().getDesignNumber();
-        if(designNum.startsWith(designNumber)){
+        if (designNum.startsWith(designNumber)) {
             item = populateBillItem(orderitem);
-        }else{
-            item=null;
+        } else {
+            item = null;
         }
         return item;
     }
@@ -128,6 +135,20 @@ public class OrderManager {
 
     }
 
+    public void UpdateOrderItemQuantityDelivered(Integer orderItemId, Integer quantityDelivered) {
+        try {
+            entityManager.getTransaction().begin();
+            Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
+            q.setParameter("idOrderItems", orderItemId);
+            stefan.data.Orderitems orderItem = (stefan.data.Orderitems) q.getResultList().get(0);
+            orderItem.setQuantityDelivered(quantityDelivered);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+        }
+
+
+    }
+
     public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity, BigDecimal pricePerPartOverride) {
         try {
             entityManager.getTransaction().begin();
@@ -137,15 +158,14 @@ public class OrderManager {
             orderItem.setQuantityOrdered(quantity);
             orderItem.setPricePerPartOverride(pricePerPartOverride);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e) { /* Ignore */ }
+        } catch (Exception e) { /* Ignore */ }
     }
-    
+
     public void UpdateOrderItemQuantityOrdered(Integer orderItemId, Integer quantity) {
         UpdateOrderItemQuantityOrdered(orderItemId, quantity, null);
     }
-    
-     public void UpdateOrderItemPosition(Integer orderItemId, String position) {
+
+    public void UpdateOrderItemPosition(Integer orderItemId, String position) {
         try {
             entityManager.getTransaction().begin();
             Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
@@ -153,114 +173,114 @@ public class OrderManager {
             stefan.data.Orderitems orderItem = (stefan.data.Orderitems) q.getResultList().get(0);
             orderItem.setPosition(position);
             entityManager.getTransaction().commit();
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
         }
     }
 
-    public stefan.data.Orderitems getOrderItemById(Integer Id)
-    {
-       Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
-       q.setParameter("idOrderItems", Id);          
-       List<stefan.data.Orderitems> items = q.getResultList();
-       return items.get(0);   
+    public stefan.data.Orderitems getOrderItemById(Integer Id) {
+        Query q = entityManager.createNamedQuery("Orderitems.findByOrderItemId");
+        q.setParameter("idOrderItems", Id);
+        List<stefan.data.Orderitems> items = q.getResultList();
+        return items.get(0);
     }
-    
-     public void UpdateOrderItemShippingDate(Integer OrderItemId, Date newShippingDate)
-    {
-        try
-        {       
+
+    public void UpdateOrderItemShippingDate(Integer OrderItemId, Date newShippingDate) {
+        try {
             entityManager.getTransaction().begin();
             stefan.data.Orderitems orderItem = getOrderItemById(OrderItemId);
             orderItem.setShippingDate(newShippingDate);
             entityManager.getTransaction().commit();
-        } 
-        catch(Exception e)
-        {
-        }
-    }  
-    
-    public void deleteOrder(Integer Id)
-    {
-        try
-        {             
-             Orders order=getOrderById(Id);
-             entityManager.getTransaction().begin();
-             entityManager.remove(order);
-             entityManager.getTransaction().commit();
-        } 
-        catch(Exception e)
-        {
-        }
-    }  
-    public void deleteOrderItem(Integer Id)
-    {
-        try
-        {             
-             Orderitems orderItem=getOrderItemById(Id);
-             Orders order=orderItem.getIdOrder();
-             entityManager.getTransaction().begin();
-             entityManager.remove(orderItem);             
-             entityManager.getTransaction().commit();
-             entityManager.refresh(order);
-             
-        } 
-        catch(Exception e)
-        {
+        } catch (Exception e) {
         }
     }
-    public stefan.data.Orders getOrderById(Integer Id)
-    {
-       Query q = entityManager.createNamedQuery("Orders.findByIdOrder");
-       q.setParameter("idOrder", Id);          
-       List<stefan.data.Orders> items = q.getResultList();
-       return items.get(0);   
+
+    public void deleteOrder(Integer Id) {
+        try {
+            Orders order = getOrderById(Id);
+            entityManager.getTransaction().begin();
+            entityManager.remove(order);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+        }
     }
-    
-    public stefan.business.objects.Order GetOrderByOrderNumber(String orderNumber){
+
+    public void deleteOrderItem(Integer Id) {
+        try {
+            Orderitems orderItem = getOrderItemById(Id);
+            Orders order = orderItem.getIdOrder();
+            entityManager.getTransaction().begin();
+            entityManager.remove(orderItem);
+            entityManager.getTransaction().commit();
+            entityManager.refresh(order);
+
+        } catch (Exception e) {
+        }
+    }
+
+    public stefan.data.Orders getOrderById(Integer Id) {
+        Query q = entityManager.createNamedQuery("Orders.findByIdOrder");
+        q.setParameter("idOrder", Id);
+        List<stefan.data.Orders> items = q.getResultList();
+        return items.get(0);
+    }
+
+    public stefan.business.objects.Order GetOrderByOrderNumber(String orderNumber) {
         Query q = entityManager.createNamedQuery("Orders.findByOrderNumber");
         q.setParameter("orderNumber", orderNumber);
         stefan.data.Orders order = (stefan.data.Orders) q.getSingleResult();
         return MapSingleResult(order);
     }
-    
-    public stefan.business.objects.Order GetOrderByOrderNumberFullyMapped(String orderNumber){
+
+    public stefan.business.objects.Order GetOrderByOrderNumberFullyMapped(String orderNumber) {
         Query q = entityManager.createNamedQuery("Orders.findByOrderNumber");
         q.setParameter("orderNumber", orderNumber);
         stefan.data.Orders order = (stefan.data.Orders) q.getSingleResult();
         return mapOrderData(order);
     }
-    
-    public List<stefan.business.objects.Order> GetAllOrdersByOrderNumberFullyMapped(String orderNumber){
+
+    public List<stefan.business.objects.Order> GetAllOrdersByOrderNumberFullyMapped(String orderNumber) {
         Query q = entityManager.createNamedQuery("Orders.findByOrderNumber");
         q.setParameter("orderNumber", orderNumber);
         List<stefan.data.Orders> orders = q.getResultList();
-        
-        
+
+
         return mapData(orders);
     }
-    
-     public void UpdateOrder(Order existingOrder) throws Exception {
+
+    public List<stefan.data.Orderitems> getExternalOrderItemByDesignNumber(String designNumber) {
+        Query q = entityManager.createNamedQuery("Orderitems.findExternalByDesignNumber");
+        q.setParameter(1, designNumber);
+        return q.getResultList();
+    }
+
+    public Integer getOrderItemsCount(Integer orderId) {
+        Query q = entityManager.createNamedQuery("Orderitems.getCount");
+        q.setParameter("idOrder", orderId);
+        Object result = q.getSingleResult();
+        return result != null ? ((Number) result).intValue() : 1;
+    }
+
+    public void UpdateOrder(Order existingOrder) throws Exception {
         try {
-           
-            stefan.data.Orders o = entityManager.find(stefan.data.Orders.class,existingOrder.getIdOrder());         
+
+            stefan.data.Orders o = entityManager.find(stefan.data.Orders.class, existingOrder.getIdOrder());
             List<Orderitems> allItems = o.getOrderitemsList();
             DesignManager designManager = new DesignManager();
-          
-            for(stefan.business.objects.OrderItem item : existingOrder.getOrderitemsList()){
+
+            for (stefan.business.objects.OrderItem item : existingOrder.getOrderitemsList()) {
                 stefan.data.Orderitems add = new Orderitems();
                 add.setIdOrder(o);
                 add.setPosition(item.getPosition());
                 add.setQuantityDelivered(item.getQuantityDelivered());
                 add.setQuantityOrdered(item.getQuantityOrdered());
                 add.setPricePerPartOverride(item.getPricePerPartOverride());
-                add.setIdDesign(designManager.GetDesignsByDBId(item.getDesignId()));     
+                add.setIdDesign(designManager.GetDesignsByDBId(item.getDesignId()));
                 add.setShippingDate(item.getShippingDate());
                 allItems.add(add);
             }
-            
+
             o.setOrderitemsList(allItems);
-             entityManager.getTransaction().begin();
+            entityManager.getTransaction().begin();
             entityManager.merge(o);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
@@ -268,13 +288,13 @@ public class OrderManager {
             throw e;
         }
     }
-     
+
     public boolean SaveOrder(stefan.business.objects.Order order) {
         try {
             stefan.data.Orders newOrder = new stefan.data.Orders();
             newOrder.setDate(order.getDate());
             newOrder.setIsDelivered(order.isIsDelivered());
-            newOrder.setOrderNumber(order.getOrderNumber());           
+            newOrder.setOrderNumber(order.getOrderNumber());
             newOrder.setBusinessPartnerId(getBp(order.getBusinessPartnerId()));
             List<stefan.data.Orderitems> orderItems = new ArrayList<Orderitems>();
             DesignManager designManager = new DesignManager();
@@ -301,8 +321,8 @@ public class OrderManager {
             return false;
         }
     }
-    
-    private stefan.data.Businesspartner getBp(Integer id){
+
+    private stefan.data.Businesspartner getBp(Integer id) {
         Query q = entityManager.createNamedQuery("Businesspartner.findById");
         q.setParameter("id", id);
         List<stefan.data.Businesspartner> bps = q.getResultList();
@@ -322,13 +342,13 @@ public class OrderManager {
         o.setDate(order.getDate());
         o.setIdOrder(order.getIdOrder());
         o.setIsDelivered(order.getIsDelivered());
-        o.setOrderNumber(order.getOrderNumber());        
-        if (order.getBusinessPartnerId() != null){
+        o.setOrderNumber(order.getOrderNumber());
+        if (order.getBusinessPartnerId() != null) {
             o.setBusinessPartnerId(order.getBusinessPartnerId().getId());
             o.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
             o.setIsBusinessPartnerExternal(order.getBusinessPartnerId().getIsExternalSource());
         }
-        
+
         List<OrderItem> oi = new ArrayList<OrderItem>();
         for (stefan.data.Orderitems orderItem : order.getOrderitemsList()) {
             oi.add(mapOrderItemData(orderItem, o));
@@ -351,50 +371,48 @@ public class OrderManager {
         return item;
     }
 
-    private void AddBillItems(List<BillItem> items ,List<Orderitems> orders, String designNumber) {
+    private void AddBillItems(List<BillItem> items, List<Orderitems> orders, String designNumber) {
         for (Orderitems o : orders) {
+
+            if (o.getIdOrder().getBusinessPartnerId().getIsExternalSource() == true) {
+                continue;
+            }
+
             BillItem i = filterByDesignName(o, designNumber);
-            if(i!=null){
+            if (i != null) {
                 items.add(i);
             }
         }
     }
-    
-    public void deleteOldOrders()
-    {
+
+    public void deleteOldOrders() {
         Query q = entityManager.createNamedQuery("Orders.findAll");
         List<stefan.data.Orders> orders = q.getResultList();
-        List<stefan.data.Orders> toDelete=new ArrayList<Orders>();
-        for (Orders order : orders)
-        {
-            Calendar c=Calendar.getInstance();
+        List<stefan.data.Orders> toDelete = new ArrayList<Orders>();
+        for (Orders order : orders) {
+            Calendar c = Calendar.getInstance();
             c.setTime(order.getDate());
             c.add(Calendar.MONTH, 6);
-            Calendar now=Calendar.getInstance();
-            
-            if (c.after(now))
-            {
+            Calendar now = Calendar.getInstance();
+
+            if (c.after(now)) {
                 continue;
             }
-            
-            boolean isDelivered=true;
-            for (Orderitems oi : order.getOrderitemsList()) 
-            {
-                if (oi.getQuantityDelivered()<oi.getQuantityOrdered())
-                {
-                    isDelivered=false;
+
+            boolean isDelivered = true;
+            for (Orderitems oi : order.getOrderitemsList()) {
+                if (oi.getQuantityDelivered() < oi.getQuantityOrdered()) {
+                    isDelivered = false;
                     break;
-                }                
+                }
             }
-                               
-            if (isDelivered)
-            {                
-               toDelete.add(order);
-            }            
+
+            if (isDelivered) {
+                toDelete.add(order);
+            }
         }
-        for (Orders order : toDelete)
-        {
-            deleteOrder(order.getIdOrder());            
+        for (Orders order : toDelete) {
+            deleteOrder(order.getIdOrder());
         }
     }
 
@@ -404,15 +422,11 @@ public class OrderManager {
         newOrder.setIdOrder(order.getIdOrder());
         newOrder.setIsDelivered(order.getIsDelivered());
         newOrder.setOrderNumber(order.getOrderNumber());
-        if (order.getBusinessPartnerId() != null){
+        if (order.getBusinessPartnerId() != null) {
             newOrder.setBusinessPartnerId(order.getBusinessPartnerId().getId());
             newOrder.setBusinessPartnerName(order.getBusinessPartnerId().getDisplayName());
             newOrder.setIsBusinessPartnerExternal(order.getBusinessPartnerId().getIsExternalSource());
         }
         return newOrder;
     }
-
- 
-    
-
 }
