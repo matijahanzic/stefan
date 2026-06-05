@@ -33,11 +33,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jdesktop.observablecollections.ObservableCollections;
-import stefan.business.BillManager;
+import stefan.business.*;
 import stefan.business.objects.BillItem;
-import stefan.business.DesignManager;
-import stefan.business.ExcelManager;
-import stefan.business.OrderManager;
 import stefan.business.objects.Bill;
 import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.PackageNumberComparator;
@@ -133,7 +130,9 @@ public class NewBill extends javax.swing.JDialog implements TableModelListener {
         b.setBillNumber("Novi Račun");
         bills.add(0, b);
         this.firePropertyChange("bills", null, null);
-        bpItems = manager.getBusinessPartners();
+
+        BusinessPartnerManager bpManager = new BusinessPartnerManager();
+        bpItems = bpManager.getInternalBusinessPartners();
         this.firePropertyChange("bpItems", null, null);
     }
 
