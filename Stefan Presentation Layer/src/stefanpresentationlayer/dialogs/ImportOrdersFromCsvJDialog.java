@@ -28,16 +28,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import javax.swing.JOptionPane;
+import javax.persistence.EntityManager;
+import javax.swing.*;
+
 import org.jdesktop.observablecollections.ObservableCollections;
 import stefan.business.BusinessPartnerManager;
 import stefan.business.DesignManager;
 import stefan.business.OrderManager;
+import stefan.business.QueryManager;
 import stefan.business.objects.BusinessPartner;
 import stefan.business.objects.Design;
 import stefan.business.objects.ImportOrderItemDto;
 import stefan.business.objects.Order;
 import stefan.business.objects.OrderItem;
+import stefan.data.Orderitems;
+import stefan.data.Orders;
 import stefanpresentationlayer.MyTableCellRenderer;
 
 /**
@@ -99,9 +104,12 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
         String _designCode = "FOPAC";
 
         DesignManager designManager = new DesignManager();
+        OrderManager orderManager = new OrderManager();
         BusinessPartnerManager bpManager = new BusinessPartnerManager();
         List<BusinessPartner> bPartners = bpManager.getInternalBusinessPartners();
         Boolean _isNew = true;
+
+        String deletedInvoicedItemsErrorMessages = null;
 
 
         while ((line = br.readLine()) != null) {
@@ -152,33 +160,47 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         throw new NoSuchElementException("Nije pronađen poslovni partner naveden na narudžbi");
                     }
 
-                    List<Order> existingOrders = new OrderManager().GetAllOrdersByOrderNumberFullyMapped(importOrder.getOrderNumber());
-                    if (existingOrders != null) {
-                        for (Order eOrder : existingOrders) {
-                            if (eOrder.getBusinessPartnerId().equals(importOrder.getBusinessPartnerId())) {
-                                importOrder = eOrder;
-                                throw new NoSuchElementException("Narudžba sa brojem " + importOrder.getOrderNumber() + " već postoji za kupca " + importOrder.getBusinessPartnerName());
-                                //_isNew = false;
-                                //break;
-                            }
-                        }
-                    }
-
                     if (importOrder.getBusinessPartnerName().toLowerCase().startsWith("w")) {
                         _designCode = "WH";
                     }
-
-
                 } // 3. Item Core Details Row
                 else if ("position".equals(rowType) && "".equals(subType)) {
 
                     _isDeleted = false;
 
                     String posNum = tokens.get(2); // Always 5 characters at position index 2
+                    String designNumber = CleanString(rowData.get("ZZNUMMER"));
 
                     String isDeleted = CleanString(rowData.get("is_deleted"));
                     if ("1".equalsIgnoreCase(isDeleted)) {
                         _isDeleted = true;
+
+                        Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
+                            importOrder.getOrderNumber(),
+                            importOrder.getBusinessPartnerId()
+                        );
+
+                        Orderitems existingItem = null;
+                        for (Orderitems oi : existingOrder.getOrderitemsList()) {
+                            if (oi.getIdDesign().getDesignNumber().equals(designNumber) && oi.getPosition().equals(posNum)) {
+                                existingItem = oi;
+                                break;
+                            }
+                        }
+
+                        Integer quantityOrdered = existingItem != null ? existingItem.getQuantityOrdered() : null;
+
+                        if (quantityOrdered != null && quantityOrdered > 0) {
+                            deletedInvoicedItemsErrorMessages = concatWithNewLine(
+                                deletedInvoicedItemsErrorMessages,
+                                "Stavka s pozicijom " + posNum +
+                                " i brojem nacrta " + designNumber +
+                                " je fakturirana u sustavu, a obrisana u CSV-u"
+                            );
+
+                            currentItemScope.setIndShouldImport(false);
+                        }
+
                         continue;
                     }
 
@@ -200,7 +222,6 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     String rev = CleanString(rowData.get("rev_lev"));
                     String designName = CleanString(rowData.get("material_name"));
-                    String designNumber = CleanString(rowData.get("ZZNUMMER"));
                     String designClassMark = CleanString(rowData.get("EXTWG"));
 
                     if (!"".equals(designNumber)) {
@@ -277,36 +298,58 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     importOrderItems.add(importOrderItem);
                 } // 4. Item Delivery/Disposition Row
-                else if ("position".equals(rowType) && "disposition".equals(subType)) {
-                    if (currentItemScope != null && !_isDeleted) {
+                else if ("position".equals(rowType) && "disposition".equals(subType) && currentItemScope != null && !_isDeleted) {
+                    Date date = null;
+                    try {
+                        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+                        date = f.parse(rowData.get("delivery_date"));
 
-                        Date date = null;
-                        try {
-                            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-                            date = f.parse(rowData.get("delivery_date"));
-
-                        } catch (ParseException e) {
-                            currentItemScope.setWarningText(ConcatWarning(currentItemScope.getWarningText(), "Neispravan datum isporuke " + rowData.get("delivery_date")));
-                        }
-
-
-                        currentItemScope.getImportedOrderItem().setShippingDate(date);
-                        /*
-                        if (!_isNew && currentItemScope.getExistingOrderItem() != null
-                        && ((date == null && currentItemScope.getExistingOrderItem().getShippingDate() != null)
-                        || (date != null && currentItemScope.getExistingOrderItem().getShippingDate() == null))
-                        || !date.equals(currentItemScope.getExistingOrderItem().getShippingDate())) {
-                        currentItemScope.setWarningText(ConcatWarning(currentItemScope.getWarningText(), "Upisani datum isporuke:" + (currentItemScope.getExistingOrderItem().getShippingDate() != null ? currentItemScope.getExistingOrderItem().getShippingDate() : "") + ", za import:" + (date != null ? date : "")));
-                        }
-                         * */
-
+                    } catch (ParseException e) {
+                        currentItemScope.setWarningText(ConcatWarning(currentItemScope.getWarningText(), "Neispravan datum isporuke " + rowData.get("delivery_date")));
                     }
+
+
+                    currentItemScope.getImportedOrderItem().setShippingDate(date);
+                    /*
+                    if (!_isNew && currentItemScope.getExistingOrderItem() != null
+                    && ((date == null && currentItemScope.getExistingOrderItem().getShippingDate() != null)
+                    || (date != null && currentItemScope.getExistingOrderItem().getShippingDate() == null))
+                    || !date.equals(currentItemScope.getExistingOrderItem().getShippingDate())) {
+                    currentItemScope.setWarningText(ConcatWarning(currentItemScope.getWarningText(), "Upisani datum isporuke:" + (currentItemScope.getExistingOrderItem().getShippingDate() != null ? currentItemScope.getExistingOrderItem().getShippingDate() : "") + ", za import:" + (date != null ? date : "")));
+                    }
+                     * */
                 }
             }
         }
         br.close();
 
         priceLbl.setText(_total.toPlainString().replace('.', ','));
+
+        if (deletedInvoicedItemsErrorMessages == null || deletedInvoicedItemsErrorMessages.isEmpty())
+            return;
+
+        Object[] options = new Object[] { "Razumijem, nastavi s uvozom", "Odustani" };
+        int option = JOptionPane.showOptionDialog(
+            null,
+            deletedInvoicedItemsErrorMessages + "\n\n" +
+            "Nastavkom uvoza ove stavke će se ignorirati (neće biti uvezene iz CSV-a).",
+            "Upozorenje uvoza",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.WARNING_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+
+        if (option == 0)
+            return;
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ImportOrdersFromCsvJDialog.this.dispose();
+            }
+        });
     }
 
     private String ConcatWarning(String currentWarning, String warningMessage) {
@@ -315,6 +358,15 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
         }
 
         return currentWarning + " ;" + warningMessage;
+    }
+
+    private String concatWithNewLine(String sourceStr, String toConcat) {
+        if (sourceStr == null)
+            sourceStr = "";
+        else
+            sourceStr += '\n';
+
+        return sourceStr + toConcat;
     }
 
     private String CleanString(String value) {
@@ -633,7 +685,35 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
     importOrder.setOrderitemsList(orderItems);
 
     OrderManager orderManager = new OrderManager();
-    orderManager.SaveOrder(importOrder);
+    Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
+        importOrder.getOrderNumber(),
+        importOrder.getBusinessPartnerId()
+    );
+
+    if (existingOrder != null) {
+        for (OrderItem oi : importOrder.getOrderitemsList()) {
+            for (Orderitems existingItem : existingOrder.getOrderitemsList()) {
+                if (oi.getPosition().equals(existingItem.getPosition()) &&
+                        oi.getDesign().getIdDesign().equals(existingItem.getIdDesign().getIdDesign())
+                ) {
+                    existingItem.setShippingDate(oi.getShippingDate());
+                    existingItem.setQuantityOrdered(oi.getQuantityOrdered());
+                    break;
+                }
+            }
+        }
+
+        try {
+            EntityManager em = QueryManager.getEntityManagerInstance();
+            em.persist(existingOrder);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Narudžbu nije bilo moguće ažurirati", "Greška pri ažuriranju narudžbe", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    } else {
+        orderManager.SaveOrder(importOrder);
+    }
+
 
     this.dispose();
 }//GEN-LAST:event_createOrderBtnActionPerformed

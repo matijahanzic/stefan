@@ -119,6 +119,9 @@ public class OrderItem {
      * @return the designId
      */
     public int getDesignId() {
+        if (this.design != null)
+            return this.design.getIdDesign();
+
         return designId;
     }
 
