@@ -11,9 +11,11 @@
 package stefanpresentationlayer.dialogs;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -87,7 +89,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
     private void ImportFromFile(String filePath) throws FileNotFoundException, IOException, NoSuchElementException, ParseException {
 
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), java.nio.charset.StandardCharsets.UTF_8));
         String line;
 
         //Order order = new Order();
@@ -146,7 +148,10 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                 else if ("head".equals(rowType) && "delivery_address".equals(subType)) {
 
                     String bpName = rowData.get("name1");
-                    String bpCity = rowData.get("city");
+                    String bpCity = CleanString(rowData.get("city"));
+                    
+                    bpCity = bpCity.replace("ß","ss");
+                    
 
                     for (BusinessPartner bPartner : bPartners) {
                         if (bPartner.getCity().equalsIgnoreCase(bpCity)) {
@@ -170,6 +175,15 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     String posNum = tokens.get(2); // Always 5 characters at position index 2
                     String designNumber = CleanString(rowData.get("ZZNUMMER"));
+                    
+                    if("".equals(designNumber) && _designCode.equalsIgnoreCase("WH")){
+                        designNumber = CleanString(rowData.get("material_number"));
+                        //WH broj nacrta upisuje u material_number jer ZZNUMBER ne postoji
+                        //ti nacrti bi trebali biti 8 znamenkasti ali zasad ne dodajemo tu provjeru
+                        if(designNumber == null){
+                            designNumber = "";
+                        }
+                    }
 
                     String isDeleted = CleanString(rowData.get("is_deleted"));
                     if ("1".equalsIgnoreCase(isDeleted)) {
@@ -243,7 +257,8 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         importOrderItem.setIndShouldImport(false);
                         importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Nije pronađen dizajn " + _designCode + " sa brojem " + designNumber));
                     } else {
-                        if (!rev.equalsIgnoreCase(CleanString(item.getDesign().getRevision()))) {
+                        //WH ne sadrži reviziju
+                        if (!_designCode.equalsIgnoreCase("WH") && !rev.equalsIgnoreCase(CleanString(item.getDesign().getRevision()))) {
                             importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Revizija nacrta u csv: " + rev + ", revizija upisanog nacrta: " + CleanString(item.getDesign().getRevision())));
                         }
 
@@ -251,7 +266,8 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                             importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Naziv nacrta u csv: " + designName + ", naziv upisanog nacrta: " + CleanString(item.getDesign().getName())));
                         }
 
-                        if (!designClassMark.equalsIgnoreCase(CleanString(item.getDesign().getClassMark()))) {
+                        //WH ne sadrži klasu nacrta
+                        if (!_designCode.equalsIgnoreCase("WH") && !designClassMark.equalsIgnoreCase(CleanString(item.getDesign().getClassMark()))) {
                             importOrderItem.setWarningText(ConcatWarning(importOrderItem.getWarningText(), "Klasa nacrta u csv: " + designClassMark + ", klasa upisanog nacrta: " + CleanString(item.getDesign().getClassMark())));
                         }
 
@@ -682,6 +698,12 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
         }
         orderItems.add(iItem.getImportedOrderItem());
     }
+    
+    if( orderItems.isEmpty()){
+        JOptionPane.showMessageDialog(null, "Niti jedna stavka se ne može učitati", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
     importOrder.setOrderitemsList(orderItems);
 
     OrderManager orderManager = new OrderManager();

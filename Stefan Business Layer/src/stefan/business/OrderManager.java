@@ -335,6 +335,8 @@ public class OrderManager {
             return false;
         }
     }
+    
+   
 
     private stefan.data.Businesspartner getBp(Integer id) {
         Query q = entityManager.createNamedQuery("Businesspartner.findById");
