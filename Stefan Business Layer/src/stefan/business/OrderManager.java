@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import stefan.business.objects.Order;
 import stefan.business.objects.OrderItem;
 import stefan.data.Orderitems;
@@ -222,6 +224,18 @@ public class OrderManager {
         q.setParameter("idOrder", Id);
         List<stefan.data.Orders> items = q.getResultList();
         return items.get(0);
+    }
+
+    public stefan.data.Orders getOrderByNumberAndBussPartner(String orderNumber, Integer bussPartnerId) {
+        TypedQuery<Orders> q = entityManager.createNamedQuery("Orders.findByOrderNumberAndBussPartner", Orders.class);
+        q.setParameter("orderNumber", orderNumber);
+        q.setParameter("bpId", bussPartnerId);
+
+        List<Orders> orders = q.getResultList();
+        if (orders.isEmpty())
+            return null;
+
+        return orders.get(0);
     }
 
     public stefan.business.objects.Order GetOrderByOrderNumber(String orderNumber) {
