@@ -712,32 +712,57 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
         importOrder.getBusinessPartnerId()
     );
 
-    if (existingOrder != null) {
-        for (OrderItem oi : importOrder.getOrderitemsList()) {
-            for (Orderitems existingItem : existingOrder.getOrderitemsList()) {
-                if (oi.getPosition().equals(existingItem.getPosition()) &&
-                        oi.getDesign().getIdDesign().equals(existingItem.getIdDesign().getIdDesign())
-                ) {
-                    existingItem.setShippingDate(oi.getShippingDate());
-                    existingItem.setQuantityOrdered(oi.getQuantityOrdered());
-                    break;
-                }
+    if (existingOrder == null) {
+        orderManager.SaveOrder(this.importOrder);
+        this.dispose();
+        return;
+    }
+
+    EntityManager em = QueryManager.getEntityManagerInstance();
+    em.getTransaction().begin();
+
+    for (OrderItem oi : importOrder.getOrderitemsList()) {
+        boolean found = false;
+
+        for (Orderitems existingItem : existingOrder.getOrderitemsList()) {
+            if (oi.getPosition().equals(existingItem.getPosition()) &&
+                    oi.getDesign().getIdDesign().equals(existingItem.getIdDesign().getIdDesign())
+            ) {
+                found = true;
+
+                existingItem.setShippingDate(oi.getShippingDate());
+                existingItem.setQuantityOrdered(oi.getQuantityOrdered());
+
+                QueryManager.getEntityManagerInstance().persist(existingItem);
+                break;
             }
         }
 
-        try {
-            EntityManager em = QueryManager.getEntityManagerInstance();
-            em.persist(existingOrder);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Narudžbu nije bilo moguće ažurirati", "Greška pri ažuriranju narudžbe", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (!found) {
+            DesignManager dm = new DesignManager();
+
+            Orderitems createdOi = new Orderitems();
+            createdOi.setIdOrder(existingOrder);
+            createdOi.setQuantityOrdered(oi.getQuantityOrdered());
+            createdOi.setQuantityDelivered(0);
+            createdOi.setIdDesign(dm.GetDesignsByDBId(oi.getDesignId()));
+            createdOi.setPosition(oi.getPosition());
+            createdOi.setShippingDate(oi.getShippingDate());
+
+            existingOrder.getOrderitemsList().add(createdOi);
         }
-    } else {
-        orderManager.SaveOrder(importOrder);
     }
 
+    try {
+        em.persist(existingOrder);
+        em.getTransaction().commit();
 
-    this.dispose();
+        this.dispose();
+    } catch (Exception ex) {
+        em.getTransaction().rollback();
+
+        JOptionPane.showMessageDialog(null, "Narudžbu nije bilo moguće ažurirati", "Greška pri ažuriranju narudžbe", JOptionPane.ERROR_MESSAGE);
+    }
 }//GEN-LAST:event_createOrderBtnActionPerformed
 
 private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
