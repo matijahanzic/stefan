@@ -13,5 +13,5 @@ SET d.`4k` = d.`3k`,
     d.`100k` = NULL,
     d.code = 'WH'
 WHERE d.code = 'FOPAC' AND
-      SUBSTR(d.designNumber, 0, 1) = '3' AND
+      SUBSTR(d.designNumber, 1, 1) = '3' AND
       CHARACTER_LENGTH(d.designNumber) = 8
