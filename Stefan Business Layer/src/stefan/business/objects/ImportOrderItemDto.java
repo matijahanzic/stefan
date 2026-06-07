@@ -18,15 +18,7 @@ public class ImportOrderItemDto {
       private BigDecimal pricePerPart;
       private BigDecimal total;
       private Boolean indShouldImport = true;
-      private Boolean indDeleted = false;
       
-        public Boolean getIndDeleted(){
-          return indDeleted;
-      }
-      
-      public void setIndDeleted(Boolean indDeleted){
-          this.indDeleted = indDeleted;
-      }
       
       public Boolean getIndShouldImport(){
           return indShouldImport;
