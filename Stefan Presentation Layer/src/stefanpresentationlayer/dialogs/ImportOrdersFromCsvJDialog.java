@@ -56,6 +56,7 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
     private Order importOrder;
     public List<ImportOrderItemDto> importOrderItems = ObservableCollections.observableList(new ArrayList<ImportOrderItemDto>());
     private BigDecimal _total = BigDecimal.ZERO;
+    public List<Integer> _deletedOrderItems = new ArrayList<Integer>();
 
     public List<ImportOrderItemDto> getImportOrderItems() {
         return importOrderItems;
@@ -149,9 +150,9 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     String bpName = rowData.get("name1");
                     String bpCity = CleanString(rowData.get("city"));
-                    
-                    bpCity = bpCity.replace("ß","ss");
-                    
+
+                    bpCity = bpCity.replace("ß", "ss");
+
 
                     for (BusinessPartner bPartner : bPartners) {
                         if (bPartner.getCity().equalsIgnoreCase(bpCity)) {
@@ -175,12 +176,12 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     String posNum = tokens.get(2); // Always 5 characters at position index 2
                     String designNumber = CleanString(rowData.get("ZZNUMMER"));
-                    
-                    if("".equals(designNumber) && _designCode.equalsIgnoreCase("WH")){
+
+                    if ("".equals(designNumber) && _designCode.equalsIgnoreCase("WH")) {
                         designNumber = CleanString(rowData.get("material_number"));
                         //WH broj nacrta upisuje u material_number jer ZZNUMBER ne postoji
                         //ti nacrti bi trebali biti 8 znamenkasti ali zasad ne dodajemo tu provjeru
-                        if(designNumber == null){
+                        if (designNumber == null) {
                             designNumber = "";
                         }
                     }
@@ -190,9 +191,8 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         _isDeleted = true;
 
                         Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
-                            importOrder.getOrderNumber(),
-                            importOrder.getBusinessPartnerId()
-                        );
+                                importOrder.getOrderNumber(),
+                                importOrder.getBusinessPartnerId());
 
                         Orderitems existingItem = null;
                         for (Orderitems oi : existingOrder.getOrderitemsList()) {
@@ -202,18 +202,24 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                             }
                         }
 
-                        Integer quantityOrdered = existingItem != null ? existingItem.getQuantityOrdered() : null;
+                        Integer quantityDelivered = existingItem != null ? existingItem.getQuantityDelivered() : null;
 
-                        if (quantityOrdered != null && quantityOrdered > 0) {
+                        if (quantityDelivered != null && quantityDelivered > 0) {
                             deletedInvoicedItemsErrorMessages = concatWithNewLine(
-                                deletedInvoicedItemsErrorMessages,
-                                "Stavka s pozicijom " + posNum +
-                                " i brojem nacrta " + designNumber +
-                                " je fakturirana u sustavu, a obrisana u CSV-u"
-                            );
+                                    deletedInvoicedItemsErrorMessages,
+                                    "Stavka s pozicijom " + posNum
+                                    + " i brojem nacrta " + designNumber
+                                    + " je fakturirana u sustavu, a obrisana u CSV-u");
 
                             currentItemScope.setIndShouldImport(false);
                         }
+
+                        if (existingItem != null) {
+                            _deletedOrderItems.add(existingItem.getIdOrderItems());
+                        }
+
+
+
 
                         continue;
                     }
@@ -341,26 +347,28 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
         priceLbl.setText(_total.toPlainString().replace('.', ','));
 
-        if (deletedInvoicedItemsErrorMessages == null || deletedInvoicedItemsErrorMessages.isEmpty())
+        if (deletedInvoicedItemsErrorMessages == null || deletedInvoicedItemsErrorMessages.isEmpty()) {
             return;
+        }
 
-        Object[] options = new Object[] { "Razumijem, nastavi s uvozom", "Odustani" };
+        Object[] options = new Object[]{"Razumijem, nastavi s uvozom", "Odustani"};
         int option = JOptionPane.showOptionDialog(
-            null,
-            deletedInvoicedItemsErrorMessages + "\n\n" +
-            "Nastavkom uvoza ove stavke će se ignorirati (neće biti uvezene iz CSV-a).",
-            "Upozorenje uvoza",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.WARNING_MESSAGE,
-            null,
-            options,
-            options[0]
-        );
+                null,
+                deletedInvoicedItemsErrorMessages + "\n\n"
+                + "Nastavkom uvoza ove stavke će se ignorirati (neće biti uvezene iz CSV-a).",
+                "Upozorenje uvoza",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[0]);
 
-        if (option == 0)
+        if (option == 0) {
             return;
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
+
             @Override
             public void run() {
                 ImportOrdersFromCsvJDialog.this.dispose();
@@ -377,10 +385,11 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
     }
 
     private String concatWithNewLine(String sourceStr, String toConcat) {
-        if (sourceStr == null)
+        if (sourceStr == null) {
             sourceStr = "";
-        else
+        } else {
             sourceStr += '\n';
+        }
 
         return sourceStr + toConcat;
     }
@@ -693,24 +702,23 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
     List<OrderItem> orderItems = new ArrayList<OrderItem>();
     for (ImportOrderItemDto iItem : importOrderItems) {
-        if(iItem.getIndShouldImport() == false){
+        if (iItem.getIndShouldImport() == false) {
             continue;
         }
         orderItems.add(iItem.getImportedOrderItem());
     }
-    
-    if( orderItems.isEmpty()){
+
+    if (orderItems.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Niti jedna stavka se ne može učitati", "Upozorenje", javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
-    
+
     importOrder.setOrderitemsList(orderItems);
 
     OrderManager orderManager = new OrderManager();
     Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
-        importOrder.getOrderNumber(),
-        importOrder.getBusinessPartnerId()
-    );
+            importOrder.getOrderNumber(),
+            importOrder.getBusinessPartnerId());
 
     if (existingOrder == null) {
         orderManager.SaveOrder(this.importOrder);
@@ -725,10 +733,18 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
         boolean found = false;
 
         for (Orderitems existingItem : existingOrder.getOrderitemsList()) {
-            if (oi.getPosition().equals(existingItem.getPosition()) &&
-                    oi.getDesign().getIdDesign().equals(existingItem.getIdDesign().getIdDesign())
-            ) {
+            if (oi.getPosition().equals(existingItem.getPosition())
+                    && oi.getDesign().getIdDesign().equals(existingItem.getIdDesign().getIdDesign())) {
                 found = true;
+
+                if (existingItem.getQuantityDelivered().equals(oi.getQuantityOrdered())) {
+                    _deletedOrderItems.add(existingItem.getIdOrderItems());
+                    break;
+                } else if (existingItem.getQuantityDelivered() > oi.getQuantityOrdered()) {
+                                         
+                    JOptionPane.showMessageDialog(null, "Stavka sa nacrtom " + existingItem.getIdDesign().getDesignNumber() + " je fakturirana u većoj količini (" + existingItem.getQuantityDelivered() + ") od upisane u csv ("+ oi.getQuantityOrdered()+"). Učitavanje stavke će se preskočiti", "Obavijest", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
 
                 existingItem.setShippingDate(oi.getShippingDate());
                 existingItem.setQuantityOrdered(oi.getQuantityOrdered());
@@ -752,6 +768,23 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
             existingOrder.getOrderitemsList().add(createdOi);
         }
     }
+
+    for (Integer toDeleteId : _deletedOrderItems) {
+        Orderitems foundItem = null;
+
+        for (Orderitems existingItem : existingOrder.getOrderitemsList()) {
+            if (existingItem.getIdOrderItems().equals(toDeleteId)) {
+                foundItem = existingItem;
+                break;
+            }
+        }
+
+        if (foundItem != null) {
+            em.remove(foundItem);
+            existingOrder.getOrderitemsList().remove(foundItem);
+        }
+    }
+
 
     try {
         em.persist(existingOrder);
