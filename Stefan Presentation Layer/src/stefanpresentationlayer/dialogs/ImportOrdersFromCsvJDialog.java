@@ -13,7 +13,6 @@ package stefanpresentationlayer.dialogs;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -186,6 +185,13 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         }
                     }
 
+
+                    if (designNumber != null) {
+                        String[] designParts = designNumber.split(" ");
+                        designNumber = designParts[0];
+                    }
+
+
                     String isDeleted = CleanString(rowData.get("is_deleted"));
                     if ("1".equalsIgnoreCase(isDeleted)) {
                         _isDeleted = true;
@@ -193,6 +199,10 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
                         Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
                                 importOrder.getOrderNumber(),
                                 importOrder.getBusinessPartnerId());
+
+                        if (existingOrder == null) {
+                            continue;
+                        }
 
                         Orderitems existingItem = null;
                         for (Orderitems oi : existingOrder.getOrderitemsList()) {
@@ -741,8 +751,8 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
                     _deletedOrderItems.add(existingItem.getIdOrderItems());
                     break;
                 } else if (existingItem.getQuantityDelivered() > oi.getQuantityOrdered()) {
-                                         
-                    JOptionPane.showMessageDialog(null, "Stavka sa nacrtom " + existingItem.getIdDesign().getDesignNumber() + " je fakturirana u većoj količini (" + existingItem.getQuantityDelivered() + ") od upisane u csv ("+ oi.getQuantityOrdered()+"). Učitavanje stavke će se preskočiti", "Obavijest", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                    JOptionPane.showMessageDialog(null, "Stavka sa nacrtom " + existingItem.getIdDesign().getDesignNumber() + " je fakturirana u većoj količini (" + existingItem.getQuantityDelivered() + ") od upisane u csv (" + oi.getQuantityOrdered() + "). Učitavanje stavke će se preskočiti", "Obavijest", javax.swing.JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
 
