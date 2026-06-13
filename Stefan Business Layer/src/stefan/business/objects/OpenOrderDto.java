@@ -23,7 +23,7 @@ public class OpenOrderDto implements Comparable  {
 
     public OpenOrderDto(Integer idOrderItems, Integer quantityOrdered, Integer quantityDelivered, String orderNumber, Date shippingDate,
                         String city, Boolean isExternalOrder, String designNumber, Boolean isDesignExternal, BigDecimal pricePerPartOverride, BigDecimal pcs1, BigDecimal pcs2, BigDecimal pcs3, BigDecimal pcs4, BigDecimal pcs5, BigDecimal pcs8, BigDecimal pcs10,
-                        BigDecimal pcs15,BigDecimal pcs16, BigDecimal pcs20, BigDecimal pcs32, BigDecimal pcs50, BigDecimal pcs64, BigDecimal pcs100,BigDecimal pcs128, BigDecimal pcs200, BigDecimal pcs500, boolean niklanje, boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill){
+                        BigDecimal pcs15,BigDecimal pcs16, BigDecimal pcs20, BigDecimal pcs32, BigDecimal pcs50, BigDecimal pcs64, BigDecimal pcs100,BigDecimal pcs128, BigDecimal pcs200, BigDecimal pcs500, boolean niklanje, boolean isTokarenje, boolean isNlx, Long isOnTemporaryBill, String partnerDisplayName){
        
        this.idOrderItems = idOrderItems;
        this.quantityOrdered = quantityOrdered;
@@ -71,8 +71,12 @@ public class OpenOrderDto implements Comparable  {
     this.isNlx=isNlx;
     
     this.isOnTemporaryBill = isOnTemporaryBill > 0;
+    
+    this.partnerDisplayName = partnerDisplayName;
    }
   
+    
+    private String partnerDisplayName;
   //order items 
 
     private Integer idOrderItems;
@@ -221,6 +225,9 @@ public class OpenOrderDto implements Comparable  {
         this.shippingDate = shippingDate;
     }
     
+    public String getPartnerDisplayName(){
+        return partnerDisplayName;
+    }
      /**
      * @return the KW
      */

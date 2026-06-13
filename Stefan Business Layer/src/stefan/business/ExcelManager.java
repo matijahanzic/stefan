@@ -30,6 +30,7 @@ import stefan.business.objects.OpenOrderDto;
 
 import stefan.business.objects.Design;
 import stefan.business.objects.DuplicateOrderedDesignDto;
+import stefan.business.objects.ExternaPartnerlDesignNumberDto;
 import stefan.data.Businesspartner;
 import stefan.data.Orderitems;
 import stefan.data.Orders;
@@ -920,7 +921,7 @@ public class ExcelManager {
         List<Object[]> rawListResult = q.getResultList();
 
         String externalDesignsQText =
-                "SELECT DISTINCT d.designNumber "
+                "SELECT DISTINCT d.designNumber, bp.displayName "
                 + "FROM stefan.orderitems oi "
                 + "INNER JOIN stefan.orders o ON o.idOrder = oi.idOrder "
                 + "INNER JOIN stefan.businesspartner bp ON bp.id = o.businessPartnerId "
@@ -928,10 +929,18 @@ public class ExcelManager {
                 + "WHERE bp.isExternalSource = 1";
 
         Query qExternDesigns = entityManager.createNativeQuery(externalDesignsQText);
-        List<String> externDesignsRawResult = qExternDesigns.getResultList();
+        List<Object[]> externDesignsRawResult = qExternDesigns.getResultList();
 
-        Set<String> externDesignNumbers = new HashSet<String>();
-        externDesignNumbers.addAll(externDesignsRawResult);
+        Set<ExternaPartnerlDesignNumberDto> externDesignNumbers = new HashSet<ExternaPartnerlDesignNumberDto>();
+        if(externDesignsRawResult != null){
+            for(Object[] r : externDesignsRawResult){
+                if(r == null)
+                    continue;
+                
+                externDesignNumbers.add(new ExternaPartnerlDesignNumberDto((String)r[0], (String)r[1]));
+            }
+        }
+        //externDesignNumbers.addAll(externDesignsRawResult);
 
         //duplicates
         String duplicatesQueryString = "SELECT  d1.designNumber, oi.quantityOrdered, oi.quantityDelivered, o.orderNumber, bp.name, oi.shippingDate "
@@ -976,6 +985,20 @@ public class ExcelManager {
         Map<String, OpenOrderKWData> RadobojOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         Map<String, OpenOrderKWData> LengerichOpenOrdersByKW = new TreeMap<String, OpenOrderKWData>();
         for (Object[] resultElement : rawListResult) {
+            
+            ExternaPartnerlDesignNumberDto externalDesign = null;
+            
+            for(ExternaPartnerlDesignNumberDto ext : externDesignNumbers){
+                if(ext == null){
+                    continue;
+                }
+                
+                if(ext.getDesignNumber().equalsIgnoreCase((String) resultElement[7])){
+                    externalDesign = ext;
+                    break;
+                }
+            }
+            
             OpenOrderDto dto = new stefan.business.objects.OpenOrderDto((Integer) resultElement[0],
                     (Integer) resultElement[1],
                     (Integer) resultElement[2],
@@ -984,7 +1007,8 @@ public class ExcelManager {
                     (String) resultElement[5],
                     (Boolean) resultElement[6],
                     (String) resultElement[7],
-                    externDesignNumbers.contains(resultElement[7]),
+                    externalDesign != null,
+                     //externDesignNumbers.contains(resultElement[7]),
                     (BigDecimal) resultElement[8],
                     (BigDecimal) resultElement[9],
                     (BigDecimal) resultElement[10],
@@ -1006,7 +1030,8 @@ public class ExcelManager {
                     (Boolean) resultElement[26],
                     (Boolean) resultElement[27],
                     (Boolean) resultElement[28],
-                    (Long) resultElement[29]);
+                    (Long) resultElement[29],
+                    externalDesign != null ? externalDesign.getPartnerDisplayName() : "");
 
             if (dto.getExternalOrder()) {
                 continue;
@@ -1154,6 +1179,10 @@ public class ExcelManager {
             if (openOrderItem.isOnTemporaryBill()) {
                 cellOrderNumber.setCellStyle(styleArialGreenBackground);
             }
+            if(openOrderItem.getIsDesignExternal()){
+                cellOrderNumber.setCellStyle(styleArialLightBlueBackground);
+            }
+            
             sheet.setColumnWidth(cellCounter - 1, 3072);
 
             //remark 
@@ -1170,6 +1199,7 @@ public class ExcelManager {
             Cell cellDebt = row.createCell(cellCounter++);
             cellDebt.setCellValue(hasDug ? "DUG" : "");
             if (openOrderItem.getIsDesignExternal()) {
+                cellDebt.setCellValue(openOrderItem.getPartnerDisplayName());
                 cellDebt.setCellStyle(styleArialLightBlueBackground);
             }
 
