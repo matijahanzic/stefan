@@ -12,24 +12,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import stefan.business.objects.Design;
 
-
-
 /**
  *
  * @author Matija
  */
 public class DesignManager {
+
     private EntityManager entityManager;
-    
-    public DesignManager()
-    {
-        entityManager=QueryManager.getEntityManagerInstance();
+
+    public DesignManager() {
+        entityManager = QueryManager.getEntityManagerInstance();
     }
-    
-    
-    
-    public void SaveDesign(Design design) throws Exception
-    {      
+
+    public void SaveDesign(Design design) throws Exception {
         try {
             stefan.data.Design newDesign = new stefan.data.Design();
             newDesign.setDate(design.getDate());
@@ -38,18 +33,15 @@ public class DesignManager {
             newDesign.setDesignIdentity(design.getDesignIdentity());
             newDesign.setName(design.getName());
             newDesign.setRevision(design.getRevision());
-            MaterialManager m=new MaterialManager();
-            if (design.getMaterialId()!=null)
-            {
+            MaterialManager m = new MaterialManager();
+            if (design.getMaterialId() != null) {
                 newDesign.setMaterialId(m.GetMaterialByIdDB(design.getMaterialId()));
                 newDesign.setNiklanje(m.GetMaterialById(design.getMaterialId()).getMaterialDetails().getNiklanje());
-            }
-            else
-            {
+            } else {
                 newDesign.setNiklanje(design.isNiklanje());
             }
             newDesign.setNiklanje(design.isNiklanje());//uvijek postavi niklanje
-            newDesign.setIsTokarenje(design.getIsTokarenje()); 
+            newDesign.setIsTokarenje(design.getIsTokarenje());
             newDesign.setIsNlx(design.getIsNlx());
             newDesign.setIsActive(true);
             newDesign.setDateModified(new Date());
@@ -85,26 +77,26 @@ public class DesignManager {
             newDesign.setK14(design.getPcs500());
             //1k kom
             newDesign.setK15(design.getPcs1000());
-            
+
             newDesign.setK16(design.getPcs8());
-            
+
             newDesign.setK17(design.getPcs16());
-            
+
             newDesign.setK18(design.getPcs32());
-            
+
             newDesign.setK19(design.getPcs64());
-            
+
             newDesign.setK20(design.getPcs128());
-            
+
             newDesign.setCode(design.getCode());
-            
+
             newDesign.setCalcIsFerting(design.getCalcIsFerting());
             newDesign.setCalcMinPoKom(design.getCalcMinPoKom());
             newDesign.setCalcStezanjeTok(design.getCalcStezanjeTok());
             newDesign.setCalcStezanjeGlod(design.getCalcStezanjeGlod());
             newDesign.setCalcSatnica(design.getCalcSatnica());
             newDesign.setCalcEurPoKom(design.getCalcEurPoKom());
-            
+
             newDesign.setPosao1k(design.getPosao1k());
             newDesign.setPosao2k(design.getPosao2k());
             newDesign.setPosao3k(design.getPosao3k());
@@ -122,46 +114,43 @@ public class DesignManager {
             newDesign.setPosao128k(design.getPosao128k());
             newDesign.setPosao200k(design.getPosao200k());
             newDesign.setPosao500k(design.getPosao500k());
-            
-            
-      
+
+
+
             entityManager.getTransaction().begin();
-            
+
             entityManager.persist(newDesign);
-            
+
             entityManager.getTransaction().commit();
-            
-           
+
+
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
             throw e;
         }
-       
+
     }
-    
-    public void ChangeDesign(Design design) throws Exception
-    {
+
+    public void ChangeDesign(Design design) throws Exception {
         SaveDesign(design);
-        stefan.data.Design newDesign=GetDesignsByDBId(design.getIdDesign());
-       
+        stefan.data.Design newDesign = GetDesignsByDBId(design.getIdDesign());
+
         entityManager.getTransaction().begin();
-      
+
         newDesign.setDateModified(new Date());
         newDesign.setIsActive(false);
-      
-        entityManager.getTransaction().commit(); 
-       
+
+        entityManager.getTransaction().commit();
+
     }
-    
-    public void UpdateAllPrices(BigDecimal percent) throws Exception
-    {
-        List<Design> all=GetAll();
-        
+
+    public void UpdateAllPrices(BigDecimal percent) throws Exception {
+        List<Design> all = GetAll();
+
         entityManager.getTransaction().begin();
-        for (Design design : all) 
-        {
-            design.IncreasePrice(percent);            
-            
+        for (Design design : all) {
+            design.IncreasePrice(percent);
+
             stefan.data.Design newDesign = new stefan.data.Design();
             newDesign.setDate(design.getDate());
             newDesign.setClassMark(design.getClassMark());
@@ -171,14 +160,11 @@ public class DesignManager {
             newDesign.setRevision(design.getRevision());
             newDesign.setIsTokarenje(design.getIsTokarenje());
             newDesign.setIsNlx(design.getIsNlx());
-            MaterialManager m=new MaterialManager();
-            if (design.getMaterialId()!=null)
-            {
+            MaterialManager m = new MaterialManager();
+            if (design.getMaterialId() != null) {
                 newDesign.setMaterialId(m.GetMaterialByIdDB(design.getMaterialId()));
                 newDesign.setNiklanje(m.GetMaterialById(design.getMaterialId()).getMaterialDetails().getNiklanje());
-            }
-            else
-            {
+            } else {
                 newDesign.setNiklanje(design.isNiklanje());
             }
             newDesign.setIsActive(true);
@@ -214,104 +200,94 @@ public class DesignManager {
             //500 kom
             newDesign.setK14(design.getPcs500());
             //1k kom
-            newDesign.setK15(design.getPcs1000());     
-            
+            newDesign.setK15(design.getPcs1000());
+
             newDesign.setK16(design.getPcs8());
-            
+
             newDesign.setK17(design.getPcs16());
-            
+
             newDesign.setK18(design.getPcs32());
-            
+
             newDesign.setK19(design.getPcs64());
-            
+
             newDesign.setK20(design.getPcs128());
-      
-            
+
+
             entityManager.persist(newDesign);
-            
-            
+
+
             //stefan.data.Design oldDesign=GetDesignsByDBId(design.getIdDesign());
             Query q = entityManager.createNamedQuery("Design.findByIdDesign");
             q.setParameter("idDesign", design.getIdDesign());
             List<stefan.data.Design> designs = q.getResultList();
-            stefan.data.Design oldDesign = designs.get(0); 
-            
+            stefan.data.Design oldDesign = designs.get(0);
+
             oldDesign.setDateModified(new Date());
             oldDesign.setIsActive(false);
-            
-           
+
+
         }
-         entityManager.getTransaction().commit();
-        
-        
+        entityManager.getTransaction().commit();
+
+
     }
-    
-    public List<Design> GetAll()
-    {
-       List<stefan.data.Design> designs= entityManager.createNamedQuery("Design.findAll").getResultList();
-       return mapData(designs);
+
+    public List<Design> GetAll() {
+        List<stefan.data.Design> designs = entityManager.createNamedQuery("Design.findAll").getResultList();
+        return mapData(designs);
     }
-    
-    public List<Design> GetTop100()
-    {
-       List<stefan.data.Design> designs= entityManager.createNamedQuery("Design.findAll").setMaxResults(100).getResultList();
-       return mapData(designs);
+
+    public List<Design> GetTop100() {
+        List<stefan.data.Design> designs = entityManager.createNamedQuery("Design.findAll").setMaxResults(100).getResultList();
+        return mapData(designs);
     }
-    
-    public List<Design> GetDesignsById(String designNumber,String designIdentity, String classMark)
-    {            
-       Query q = entityManager.createNamedQuery("Design.findByFilters");
-       q.setParameter("designNumber", designNumber + "%");
-       q.setParameter("classMark", classMark + "%");
-       q.setParameter("designIdentity", designIdentity + "%");       
-       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
-       return mapData(designs);      
+
+    public List<Design> GetDesignsById(String designNumber, String designIdentity, String classMark) {
+        Query q = entityManager.createNamedQuery("Design.findByFilters");
+        q.setParameter("designNumber", designNumber + "%");
+        q.setParameter("classMark", classMark + "%");
+        q.setParameter("designIdentity", designIdentity + "%");
+        List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
+        return mapData(designs);
     }
-    
-    public List<Design> GetDesignsByNumber(String designNumber)
-    {            
-       Query q = entityManager.createNamedQuery("Design.findByNumber");
-       q.setParameter("designNumber", designNumber + "%");        
-       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
-       return mapData(designs);      
+
+    public List<Design> GetDesignsByNumber(String designNumber) {
+        Query q = entityManager.createNamedQuery("Design.findByNumber");
+        q.setParameter("designNumber", designNumber + "%");
+        List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
+        return mapData(designs);
     }
-    
-    public List<Design> GetDesignsByNumberAndCode(String designNumber, String code)
-    {    
-       Query q;
-       if("FOPAC".equals(code)){
-           q = entityManager.createNamedQuery("Design.findByNumberFopac");
-       }else{
-           q = entityManager.createNamedQuery("Design.findByNumberWH");
-       }
-       
-       q.setParameter("designNumber", designNumber + "%");        
-       List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
-       return mapData(designs);      
+
+    public List<Design> GetDesignsByNumberAndCode(String designNumber, String code) {
+        Query q;
+        if ("FOPAC".equals(code)) {
+            q = entityManager.createNamedQuery("Design.findByNumberFopac");
+        } else {
+            q = entityManager.createNamedQuery("Design.findByNumberWH");
+        }
+
+        q.setParameter("designNumber", designNumber + "%");
+        List<stefan.data.Design> designs = q.setMaxResults(100).getResultList();
+        return mapData(designs);
     }
-    
-    public stefan.data.Design GetDesignsByDBId(int id)
-    {            
-       Query q = entityManager.createNamedQuery("Design.findByIdDesign");
-       q.setParameter("idDesign", id);          
-       List<stefan.data.Design> designs = q.getResultList();
-       return designs.get(0);      
+
+    public stefan.data.Design GetDesignsByDBId(int id) {
+        Query q = entityManager.createNamedQuery("Design.findByIdDesign");
+        q.setParameter("idDesign", id);
+        List<stefan.data.Design> designs = q.getResultList();
+        return designs.get(0);
     }
-    
-    
-    private List<Design> mapData(List<stefan.data.Design> designs)
-    {
-        List<Design> results=new ArrayList<Design>();        
-        for(stefan.data.Design d : designs)
-        {           
+
+    private List<Design> mapData(List<stefan.data.Design> designs) {
+        List<Design> results = new ArrayList<Design>();
+        for (stefan.data.Design d : designs) {
             results.add(mapData(d));
         }
-        return results;    
+        return results;
     }
-    
-    public static Design mapData(stefan.data.Design design)
-    {
-        Design result=new Design(design.getIdDesign());        
+
+    public static Design mapData(stefan.data.Design design) {
+        Design result = new Design(design.getIdDesign());
         result.setClassMark(design.getClassMark());
         result.setDate(design.getDate());
         result.setDesignIdentity(design.getDesignIdentity());
@@ -320,7 +296,7 @@ public class DesignManager {
         result.setNiklanje(design.getNiklanje());
         result.setIsTokarenje(design.getIsTokarenje());
         result.setIsNlx(design.getIsNlx());
-        result.setName(design.getName());        
+        result.setName(design.getName());
         result.setPcs1(design.getK());
         result.setPcs2(design.getK1());
         result.setPcs3(design.getK2());
@@ -343,14 +319,14 @@ public class DesignManager {
         result.setPcs64(design.getK19());
         result.setPcs128(design.getK20());
         result.setCode(design.getCode());
-        
+
         result.setCalcIsFerting(design.getCalcIsFerting());
         result.setCalcEurPoKom(design.getCalcEurPoKom());
         result.setCalcMinPoKom(design.getCalcMinPoKom());
         result.setCalcSatnica(design.getCalcSatnica());
         result.setCalcStezanjeGlod(design.getCalcStezanjeGlod());
         result.setCalcStezanjeTok(design.getCalcStezanjeTok());
-        
+
         result.setPosao1k(design.getPosao1k());
         result.setPosao2k(design.getPosao2k());
         result.setPosao3k(design.getPosao3k());
@@ -368,20 +344,54 @@ public class DesignManager {
         result.setPosao128k(design.getPosao128k());
         result.setPosao200k(design.getPosao200k());
         result.setPosao500k(design.getPosao500k());
-        
-        
-        return result;            
+
+
+        return result;
     }
 
     public void DeleteDesign(Design deleted) {
-        stefan.data.Design newDesign=GetDesignsByDBId(deleted.getIdDesign());
-       
+        stefan.data.Design newDesign = GetDesignsByDBId(deleted.getIdDesign());
+
         entityManager.getTransaction().begin();
-      
+
         newDesign.setDateModified(new Date());
         newDesign.setIsActive(false);
-      
-        entityManager.getTransaction().commit(); 
-       
+
+        entityManager.getTransaction().commit();
+
+    }
+
+    public void UpdateNxlTokarenje(List<Design> designs) {
+        if (designs == null) {
+            return;
+        }
+
+        try {
+
+            entityManager.getTransaction().begin();
+            
+            String jpql = "UPDATE Design d SET d.isTokarenje = :isTokarenje, d.isNlx = :isNlx WHERE d.idDesign = :idDesign";
+            Query query = entityManager.createQuery(jpql);
+
+            for (Design d : designs) {
+                query.setParameter("isTokarenje", d.getIsTokarenje());
+                query.setParameter("isNlx", d.getIsNlx());
+                query.setParameter("idDesign", d.getIdDesign());
+
+                query.executeUpdate();
+                
+                stefan.data.Design cachedDesign = entityManager.find(stefan.data.Design.class, d.getIdDesign());
+                if(d != null){
+                    entityManager.refresh(cachedDesign);
+                }
+                
+            }
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+        }
     }
 }

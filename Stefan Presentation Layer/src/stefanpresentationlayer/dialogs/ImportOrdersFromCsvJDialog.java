@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 
+import javax.swing.table.TableColumn;
 import org.jdesktop.observablecollections.ObservableCollections;
 import stefan.business.BusinessPartnerManager;
 import stefan.business.DesignManager;
@@ -83,8 +84,12 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(rendrer);
         }
 
-        ImportFromFile(filePath);
+        TableColumn tngColumn = jTable1.getColumnModel().getColumn(11);
+        JComboBox<String> tngComboBox = new JComboBox<String>(new String[]{"T", "G", "N"});
+        tngColumn.setCellEditor(new DefaultCellEditor(tngComboBox));
 
+
+        ImportFromFile(filePath);
     }
 
     private void ImportFromFile(String filePath) throws FileNotFoundException, IOException, NoSuchElementException, ParseException {
@@ -323,6 +328,10 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
 
                     }
 
+                    if (item != null && item.getDesign() != null) {
+                        importOrderItem.setTNGDisplayName(item.getDesign().getIsTokarenjeDisplayName());
+                    }
+
 
                     importOrderItem.setImportedOrderItem(item);
 
@@ -533,10 +542,9 @@ public class ImportOrdersFromCsvJDialog extends javax.swing.JDialog {
         columnBinding.setColumnName("Imported Order Item.design.niklanje");
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${importedOrderItem.design.isTokarenjeDisplayName}"));
-        columnBinding.setColumnName("Imported Order Item.design.is Tokarenje Display Name");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${TNGDisplayName}"));
+        columnBinding.setColumnName("TNGDisplay Name");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${importedOrderItem.shippingDate}"));
         columnBinding.setColumnName("Imported Order Item.shipping Date");
         columnBinding.setColumnClass(java.util.Date.class);
@@ -710,8 +718,18 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
         return;
     }
 
+    List<Design> designsToUpdate = new ArrayList<Design>();
+
     List<OrderItem> orderItems = new ArrayList<OrderItem>();
     for (ImportOrderItemDto iItem : importOrderItems) {
+
+        if (iItem.getIndDesignModified()) {
+            Design d = new Design();
+            d.setIdDesign(iItem.getImportedOrderItem().getDesign().getIdDesign());
+            d.setIsTokarenjeDisplayName(iItem.getTNGDisplayName());
+            designsToUpdate.add(d);
+        }
+
         if (iItem.getIndShouldImport() == false) {
             continue;
         }
@@ -729,6 +747,8 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
     Orders existingOrder = orderManager.getOrderByNumberAndBussPartner(
             importOrder.getOrderNumber(),
             importOrder.getBusinessPartnerId());
+
+    TryUpdateDesigns(designsToUpdate);
 
     if (existingOrder == null) {
         orderManager.SaveOrder(this.importOrder);
@@ -807,6 +827,15 @@ private void createOrderBtnActionPerformed(java.awt.event.ActionEvent evt) {//GE
         JOptionPane.showMessageDialog(null, "Narudžbu nije bilo moguće ažurirati", "Greška pri ažuriranju narudžbe", JOptionPane.ERROR_MESSAGE);
     }
 }//GEN-LAST:event_createOrderBtnActionPerformed
+
+    private void TryUpdateDesigns(List<Design> designs) {
+        if (designs == null) {
+            return;
+        }
+
+        DesignManager m = new DesignManager();
+        m.UpdateNxlTokarenje(designs);
+    }
 
 private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
     int[] selectedRows = jTable1.getSelectedRows();

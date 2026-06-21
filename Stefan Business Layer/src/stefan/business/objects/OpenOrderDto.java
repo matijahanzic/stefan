@@ -266,7 +266,13 @@ public class OpenOrderDto implements Comparable  {
         Integer kw = instance.get(Calendar.WEEK_OF_YEAR);        
       
         //za dostavu u četvrtak, petak, subotu i nedjelju treba poslati u tom kw-u u utorak
-        if(currentDayOfWeek == 1 || (currentDayOfWeek >= 5)){
+        //NOVO: 20.06.2026 po novome su isporuke tako da je srijeda dan kada roba stiže u Njemačku - sri (4), čet (5), pet (6), sub (7), ned (1) se šalju u istom kw-u u utorak
+        
+        //staro
+        //if(currentDayOfWeek == 1 || (currentDayOfWeek >= 5)){
+        
+        //novo: 20.06.2026
+        if(currentDayOfWeek == 1 || (currentDayOfWeek >= 4)){
             Integer year = instance.get(Calendar.YEAR);
             return GetKWString(kw, year);
         }
