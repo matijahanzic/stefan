@@ -111,17 +111,18 @@ class OpenOrderKWData {
                 }
 
                 // Step 2: If they are in the same group, apply specific sorting logic
+                // s1 and s2 are switching places so the sort works in descending order
                 switch (g1) {
                     case 1: // Pure numbers
-                        return comparePureNumbers(s1, s2);
+                        return comparePureNumbers(s2, s1);
                     case 2: // Numbers with dots
-                        return compareSegments(s1, s2, false);
+                        return compareSegments(s2, s1, false);
                     case 3: // Letters and numbers with dots
-                        return compareSegments(s1, s2, true);
+                        return compareSegments(s2, s1, true);
                     case 4: // Letters and numbers without dots
-                        return compareAlphanumeric(s1, s2);
+                        return compareAlphanumeric(s2, s1);
                     default:
-                        return s1.compareTo(s2);
+                        return s2.compareTo(s1);
                 }
             }
         });
@@ -132,13 +133,13 @@ class OpenOrderKWData {
      */
     private static int getGroup(String s) {
         if (s.matches("\\d+")) {
-            return 1; // Pure numbers
+            return 4; // Pure numbers
         } else if (s.matches("[\\d\\.]+")) {
-            return 2; // Numbers and dots only
+            return 3; // Numbers and dots only
         } else if (s.contains(".")) {
-            return 3; // Mixed characters divided by dots
+            return 2; // Mixed characters divided by dots
         } else {
-            return 4; // Mixed characters without dots
+            return 1; // Mixed characters without dots
         }
     }
 
@@ -1141,6 +1142,10 @@ public class ExcelManager {
             if (openOrderItem.isOnTemporaryBill()) {
                 cellDesignNumber.setCellStyle(styleArialGreenBackground);
             }
+            
+            if(openOrderItem.getIsDesignExternal()){
+                cellDesignNumber.setCellStyle(styleArialLightBlueBackground);
+            }
 
             //width = 256 * x =>
             sheet.setColumnWidth(cellCounter - 1, 3072);
@@ -1179,9 +1184,7 @@ public class ExcelManager {
             if (openOrderItem.isOnTemporaryBill()) {
                 cellOrderNumber.setCellStyle(styleArialGreenBackground);
             }
-            if(openOrderItem.getIsDesignExternal()){
-                cellOrderNumber.setCellStyle(styleArialLightBlueBackground);
-            }
+            
             
             sheet.setColumnWidth(cellCounter - 1, 3072);
 
