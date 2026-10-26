@@ -318,7 +318,7 @@ public class BillItem implements Comparable<BillItem> {
     }
 
     public int compareTo(BillItem b) {
-        if ((Long.parseLong(this.orderNumber) - (Long.parseLong(b.orderNumber))) == 0) {
+     /*   if ((Long.parseLong(this.orderNumber) - (Long.parseLong(b.orderNumber))) == 0) {
             return (Integer.parseInt(this.position) - Integer.parseInt(b.position));
         } else {
             if (Long.parseLong(this.orderNumber) - (Long.parseLong(b.orderNumber)) > 0) {
@@ -326,7 +326,12 @@ public class BillItem implements Comparable<BillItem> {
             } else {
                 return -1;
             }
-        }
+        }*/
+        
+        int c = Long.compare(Long.parseLong(this.orderNumber.trim()), Long.parseLong(b.orderNumber.trim()));
+        if(c != 0)
+            return c;
+        return Integer.compare(Integer.parseInt(this.position.trim()), Integer.parseInt(b.position.trim()));
     }
 
     /**
